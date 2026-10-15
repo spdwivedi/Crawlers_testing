@@ -58,6 +58,8 @@ desktop.ini
 .env.*
 secrets.json
 credentials.json
+auth_profiles/*
+!auth_profiles/README_AUTH.md
 
 # ─────────────────────────────────────────────
 # STRICTLY TRACKED — Force-include these always
