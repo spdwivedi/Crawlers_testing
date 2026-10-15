@@ -24,6 +24,7 @@ let lastState     = {};
 document.addEventListener("DOMContentLoaded", () => {
   connectTelemetry();
   connectLogStream();
+  loadRecentLogs();
   loadTools();
   loadGitLog();
   loadDataTree();
@@ -199,17 +200,35 @@ function renderLogLine(record, container) {
 }
 
 function passesFilter(record) {
-  const tier   = document.getElementById("filter-tier").value;
-  const level  = document.getElementById("filter-level").value;
-  const tool   = document.getElementById("filter-tool").value;
+  const tier   = document.getElementById("filter-tier")?.value;
+  const level  = document.getElementById("filter-level")?.value;
+  const tool   = document.getElementById("filter-tool")?.value;
+  const action = document.getElementById("filter-action")?.value;
+  const date   = document.getElementById("filter-date")?.value;
 
-  if (level && record.level !== level) return false;
-  if (tool  && record.tool_id !== tool) return false;
+  if (level  && record.level !== level) return false;
+  if (tool   && record.tool_id !== tool) return false;
+  if (action && record.action_name !== action) return false;
+  if (date   && !(record.timestamp || "").startsWith(date)) return false;
   if (tier) {
     const src = record._source_file || "";
     if (!src.includes(tier)) return false;
   }
   return true;
+}
+
+async function loadRecentLogs() {
+  try {
+    const res = await fetch(`${API_BASE}/api/recent-logs?limit=100`);
+    const data = await res.json();
+    const logs = data.logs || [];
+    if (logs.length) {
+      allLogs = logs;
+      applyFilters();
+    }
+  } catch (e) {
+    /* ignore network error on init */
+  }
 }
 
 function applyFilters() {
@@ -316,6 +335,11 @@ function renderTools(tools) {
         </div>
         <div class="tool-description">${t.description || ""}</div>
         <div class="tool-actions">${actions}</div>
+        ${t.installed ? `
+          <button class="smoke-btn" id="smoke-btn-${t.tool_id}" onclick="runTool('${t.tool_id}', this)">
+            ▶ Run Tool Smoke Test
+          </button>
+        ` : ""}
       </div>
     `;
   }).join("");
@@ -440,8 +464,19 @@ function showRunDetail(toolId, actionName, date, run) {
   const status = m.status || "unknown";
   const statusCls = `manifest-status-${status}`;
 
-  const rawFiles     = (run.raw_files     || []).map(f => `<div class="file-item">📄 ${f}</div>`).join("") || "<div class='empty-state'>No raw files</div>";
-  const cleanedFiles = (run.cleaned_files || []).map(f => `<div class="file-item">✨ ${f}</div>`).join("") || "<div class='empty-state'>No cleaned files</div>";
+  const rawFiles = (run.raw_files || []).map(f => `
+    <div class="file-item clickable" onclick="previewFile('${toolId}', '${actionName}', '${date}', '${run.run_id}', 'raw', '${f}')">
+      <span>📄 ${f}</span>
+      <span class="file-item-badge">Preview</span>
+    </div>
+  `).join("") || "<div class='empty-state'>No raw files</div>";
+
+  const cleanedFiles = (run.cleaned_files || []).map(f => `
+    <div class="file-item clickable" onclick="previewFile('${toolId}', '${actionName}', '${date}', '${run.run_id}', 'cleaned', '${f}')">
+      <span>✨ ${f}</span>
+      <span class="file-item-badge">Preview</span>
+    </div>
+  `).join("") || "<div class='empty-state'>No cleaned files</div>";
 
   panel.innerHTML = `
     <div class="manifest-grid">
@@ -468,15 +503,45 @@ function showRunDetail(toolId, actionName, date, run) {
     </div>
 
     <div class="file-list-section">
-      <div class="file-list-title">📦 Raw Files (${(run.raw_files||[]).length})</div>
+      <div class="file-list-title">📦 Raw Files (${(run.raw_files||[]).length}) — click to preview</div>
       <div class="file-list">${rawFiles}</div>
     </div>
 
     <div class="file-list-section">
-      <div class="file-list-title">✨ Cleaned Files (${(run.cleaned_files||[]).length})</div>
+      <div class="file-list-title">✨ Cleaned Files (${(run.cleaned_files||[]).length}) — click to preview</div>
       <div class="file-list">${cleanedFiles}</div>
     </div>
+
+    <div class="run-log-section">
+      <div class="file-list-title">📋 Run Log (action_run.jsonl)</div>
+      <div class="run-log-console" id="run-log-console">
+        <div class="loading-dots">Loading run log...</div>
+      </div>
+    </div>
   `;
+
+  // Fetch dedicated run log
+  fetch(`${API_BASE}/api/run-log?tool_id=${encodeURIComponent(toolId)}&action=${encodeURIComponent(actionName)}&date=${encodeURIComponent(date)}&run_id=${encodeURIComponent(run.run_id)}`)
+    .then(r => r.json())
+    .then(data => {
+      const consoleEl = document.getElementById("run-log-console");
+      if (!consoleEl) return;
+      const lines = data.lines || [];
+      if (!lines.length) {
+        consoleEl.innerHTML = "<div class='empty-state'>No log records recorded for this run</div>";
+        return;
+      }
+      consoleEl.innerHTML = lines.map(l => {
+        const ts = (l.timestamp || "").slice(11, 19);
+        const lvl = l.level || "INFO";
+        const msg = l.message || JSON.stringify(l);
+        return `<div class="run-log-line"><span class="log-ts">${ts}</span><span class="log-level-${lvl}">[${lvl}]</span><span>${escHtml(msg)}</span></div>`;
+      }).join("");
+    })
+    .catch(() => {
+      const consoleEl = document.getElementById("run-log-console");
+      if (consoleEl) consoleEl.innerHTML = "<div class='empty-state'>Could not load run log</div>";
+    });
 }
 
 // ─── Demo Run Trigger ─────────────────────────────────────────────────────────
@@ -525,3 +590,76 @@ function escHtml(str) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 }
+
+// ─── File Preview Modal ───────────────────────────────────────────────────────
+async function previewFile(toolId, action, date, runId, folder, filename) {
+  const modal = document.getElementById("file-modal");
+  const title = document.getElementById("modal-title");
+  const meta = document.getElementById("modal-meta");
+  const content = document.getElementById("modal-content");
+
+  if (!modal) return;
+  title.textContent = filename;
+  meta.textContent = `${toolId} / ${action} / ${date} / ${runId} / ${folder} — Loading preview...`;
+  content.textContent = "Loading file content...";
+  modal.classList.add("open");
+
+  try {
+    const res = await fetch(`${API_BASE}/api/file-preview?tool_id=${encodeURIComponent(toolId)}&action=${encodeURIComponent(action)}&date=${encodeURIComponent(date)}&run_id=${encodeURIComponent(runId)}&folder=${encodeURIComponent(folder)}&filename=${encodeURIComponent(filename)}`);
+    const data = await res.json();
+    if (data.error) {
+      content.textContent = `Error: ${data.error}`;
+    } else {
+      meta.textContent = `${folder.toUpperCase()} • Size: ${data.size} bytes (showing first ${data.content.length} chars)`;
+      content.textContent = data.content;
+    }
+  } catch (e) {
+    content.textContent = `Network error fetching preview: ${e.message}`;
+  }
+}
+
+function closeModal(e) {
+  if (e && e.target !== e.currentTarget && !e.target.classList.contains("modal-close")) return;
+  document.getElementById("file-modal")?.classList.remove("open");
+}
+
+// ─── Run Tool Smoke Test ──────────────────────────────────────────────────────
+async function runTool(toolId, btn) {
+  if (!btn) btn = document.getElementById(`smoke-btn-${toolId}`);
+  if (btn) {
+    btn.disabled = true;
+    btn.classList.add("running");
+    btn.textContent = "⏳ Running...";
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/run-tool/${encodeURIComponent(toolId)}`, { method: "POST" });
+    const data = await res.json();
+    if (data.status === "started") {
+      setTimeout(() => {
+        if (btn) {
+          btn.disabled = false;
+          btn.classList.remove("running");
+          btn.textContent = "▶ Run Tool Smoke Test";
+        }
+        loadDataTree();
+        loadGitLog();
+      }, 10000);
+    } else {
+      alert(`Could not start tool: ${data.error || "Unknown error"}`);
+      if (btn) {
+        btn.disabled = false;
+        btn.classList.remove("running");
+        btn.textContent = "▶ Run Tool Smoke Test";
+      }
+    }
+  } catch (err) {
+    alert(`Request error: ${err.message}`);
+    if (btn) {
+      btn.disabled = false;
+      btn.classList.remove("running");
+      btn.textContent = "▶ Run Tool Smoke Test";
+    }
+  }
+}
+

@@ -120,7 +120,7 @@ async def serve_index():
 @app.get("/api/state")
 async def get_state():
     state = read_state()
-    if state.get("started_at_epoch"):
+    if state.get("is_running") and state.get("started_at_epoch"):
         state["elapsed_seconds"] = round(
             time.time() - state["started_at_epoch"], 1
         )
@@ -211,6 +211,91 @@ async def get_run_log(tool_id: str, action: str, date: str, run_id: str):
     return JSONResponse({"lines": [], "error": "Log not found"})
 
 
+@app.get("/api/recent-logs")
+async def get_recent_logs(limit: int = 100):
+    """Return historical log entries on dashboard load."""
+    records = []
+    log_files = [
+        ROOT / "logs" / "global" / "antigravity_prompt_log.jsonl",
+    ]
+    stages_dir = ROOT / "logs" / "stages"
+    if stages_dir.exists():
+        log_files.extend(sorted(stages_dir.glob("*.jsonl")))
+
+    tools_dir = ROOT / "tools"
+    if tools_dir.exists():
+        log_files.extend(sorted(tools_dir.glob("*/logs/tool_ops.jsonl")))
+
+    for lf in log_files:
+        if lf.exists():
+            try:
+                rel = str(lf.relative_to(ROOT))
+                for line in lf.read_text(encoding="utf-8", errors="replace").splitlines():
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        r = json.loads(line)
+                    except Exception:
+                        r = {"raw": line}
+                    r["_source_file"] = rel
+                    records.append(r)
+            except Exception:
+                pass
+
+    records.sort(key=lambda r: r.get("timestamp") or "")
+    return JSONResponse({"logs": records[-limit:]})
+
+
+@app.get("/api/file-preview")
+async def get_file_preview(tool_id: str, action: str, date: str, run_id: str, folder: str, filename: str):
+    """Return preview of raw or cleaned file content (up to 10 KB)."""
+    if folder not in ("raw", "cleaned"):
+        return JSONResponse({"error": "Invalid folder (must be raw or cleaned)"}, status_code=400)
+    safe_filename = Path(filename).name
+    file_path = DATA_DIR / tool_id / action / date / run_id / folder / safe_filename
+    if not file_path.exists():
+        return JSONResponse({"error": "File not found"}, status_code=404)
+    try:
+        content = file_path.read_text(encoding="utf-8", errors="replace")[:10240]
+        return JSONResponse({
+            "filename": safe_filename,
+            "folder": folder,
+            "size": file_path.stat().st_size,
+            "content": content,
+        })
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.post("/api/run-tool/{tool_id}")
+async def trigger_tool_run(tool_id: str):
+    """Trigger smoke test run for a specific tool in background thread."""
+    adapter_file = ROOT / "tools" / tool_id / "adapter.py"
+    if not adapter_file.exists():
+        # Fall back to adapter_stub.py if adapter.py does not exist yet
+        adapter_file = ROOT / "tools" / tool_id / "adapter_stub.py"
+    if not adapter_file.exists():
+        return JSONResponse({"error": f"Adapter not found for {tool_id}"}, status_code=404)
+
+    def _worker():
+        import subprocess
+        subprocess.run(
+            [sys.executable, str(adapter_file)],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+        )
+
+    thread = threading.Thread(target=_worker, daemon=True)
+    thread.start()
+    return JSONResponse({
+        "status": "started",
+        "tool_id": tool_id,
+        "message": f"Smoke test launched for {tool_id}. Watch HUD and logs.",
+    })
+
+
 @app.post("/api/demo-run")
 async def trigger_demo_run():
     """
@@ -272,7 +357,7 @@ async def ws_telemetry(ws: WebSocket):
     try:
         while True:
             state = read_state()
-            if state.get("started_at_epoch"):
+            if state.get("is_running") and state.get("started_at_epoch"):
                 state["elapsed_seconds"] = round(
                     time.time() - state["started_at_epoch"], 1
                 )
@@ -297,6 +382,13 @@ if _WATCHDOG_OK:
             self._queue = queue
             self._loop = loop
             self._tails: dict[str, int] = {}
+            for scan_dir in [ROOT / "logs", ROOT / "data", ROOT / "tools"]:
+                if scan_dir.exists():
+                    for p in scan_dir.rglob("*.jsonl"):
+                        try:
+                            self._tails[str(p)] = p.stat().st_size
+                        except OSError:
+                            pass
 
         def on_modified(self, event):
             if event.is_directory:
@@ -341,6 +433,7 @@ async def ws_logs(ws: WebSocket):
         observer = Observer()
         observer.schedule(handler, str(ROOT / "logs"), recursive=True)
         observer.schedule(handler, str(ROOT / "data"), recursive=True)
+        observer.schedule(handler, str(ROOT / "tools"), recursive=True)
         observer.start()
 
     try:

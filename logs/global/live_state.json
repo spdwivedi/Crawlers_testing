@@ -6,7 +6,7 @@
   "active_action": "scrape_for_leetcode",
   "current_subtask": "Cleaning & structuring data",
   "started_at_epoch": 1792074542.7205837,
-  "elapsed_seconds": 12.0,
+  "elapsed_seconds": 1442.4,
   "progress_percent": 100,
   "recent_events": [
     {
@@ -50,5 +50,36 @@
       "message": "COMPLETED: Demo simulation complete! Check data/01_curl_cffi/scrape_for_leetcode/"
     }
   ],
-  "worker_processes": []
+  "worker_processes": [
+    {
+      "pid": 53524,
+      "name": "python.exe",
+      "cmdline": [
+        "D:\\Project_Files\\Crawlers_testing\\.venv\\Scripts\\python.exe",
+        "-m",
+        "uvicorn",
+        "backend.app:app",
+        "--host",
+        "127.0.0.1"
+      ],
+      "cpu_pct": 63.2,
+      "ram_mb": 59.6,
+      "runtime_s": 30.0
+    },
+    {
+      "pid": 63500,
+      "name": "python.exe",
+      "cmdline": [
+        "D:\\Project_Files\\Crawlers_testing\\.venv\\Scripts\\python.exe",
+        "-m",
+        "uvicorn",
+        "backend.app:app",
+        "--host",
+        "127.0.0.1"
+      ],
+      "cpu_pct": 0.0,
+      "ram_mb": 4.0,
+      "runtime_s": 30.2
+    }
+  ]
 }

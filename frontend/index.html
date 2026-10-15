@@ -122,6 +122,21 @@
                 <option value="19_docling_pdf">19 docling</option>
                 <option value="20_faster_whisper_scrapegraph">20 whisper</option>
               </select>
+              <select id="filter-action" onchange="applyFilters()" title="Action Name">
+                <option value="">All Actions</option>
+                <option value="scrape_for_leetcode">scrape_for_leetcode</option>
+                <option value="scrape_for_insta">scrape_for_insta</option>
+                <option value="scrape_for_facebook">scrape_for_facebook</option>
+                <option value="secured_page_origin">secured_page_origin</option>
+                <option value="visual_test_ocr">visual_test_ocr</option>
+                <option value="catalog_parse">catalog_parse</option>
+                <option value="catalog_crawl">catalog_crawl</option>
+                <option value="api_intercept">api_intercept</option>
+                <option value="article_extract">article_extract</option>
+                <option value="system_scaffold_check">system_scaffold_check</option>
+                <option value="git_commit">git_commit</option>
+              </select>
+              <input type="date" id="filter-date" onchange="applyFilters()" title="Filter by Date" />
               <button class="clear-btn" onclick="clearLogs()">⊗ Clear</button>
               <label class="auto-scroll-label">
                 <input type="checkbox" id="auto-scroll" checked /> Auto-scroll
@@ -197,6 +212,17 @@
           </div>
         </div>
       </div>
+  </div>
+
+  <!-- File Content Preview Modal -->
+  <div id="file-modal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title">File Preview</div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-meta" id="modal-meta"></div>
+      <pre class="modal-content" id="modal-content"></pre>
     </div>
   </div>
 

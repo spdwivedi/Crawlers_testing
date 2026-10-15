@@ -188,7 +188,7 @@ def refresh_workers() -> list[dict]:
 
     state = read_state()
     state["worker_processes"] = workers
-    if state.get("started_at_epoch"):
+    if state.get("is_running") and state.get("started_at_epoch"):
         state["elapsed_seconds"] = round(
             time.time() - state["started_at_epoch"], 1
         )
