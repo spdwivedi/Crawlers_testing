@@ -139,7 +139,7 @@ class LogEngine:
 
         # Tier paths
         self._action_log: Path | None = run_log_path
-        self._tool_log = ROOT / "tools" / tool_id / "logs" / "tool_ops.jsonl"
+        self._tool_log = (ROOT / "tools" / tool_id / "logs" / "tool_ops.jsonl") if tool_id else None
         self._stage_log = STAGES_LOG_DIR / f"{stage_log_name}.jsonl"
         self._global_jsonl = GLOBAL_LOG_DIR / "antigravity_prompt_log.jsonl"
         self._global_md = GLOBAL_LOG_DIR / "antigravity_prompt_log.md"
@@ -166,7 +166,8 @@ class LogEngine:
             _append_jsonl(self._action_log, rec.data)
 
         # Tier 2 — Tool ops log
-        _append_jsonl(self._tool_log, rec.data)
+        if self.tool_id and self._tool_log:
+            _append_jsonl(self._tool_log, rec.data)
 
         # Tier 3 — Stage log
         _append_jsonl(self._stage_log, rec.data)
