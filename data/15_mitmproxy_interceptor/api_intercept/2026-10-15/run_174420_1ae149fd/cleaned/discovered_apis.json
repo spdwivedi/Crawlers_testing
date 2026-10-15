@@ -1,0 +1,28 @@
+{
+  "proxy_port_used": 54891,
+  "total_flows_intercepted": 3,
+  "discovered_apis_count": 1,
+  "discovered_apis": [
+    {
+      "endpoint": "http://httpbin.org/get?category=algorithms&limit=25&origin=crawlers_test",
+      "method": "GET",
+      "status_code": 200,
+      "duration_ms": 549.6,
+      "content_type": "application/json",
+      "auth_headers_detected": [
+        "Authorization"
+      ]
+    }
+  ],
+  "discovered_streams_count": 0,
+  "discovered_streams": [],
+  "security_headers": {
+    "server": [
+      "gunicorn/19.9.0"
+    ],
+    "access-control-allow-origin": [
+      "*"
+    ]
+  },
+  "intercepted_at": "2026-10-15T17:44:24.094467+00:00"
+}

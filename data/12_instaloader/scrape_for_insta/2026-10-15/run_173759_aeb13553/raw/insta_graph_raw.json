@@ -1,0 +1,43 @@
+{
+  "__typename": "GraphVideo",
+  "id": "18029384729103984",
+  "shortcode": "C8XYZ12345",
+  "dimensions": {
+    "height": 1920,
+    "width": 1080
+  },
+  "display_url": "https://instagram.fblr2-1.fna.fbcdn.net/v/t51.2885-15/C8XYZ12345_n.jpg",
+  "is_video": true,
+  "video_url": "https://instagram.fblr2-1.fna.fbcdn.net/v/t50.2886-16/C8XYZ12345_v.mp4",
+  "video_view_count": 84250,
+  "edge_media_to_caption": {
+    "edges": [
+      {
+        "node": {
+          "text": "Deep dive into web crawling architectures and headless browser stealth! \ud83d\ude80 Check out the benchmark tests. #webscraping #antigravity #crawlers #python #automation @antigravity_dev @deepmind"
+        }
+      }
+    ]
+  },
+  "edge_media_preview_like": {
+    "count": 14230
+  },
+  "edge_media_to_comment": {
+    "count": 312
+  },
+  "taken_at_timestamp": 1729015200,
+  "owner": {
+    "id": "5489201948",
+    "username": "antigravity_crawler",
+    "full_name": "Antigravity Engineering",
+    "is_verified": true,
+    "profile_pic_url": "https://instagram.fblr2-1.fna.fbcdn.net/v/t51.2885-19/profile_sample.jpg"
+  },
+  "location": {
+    "id": "102938475",
+    "name": "Silicon Valley, California"
+  },
+  "coauthor_producers": [],
+  "source_target_url": "https://www.instagram.com/reel/C8XYZ12345/",
+  "auth_mode_applied": "anonymous"
+}

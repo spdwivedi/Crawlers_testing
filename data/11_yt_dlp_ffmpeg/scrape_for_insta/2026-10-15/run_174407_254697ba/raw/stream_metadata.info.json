@@ -1,0 +1,21 @@
+{
+  "id": "reel_antigravity_stream_001",
+  "title": "Antigravity Instagram Reel Stream Capture & Audio Demux Test",
+  "description": "Deterministic multi-chunk HLS stream sample for Stage 1.3 verification #coding #antigravity #crawlers",
+  "uploader": "antigravity_social_crawler",
+  "duration": 3.0,
+  "width": 640,
+  "height": 360,
+  "fps": 30,
+  "vcodec": "h264",
+  "acodec": "aac",
+  "format": "hls-chunked-ts",
+  "chunk_count": 3,
+  "chunk_files": [
+    "chunk_000.ts",
+    "chunk_001.ts",
+    "chunk_002.ts"
+  ],
+  "source_url": "https://www.instagram.com/reel/C8XYZ12345/",
+  "auth_mode": "anonymous"
+}

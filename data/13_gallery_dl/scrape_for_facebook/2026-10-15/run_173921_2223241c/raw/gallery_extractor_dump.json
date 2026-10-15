@@ -1,0 +1,43 @@
+{
+  "extractor": {
+    "class": "FacebookPhotoExtractor",
+    "category": "facebook",
+    "subcategory": "photo",
+    "module": "gallery_dl.extractor.facebook"
+  },
+  "url": "https://www.facebook.com/photo.php?fbid=987654321",
+  "auth_mode": "anonymous",
+  "gallery_id": "fb_gallery_post_10293848",
+  "title": "Antigravity Engineering Gallery Showcase",
+  "description": "Multi-image high-resolution photo collection harvested via gallery-dl routing.",
+  "date": "2026-10-15 17:39:22",
+  "items": [
+    {
+      "index": 1,
+      "filename": "raw_gallery_media_01.jpg",
+      "url": "https://scontent.xx.fbcdn.net/v/t39.30808-6/sample_photo_01.jpg",
+      "width": 2048,
+      "height": 1536,
+      "filesize": 149,
+      "extension": "jpg"
+    },
+    {
+      "index": 2,
+      "filename": "raw_gallery_media_02.jpg",
+      "url": "https://scontent.xx.fbcdn.net/v/t39.30808-6/sample_photo_02.jpg",
+      "width": 1920,
+      "height": 1080,
+      "filesize": 149,
+      "extension": "jpg"
+    }
+  ],
+  "related_extractors": [
+    "FacebookPhotoExtractor",
+    "FacebookPhotosExtractor",
+    "FacebookAlbumsExtractor",
+    "InstagramPostExtractor",
+    "RedditSubmissionExtractor",
+    "TwitterTweetExtractor"
+  ],
+  "status": "extractor_routed"
+}

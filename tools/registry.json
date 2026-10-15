@@ -209,9 +209,9 @@
         "subtitle_rip"
       ],
       "python_package": "yt-dlp",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T17:44:10.163903+00:00",
       "tool_dir": "tools/11_yt_dlp_ffmpeg",
       "data_dir": "data/11_yt_dlp_ffmpeg"
     },
@@ -228,9 +228,9 @@
         "story_download"
       ],
       "python_package": "instaloader",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T17:44:10.253579+00:00",
       "tool_dir": "tools/12_instaloader",
       "data_dir": "data/12_instaloader"
     },
@@ -247,9 +247,9 @@
         "image_collect"
       ],
       "python_package": "gallery-dl",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T17:44:11.808436+00:00",
       "tool_dir": "tools/13_gallery_dl",
       "data_dir": "data/13_gallery_dl"
     },
@@ -266,9 +266,9 @@
         "offline_archive"
       ],
       "python_package": "single-file-cli",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T17:44:20.452479+00:00",
       "tool_dir": "tools/14_singlefile_archive",
       "data_dir": "data/14_singlefile_archive"
     },
@@ -286,9 +286,9 @@
         "traffic_harvest"
       ],
       "python_package": "mitmproxy",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T17:44:24.119732+00:00",
       "tool_dir": "tools/15_mitmproxy_interceptor",
       "data_dir": "data/15_mitmproxy_interceptor"
     },

@@ -1,0 +1,21 @@
+{
+  "run_id": "run_174048_9669f34d",
+  "tool_id": "14_singlefile_archive",
+  "action_name": "offline_archive",
+  "date": "2026-10-15",
+  "target_url": "https://books.toscrape.com/",
+  "started_at": "2026-10-15T17:40:48.248067+00:00",
+  "ended_at": "2026-10-15T17:40:55.654444+00:00",
+  "elapsed_sec": 7.406,
+  "status": "completed",
+  "raw_files": [
+    "snapshot.singlefile.html"
+  ],
+  "cleaned_files": [
+    "archive_summary.md",
+    "inlined_assets_manifest.json"
+  ],
+  "git_commit": null,
+  "records_extracted": 24,
+  "quality_score": 99.0
+}

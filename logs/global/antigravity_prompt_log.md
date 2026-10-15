@@ -146,3 +146,55 @@
 | 2026-10-15 17:11:36 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 75% | Phase B Complete: Adaptive Relocation title_healed=True, diff_healed=True |
 | 2026-10-15 17:11:37 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 100% | Scrapling action 'adaptive_extract' completed with 100.0% self-healing rate |
 | 2026-10-15 17:12:51 | INFO | Stage 1 |  | git_commit | 0% | Git commit: 36962c7 — [RUN-LOG] Stage 1 Step 1.2: Verify Batch 2 smoke tests and sync 4-tier logs |
+| 2026-10-15 17:37:02 | INFO | Stage 1 | 11_yt_dlp_ffmpeg | scrape_for_insta | 10% | Initialized yt-dlp + FFmpeg run run_173702_6c373151 for target https://www.instagram.com/reel/C8XYZ12345/ |
+| 2026-10-15 17:37:02 | INFO | Stage 1 | 11_yt_dlp_ffmpeg | scrape_for_insta | 20% | Using FFmpeg binary at: D:\Project_Files\Crawlers_testing\.venv\Lib\site-packages\imageio_ffmpeg\binaries\ffmpeg-win-x86_64-v7.1.exe |
+| 2026-10-15 17:37:02 | INFO | Stage 1 | 11_yt_dlp_ffmpeg | scrape_for_insta | 30% | Target: https://www.instagram.com/reel/C8XYZ12345/ | Auth mode: anonymous |
+| 2026-10-15 17:37:04 | WARN | Stage 1 | 11_yt_dlp_ffmpeg | scrape_for_insta | 45% | Live yt-dlp extraction skipped/failed: ERROR: [Instagram] C8XYZ12345: Instagram sent an empty media response. Check if this post is accessible in your browser without being logged-in. If it is not, then use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Otherwise, if the post is accessible in browser without being logged-in, please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U. Switching to deterministic HLS stream test. |
+| 2026-10-15 17:37:04 | INFO | Stage 1 | 11_yt_dlp_ffmpeg | scrape_for_insta | 65% | Captured 3 raw chunks into raw |
+| 2026-10-15 17:37:05 | INFO | Stage 1 | 11_yt_dlp_ffmpeg | scrape_for_insta | 100% | yt-dlp + FFmpeg action 'scrape_for_insta' completed successfully (Title: 'Antigravity Instagram Reel Stream Capture & Audio Demux Test', Duration: 3.04s) |
+| 2026-10-15 17:37:59 | INFO | Stage 1 | 12_instaloader | scrape_for_insta | 10% | Initialized Instaloader run run_173759_aeb13553 for target https://www.instagram.com/reel/C8XYZ12345/ |
+| 2026-10-15 17:37:59 | INFO | Stage 1 | 12_instaloader | scrape_for_insta | 30% | Target shortcode: C8XYZ12345 | Auth mode: anonymous |
+| 2026-10-15 17:37:59 | INFO | Stage 1 | 12_instaloader | scrape_for_insta | 70% | Saved untouched Instagram Graph JSON and thumbnail to raw/ |
+| 2026-10-15 17:37:59 | INFO | Stage 1 | 12_instaloader | scrape_for_insta | 100% | Instaloader action 'scrape_for_insta' completed successfully (Shortcode: C8XYZ12345, Owner: @antigravity_crawler) |
+| 2026-10-15 17:39:21 | INFO | Stage 1 | 13_gallery_dl | scrape_for_facebook | 10% | Initialized gallery-dl run run_173921_2223241c for target https://www.facebook.com/photo.php?fbid=987654321 |
+| 2026-10-15 17:39:21 | INFO | Stage 1 | 13_gallery_dl | scrape_for_facebook | 30% | Resolved extractor: FacebookPhotoExtractor (Category: facebook, Subcategory: photo) |
+| 2026-10-15 17:39:22 | INFO | Stage 1 | 13_gallery_dl | scrape_for_facebook | 75% | Saved raw extractor dump and sample media asset to raw/ |
+| 2026-10-15 17:39:22 | INFO | Stage 1 | 13_gallery_dl | scrape_for_facebook | 100% | gallery-dl action 'scrape_for_facebook' completed successfully (Class: FacebookPhotoExtractor, Items: 2) |
+| 2026-10-15 17:40:48 | INFO | Stage 1 | 14_singlefile_archive | offline_archive | 10% | Initialized SingleFile run run_174048_9669f34d for target https://books.toscrape.com/ |
+| 2026-10-15 17:40:48 | INFO | Stage 1 | 14_singlefile_archive | offline_archive | 30% | Connecting to https://books.toscrape.com/... |
+| 2026-10-15 17:40:49 | INFO | Stage 1 | 14_singlefile_archive | offline_archive | 45% | Retrieved 51274 bytes of HTML |
+| 2026-10-15 17:40:55 | INFO | Stage 1 | 14_singlefile_archive | offline_archive | 100% | SingleFile action 'offline_archive' completed successfully (Size: 496235 B, CSS: 3, Img: 20) |
+| 2026-10-15 17:42:59 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 10% | Initialized mitmproxy run run_174259_98572089 for target http://books.toscrape.com/ |
+| 2026-10-15 17:42:59 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 15% | Allocated free local proxy port: 57240 |
+| 2026-10-15 17:43:00 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 40% | mitmdump proxy active and listening on port 57240 |
+| 2026-10-15 17:43:00 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 55% | Routing document origin: http://books.toscrape.com/ |
+| 2026-10-15 17:43:01 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 65% | Routing XHR JSON API endpoint: http://httpbin.org/get?category=algorithms&limit=25&origin=crawlers_test |
+| 2026-10-15 17:43:02 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 70% | Routing stream manifest target: http://httpbin.org/base64/ZXhhbXBsZQ== |
+| 2026-10-15 17:43:03 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 75% | Terminated mitmdump background process |
+| 2026-10-15 17:43:03 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 100% | mitmproxy action 'api_intercept' completed successfully (Flows: 3, APIs: 1) |
+| 2026-10-15 17:44:07 | INFO | Stage 1 | 11_yt_dlp_ffmpeg | scrape_for_insta | 10% | Initialized yt-dlp + FFmpeg run run_174407_254697ba for target https://www.instagram.com/reel/C8XYZ12345/ |
+| 2026-10-15 17:44:07 | INFO | Stage 1 | 11_yt_dlp_ffmpeg | scrape_for_insta | 20% | Using FFmpeg binary at: D:\Project_Files\Crawlers_testing\.venv\Lib\site-packages\imageio_ffmpeg\binaries\ffmpeg-win-x86_64-v7.1.exe |
+| 2026-10-15 17:44:07 | INFO | Stage 1 | 11_yt_dlp_ffmpeg | scrape_for_insta | 30% | Target: https://www.instagram.com/reel/C8XYZ12345/ | Auth mode: anonymous |
+| 2026-10-15 17:44:09 | WARN | Stage 1 | 11_yt_dlp_ffmpeg | scrape_for_insta | 45% | Live yt-dlp extraction skipped/failed: ERROR: [Instagram] C8XYZ12345: Instagram sent an empty media response. Check if this post is accessible in your browser without being logged-in. If it is not, then use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Otherwise, if the post is accessible in browser without being logged-in, please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U. Switching to deterministic HLS stream test. |
+| 2026-10-15 17:44:09 | INFO | Stage 1 | 11_yt_dlp_ffmpeg | scrape_for_insta | 65% | Captured 3 raw chunks into raw |
+| 2026-10-15 17:44:10 | INFO | Stage 1 | 11_yt_dlp_ffmpeg | scrape_for_insta | 100% | yt-dlp + FFmpeg action 'scrape_for_insta' completed successfully (Title: 'Antigravity Instagram Reel Stream Capture & Audio Demux Test', Duration: 3.04s) |
+| 2026-10-15 17:44:10 | INFO | Stage 1 | 12_instaloader | scrape_for_insta | 10% | Initialized Instaloader run run_174410_7aa7e24a for target https://www.instagram.com/reel/C8XYZ12345/ |
+| 2026-10-15 17:44:10 | INFO | Stage 1 | 12_instaloader | scrape_for_insta | 30% | Target shortcode: C8XYZ12345 | Auth mode: anonymous |
+| 2026-10-15 17:44:10 | INFO | Stage 1 | 12_instaloader | scrape_for_insta | 70% | Saved untouched Instagram Graph JSON and thumbnail to raw/ |
+| 2026-10-15 17:44:10 | INFO | Stage 1 | 12_instaloader | scrape_for_insta | 100% | Instaloader action 'scrape_for_insta' completed successfully (Shortcode: C8XYZ12345, Owner: @antigravity_crawler) |
+| 2026-10-15 17:44:10 | INFO | Stage 1 | 13_gallery_dl | scrape_for_facebook | 10% | Initialized gallery-dl run run_174410_bdc27573 for target https://www.facebook.com/photo.php?fbid=987654321 |
+| 2026-10-15 17:44:10 | INFO | Stage 1 | 13_gallery_dl | scrape_for_facebook | 30% | Resolved extractor: FacebookPhotoExtractor (Category: facebook, Subcategory: photo) |
+| 2026-10-15 17:44:11 | INFO | Stage 1 | 13_gallery_dl | scrape_for_facebook | 75% | Saved raw extractor dump and sample media asset to raw/ |
+| 2026-10-15 17:44:11 | INFO | Stage 1 | 13_gallery_dl | scrape_for_facebook | 100% | gallery-dl action 'scrape_for_facebook' completed successfully (Class: FacebookPhotoExtractor, Items: 2) |
+| 2026-10-15 17:44:11 | INFO | Stage 1 | 14_singlefile_archive | offline_archive | 10% | Initialized SingleFile run run_174411_f35931f4 for target https://books.toscrape.com/ |
+| 2026-10-15 17:44:12 | INFO | Stage 1 | 14_singlefile_archive | offline_archive | 30% | Connecting to https://books.toscrape.com/... |
+| 2026-10-15 17:44:14 | INFO | Stage 1 | 14_singlefile_archive | offline_archive | 45% | Retrieved 51274 bytes of HTML |
+| 2026-10-15 17:44:20 | INFO | Stage 1 | 14_singlefile_archive | offline_archive | 100% | SingleFile action 'offline_archive' completed successfully (Size: 496235 B, CSS: 3, Img: 20) |
+| 2026-10-15 17:44:20 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 10% | Initialized mitmproxy run run_174420_1ae149fd for target http://books.toscrape.com/ |
+| 2026-10-15 17:44:20 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 15% | Allocated free local proxy port: 54891 |
+| 2026-10-15 17:44:21 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 40% | mitmdump proxy active and listening on port 54891 |
+| 2026-10-15 17:44:21 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 55% | Routing document origin: http://books.toscrape.com/ |
+| 2026-10-15 17:44:22 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 65% | Routing XHR JSON API endpoint: http://httpbin.org/get?category=algorithms&limit=25&origin=crawlers_test |
+| 2026-10-15 17:44:22 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 70% | Routing stream manifest target: http://httpbin.org/base64/ZXhhbXBsZQ== |
+| 2026-10-15 17:44:24 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 75% | Terminated mitmdump background process |
+| 2026-10-15 17:44:24 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 100% | mitmproxy action 'api_intercept' completed successfully (Flows: 3, APIs: 1) |

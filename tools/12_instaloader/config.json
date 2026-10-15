@@ -1,9 +1,9 @@
 {
   "tool_id": "12_instaloader",
   "batch": 3,
-  "last_run": null,
-  "status": "scaffolded",
-  "installed": false,
+  "last_run": "2026-10-15T17:44:10.253579+00:00",
+  "status": "verified",
+  "installed": true,
   "config_version": "1.0.0",
   "mechanism_type": "Social/Instagram",
   "name": "instaloader",

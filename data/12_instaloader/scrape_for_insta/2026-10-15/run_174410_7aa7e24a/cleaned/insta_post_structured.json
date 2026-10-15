@@ -1,0 +1,46 @@
+{
+  "shortcode": "C8XYZ12345",
+  "typename": "GraphVideo",
+  "is_video": true,
+  "owner": {
+    "username": "antigravity_crawler",
+    "id": "5489201948",
+    "full_name": "Antigravity Engineering",
+    "is_verified": true
+  },
+  "engagement": {
+    "likes": 14230,
+    "comments": 312,
+    "video_views": 84250
+  },
+  "content": {
+    "caption": "Deep dive into web crawling architectures and headless browser stealth! \ud83d\ude80 Check out the benchmark tests. #webscraping #antigravity #crawlers #python #automation @antigravity_dev @deepmind",
+    "hashtags": [
+      "webscraping",
+      "antigravity",
+      "crawlers",
+      "python",
+      "automation"
+    ],
+    "mentions": [
+      "antigravity_dev",
+      "deepmind"
+    ],
+    "timestamp_utc": "2024-10-15T18:00:00+00:00",
+    "location": "Silicon Valley, California"
+  },
+  "assets": {
+    "display_url": "https://instagram.fblr2-1.fna.fbcdn.net/v/t51.2885-15/C8XYZ12345_n.jpg",
+    "video_url": "https://instagram.fblr2-1.fna.fbcdn.net/v/t50.2886-16/C8XYZ12345_v.mp4",
+    "dimensions": {
+      "height": 1920,
+      "width": 1080
+    },
+    "raw_thumbnail_saved": "raw_post_thumbnail.jpg"
+  },
+  "provenance": {
+    "source_url": "https://www.instagram.com/reel/C8XYZ12345/",
+    "auth_mode": "anonymous",
+    "extracted_at": "2026-10-15T17:44:10.227016+00:00"
+  }
+}

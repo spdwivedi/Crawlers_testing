@@ -1,0 +1,37 @@
+{
+  "target_url": "https://www.facebook.com/photo.php?fbid=987654321",
+  "resolved_extractor": {
+    "class_name": "FacebookPhotoExtractor",
+    "category": "facebook",
+    "subcategory": "photo"
+  },
+  "auth_state": {
+    "mode": "anonymous",
+    "cookies_detected": false
+  },
+  "item_count": 2,
+  "items": [
+    {
+      "index": 1,
+      "filename": "raw_gallery_media_01.jpg",
+      "url": "https://scontent.xx.fbcdn.net/v/t39.30808-6/sample_photo_01.jpg",
+      "width": 2048,
+      "height": 1536,
+      "filesize": 149,
+      "extension": "jpg"
+    },
+    {
+      "index": 2,
+      "filename": "raw_gallery_media_02.jpg",
+      "url": "https://scontent.xx.fbcdn.net/v/t39.30808-6/sample_photo_02.jpg",
+      "width": 1920,
+      "height": 1080,
+      "filesize": 149,
+      "extension": "jpg"
+    }
+  ],
+  "raw_media_saved": [
+    "raw_gallery_media_01.jpg"
+  ],
+  "extracted_at": "2026-10-15T17:39:22.887435+00:00"
+}

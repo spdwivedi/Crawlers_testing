@@ -1,9 +1,9 @@
 {
   "tool_id": "14_singlefile_archive",
   "batch": 3,
-  "last_run": null,
-  "status": "scaffolded",
-  "installed": false,
+  "last_run": "2026-10-15T17:44:20.452479+00:00",
+  "status": "verified",
+  "installed": true,
   "config_version": "1.0.0",
   "mechanism_type": "Archiver/Snapshot",
   "name": "singlefile_archive",
