@@ -305,9 +305,9 @@
         "llm_ready_scrape"
       ],
       "python_package": "crawl4ai",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T18:09:33.271950+00:00",
       "tool_dir": "tools/16_crawl4ai",
       "data_dir": "data/16_crawl4ai"
     },
@@ -324,9 +324,9 @@
         "pdf_ocr"
       ],
       "python_package": "surya-ocr",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T18:09:37.423683+00:00",
       "tool_dir": "tools/17_surya_ocr",
       "data_dir": "data/17_surya_ocr"
     },
@@ -343,9 +343,9 @@
         "structured_parse"
       ],
       "python_package": "paddleocr img2table",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T18:09:40.396962+00:00",
       "tool_dir": "tools/18_paddleocr_img2table",
       "data_dir": "data/18_paddleocr_img2table"
     },
@@ -362,9 +362,9 @@
         "visual_test_ocr"
       ],
       "python_package": "docling",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T18:09:40.725500+00:00",
       "tool_dir": "tools/19_docling_pdf",
       "data_dir": "data/19_docling_pdf"
     },
@@ -381,9 +381,9 @@
         "graph_scrape"
       ],
       "python_package": "faster-whisper scrapegraphai",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T18:09:41.573367+00:00",
       "tool_dir": "tools/20_faster_whisper_scrapegraph",
       "data_dir": "data/20_faster_whisper_scrapegraph"
     }

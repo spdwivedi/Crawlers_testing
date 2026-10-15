@@ -1,0 +1,50 @@
+{
+  "headers": [
+    "Problem ID",
+    "Title",
+    "Difficulty",
+    "Acceptance",
+    "Time Complexity"
+  ],
+  "row_count": 5,
+  "column_count": 5,
+  "rows": [
+    {
+      "Problem ID": "1",
+      "Title": "Two Sum",
+      "Difficulty": "Easy",
+      "Acceptance": "52.4%",
+      "Time Complexity": "O(N)"
+    },
+    {
+      "Problem ID": "15",
+      "Title": "3Sum",
+      "Difficulty": "Medium",
+      "Acceptance": "34.2%",
+      "Time Complexity": "O(N^2)"
+    },
+    {
+      "Problem ID": "42",
+      "Title": "Trapping Rain Water",
+      "Difficulty": "Had",
+      "Acceptance": "62.1%",
+      "Time Complexity": "O(N)"
+    },
+    {
+      "Problem ID": "146",
+      "Title": "LRU Cache",
+      "Difficulty": "Medium",
+      "Acceptance": "43.8%",
+      "Time Complexity": "O(1)"
+    },
+    {
+      "Problem ID": "295",
+      "Title": "Find Median from Stream",
+      "Difficulty": "Hard",
+      "Acceptance": "51.9%",
+      "Time Complexity": "O(log N)"
+    }
+  ],
+  "extraction_duration_ms": 2155.23,
+  "extracted_at": "2026-10-15T18:09:40.294362+00:00"
+}

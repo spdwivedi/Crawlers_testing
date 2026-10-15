@@ -1,0 +1,22 @@
+{
+  "run_id": "run_180940_6b64f95e",
+  "tool_id": "19_docling_pdf",
+  "action_name": "pdf_parse",
+  "date": "2026-10-15",
+  "target_url": "local://embedded_problem_spec",
+  "started_at": "2026-10-15T18:09:40.607636+00:00",
+  "ended_at": "2026-10-15T18:09:40.706241+00:00",
+  "elapsed_sec": 0.099,
+  "status": "completed",
+  "raw_files": [
+    "embedded_problem_spec.pdf",
+    "pdf_raw_metadata.json"
+  ],
+  "cleaned_files": [
+    "document_hierarchy.json",
+    "parsed_document.md"
+  ],
+  "git_commit": null,
+  "records_extracted": 13,
+  "quality_score": 99.0
+}

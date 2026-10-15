@@ -1,0 +1,23 @@
+{
+  "run_id": "run_180549_ebcb75ef",
+  "tool_id": "18_paddleocr_img2table",
+  "action_name": "visual_test_ocr",
+  "date": "2026-10-15",
+  "target_url": "local://embedded_table_graphic",
+  "started_at": "2026-10-15T18:05:49.285064+00:00",
+  "ended_at": "2026-10-15T18:05:52.098981+00:00",
+  "elapsed_sec": 2.814,
+  "status": "completed",
+  "raw_files": [
+    "embedded_table_image.png",
+    "table_cells_raw.json"
+  ],
+  "cleaned_files": [
+    "extracted_table.csv",
+    "extracted_table.json",
+    "table_report.md"
+  ],
+  "git_commit": null,
+  "records_extracted": 5,
+  "quality_score": 98.5
+}

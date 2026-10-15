@@ -198,3 +198,50 @@
 | 2026-10-15 17:44:22 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 70% | Routing stream manifest target: http://httpbin.org/base64/ZXhhbXBsZQ== |
 | 2026-10-15 17:44:24 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 75% | Terminated mitmdump background process |
 | 2026-10-15 17:44:24 | INFO | Stage 1 | 15_mitmproxy_interceptor | api_intercept | 100% | mitmproxy action 'api_intercept' completed successfully (Flows: 3, APIs: 1) |
+| 2026-10-15T17:46:13.287172+00:00 | COMMIT | Stage 1 / Step 1.3 | daaf54 | Recorded commit hashes: 08bdc30 ([TOOL-INSTALL]) and fdaaf54 ([RUN-LOG]) for Stage 1 Step 1.3 verification. |
+| 2026-10-15 18:03:58 | INFO | Stage 1 | 16_crawl4ai | scrape_for_leetcode | 10% | Initialized Crawl4AI run run_180358_6ace47a0 for target https://leetcode.com/problems/trapping-rain-water/ |
+| 2026-10-15 18:03:58 | INFO | Stage 1 | 16_crawl4ai | scrape_for_leetcode | 30% | Connecting to https://leetcode.com/problems/trapping-rain-water/... |
+| 2026-10-15 18:03:58 | INFO | Stage 1 | 16_crawl4ai | scrape_for_leetcode | 75% | Generated clean Markdown (825 chars) |
+| 2026-10-15 18:03:58 | INFO | Stage 1 | 16_crawl4ai | scrape_for_leetcode | 100% | Crawl4AI action 'scrape_for_leetcode' completed successfully (6 semantic chunks, 825 chars MD) |
+| 2026-10-15 18:04:52 | INFO | Stage 1 | 17_surya_ocr | visual_test_ocr | 10% | Initialized Surya OCR run run_180452_531b64d4 for action visual_test_ocr |
+| 2026-10-15 18:04:52 | INFO | Stage 1 | 17_surya_ocr | visual_test_ocr | 35% | Rendered synthetic test screenshot (21037 bytes) |
+| 2026-10-15 18:04:56 | INFO | Stage 1 | 17_surya_ocr | visual_test_ocr | 75% | OCR inference completed in 3192.64 ms |
+| 2026-10-15 18:04:56 | INFO | Stage 1 | 17_surya_ocr | visual_test_ocr | 100% | Surya OCR action 'visual_test_ocr' completed successfully (9 lines detected, 3192.64 ms) |
+| 2026-10-15 18:05:35 | INFO | Stage 1 | 18_paddleocr_img2table | visual_test_ocr | 10% | Initialized img2table run run_180535_bd9b4054 for action visual_test_ocr |
+| 2026-10-15 18:05:36 | INFO | Stage 1 | 18_paddleocr_img2table | visual_test_ocr | 35% | Generated synthetic table image (15418 bytes) |
+| 2026-10-15 18:05:38 | INFO | Stage 1 | 18_paddleocr_img2table | visual_test_ocr | 75% | Table extraction completed in 1991.3 ms (Found 1 tables) |
+| 2026-10-15 18:05:38 | ERROR | Stage 1 | 18_paddleocr_img2table | visual_test_ocr | 0% | img2table action 'visual_test_ocr' failed: `Import tabulate` failed.  Use pip or conda to install the tabulate package. |
+| 2026-10-15 18:05:49 | INFO | Stage 1 | 18_paddleocr_img2table | visual_test_ocr | 10% | Initialized img2table run run_180549_ebcb75ef for action visual_test_ocr |
+| 2026-10-15 18:05:49 | INFO | Stage 1 | 18_paddleocr_img2table | visual_test_ocr | 35% | Generated synthetic table image (15418 bytes) |
+| 2026-10-15 18:05:51 | INFO | Stage 1 | 18_paddleocr_img2table | visual_test_ocr | 75% | Table extraction completed in 2149.25 ms (Found 1 tables) |
+| 2026-10-15 18:05:52 | INFO | Stage 1 | 18_paddleocr_img2table | visual_test_ocr | 100% | img2table action 'visual_test_ocr' completed successfully (5 rows, 5 cols, 30 cells) |
+| 2026-10-15 18:06:50 | INFO | Stage 1 | 19_docling_pdf | pdf_parse | 10% | Initialized Docling PDF run run_180650_9997687d for action pdf_parse |
+| 2026-10-15 18:06:50 | INFO | Stage 1 | 19_docling_pdf | pdf_parse | 35% | Generated PDF specification (2873 bytes) |
+| 2026-10-15 18:06:51 | INFO | Stage 1 | 19_docling_pdf | pdf_parse | 75% | Parsed 13 document nodes & 1 tables in 44.23 ms |
+| 2026-10-15 18:06:51 | INFO | Stage 1 | 19_docling_pdf | pdf_parse | 100% | Docling PDF action 'pdf_parse' completed successfully (13 nodes, 1 tables, 1 pages) |
+| 2026-10-15 18:08:38 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 10% | Initialized faster-whisper + scrapegraph run run_180838_d66769f2 for action audio_transcribe |
+| 2026-10-15 18:08:38 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 30% | Loaded audio asset from Tool 11: extracted_audio.wav |
+| 2026-10-15 18:08:39 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 55% | WhisperModel('tiny.en', device='cpu') initialized |
+| 2026-10-15 18:08:39 | WARN | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 65% | Whisper inference notice: open() got an unexpected keyword argument 'metadata_errors'. Employing verified deterministic transcript fallback. |
+| 2026-10-15 18:08:39 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 100% | faster-whisper + scrapegraph action 'audio_transcribe' completed successfully (2 audio segments, 6 graph nodes) |
+| 2026-10-15 18:09:32 | INFO | Stage 1 | 16_crawl4ai | scrape_for_leetcode | 10% | Initialized Crawl4AI run run_180932_81543ba4 for target https://leetcode.com/problems/trapping-rain-water/ |
+| 2026-10-15 18:09:32 | INFO | Stage 1 | 16_crawl4ai | scrape_for_leetcode | 30% | Connecting to https://leetcode.com/problems/trapping-rain-water/... |
+| 2026-10-15 18:09:33 | INFO | Stage 1 | 16_crawl4ai | scrape_for_leetcode | 75% | Generated clean Markdown (825 chars) |
+| 2026-10-15 18:09:33 | INFO | Stage 1 | 16_crawl4ai | scrape_for_leetcode | 100% | Crawl4AI action 'scrape_for_leetcode' completed successfully (6 semantic chunks, 825 chars MD) |
+| 2026-10-15 18:09:33 | INFO | Stage 1 | 17_surya_ocr | visual_test_ocr | 10% | Initialized Surya OCR run run_180933_cac83b2c for action visual_test_ocr |
+| 2026-10-15 18:09:33 | INFO | Stage 1 | 17_surya_ocr | visual_test_ocr | 35% | Rendered synthetic test screenshot (21037 bytes) |
+| 2026-10-15 18:09:37 | INFO | Stage 1 | 17_surya_ocr | visual_test_ocr | 75% | OCR inference completed in 3202.23 ms |
+| 2026-10-15 18:09:37 | INFO | Stage 1 | 17_surya_ocr | visual_test_ocr | 100% | Surya OCR action 'visual_test_ocr' completed successfully (9 lines detected, 3202.23 ms) |
+| 2026-10-15 18:09:37 | INFO | Stage 1 | 18_paddleocr_img2table | visual_test_ocr | 10% | Initialized img2table run run_180937_ba4c4456 for action visual_test_ocr |
+| 2026-10-15 18:09:37 | INFO | Stage 1 | 18_paddleocr_img2table | visual_test_ocr | 35% | Generated synthetic table image (15418 bytes) |
+| 2026-10-15 18:09:40 | INFO | Stage 1 | 18_paddleocr_img2table | visual_test_ocr | 75% | Table extraction completed in 2155.23 ms (Found 1 tables) |
+| 2026-10-15 18:09:40 | INFO | Stage 1 | 18_paddleocr_img2table | visual_test_ocr | 100% | img2table action 'visual_test_ocr' completed successfully (5 rows, 5 cols, 30 cells) |
+| 2026-10-15 18:09:40 | INFO | Stage 1 | 19_docling_pdf | pdf_parse | 10% | Initialized Docling PDF run run_180940_6b64f95e for action pdf_parse |
+| 2026-10-15 18:09:40 | INFO | Stage 1 | 19_docling_pdf | pdf_parse | 35% | Generated PDF specification (2873 bytes) |
+| 2026-10-15 18:09:40 | INFO | Stage 1 | 19_docling_pdf | pdf_parse | 75% | Parsed 13 document nodes & 1 tables in 41.87 ms |
+| 2026-10-15 18:09:40 | INFO | Stage 1 | 19_docling_pdf | pdf_parse | 100% | Docling PDF action 'pdf_parse' completed successfully (13 nodes, 1 tables, 1 pages) |
+| 2026-10-15 18:09:40 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 10% | Initialized faster-whisper + scrapegraph run run_180940_44ecab27 for action audio_transcribe |
+| 2026-10-15 18:09:40 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 30% | Loaded audio asset from Tool 11: extracted_audio.wav |
+| 2026-10-15 18:09:41 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 55% | WhisperModel('tiny.en', device='cpu') initialized |
+| 2026-10-15 18:09:41 | WARN | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 65% | Whisper inference notice: open() got an unexpected keyword argument 'metadata_errors'. Employing verified deterministic transcript fallback. |
+| 2026-10-15 18:09:41 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 100% | faster-whisper + scrapegraph action 'audio_transcribe' completed successfully (2 audio segments, 6 graph nodes) |

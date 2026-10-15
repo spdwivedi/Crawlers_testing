@@ -1,0 +1,23 @@
+{
+  "run_id": "run_180535_bd9b4054",
+  "tool_id": "18_paddleocr_img2table",
+  "action_name": "visual_test_ocr",
+  "date": "2026-10-15",
+  "target_url": "local://embedded_table_graphic",
+  "started_at": "2026-10-15T18:05:35.975375+00:00",
+  "ended_at": "2026-10-15T18:05:38.511789+00:00",
+  "elapsed_sec": 2.536,
+  "status": "failed",
+  "raw_files": [
+    "embedded_table_image.png",
+    "table_cells_raw.json"
+  ],
+  "cleaned_files": [
+    "extracted_table.csv",
+    "extracted_table.json"
+  ],
+  "git_commit": null,
+  "records_extracted": 0,
+  "quality_score": 0.0,
+  "error": "`Import tabulate` failed.  Use pip or conda to install the tabulate package."
+}

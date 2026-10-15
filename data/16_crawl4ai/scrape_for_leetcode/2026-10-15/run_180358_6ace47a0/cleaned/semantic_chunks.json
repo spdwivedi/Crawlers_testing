@@ -1,0 +1,42 @@
+{
+  "target_url": "https://leetcode.com/problems/trapping-rain-water/",
+  "total_chunks": 6,
+  "chunks": [
+    {
+      "chunk_index": 1,
+      "text": "# 42. Trapping Rain Water\nDifficulty: Hard | Acceptance: 62.4%\nGiven `n` non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.\n### Example 1:",
+      "char_count": 223,
+      "token_estimate": 55
+    },
+    {
+      "chunk_index": 2,
+      "text": "```\nInput: height = [0,1,0,2,1,0,1,3,2,1,2,1]\nOutput: 6\nExplanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are trapped.\n```",
+      "char_count": 227,
+      "token_estimate": 56
+    },
+    {
+      "chunk_index": 3,
+      "text": "### Example 2:",
+      "char_count": 14,
+      "token_estimate": 3
+    },
+    {
+      "chunk_index": 4,
+      "text": "```\nInput: height = [4,2,0,3,2,5]\nOutput: 9\n```",
+      "char_count": 47,
+      "token_estimate": 11
+    },
+    {
+      "chunk_index": 5,
+      "text": "### Constraints:\n  * `n == height.length`\n  * `1 <= n <= 2 * 10^4`\n  * `0 <= height[i] <= 10^5`",
+      "char_count": 95,
+      "token_estimate": 23
+    },
+    {
+      "chunk_index": 6,
+      "text": "[Official Editorial](/problems/trapping-rain-water/solution/) [Submissions](/problems/trapping-rain-water/submissions/) ![Rain Water Diagram](https://assets.leetcode.com/uploads/2018/10/22/rainwatertrap.png)",
+      "char_count": 207,
+      "token_estimate": 51
+    }
+  ]
+}

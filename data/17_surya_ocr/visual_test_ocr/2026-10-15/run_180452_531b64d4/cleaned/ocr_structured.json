@@ -1,0 +1,211 @@
+{
+  "source_image": "image_based_test_question.png",
+  "image_dimensions": [
+    960,
+    480
+  ],
+  "total_lines_detected": 9,
+  "average_confidence": 0.8956,
+  "ocr_duration_ms": 3192.64,
+  "extracted_lines": [
+    {
+      "text": "ANTIGRAVITYTECHNICALASSESSMENT-ALGORITHMS BENCHMARK",
+      "confidence": 0.9297,
+      "bounding_polygon": [
+        [
+          30.0,
+          25.0
+        ],
+        [
+          356.0,
+          25.0
+        ],
+        [
+          356.0,
+          37.0
+        ],
+        [
+          30.0,
+          37.0
+        ]
+      ]
+    },
+    {
+      "text": "Question 14: Balanced Binary Search Tree Trave rsal  Search",
+      "confidence": 0.9469,
+      "bounding_polygon": [
+        [
+          29.0,
+          95.0
+        ],
+        [
+          313.0,
+          95.0
+        ],
+        [
+          313.0,
+          108.0
+        ],
+        [
+          29.0,
+          108.0
+        ]
+      ]
+    },
+    {
+      "text": "Given a Red-Black Tree containing N e le me nts what is the tight upper bound",
+      "confidence": 0.9128,
+      "bounding_polygon": [
+        [
+          29.0,
+          135.0
+        ],
+        [
+          389.0,
+          134.0
+        ],
+        [
+          389.0,
+          147.0
+        ],
+        [
+          29.0,
+          148.0
+        ]
+      ]
+    },
+    {
+      "text": "worst-case time complexity for finding an arbitrary key?",
+      "confidence": 0.9369,
+      "bounding_polygon": [
+        [
+          29.0,
+          165.0
+        ],
+        [
+          282.0,
+          165.0
+        ],
+        [
+          282.0,
+          178.0
+        ],
+        [
+          29.0,
+          178.0
+        ]
+      ]
+    },
+    {
+      "text": "Input Tree height h = floor(log2(N), Key target = 42 -> Search Path length <= 2 \u00d7 log2(N+ 1)",
+      "confidence": 0.9174,
+      "bounding_polygon": [
+        [
+          45.0,
+          220.0
+        ],
+        [
+          464.0,
+          220.0
+        ],
+        [
+          464.0,
+          233.0
+        ],
+        [
+          45.0,
+          233.0
+        ]
+      ]
+    },
+    {
+      "text": "Al O(1)Constant Time",
+      "confidence": 0.7995,
+      "bounding_polygon": [
+        [
+          48.0,
+          288.0
+        ],
+        [
+          151.0,
+          290.0
+        ],
+        [
+          151.0,
+          305.0
+        ],
+        [
+          48.0,
+          303.0
+        ]
+      ]
+    },
+    {
+      "text": "B) O(log N) Logarithmic Time",
+      "confidence": 0.8497,
+      "bounding_polygon": [
+        [
+          50.0,
+          326.0
+        ],
+        [
+          183.0,
+          326.0
+        ],
+        [
+          183.0,
+          337.0
+        ],
+        [
+          50.0,
+          337.0
+        ]
+      ]
+    },
+    {
+      "text": "C) O(N) Linear Time",
+      "confidence": 0.872,
+      "bounding_polygon": [
+        [
+          48.0,
+          359.0
+        ],
+        [
+          143.0,
+          359.0
+        ],
+        [
+          143.0,
+          372.0
+        ],
+        [
+          48.0,
+          372.0
+        ]
+      ]
+    },
+    {
+      "text": "D) O(N log N) Linearithmic Time",
+      "confidence": 0.8952,
+      "bounding_polygon": [
+        [
+          50.0,
+          395.0
+        ],
+        [
+          200.0,
+          395.0
+        ],
+        [
+          200.0,
+          408.0
+        ],
+        [
+          50.0,
+          408.0
+        ]
+      ]
+    }
+  ],
+  "extracted_at": "2026-10-15T18:04:56.565471+00:00"
+}
