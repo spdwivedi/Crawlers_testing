@@ -1,53 +1,53 @@
 {
   "is_running": false,
   "current_stage": "Stage 1",
-  "current_step": "Step 1.0 Demo",
-  "active_tool_id": "01_curl_cffi",
-  "active_action": "scrape_for_leetcode",
-  "current_subtask": "Cleaning & structuring data",
-  "started_at_epoch": 1792074542.7205837,
-  "elapsed_seconds": 1442.4,
+  "current_step": "Step 1.1",
+  "active_tool_id": "05_trafilatura",
+  "active_action": "article_extract",
+  "current_subtask": "Trafilatura extraction and metadata parsing complete",
+  "started_at_epoch": 1792076449.8230808,
+  "elapsed_seconds": 30.0,
   "progress_percent": 100,
   "recent_events": [
     {
-      "timestamp": "2026-10-15T14:28:36.659038+00:00",
-      "message": "PROGRESS 100%: Verify: all checks complete"
+      "timestamp": "2026-10-15T15:00:49.641107+00:00",
+      "message": "PROGRESS 100%: Async HTTP/2 + Parsel extraction complete"
     },
     {
-      "timestamp": "2026-10-15T14:28:36.663613+00:00",
-      "message": "COMPLETED: Stage 1 Step 1.0 verification PASSED"
+      "timestamp": "2026-10-15T15:00:49.649457+00:00",
+      "message": "COMPLETED: 04_httpx_parsel extraction complete: JSON + HTML parsed in 1.175s"
     },
     {
-      "timestamp": "2026-10-15T14:29:02.720592+00:00",
-      "message": "STARTED: Stage 1 / Step 1.0 Demo \u2014 Initializing demo simulation..."
+      "timestamp": "2026-10-15T15:00:49.823086+00:00",
+      "message": "STARTED: Stage 1 / Step 1.1 \u2014 Initializing Trafilatura extraction pipeline"
     },
     {
-      "timestamp": "2026-10-15T14:29:04.728875+00:00",
-      "message": "PROGRESS 10%: Initializing curl_cffi session"
+      "timestamp": "2026-10-15T15:00:49.832829+00:00",
+      "message": "PROGRESS 25%: Fetching URL content via trafilatura.fetch_url"
     },
     {
-      "timestamp": "2026-10-15T14:29:06.730007+00:00",
-      "message": "PROGRESS 25%: Resolving DNS & TLS handshake"
+      "timestamp": "2026-10-15T15:00:50.411418+00:00",
+      "message": "PROGRESS 60%: Saving raw HTML page to disk"
     },
     {
-      "timestamp": "2026-10-15T14:29:08.731038+00:00",
-      "message": "PROGRESS 45%: Fetching LeetCode problem page"
+      "timestamp": "2026-10-15T15:00:50.420530+00:00",
+      "message": "PROGRESS 75%: Extracting clean markdown and stripping boilerplates"
     },
     {
-      "timestamp": "2026-10-15T14:29:10.731773+00:00",
-      "message": "PROGRESS 70%: Parsing HTML with selectolax"
+      "timestamp": "2026-10-15T15:00:50.710796+00:00",
+      "message": "PROGRESS 85%: Writing extracted markdown and metadata JSON to disk"
     },
     {
-      "timestamp": "2026-10-15T14:29:12.732815+00:00",
-      "message": "PROGRESS 90%: Saving raw output to disk"
+      "timestamp": "2026-10-15T15:00:50.718234+00:00",
+      "message": "PROGRESS 100%: Trafilatura extraction and metadata parsing complete"
     },
     {
-      "timestamp": "2026-10-15T14:29:14.734460+00:00",
-      "message": "PROGRESS 100%: Cleaning & structuring data"
+      "timestamp": "2026-10-15T15:00:50.727337+00:00",
+      "message": "COMPLETED: 05_trafilatura extract complete: 70718 chars extracted (79.6% boilerplate stripped)"
     },
     {
-      "timestamp": "2026-10-15T14:29:14.740372+00:00",
-      "message": "COMPLETED: Demo simulation complete! Check data/01_curl_cffi/scrape_for_leetcode/"
+      "timestamp": "2026-10-15T15:01:19.826548+00:00",
+      "message": "COMPLETED: Task completed."
     }
   ],
   "worker_processes": [
@@ -62,9 +62,9 @@
         "--host",
         "127.0.0.1"
       ],
-      "cpu_pct": 63.2,
-      "ram_mb": 59.6,
-      "runtime_s": 30.0
+      "cpu_pct": 99.0,
+      "ram_mb": 83.4,
+      "runtime_s": 193.7
     },
     {
       "pid": 63500,
@@ -79,7 +79,7 @@
       ],
       "cpu_pct": 0.0,
       "ram_mb": 4.0,
-      "runtime_s": 30.2
+      "runtime_s": 193.8
     }
   ]
 }

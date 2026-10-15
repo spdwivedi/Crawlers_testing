@@ -1,0 +1,19 @@
+{
+  "run_id": "run_150049_05609c83",
+  "tool_id": "05_trafilatura",
+  "action_name": "article_extract",
+  "date": "2026-10-15",
+  "target_url": "https://en.wikipedia.org/wiki/Web_crawler",
+  "started_at": "2026-10-15T15:00:49.823397+00:00",
+  "ended_at": "2026-10-15T15:00:50.718775+00:00",
+  "elapsed_sec": 0.895,
+  "status": "completed",
+  "raw_files": [
+    "raw_page.html"
+  ],
+  "cleaned_files": [
+    "extracted_content.md",
+    "metadata.json"
+  ],
+  "git_commit": null
+}

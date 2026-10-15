@@ -1,0 +1,8 @@
+{
+  "spider_name": "catalog_spider",
+  "close_reason": "finished",
+  "items_scraped": 10,
+  "target_url": "https://quotes.toscrape.com/",
+  "elapsed_seconds": 1.276,
+  "engine": "Scrapy Async Twisted Reactor"
+}

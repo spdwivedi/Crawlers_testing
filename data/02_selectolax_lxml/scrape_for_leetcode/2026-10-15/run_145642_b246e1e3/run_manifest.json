@@ -1,0 +1,19 @@
+{
+  "run_id": "run_145642_b246e1e3",
+  "tool_id": "02_selectolax_lxml",
+  "action_name": "scrape_for_leetcode",
+  "date": "2026-10-15",
+  "target_url": "https://books.toscrape.com/",
+  "started_at": "2026-10-15T14:56:42.262921+00:00",
+  "ended_at": "2026-10-15T14:56:43.749079+00:00",
+  "elapsed_sec": 1.486,
+  "status": "completed",
+  "raw_files": [
+    "source_page.html"
+  ],
+  "cleaned_files": [
+    "parsed_catalog.json",
+    "summary.md"
+  ],
+  "git_commit": null
+}

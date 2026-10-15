@@ -1,0 +1,155 @@
+{
+  "benchmark": {
+    "source_type": "live",
+    "html_bytes": 51274,
+    "items_extracted": 20,
+    "selectolax_lexbor_us": 4928.6,
+    "selectolax_lexbor_ms": 4.929,
+    "lxml_xpath_us": 4017.8,
+    "lxml_xpath_ms": 4.018,
+    "ratio_speedup": "0.82x",
+    "faster_engine": "lxml"
+  },
+  "items": [
+    {
+      "title": "A Light in the ...",
+      "url": "catalogue/a-light-in-the-attic_1000/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a351.77"
+    },
+    {
+      "title": "Tipping the Velvet",
+      "url": "catalogue/tipping-the-velvet_999/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a353.74"
+    },
+    {
+      "title": "Soumission",
+      "url": "catalogue/soumission_998/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a350.10"
+    },
+    {
+      "title": "Sharp Objects",
+      "url": "catalogue/sharp-objects_997/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a347.82"
+    },
+    {
+      "title": "Sapiens: A Brief History ...",
+      "url": "catalogue/sapiens-a-brief-history-of-humankind_996/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a354.23"
+    },
+    {
+      "title": "The Requiem Red",
+      "url": "catalogue/the-requiem-red_995/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a322.65"
+    },
+    {
+      "title": "The Dirty Little Secrets ...",
+      "url": "catalogue/the-dirty-little-secrets-of-getting-your-dream-job_994/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a333.34"
+    },
+    {
+      "title": "The Coming Woman: A ...",
+      "url": "catalogue/the-coming-woman-a-novel-based-on-the-life-of-the-infamous-feminist-victoria-woodhull_993/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a317.93"
+    },
+    {
+      "title": "The Boys in the ...",
+      "url": "catalogue/the-boys-in-the-boat-nine-americans-and-their-epic-quest-for-gold-at-the-1936-berlin-olympics_992/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a322.60"
+    },
+    {
+      "title": "The Black Maria",
+      "url": "catalogue/the-black-maria_991/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a352.15"
+    },
+    {
+      "title": "Starving Hearts (Triangular Trade ...",
+      "url": "catalogue/starving-hearts-triangular-trade-trilogy-1_990/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a313.99"
+    },
+    {
+      "title": "Shakespeare's Sonnets",
+      "url": "catalogue/shakespeares-sonnets_989/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a320.66"
+    },
+    {
+      "title": "Set Me Free",
+      "url": "catalogue/set-me-free_988/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a317.46"
+    },
+    {
+      "title": "Scott Pilgrim's Precious Little ...",
+      "url": "catalogue/scott-pilgrims-precious-little-life-scott-pilgrim-1_987/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a352.29"
+    },
+    {
+      "title": "Rip it Up and ...",
+      "url": "catalogue/rip-it-up-and-start-again_986/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a335.02"
+    },
+    {
+      "title": "Our Band Could Be ...",
+      "url": "catalogue/our-band-could-be-your-life-scenes-from-the-american-indie-underground-1981-1991_985/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a357.25"
+    },
+    {
+      "title": "Olio",
+      "url": "catalogue/olio_984/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a323.88"
+    },
+    {
+      "title": "Mesaerion: The Best Science ...",
+      "url": "catalogue/mesaerion-the-best-science-fiction-stories-1800-1849_983/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a337.59"
+    },
+    {
+      "title": "Libertarianism for Beginners",
+      "url": "catalogue/libertarianism-for-beginners_982/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a351.33"
+    },
+    {
+      "title": "It's Only the Himalayas",
+      "url": "catalogue/its-only-the-himalayas_981/index.html",
+      "difficulty": "",
+      "tags": [],
+      "description_or_meta": "\u00a345.17"
+    }
+  ]
+}
