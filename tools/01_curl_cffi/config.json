@@ -1,9 +1,9 @@
 {
   "tool_id": "01_curl_cffi",
   "batch": 1,
-  "last_run": null,
-  "status": "scaffolded",
-  "installed": false,
+  "last_run": "2026-10-15T15:00:44.657444+00:00",
+  "status": "verified",
+  "installed": true,
   "config_version": "1.0.0",
   "mechanism_type": "HTTP/TLS",
   "name": "curl_cffi",
