@@ -1,0 +1,11 @@
+{
+  "tool_id": "09_nodriver",
+  "batch": 2,
+  "last_run": null,
+  "status": "scaffolded",
+  "installed": false,
+  "config_version": "1.0.0",
+  "mechanism_type": "Browser/CDP-Stealth",
+  "name": "nodriver",
+  "created_at": "2026-10-15"
+}

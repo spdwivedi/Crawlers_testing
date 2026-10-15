@@ -1,0 +1,113 @@
+# 🤖 Antigravity Workspace Governance — GEMINI.md
+**Project:** Crawlers_testing | **Stage:** 1 | **Init:** 2026-10-15
+
+This file is automatically loaded by Antigravity IDE for **every prompt execution** in this workspace. All rules below are **mandatory** and non-negotiable.
+
+---
+
+## Rule 1 — Live State Telemetry (BEFORE ANY TASK)
+
+Before starting any task, update `logs/global/live_state.json` via:
+
+```bash
+python core/cli_tracker.py start \
+  --stage "Stage X" \
+  --step "Step Y.Z" \
+  --tool "tool_id" \
+  --action "action_name" \
+  --subtask "description of current subtask"
+```
+
+- Update `progress_percent` as sub-steps complete (0 → 100).
+- Call `python core/cli_tracker.py complete` on success.
+- Call `python core/cli_tracker.py fail --reason "..."` on failure.
+- Mark `completed` or `failed` at the end — never leave `is_running: true`.
+
+---
+
+## Rule 2 — 4-Tier Logging (EVERY PROMPT EXECUTION)
+
+Every prompt execution MUST append structured entries to ALL four tiers:
+
+| Tier | File |
+|------|------|
+| Global JSONL | `logs/global/antigravity_prompt_log.jsonl` |
+| Global MD | `logs/global/antigravity_prompt_log.md` |
+| Stage Log | `logs/stages/stage_<N>_<name>.jsonl` |
+| Action Run Log | `data/<tool_id>/<action>/<date>/<run_id>/logs/action_run.jsonl` |
+
+Use `core/logger_engine.py` — never write raw `print()` for structured logging.
+
+---
+
+## Rule 3 — Strict Data Isolation
+
+All tool output MUST be written via `core/folder_manager.py`:
+
+```python
+from core.folder_manager import create_action_run
+run_info = create_action_run(
+    tool_id="01_curl_cffi",
+    action_name="scrape_for_leetcode",
+    target_url="https://leetcode.com/problems/..."
+)
+# Output path: data/01_curl_cffi/scrape_for_leetcode/<YYYY-MM-DD>/run_<HHMMSS>_<uuid>/
+```
+
+Every run directory contains:
+- `raw/` — unprocessed outputs
+- `cleaned/` — parsed/structured outputs
+- `logs/action_run.jsonl` — per-run log
+- `run_manifest.json` — metadata including git commit hash
+
+---
+
+## Rule 4 — Atomic Git Commits
+
+Every development action MUST end with an atomic Git commit:
+
+| Prefix | When to Use |
+|--------|------------|
+| `[SCAFFOLD]` | New structure, init, or directory creation |
+| `[TOOL-INSTALL]` | Installing or verifying a tool |
+| `[UPDATE]` | Modifying existing code/config |
+| `[FIX]` | Bug fix or error correction |
+| `[RUN-LOG]` | After a tool run completes |
+
+```bash
+git add -A
+git commit -m "[PREFIX] Brief description — Stage X Step Y.Z"
+```
+
+Record the resulting commit hash into `logs/global/antigravity_prompt_log.jsonl`.
+
+---
+
+## Quick Reference — Core Modules
+
+```
+core/
+├── folder_manager.py    # create_action_run() — Rule 3
+├── state_tracker.py     # live_state.json R/W — Rule 1
+├── cli_tracker.py       # CLI wrapper for state_tracker — Rule 1
+├── logger_engine.py     # 4-tier logger — Rule 2
+└── git_manager.py       # Atomic commits + hash logging — Rule 4
+
+logs/
+├── global/
+│   ├── live_state.json
+│   ├── antigravity_prompt_log.jsonl
+│   └── antigravity_prompt_log.md
+└── stages/
+    └── stage_1_scaffolding.jsonl
+
+tools/
+└── registry.json        # 20-tool manifest
+
+backend/app.py           # FastAPI telemetry server :8000
+frontend/index.html      # Control Center UI
+```
+
+---
+
+*Auto-enforced by Antigravity IDE — do not delete or modify this file.*

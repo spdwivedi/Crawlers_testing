@@ -1,0 +1,71 @@
+# ─────────────────────────────────────────────
+# Crawlers_testing Workspace — Smart .gitignore
+# Stage 1 Step 1.0 — Antigravity Governance
+# ─────────────────────────────────────────────
+
+# ── Python Virtual Environment ───────────────
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+.Python
+
+# ── Node / Frontend ──────────────────────────
+node_modules/
+*.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Browser Binaries & Playwright Cache ──────
+.playwright/
+ms-playwright/
+browser_data/
+playwright-browsers/
+
+# ── Heavy Media Files (raw downloads) ────────
+data/*/*/*/*/raw/*.mp4
+data/*/*/*/*/raw/*.mkv
+data/*/*/*/*/raw/*.ts
+data/*/*/*/*/raw/*.m4s
+data/*/*/*/*/raw/*.har
+
+# ── OS junk ──────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+
+# ── IDE ───────────────────────────────────────
+.vscode/settings.json
+.idea/
+*.suo
+*.user
+
+# ── Secrets / Env ─────────────────────────────
+.env
+.env.*
+secrets.json
+credentials.json
+
+# ─────────────────────────────────────────────
+# STRICTLY TRACKED — Force-include these always
+# ─────────────────────────────────────────────
+!**/run_manifest.json
+!**/*.jsonl
+!**/*.md
+!**/.gitkeep
+!tools/registry.json
+!logs/**
+!data/**/.gitkeep
+!tools/**/.gitkeep

@@ -1,0 +1,11 @@
+{
+  "tool_id": "11_yt_dlp_ffmpeg",
+  "batch": 3,
+  "last_run": null,
+  "status": "scaffolded",
+  "installed": false,
+  "config_version": "1.0.0",
+  "mechanism_type": "Social/Streams",
+  "name": "yt_dlp_ffmpeg",
+  "created_at": "2026-10-15"
+}

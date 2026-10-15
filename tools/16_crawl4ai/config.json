@@ -1,0 +1,11 @@
+{
+  "tool_id": "16_crawl4ai",
+  "batch": 4,
+  "last_run": null,
+  "status": "scaffolded",
+  "installed": false,
+  "config_version": "1.0.0",
+  "mechanism_type": "AI/LLM-Extract",
+  "name": "crawl4ai",
+  "created_at": "2026-10-15"
+}

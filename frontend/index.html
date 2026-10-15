@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crawlers_testing — Control Center</title>
+  <meta name="description" content="Real-time telemetry and tool management dashboard for Crawlers_testing multi-tool scraping platform" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!--  STICKY HUD BAR                                         -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="hud-bar">
+    <div class="hud-left">
+      <div class="hud-status-pill" id="hud-status-pill">
+        <span class="status-dot" id="hud-status-dot"></span>
+        <span id="hud-status-label">IDLE</span>
+      </div>
+      <div class="hud-info-block">
+        <span class="hud-label">STAGE</span>
+        <span class="hud-value" id="hud-stage">—</span>
+      </div>
+      <div class="hud-divider"></div>
+      <div class="hud-info-block">
+        <span class="hud-label">STEP</span>
+        <span class="hud-value" id="hud-step">—</span>
+      </div>
+      <div class="hud-divider"></div>
+      <div class="hud-info-block">
+        <span class="hud-label">TOOL</span>
+        <span class="hud-value mono" id="hud-tool">—</span>
+      </div>
+      <div class="hud-divider"></div>
+      <div class="hud-info-block">
+        <span class="hud-label">ACTION</span>
+        <span class="hud-value mono" id="hud-action">—</span>
+      </div>
+    </div>
+    <div class="hud-center">
+      <div class="subtask-text" id="hud-subtask">System ready — waiting for task</div>
+      <div class="progress-track">
+        <div class="progress-fill" id="hud-progress-fill" style="width:0%"></div>
+        <span class="progress-label" id="hud-progress-label">0%</span>
+      </div>
+    </div>
+    <div class="hud-right">
+      <div class="hud-timer" id="hud-timer">00:00:00</div>
+      <div class="worker-pill" id="worker-pill" title="Active worker processes">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M6 3v3l2 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span id="worker-count">0</span> PIDs
+        <span class="worker-cpu" id="worker-cpu">0%</span>
+        <span class="worker-ram" id="worker-ram">0MB</span>
+      </div>
+      <button class="demo-btn" id="demo-btn" onclick="triggerDemo()">
+        ▶ Demo Run
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!--  MAIN CONTENT                                           -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div id="main-content">
+    <!-- TAB NAV -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="tab-live" onclick="switchTab('tab-live', this)">
+        <span class="tab-icon">⚡</span> Live Execution
+      </button>
+      <button class="tab-btn" data-tab="tab-tools" onclick="switchTab('tab-tools', this)">
+        <span class="tab-icon">🛠</span> Tool Roster
+      </button>
+      <button class="tab-btn" data-tab="tab-explorer" onclick="switchTab('tab-explorer', this)">
+        <span class="tab-icon">📁</span> Data Explorer
+      </button>
+    </nav>
+
+    <!-- ─── TAB 1: LIVE EXECUTION ─────────────────────────── -->
+    <div class="tab-content active" id="tab-live">
+      <div class="tab-layout">
+        <!-- Main: Log Stream -->
+        <div class="log-panel">
+          <div class="panel-header">
+            <h2 class="panel-title">Real-Time Log Stream</h2>
+            <div class="log-filters">
+              <select id="filter-tier" onchange="applyFilters()" title="Log Tier">
+                <option value="">All Tiers</option>
+                <option value="antigravity_prompt_log">Global Prompt Log</option>
+                <option value="stage_1">Stage 1 Log</option>
+                <option value="tool_ops">Tool Log</option>
+                <option value="action_run">Action Run Log</option>
+              </select>
+              <select id="filter-level" onchange="applyFilters()" title="Log Level">
+                <option value="">All Levels</option>
+                <option value="INFO">INFO</option>
+                <option value="WARN">WARN</option>
+                <option value="ERROR">ERROR</option>
+                <option value="DEBUG">DEBUG</option>
+              </select>
+              <select id="filter-tool" onchange="applyFilters()" title="Tool ID">
+                <option value="">All Tools</option>
+                <option value="01_curl_cffi">01 curl_cffi</option>
+                <option value="02_selectolax_lxml">02 selectolax_lxml</option>
+                <option value="03_scrapy">03 scrapy</option>
+                <option value="04_httpx_parsel">04 httpx_parsel</option>
+                <option value="05_trafilatura">05 trafilatura</option>
+                <option value="06_playwright">06 playwright</option>
+                <option value="07_patchright">07 patchright</option>
+                <option value="08_camoufox">08 camoufox</option>
+                <option value="09_nodriver">09 nodriver</option>
+                <option value="10_scrapling">10 scrapling</option>
+                <option value="11_yt_dlp_ffmpeg">11 yt_dlp_ffmpeg</option>
+                <option value="12_instaloader">12 instaloader</option>
+                <option value="13_gallery_dl">13 gallery_dl</option>
+                <option value="14_singlefile_archive">14 singlefile</option>
+                <option value="15_mitmproxy_interceptor">15 mitmproxy</option>
+                <option value="16_crawl4ai">16 crawl4ai</option>
+                <option value="17_surya_ocr">17 surya_ocr</option>
+                <option value="18_paddleocr_img2table">18 paddleocr</option>
+                <option value="19_docling_pdf">19 docling</option>
+                <option value="20_faster_whisper_scrapegraph">20 whisper</option>
+              </select>
+              <button class="clear-btn" onclick="clearLogs()">⊗ Clear</button>
+              <label class="auto-scroll-label">
+                <input type="checkbox" id="auto-scroll" checked /> Auto-scroll
+              </label>
+            </div>
+          </div>
+          <div class="log-console" id="log-console">
+            <div class="log-placeholder">Connecting to log stream...</div>
+          </div>
+        </div>
+
+        <!-- Side: Processes + Git log -->
+        <div class="side-panel">
+          <div class="side-section">
+            <h3 class="side-title">Active Processes</h3>
+            <div id="process-list" class="process-list">
+              <div class="empty-state">No active workers</div>
+            </div>
+          </div>
+          <div class="side-section">
+            <h3 class="side-title">Recent Commits</h3>
+            <div id="git-log-list" class="git-list">
+              <div class="loading-dots">Loading...</div>
+            </div>
+          </div>
+          <div class="side-section">
+            <h3 class="side-title">Recent Events</h3>
+            <div id="events-list" class="events-list">
+              <div class="empty-state">No events yet</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── TAB 2: TOOL ROSTER ────────────────────────────── -->
+    <div class="tab-content" id="tab-tools">
+      <div class="tools-header">
+        <h2 class="panel-title">20-Tool Roster</h2>
+        <div class="batch-legend">
+          <span class="badge batch-1">Batch 1 — HTTP/TLS/Catalog</span>
+          <span class="badge batch-2">Batch 2 — Browsers/Stealth</span>
+          <span class="badge batch-3">Batch 3 — Social/Streams/MITM</span>
+          <span class="badge batch-4">Batch 4 — AI/OCR/PDF/Audio</span>
+        </div>
+      </div>
+      <div id="tools-grid" class="tools-grid">
+        <div class="loading-dots">Loading tool registry...</div>
+      </div>
+    </div>
+
+    <!-- ─── TAB 3: DATA EXPLORER ──────────────────────────── -->
+    <div class="tab-content" id="tab-explorer">
+      <div class="explorer-layout">
+        <div class="explorer-tree">
+          <div class="panel-header">
+            <h2 class="panel-title">Data Folder Explorer</h2>
+            <button class="refresh-btn" onclick="loadDataTree()">↺ Refresh</button>
+          </div>
+          <div id="tree-container" class="tree-container">
+            <div class="loading-dots">Loading data tree...</div>
+          </div>
+        </div>
+        <div class="explorer-detail">
+          <div class="panel-header">
+            <h2 class="panel-title" id="detail-title">Select a run to inspect</h2>
+          </div>
+          <div id="detail-panel" class="detail-panel">
+            <div class="empty-state large">
+              <div class="empty-icon">📂</div>
+              <p>Click any run in the tree to view its manifest, files, and logs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "tool_id": "20_faster_whisper_scrapegraph",
+  "batch": 4,
+  "last_run": null,
+  "status": "scaffolded",
+  "installed": false,
+  "config_version": "1.0.0",
+  "mechanism_type": "AI/Audio-Graph",
+  "name": "faster_whisper_scrapegraph",
+  "created_at": "2026-10-15"
+}

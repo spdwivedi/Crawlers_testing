@@ -1,0 +1,11 @@
+{
+  "tool_id": "18_paddleocr_img2table",
+  "batch": 4,
+  "last_run": null,
+  "status": "scaffolded",
+  "installed": false,
+  "config_version": "1.0.0",
+  "mechanism_type": "AI/OCR-Table",
+  "name": "paddleocr_img2table",
+  "created_at": "2026-10-15"
+}

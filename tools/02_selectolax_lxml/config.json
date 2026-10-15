@@ -1,0 +1,11 @@
+{
+  "tool_id": "02_selectolax_lxml",
+  "batch": 1,
+  "last_run": null,
+  "status": "scaffolded",
+  "installed": false,
+  "config_version": "1.0.0",
+  "mechanism_type": "HTTP/Catalog",
+  "name": "selectolax_lxml",
+  "created_at": "2026-10-15"
+}

@@ -1,0 +1,54 @@
+{
+  "is_running": false,
+  "current_stage": "Stage 1",
+  "current_step": "Step 1.0 Demo",
+  "active_tool_id": "01_curl_cffi",
+  "active_action": "scrape_for_leetcode",
+  "current_subtask": "Cleaning & structuring data",
+  "started_at_epoch": 1792074542.7205837,
+  "elapsed_seconds": 12.0,
+  "progress_percent": 100,
+  "recent_events": [
+    {
+      "timestamp": "2026-10-15T14:28:36.659038+00:00",
+      "message": "PROGRESS 100%: Verify: all checks complete"
+    },
+    {
+      "timestamp": "2026-10-15T14:28:36.663613+00:00",
+      "message": "COMPLETED: Stage 1 Step 1.0 verification PASSED"
+    },
+    {
+      "timestamp": "2026-10-15T14:29:02.720592+00:00",
+      "message": "STARTED: Stage 1 / Step 1.0 Demo \u2014 Initializing demo simulation..."
+    },
+    {
+      "timestamp": "2026-10-15T14:29:04.728875+00:00",
+      "message": "PROGRESS 10%: Initializing curl_cffi session"
+    },
+    {
+      "timestamp": "2026-10-15T14:29:06.730007+00:00",
+      "message": "PROGRESS 25%: Resolving DNS & TLS handshake"
+    },
+    {
+      "timestamp": "2026-10-15T14:29:08.731038+00:00",
+      "message": "PROGRESS 45%: Fetching LeetCode problem page"
+    },
+    {
+      "timestamp": "2026-10-15T14:29:10.731773+00:00",
+      "message": "PROGRESS 70%: Parsing HTML with selectolax"
+    },
+    {
+      "timestamp": "2026-10-15T14:29:12.732815+00:00",
+      "message": "PROGRESS 90%: Saving raw output to disk"
+    },
+    {
+      "timestamp": "2026-10-15T14:29:14.734460+00:00",
+      "message": "PROGRESS 100%: Cleaning & structuring data"
+    },
+    {
+      "timestamp": "2026-10-15T14:29:14.740372+00:00",
+      "message": "COMPLETED: Demo simulation complete! Check data/01_curl_cffi/scrape_for_leetcode/"
+    }
+  ],
+  "worker_processes": []
+}

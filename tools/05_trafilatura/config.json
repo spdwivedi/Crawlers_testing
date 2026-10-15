@@ -1,0 +1,11 @@
+{
+  "tool_id": "05_trafilatura",
+  "batch": 1,
+  "last_run": null,
+  "status": "scaffolded",
+  "installed": false,
+  "config_version": "1.0.0",
+  "mechanism_type": "HTTP/Content-Extract",
+  "name": "trafilatura",
+  "created_at": "2026-10-15"
+}
