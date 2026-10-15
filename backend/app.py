@@ -280,9 +280,13 @@ async def trigger_tool_run(tool_id: str):
 
     def _worker():
         import subprocess
+        env = dict(os.environ)
+        env["OPENBLAS_NUM_THREADS"] = "1"
+        env["MKL_NUM_THREADS"] = "1"
         subprocess.run(
             [sys.executable, str(adapter_file)],
             cwd=str(ROOT),
+            env=env,
             capture_output=True,
             text=True,
         )

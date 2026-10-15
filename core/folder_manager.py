@@ -112,26 +112,44 @@ def create_action_run(
 
 
 def complete_action_run(
-    run_info: dict,
+    run_info: dict | None = None,
     status: str = "completed",
     git_commit: str | None = None,
-) -> None:
+    records_extracted: int | None = None,
+    quality_score: float | None = None,
+    error_msg: str | None = None,
+    **kwargs,
+) -> dict:
     """
     Finalize a run: update run_manifest.json with end time, elapsed, file lists,
     and status. Call after the tool action finishes (success or failure).
     """
-    manifest_path = Path(run_info["manifest_path"])
+    manifest_path_val = None
+    if isinstance(run_info, dict):
+        manifest_path_val = run_info.get("manifest_path")
+    elif "manifest_path" in kwargs:
+        manifest_path_val = kwargs["manifest_path"]
+
+    if not manifest_path_val:
+        run_dir_val = run_info.get("run_dir") if isinstance(run_info, dict) else kwargs.get("run_dir")
+        if run_dir_val:
+            manifest_path_val = str(Path(run_dir_val) / "run_manifest.json")
+
+    if not manifest_path_val:
+        return {}
+
+    manifest_path = Path(manifest_path_val)
     if not manifest_path.exists():
-        return
+        return {}
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     now = datetime.now(timezone.utc)
     started = datetime.fromisoformat(manifest["started_at"])
     elapsed = round((now - started).total_seconds(), 3)
 
-    run_dir = Path(run_info["run_dir"])
-    raw_files = [f.name for f in (run_dir / "raw").iterdir() if f.is_file()]
-    cleaned_files = [f.name for f in (run_dir / "cleaned").iterdir() if f.is_file()]
+    run_dir = manifest_path.parent
+    raw_files = [f.name for f in (run_dir / "raw").iterdir() if f.is_file()] if (run_dir / "raw").exists() else []
+    cleaned_files = [f.name for f in (run_dir / "cleaned").iterdir() if f.is_file()] if (run_dir / "cleaned").exists() else []
 
     manifest.update(
         {
@@ -140,10 +158,18 @@ def complete_action_run(
             "status": status,
             "raw_files": raw_files,
             "cleaned_files": cleaned_files,
-            "git_commit": git_commit,
+            "git_commit": git_commit or manifest.get("git_commit"),
         }
     )
+    if records_extracted is not None:
+        manifest["records_extracted"] = records_extracted
+    if quality_score is not None:
+        manifest["quality_score"] = quality_score
+    if error_msg is not None:
+        manifest["error"] = error_msg
+
     manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    return manifest
 
 
 def _append_jsonl(path: Path, record: dict) -> None:

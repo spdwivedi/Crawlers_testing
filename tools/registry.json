@@ -113,9 +113,9 @@
         "visual_test_ocr"
       ],
       "python_package": "playwright",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T17:11:21.338954+00:00",
       "tool_dir": "tools/06_playwright",
       "data_dir": "data/06_playwright"
     },
@@ -132,9 +132,9 @@
         "secured_page_origin"
       ],
       "python_package": "patchright",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T17:11:26.720641+00:00",
       "tool_dir": "tools/07_patchright",
       "data_dir": "data/07_patchright"
     },
@@ -151,9 +151,9 @@
         "fingerprint_evasion"
       ],
       "python_package": "camoufox",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T17:11:33.310785+00:00",
       "tool_dir": "tools/08_camoufox",
       "data_dir": "data/08_camoufox"
     },
@@ -170,9 +170,9 @@
         "cdp_intercept"
       ],
       "python_package": "nodriver",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T17:11:36.731316+00:00",
       "tool_dir": "tools/09_nodriver",
       "data_dir": "data/09_nodriver"
     },
@@ -189,9 +189,9 @@
         "adaptive_extract"
       ],
       "python_package": "scrapling",
-      "installed": false,
-      "status": "scaffolded",
-      "last_run": null,
+      "installed": true,
+      "status": "verified",
+      "last_run": "2026-10-15T17:11:37.777128+00:00",
       "tool_dir": "tools/10_scrapling",
       "data_dir": "data/10_scrapling"
     },

@@ -37,6 +37,7 @@ data/*/*/*/*/raw/*.mkv
 data/*/*/*/*/raw/*.ts
 data/*/*/*/*/raw/*.m4s
 data/*/*/*/*/raw/*.har
+data/*/*/*/*/raw/*.png
 
 # ── OS junk ──────────────────────────────────
 .DS_Store

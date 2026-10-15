@@ -1,9 +1,9 @@
 {
   "tool_id": "06_playwright",
   "batch": 2,
-  "last_run": null,
-  "status": "scaffolded",
-  "installed": false,
+  "last_run": "2026-10-15T17:11:21.338954+00:00",
+  "status": "verified",
+  "installed": true,
   "config_version": "1.0.0",
   "mechanism_type": "Browser/Standard",
   "name": "playwright",

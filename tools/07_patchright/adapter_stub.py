@@ -1,56 +1,34 @@
 """
-Adapter Stub — 07_patchright
-Mechanism: Browser/Stealth | Batch: 2
-Status: SCAFFOLDED (not yet installed)
-
-Replace this stub with the actual adapter implementation when installing.
+tools/07_patchright/adapter_stub.py
+===================================
+Delegates to real adapter implementation in adapter.py.
 """
 from __future__ import annotations
-import json
+import importlib
 import sys
 from pathlib import Path
 
-# Add project root to sys.path for core imports
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from core.folder_manager import create_action_run
-from core.logger_engine import ToolLogger
-
-TOOL_ID = "07_patchright"
+_mod = importlib.import_module("tools.07_patchright.adapter")
+run_action = _mod.run_action
+TOOL_ID = _mod.TOOL_ID
 
 
 class AdapterStub:
-    """
-    Stub adapter for patchright.
-    Replace with real implementation after: pip install patchright
-    """
-
     def __init__(self):
         self.tool_id = TOOL_ID
-        self.logger = ToolLogger(TOOL_ID)
 
-    def run(self, action_name: str, target_url: str = "", **kwargs) -> dict:
-        """Entry point for all actions. Returns run_info dict."""
-        run_info = create_action_run(
-            tool_id=self.tool_id,
-            action_name=action_name,
-            target_url=target_url,
+    def run(self, action_name: str = "secured_page_origin", target_url: str = "", **kwargs) -> dict:
+        return run_action(
+            action_name=action_name or "secured_page_origin",
+            target_url=target_url or "https://quotes.toscrape.com/js/",
         )
-        self.logger.info(
-            message=f"[STUB] patchright adapter called — not yet installed.",
-            action_name=action_name,
-            run_id=run_info["run_id"],
-        )
-        return {
-            "status": "stub_not_installed",
-            "tool_id": self.tool_id,
-            "action_name": action_name,
-            "run_info": run_info,
-        }
 
 
 if __name__ == "__main__":
+    import json
     adapter = AdapterStub()
-    result = adapter.run(action_name="scrape_for_leetcode", target_url="https://example.com")
-    print(json.dumps(result, indent=2, default=str))
+    res = adapter.run()
+    print(json.dumps(res, indent=2, default=str))
