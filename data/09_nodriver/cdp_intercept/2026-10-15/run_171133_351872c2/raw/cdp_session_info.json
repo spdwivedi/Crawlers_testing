@@ -1,0 +1,10 @@
+{
+  "browser_pid": null,
+  "cdp_port": null,
+  "headless": true,
+  "protocol": "Chrome DevTools Protocol (CDP)",
+  "webdriver_active": false,
+  "elapsed_ms": 3286.77,
+  "target_url": "https://quotes.toscrape.com/js/",
+  "page_title": "Quotes to Scrape"
+}

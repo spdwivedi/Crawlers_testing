@@ -1,0 +1,22 @@
+{
+  "run_id": "run_170542_d97a082e",
+  "tool_id": "09_nodriver",
+  "action_name": "cdp_intercept",
+  "date": "2026-10-15",
+  "target_url": "https://quotes.toscrape.com/js/",
+  "started_at": "2026-10-15T17:05:42.048862+00:00",
+  "ended_at": "2026-10-15T17:05:45.294280+00:00",
+  "elapsed_sec": 3.245,
+  "status": "completed",
+  "raw_files": [
+    "cdp_dom.html",
+    "cdp_session_info.json"
+  ],
+  "cleaned_files": [
+    "cdp_extracted.json",
+    "cdp_summary.md"
+  ],
+  "git_commit": null,
+  "records_extracted": 2,
+  "quality_score": 96.0
+}

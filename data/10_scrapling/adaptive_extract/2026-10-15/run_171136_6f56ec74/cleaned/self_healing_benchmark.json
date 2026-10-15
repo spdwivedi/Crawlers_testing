@@ -1,0 +1,49 @@
+{
+  "tool_id": "10_scrapling",
+  "mechanism": "Self-Healing / Adaptive DOM Scraper",
+  "elapsed_ms": 890.74,
+  "phase_a_baseline": {
+    "dom_version": "v1_original",
+    "extracted": {
+      "title": "Two Sum",
+      "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+      "difficulty": "Easy",
+      "tags": [
+        "Array",
+        "Hash Table"
+      ]
+    },
+    "fingerprints_saved": [
+      "problem_title",
+      "problem_description",
+      "problem_difficulty",
+      "topic_tags"
+    ]
+  },
+  "phase_b_mutated_redesign": {
+    "dom_version": "v2_mutated",
+    "traditional_selector_result": {
+      "selector": ".problem-title",
+      "matched_count": 0,
+      "status": "FAILED (0 elements found - script broke)"
+    },
+    "scrapling_adaptive_relocation": {
+      "problem_title": {
+        "healed": true,
+        "relocated_text": "Two Sum",
+        "similarity_score_pct": 98.5
+      },
+      "problem_description": {
+        "healed": true,
+        "relocated_text": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+        "similarity_score_pct": 99.0
+      },
+      "problem_difficulty": {
+        "healed": true,
+        "relocated_text": "Easy",
+        "similarity_score_pct": 96.0
+      }
+    },
+    "overall_healing_success_rate_pct": 100.0
+  }
+}

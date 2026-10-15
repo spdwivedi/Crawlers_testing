@@ -1,52 +1,52 @@
 {
   "is_running": false,
   "current_stage": "Stage 1",
-  "current_step": "Step 1.1",
-  "active_tool_id": "05_trafilatura",
-  "active_action": "article_extract",
-  "current_subtask": "Trafilatura extraction and metadata parsing complete",
-  "started_at_epoch": 1792076449.8230808,
-  "elapsed_seconds": 30.0,
+  "current_step": "Step 1.2",
+  "active_tool_id": "08_camoufox",
+  "active_action": "fingerprint_evasion",
+  "current_subtask": "Finalizing action run manifest and 4-tier logs",
+  "started_at_epoch": 1792084095.3152087,
+  "elapsed_seconds": 99.4,
   "progress_percent": 100,
   "recent_events": [
     {
-      "timestamp": "2026-10-15T15:00:49.641107+00:00",
-      "message": "PROGRESS 100%: Async HTTP/2 + Parsel extraction complete"
+      "timestamp": "2026-10-15T17:07:11.882391+00:00",
+      "message": "COMPLETED: Task completed."
     },
     {
-      "timestamp": "2026-10-15T15:00:49.649457+00:00",
-      "message": "COMPLETED: 04_httpx_parsel extraction complete: JSON + HTML parsed in 1.175s"
+      "timestamp": "2026-10-15T17:07:48.814296+00:00",
+      "message": "STARTED: Stage 1 / Step 1.2 \u2014 Executing Patchright stealth action 'secured_page_origin'"
     },
     {
-      "timestamp": "2026-10-15T15:00:49.823086+00:00",
-      "message": "STARTED: Stage 1 / Step 1.1 \u2014 Initializing Trafilatura extraction pipeline"
+      "timestamp": "2026-10-15T17:07:48.911964+00:00",
+      "message": "PROGRESS 30%: Initializing Patchright stealth browser instance"
     },
     {
-      "timestamp": "2026-10-15T15:00:49.832829+00:00",
-      "message": "PROGRESS 25%: Fetching URL content via trafilatura.fetch_url"
+      "timestamp": "2026-10-15T17:07:49.482902+00:00",
+      "message": "PROGRESS 50%: Fetching https://quotes.toscrape.com/js/ with bot-bypass headers"
     },
     {
-      "timestamp": "2026-10-15T15:00:50.411418+00:00",
-      "message": "PROGRESS 60%: Saving raw HTML page to disk"
+      "timestamp": "2026-10-15T17:08:15.315217+00:00",
+      "message": "STARTED: Stage 1 / Step 1.2 \u2014 Executing Camoufox action 'fingerprint_evasion'"
     },
     {
-      "timestamp": "2026-10-15T15:00:50.420530+00:00",
-      "message": "PROGRESS 75%: Extracting clean markdown and stripping boilerplates"
+      "timestamp": "2026-10-15T17:08:15.333376+00:00",
+      "message": "PROGRESS 30%: Launching Camoufox stealth browser"
     },
     {
-      "timestamp": "2026-10-15T15:00:50.710796+00:00",
-      "message": "PROGRESS 85%: Writing extracted markdown and metadata JSON to disk"
+      "timestamp": "2026-10-15T17:09:52.197767+00:00",
+      "message": "PROGRESS 55%: Fetching https://quotes.toscrape.com/js/ over CDP"
     },
     {
-      "timestamp": "2026-10-15T15:00:50.718234+00:00",
-      "message": "PROGRESS 100%: Trafilatura extraction and metadata parsing complete"
+      "timestamp": "2026-10-15T17:09:54.588500+00:00",
+      "message": "PROGRESS 80%: Extracting text and links from CDP DOM"
     },
     {
-      "timestamp": "2026-10-15T15:00:50.727337+00:00",
-      "message": "COMPLETED: 05_trafilatura extract complete: 70718 chars extracted (79.6% boilerplate stripped)"
+      "timestamp": "2026-10-15T17:09:54.671804+00:00",
+      "message": "PROGRESS 95%: Finalizing action run manifest and 4-tier logs"
     },
     {
-      "timestamp": "2026-10-15T15:01:19.826548+00:00",
+      "timestamp": "2026-10-15T17:09:54.683889+00:00",
       "message": "COMPLETED: Task completed."
     }
   ],
@@ -62,9 +62,31 @@
         "--host",
         "127.0.0.1"
       ],
-      "cpu_pct": 99.0,
-      "ram_mb": 83.4,
-      "runtime_s": 193.7
+      "cpu_pct": 75.0,
+      "ram_mb": 78.5,
+      "runtime_s": 8384.9
+    },
+    {
+      "pid": 55420,
+      "name": "python.exe",
+      "cmdline": [
+        "D:\\Project_Files\\Crawlers_testing\\.venv\\Scripts\\python.exe",
+        "core/verify_step_1_2.py"
+      ],
+      "cpu_pct": 3.1,
+      "ram_mb": 115.5,
+      "runtime_s": 453.7
+    },
+    {
+      "pid": 61504,
+      "name": "python.exe",
+      "cmdline": [
+        "D:\\Project_Files\\Crawlers_testing\\.venv\\Scripts\\python.exe",
+        "core/verify_step_1_2.py"
+      ],
+      "cpu_pct": 0.0,
+      "ram_mb": 4.1,
+      "runtime_s": 453.8
     },
     {
       "pid": 63500,
@@ -78,8 +100,8 @@
         "127.0.0.1"
       ],
       "cpu_pct": 0.0,
-      "ram_mb": 4.0,
-      "runtime_s": 193.8
+      "ram_mb": 3.6,
+      "runtime_s": 8385.1
     }
   ]
 }

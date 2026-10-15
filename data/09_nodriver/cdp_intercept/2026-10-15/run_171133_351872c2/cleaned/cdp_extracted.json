@@ -1,0 +1,43 @@
+{
+  "tool_id": "09_nodriver",
+  "mechanism": "Direct CDP Control Without WebDriver",
+  "target_url": "https://quotes.toscrape.com/js/",
+  "page_title": "Quotes to Scrape",
+  "elapsed_ms": 3286.77,
+  "session_info": {
+    "browser_pid": null,
+    "cdp_port": null,
+    "headless": true,
+    "protocol": "Chrome DevTools Protocol (CDP)",
+    "webdriver_active": false,
+    "elapsed_ms": 3286.77,
+    "target_url": "https://quotes.toscrape.com/js/",
+    "page_title": "Quotes to Scrape"
+  },
+  "extracted_headings": [
+    "Quotes to Scrape"
+  ],
+  "extracted_links": [
+    {
+      "text": "Quotes to Scrape",
+      "href": "/"
+    },
+    {
+      "text": "Login",
+      "href": "/login"
+    },
+    {
+      "text": "Next\u2192",
+      "href": "/js/page/2/"
+    },
+    {
+      "text": "GoodReads.com",
+      "href": "https://www.goodreads.com/quotes"
+    },
+    {
+      "text": "Zyte",
+      "href": "https://www.zyte.com"
+    }
+  ],
+  "dom_character_count": 8940
+}

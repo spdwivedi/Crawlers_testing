@@ -1,0 +1,21 @@
+{
+  "webdriver": false,
+  "webdriver_evaded": true,
+  "has_window_chrome": false,
+  "chrome_runtime": false,
+  "chrome_csi": false,
+  "plugins_length": 0,
+  "plugins_evaded": false,
+  "languages": [
+    "en-US"
+  ],
+  "languages_evaded": true,
+  "webgl_vendor": "Google Inc. (Google)",
+  "webgl_renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "webgl_evaded": false,
+  "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+  "hardware_concurrency": 28,
+  "device_memory": 32,
+  "cdp_leak_detected": false,
+  "evasion_score": 45
+}

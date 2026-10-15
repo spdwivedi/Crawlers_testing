@@ -1,0 +1,24 @@
+{
+  "tool_id": "08_camoufox",
+  "engine_used": "playwright_firefox_fallback",
+  "target_url": "https://quotes.toscrape.com/js/",
+  "page_title": "Quotes to Scrape",
+  "status_code": 200,
+  "latency_ms": 6851.35,
+  "spoofed_fingerprint": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0",
+    "oscpu": "Windows NT 10.0; Win64; x64",
+    "platform": "Win32",
+    "hardware_concurrency": 28,
+    "screen_geometry": "1366x768",
+    "timezone": "Asia/Kolkata",
+    "webgl_renderer": "ANGLE (Intel, Intel(R) HD Graphics Direct3D11 vs_5_0 ps_5_0), or similar",
+    "canvas_hash": "ea003524a4f7ddc0"
+  },
+  "anti_fingerprint_metrics": {
+    "c_plus_plus_level_injection": false,
+    "canvas_noise_injected": true,
+    "hardware_spoofed": true,
+    "quality_rating": 90.0
+  }
+}

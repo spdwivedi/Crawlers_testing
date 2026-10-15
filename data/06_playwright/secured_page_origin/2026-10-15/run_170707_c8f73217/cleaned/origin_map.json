@@ -1,0 +1,112 @@
+{
+  "target_url": "https://quotes.toscrape.com/js/",
+  "page_title": "Quotes to Scrape",
+  "status_code": 200,
+  "elapsed_ms": 2658.44,
+  "har_file": "network_origin.har",
+  "visual_screenshot": "page_visual.png",
+  "total_requests_recorded": 6,
+  "unique_origins": [
+    "fonts.gstatic.com",
+    "fonts.googleapis.com",
+    "quotes.toscrape.com"
+  ],
+  "captured_requests": [
+    {
+      "url": "https://quotes.toscrape.com/js/",
+      "status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "from_cache": false,
+      "headers": {
+        "content-encoding": "br",
+        "content-type": "text/html; charset=utf-8",
+        "date": "Thu, 15 Oct 2026 17:07:10 GMT",
+        "strict-transport-security": "max-age=0; includeSubDomains; preload"
+      }
+    },
+    {
+      "url": "https://quotes.toscrape.com/static/bootstrap.min.css",
+      "status": 200,
+      "content_type": "text/css; charset=utf-8",
+      "from_cache": false,
+      "headers": {
+        "strict-transport-security": "max-age=0; includeSubDomains; preload",
+        "cache-control": "no-cache",
+        "content-encoding": "br",
+        "etag": "W/\"1728500061.0-125934-2754546462\"",
+        "date": "Thu, 15 Oct 2026 17:07:10 GMT",
+        "content-type": "text/css; charset=utf-8",
+        "content-disposition": "inline; filename=bootstrap.min.css",
+        "last-modified": "Wed, 09 Oct 2024 18:54:21 GMT"
+      }
+    },
+    {
+      "url": "https://quotes.toscrape.com/static/main.css",
+      "status": 200,
+      "content_type": "text/css; charset=utf-8",
+      "from_cache": false,
+      "headers": {
+        "strict-transport-security": "max-age=0; includeSubDomains; preload",
+        "cache-control": "no-cache",
+        "content-encoding": "br",
+        "etag": "W/\"1728500061.0-1368-1284638579\"",
+        "date": "Thu, 15 Oct 2026 17:07:10 GMT",
+        "content-type": "text/css; charset=utf-8",
+        "content-disposition": "inline; filename=main.css",
+        "last-modified": "Wed, 09 Oct 2024 18:54:21 GMT"
+      }
+    },
+    {
+      "url": "https://fonts.googleapis.com/css?family=Raleway:400,700",
+      "status": 200,
+      "content_type": "text/css; charset=utf-8",
+      "from_cache": false,
+      "headers": {
+        "content-encoding": "gzip",
+        "x-content-type-options": "nosniff",
+        "expires": "Thu, 15 Oct 2026 17:07:11 GMT",
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "date": "Thu, 15 Oct 2026 17:07:11 GMT",
+        "content-type": "text/css; charset=utf-8",
+        "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site",
+        "last-modified": "Thu, 15 Oct 2026 16:50:48 GMT",
+        "x-frame-options": "SAMEORIGIN",
+        "strict-transport-security": "max-age=31536000"
+      }
+    },
+    {
+      "url": "https://quotes.toscrape.com/static/jquery.js",
+      "status": 200,
+      "content_type": "application/javascript; charset=utf-8",
+      "from_cache": false,
+      "headers": {
+        "strict-transport-security": "max-age=0; includeSubDomains; preload",
+        "cache-control": "no-cache",
+        "content-encoding": "br",
+        "etag": "W/\"1728500061.0-84345-1439041538\"",
+        "date": "Thu, 15 Oct 2026 17:07:10 GMT",
+        "content-type": "application/javascript; charset=utf-8",
+        "content-disposition": "inline; filename=jquery.js",
+        "last-modified": "Wed, 09 Oct 2024 18:54:21 GMT"
+      }
+    },
+    {
+      "url": "https://fonts.gstatic.com/s/raleway/v37/1Ptug8zYS_SKggPNyC0ITw.woff2",
+      "status": 200,
+      "content_type": "font/woff2",
+      "from_cache": false,
+      "headers": {
+        "age": "308112",
+        "report-to": "{\"group\":\"apps-themes\",\"max_age\":2592000,\"endpoints\":[{\"url\":\"https://csp.withgoogle.com/csp/report-to/apps-themes\"}]}",
+        "x-content-type-options": "nosniff",
+        "expires": "Tue, 12 Oct 2027 03:31:59 GMT",
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "date": "Mon, 12 Oct 2026 03:31:59 GMT",
+        "last-modified": "Tue, 09 Sep 2025 19:08:31 GMT",
+        "content-type": "font/woff2",
+        "cache-control": "public, max-age=31536000",
+        "timing-allow-origin": "*"
+      }
+    }
+  ]
+}

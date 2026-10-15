@@ -1,0 +1,23 @@
+{
+  "run_id": "run_170345_35691fc2",
+  "tool_id": "06_playwright",
+  "action_name": "secured_page_origin",
+  "date": "2026-10-15",
+  "target_url": "https://quotes.toscrape.com/js/",
+  "started_at": "2026-10-15T17:03:45.456876+00:00",
+  "ended_at": "2026-10-15T17:03:50.057524+00:00",
+  "elapsed_sec": 4.601,
+  "status": "completed",
+  "raw_files": [
+    "network_origin.har",
+    "page_visual.png",
+    "rendered_dom.html"
+  ],
+  "cleaned_files": [
+    "origin_map.json",
+    "rendered_content.md"
+  ],
+  "git_commit": null,
+  "records_extracted": 6,
+  "quality_score": 95.0
+}

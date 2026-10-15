@@ -50,3 +50,99 @@
 | 2026-10-15 15:00:50 | INFO | Stage 1 | 05_trafilatura | article_extract | 95% | Boilerplate stripping: 346739 bytes -> 70718 bytes (79.6% reduction) |
 | 2026-10-15 15:00:50 | INFO | Stage 1 | 05_trafilatura | article_extract | 100% | Run manifest finalized, 4-tier logs synchronized |
 | 2026-10-15 15:01:25 | INFO | Stage 1 |  |  | 100% | Stage 1 Step 1.1 Batch 1 (01 to 05) verified and smoke-tested |
+| 2026-10-15 17:01:33 | INFO | Stage 1 | 06_playwright | secured_page_origin | 15% | Initialized Playwright run run_170133_56b5dee1 for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:01:33 | INFO | Stage 1 | 06_playwright | secured_page_origin | 25% | Launching Playwright Chromium browser |
+| 2026-10-15 17:01:35 | INFO | Stage 1 | 06_playwright | secured_page_origin | 45% | Navigating to https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:01:45 | ERROR | Stage 1 | 06_playwright | secured_page_origin | 0% | Playwright action 'secured_page_origin' failed: complete_action_run() got an unexpected keyword argument 'run_id' |
+| 2026-10-15 17:03:45 | INFO | Stage 1 | 06_playwright | secured_page_origin | 15% | Initialized Playwright run run_170345_35691fc2 for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:03:45 | INFO | Stage 1 | 06_playwright | secured_page_origin | 25% | Launching Playwright Chromium browser |
+| 2026-10-15 17:03:45 | INFO | Stage 1 | 06_playwright | secured_page_origin | 45% | Navigating to https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:03:50 | INFO | Stage 1 | 06_playwright | secured_page_origin | 100% | Playwright action 'secured_page_origin' completed successfully (Title: 'Quotes to Scrape') |
+| 2026-10-15 17:03:50 | INFO | Stage 1 | 07_patchright | secured_page_origin | 15% | Initialized Patchright run run_170350_27fe5c74 for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:03:50 | INFO | Stage 1 | 07_patchright | secured_page_origin | 25% | Spawning Patchright binary-patched stealth Chromium |
+| 2026-10-15 17:03:51 | INFO | Stage 1 | 07_patchright | secured_page_origin | 45% | Navigating to https://quotes.toscrape.com/js/ under stealth anti-bot profile |
+| 2026-10-15 17:03:54 | INFO | Stage 1 | 07_patchright | secured_page_origin | 72% | Executing comprehensive bot fingerprint probe |
+| 2026-10-15 17:03:54 | INFO | Stage 1 | 07_patchright | secured_page_origin | 100% | Patchright action 'secured_page_origin' completed (Evasion Score: 45/100) |
+| 2026-10-15 17:03:54 | INFO | Stage 1 | 08_camoufox | fingerprint_evasion | 15% | Initialized Camoufox run run_170354_73a6c4aa for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:03:54 | INFO | Stage 1 | 08_camoufox | fingerprint_evasion | 25% | Initializing Camoufox C++ stealth Firefox engine |
+| 2026-10-15 17:03:55 | INFO | Stage 1 | 08_camoufox | fingerprint_evasion | 35% | Connecting via AsyncCamoufox context manager |
+| 2026-10-15 17:05:27 | INFO | Stage 1 | 06_playwright | secured_page_origin | 15% | Initialized Playwright run run_170527_47645cc2 for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:05:27 | INFO | Stage 1 | 06_playwright | secured_page_origin | 25% | Launching Playwright Chromium browser |
+| 2026-10-15 17:05:27 | INFO | Stage 1 | 06_playwright | secured_page_origin | 45% | Navigating to https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:05:31 | INFO | Stage 1 | 06_playwright | secured_page_origin | 100% | Playwright action 'secured_page_origin' completed successfully (Title: 'Quotes to Scrape') |
+| 2026-10-15 17:05:31 | INFO | Stage 1 | 07_patchright | secured_page_origin | 15% | Initialized Patchright run run_170531_ae5268e5 for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:05:31 | INFO | Stage 1 | 07_patchright | secured_page_origin | 25% | Spawning Patchright binary-patched stealth Chromium |
+| 2026-10-15 17:05:31 | INFO | Stage 1 | 07_patchright | secured_page_origin | 45% | Navigating to https://quotes.toscrape.com/js/ under stealth anti-bot profile |
+| 2026-10-15 17:05:34 | INFO | Stage 1 | 07_patchright | secured_page_origin | 72% | Executing comprehensive bot fingerprint probe |
+| 2026-10-15 17:05:35 | INFO | Stage 1 | 07_patchright | secured_page_origin | 100% | Patchright action 'secured_page_origin' completed (Evasion Score: 45/100) |
+| 2026-10-15 17:05:35 | INFO | Stage 1 | 08_camoufox | fingerprint_evasion | 15% | Initialized Camoufox run run_170535_9f4b6322 for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:05:35 | INFO | Stage 1 | 08_camoufox | fingerprint_evasion | 25% | Initializing Camoufox C++ stealth Firefox engine |
+| 2026-10-15 17:05:35 | WARN | Stage 1 | 08_camoufox | fingerprint_evasion | 40% | Camoufox C++ binary unavailable (Camoufox custom C++ binary not cached locally; falling back to installed Firefox); falling back cleanly to Playwright Firefox |
+| 2026-10-15 17:05:42 | INFO | Stage 1 | 08_camoufox | fingerprint_evasion | 100% | Camoufox action 'fingerprint_evasion' completed using engine 'playwright_firefox_fallback' |
+| 2026-10-15 17:05:42 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 15% | Initialized nodriver run run_170542_d97a082e for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:05:42 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 25% | Starting nodriver direct CDP Chrome session (no WebDriver) |
+| 2026-10-15 17:05:42 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 35% | Spawning browser instance via nodriver.start() |
+| 2026-10-15 17:05:42 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 50% | Navigating to https://quotes.toscrape.com/js/ via raw CDP target commands |
+| 2026-10-15 17:05:45 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 100% | Nodriver action 'cdp_intercept' completed successfully (Title: 'Quotes to Scrape') |
+| 2026-10-15 17:05:45 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 15% | Initialized Scrapling run run_170545_bc3035d9 for target https://quotes.toscrape.com/ |
+| 2026-10-15 17:05:45 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 25% | Initializing Scrapling Self-Healing DOM Engine |
+| 2026-10-15 17:05:45 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 50% | Phase A Complete: Fingerprinted title='Two Sum', diff='Easy' |
+| 2026-10-15 17:05:45 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 75% | Phase B Complete: Adaptive Relocation title_healed=False, diff_healed=False |
+| 2026-10-15 17:05:46 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 100% | Scrapling action 'adaptive_extract' completed with 66.7% self-healing rate |
+| 2026-10-15 17:07:07 | INFO | Stage 1 | 06_playwright | secured_page_origin | 15% | Initialized Playwright run run_170707_c8f73217 for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:07:08 | INFO | Stage 1 | 06_playwright | secured_page_origin | 25% | Launching Playwright Chromium browser |
+| 2026-10-15 17:07:08 | INFO | Stage 1 | 06_playwright | secured_page_origin | 45% | Navigating to https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:07:11 | INFO | Stage 1 | 06_playwright | secured_page_origin | 100% | Playwright action 'secured_page_origin' completed successfully (Title: 'Quotes to Scrape') |
+| 2026-10-15 17:07:48 | INFO | Stage 1 | 07_patchright | secured_page_origin | 15% | Initialized Patchright run run_170748_78f1c054 for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:07:48 | INFO | Stage 1 | 07_patchright | secured_page_origin | 25% | Spawning Patchright binary-patched stealth Chromium |
+| 2026-10-15 17:07:49 | INFO | Stage 1 | 07_patchright | secured_page_origin | 45% | Navigating to https://quotes.toscrape.com/js/ under stealth anti-bot profile |
+| 2026-10-15 17:07:52 | INFO | Stage 1 | 07_patchright | secured_page_origin | 72% | Executing comprehensive bot fingerprint probe |
+| 2026-10-15 17:07:53 | INFO | Stage 1 | 07_patchright | secured_page_origin | 100% | Patchright action 'secured_page_origin' completed (Evasion Score: 45/100) |
+| 2026-10-15 17:08:15 | INFO | Stage 1 | 08_camoufox | fingerprint_evasion | 15% | Initialized Camoufox run run_170815_48116685 for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:08:15 | INFO | Stage 1 | 08_camoufox | fingerprint_evasion | 25% | Initializing Camoufox C++ stealth Firefox engine |
+| 2026-10-15 17:08:16 | WARN | Stage 1 | 08_camoufox | fingerprint_evasion | 40% | Camoufox C++ binary unavailable (Camoufox custom C++ binary not cached locally; falling back to installed Firefox); falling back cleanly to Playwright Firefox |
+| 2026-10-15 17:08:25 | INFO | Stage 1 | 08_camoufox | fingerprint_evasion | 100% | Camoufox action 'fingerprint_evasion' completed using engine 'playwright_firefox_fallback' |
+| 2026-10-15 17:08:47 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 15% | Initialized nodriver run run_170847_09abb530 for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:08:47 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 25% | Starting nodriver direct CDP Chrome session (no WebDriver) |
+| 2026-10-15 17:08:47 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 35% | Spawning browser instance via nodriver.start() |
+| 2026-10-15 17:08:48 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 50% | Navigating to https://quotes.toscrape.com/js/ via raw CDP target commands |
+| 2026-10-15 17:08:50 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 100% | Nodriver action 'cdp_intercept' completed successfully (Title: 'Quotes to Scrape') |
+| 2026-10-15 17:09:51 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 15% | Initialized nodriver run run_170951_d3eaf7ab for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:09:51 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 25% | Starting nodriver direct CDP Chrome session (no WebDriver) |
+| 2026-10-15 17:09:51 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 35% | Spawning browser instance via nodriver.start() |
+| 2026-10-15 17:09:52 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 50% | Navigating to https://quotes.toscrape.com/js/ via raw CDP target commands |
+| 2026-10-15 17:09:54 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 100% | Nodriver action 'cdp_intercept' completed successfully (Title: 'Quotes to Scrape') |
+| 2026-10-15 17:10:39 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 15% | Initialized Scrapling run run_171039_c489f85d for target https://quotes.toscrape.com/ |
+| 2026-10-15 17:10:39 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 25% | Initializing Scrapling Self-Healing DOM Engine |
+| 2026-10-15 17:10:39 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 50% | Phase A Complete: Fingerprinted title='Two Sum', diff='Easy' |
+| 2026-10-15 17:10:39 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 75% | Phase B Complete: Adaptive Relocation title_healed=False, diff_healed=True |
+| 2026-10-15 17:10:40 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 100% | Scrapling action 'adaptive_extract' completed with 66.7% self-healing rate |
+| 2026-10-15 17:10:56 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 15% | Initialized Scrapling run run_171056_d55f5335 for target https://quotes.toscrape.com/ |
+| 2026-10-15 17:10:56 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 25% | Initializing Scrapling Self-Healing DOM Engine |
+| 2026-10-15 17:10:56 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 50% | Phase A Complete: Fingerprinted title='Two Sum', diff='Easy' |
+| 2026-10-15 17:10:56 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 75% | Phase B Complete: Adaptive Relocation title_healed=True, diff_healed=True |
+| 2026-10-15 17:10:57 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 100% | Scrapling action 'adaptive_extract' completed with 100.0% self-healing rate |
+| 2026-10-15 17:11:17 | INFO | Stage 1 | 06_playwright | secured_page_origin | 15% | Initialized Playwright run run_171117_e32d3078 for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:11:17 | INFO | Stage 1 | 06_playwright | secured_page_origin | 25% | Launching Playwright Chromium browser |
+| 2026-10-15 17:11:17 | INFO | Stage 1 | 06_playwright | secured_page_origin | 45% | Navigating to https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:11:21 | INFO | Stage 1 | 06_playwright | secured_page_origin | 100% | Playwright action 'secured_page_origin' completed successfully (Title: 'Quotes to Scrape') |
+| 2026-10-15 17:11:21 | INFO | Stage 1 | 07_patchright | secured_page_origin | 15% | Initialized Patchright run run_171121_72698e1b for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:11:21 | INFO | Stage 1 | 07_patchright | secured_page_origin | 25% | Spawning Patchright binary-patched stealth Chromium |
+| 2026-10-15 17:11:22 | INFO | Stage 1 | 07_patchright | secured_page_origin | 45% | Navigating to https://quotes.toscrape.com/js/ under stealth anti-bot profile |
+| 2026-10-15 17:11:25 | INFO | Stage 1 | 07_patchright | secured_page_origin | 72% | Executing comprehensive bot fingerprint probe |
+| 2026-10-15 17:11:26 | INFO | Stage 1 | 07_patchright | secured_page_origin | 100% | Patchright action 'secured_page_origin' completed (Evasion Score: 45/100) |
+| 2026-10-15 17:11:26 | INFO | Stage 1 | 08_camoufox | fingerprint_evasion | 15% | Initialized Camoufox run run_171126_35971713 for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:11:26 | INFO | Stage 1 | 08_camoufox | fingerprint_evasion | 25% | Initializing Camoufox C++ stealth Firefox engine |
+| 2026-10-15 17:11:27 | WARN | Stage 1 | 08_camoufox | fingerprint_evasion | 40% | Camoufox C++ binary unavailable (Camoufox custom C++ binary not cached locally; falling back to installed Firefox); falling back cleanly to Playwright Firefox |
+| 2026-10-15 17:11:33 | INFO | Stage 1 | 08_camoufox | fingerprint_evasion | 100% | Camoufox action 'fingerprint_evasion' completed using engine 'playwright_firefox_fallback' |
+| 2026-10-15 17:11:33 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 15% | Initialized nodriver run run_171133_351872c2 for target https://quotes.toscrape.com/js/ |
+| 2026-10-15 17:11:33 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 25% | Starting nodriver direct CDP Chrome session (no WebDriver) |
+| 2026-10-15 17:11:33 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 35% | Spawning browser instance via nodriver.start() |
+| 2026-10-15 17:11:34 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 50% | Navigating to https://quotes.toscrape.com/js/ via raw CDP target commands |
+| 2026-10-15 17:11:36 | INFO | Stage 1 | 09_nodriver | cdp_intercept | 100% | Nodriver action 'cdp_intercept' completed successfully (Title: 'Quotes to Scrape') |
+| 2026-10-15 17:11:36 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 15% | Initialized Scrapling run run_171136_6f56ec74 for target https://quotes.toscrape.com/ |
+| 2026-10-15 17:11:36 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 25% | Initializing Scrapling Self-Healing DOM Engine |
+| 2026-10-15 17:11:36 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 50% | Phase A Complete: Fingerprinted title='Two Sum', diff='Easy' |
+| 2026-10-15 17:11:36 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 75% | Phase B Complete: Adaptive Relocation title_healed=True, diff_healed=True |
+| 2026-10-15 17:11:37 | INFO | Stage 1 | 10_scrapling | adaptive_extract | 100% | Scrapling action 'adaptive_extract' completed with 100.0% self-healing rate |
+| 2026-10-15 17:12:51 | INFO | Stage 1 |  | git_commit | 0% | Git commit: 36962c7 — [RUN-LOG] Stage 1 Step 1.2: Verify Batch 2 smoke tests and sync 4-tier logs |

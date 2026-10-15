@@ -1,0 +1,39 @@
+{
+  "tool_id": "07_patchright",
+  "mechanism": "Binary-Patched Stealth Chromium",
+  "target_url": "https://quotes.toscrape.com/js/",
+  "page_title": "Quotes to Scrape",
+  "latency_ms": 4039.29,
+  "evasion_score_pct": 45,
+  "bot_detection_vectors": {
+    "navigator_webdriver": {
+      "detected": false,
+      "value": false,
+      "status": "PASS"
+    },
+    "window_chrome": {
+      "present": false,
+      "status": "WARN"
+    },
+    "browser_plugins": {
+      "count": 0,
+      "status": "WARN"
+    },
+    "webgl_vendor_renderer": {
+      "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "status": "FAIL"
+    },
+    "cdp_runtime_leak": {
+      "leaked": false,
+      "status": "PASS"
+    }
+  },
+  "fingerprint": {
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "languages": [
+      "en-US"
+    ],
+    "hardware_concurrency": 28,
+    "device_memory": 32
+  }
+}
