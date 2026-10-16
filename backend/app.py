@@ -268,6 +268,78 @@ async def get_file_preview(tool_id: str, action: str, date: str, run_id: str, fo
         return JSONResponse({"error": str(e)}, status_code=500)
 
 
+@app.get("/api/tool-indexes")
+async def get_tool_indexes():
+    """Return catalog of all 20 tool index summaries."""
+    index_dir = ROOT / "index_store" / "tool_indexes"
+    summaries = []
+    if index_dir.exists():
+        for jf in sorted(index_dir.glob("*_index.json")):
+            try:
+                data = json.loads(jf.read_text(encoding="utf-8"))
+                summaries.append({
+                    "tool_id": data.get("tool_id"),
+                    "metadata": data.get("metadata", {}),
+                    "total_runs": data.get("total_runs", 0),
+                    "total_files": data.get("total_files", 0),
+                    "indexed_at": data.get("indexed_at"),
+                })
+            except Exception:
+                pass
+    return JSONResponse({"tool_indexes": summaries, "count": len(summaries)})
+
+
+@app.get("/api/tool-indexes/{tool_id}")
+async def get_single_tool_index(tool_id: str):
+    """Return full index details (runs, domain metrics, files, recent logs) for a tool."""
+    json_path = ROOT / "index_store" / "tool_indexes" / f"{tool_id}_index.json"
+    if json_path.exists():
+        try:
+            return JSONResponse(json.loads(json_path.read_text(encoding="utf-8")))
+        except Exception as e:
+            return JSONResponse({"error": f"Failed to parse index json: {e}"}, status_code=500)
+
+    try:
+        import importlib
+        from core.base_indexer import BaseToolIndexer
+        indexer_cls = BaseToolIndexer
+        try:
+            mod = importlib.import_module(f"tools.{tool_id}.indexer")
+            indexer_cls = getattr(mod, "ToolIndexer", BaseToolIndexer)
+        except Exception:
+            pass
+        indexer = indexer_cls(tool_id)
+        summary = indexer.get_summary()
+        return JSONResponse(summary)
+    except Exception as e:
+        return JSONResponse({"error": f"Tool index not found: {e}"}, status_code=404)
+
+
+@app.post("/api/tool-indexes/{tool_id}/rebuild")
+async def rebuild_tool_index(tool_id: str):
+    """Rebuild SQLite index and JSON snapshot for a tool by scanning data/."""
+    try:
+        import importlib
+        from core.base_indexer import BaseToolIndexer
+        indexer_cls = BaseToolIndexer
+        try:
+            mod = importlib.import_module(f"tools.{tool_id}.indexer")
+            indexer_cls = getattr(mod, "ToolIndexer", BaseToolIndexer)
+        except Exception:
+            pass
+        indexer = indexer_cls(tool_id)
+        res = indexer.index_all_runs()
+        return JSONResponse({
+            "status": "rebuilt",
+            "tool_id": tool_id,
+            "runs_indexed": res.get("runs_indexed", 0),
+            "summary": res.get("summary", {}),
+        })
+    except Exception as e:
+        return JSONResponse({"error": f"Failed to rebuild index: {e}"}, status_code=500)
+
+
+
 @app.post("/api/run-tool/{tool_id}")
 async def trigger_tool_run(tool_id: str):
     """Trigger smoke test run for a specific tool in background thread."""

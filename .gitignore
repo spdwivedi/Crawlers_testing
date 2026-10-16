@@ -61,6 +61,11 @@ credentials.json
 auth_profiles/*
 !auth_profiles/README_AUTH.md
 
+# ── Index Databases ───────────────────────────
+index_store/**/*.sqlite
+index_store/**/*.sqlite3
+index_store/**/*.db
+
 # ─────────────────────────────────────────────
 # STRICTLY TRACKED — Force-include these always
 # ─────────────────────────────────────────────
@@ -72,3 +77,4 @@ auth_profiles/*
 !logs/**
 !data/**/.gitkeep
 !tools/**/.gitkeep
+!index_store/**/*.json

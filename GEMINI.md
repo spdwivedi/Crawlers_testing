@@ -1,5 +1,5 @@
 # 🤖 Antigravity Workspace Governance — GEMINI.md
-**Project:** Crawlers_testing | **Stage:** 1 | **Init:** 2026-10-15
+**Project:** Crawlers_testing | **Stage:** 2 (Indexing Pipelines Active) | **Init:** 2026-10-15
 
 This file is automatically loaded by Antigravity IDE for **every prompt execution** in this workspace. All rules below are **mandatory** and non-negotiable.
 
@@ -83,15 +83,29 @@ Record the resulting commit hash into `logs/global/antigravity_prompt_log.jsonl`
 
 ---
 
+## Rule 5 — Auto-Indexing (EVERY COMPLETED RUN)
+
+Every completed tool action run MUST automatically update its dedicated tool index in `index_store/tool_indexes/<tool_id>.sqlite` and its companion `index_store/tool_indexes/<tool_id>_index.json`.
+
+- Triggered automatically via `core/folder_manager.py:complete_action_run()`.
+- Captures run metadata, file manifests with SHA256 hashes & content previews, 4-tier logs, and tool-specific domain metrics.
+- All 20 tool indexes must be queryable via the FastAPI backend (`GET /api/tool-indexes` and `GET /api/tool-indexes/{tool_id}`).
+
+---
+
 ## Quick Reference — Core Modules
 
 ```
 core/
-├── folder_manager.py    # create_action_run() — Rule 3
+├── folder_manager.py    # create_action_run() — Rule 3 & complete_action_run() Auto-Index Hook — Rule 5
+├── base_indexer.py      # BaseToolIndexer SQLite/JSON engine — Rule 5
 ├── state_tracker.py     # live_state.json R/W — Rule 1
 ├── cli_tracker.py       # CLI wrapper for state_tracker — Rule 1
 ├── logger_engine.py     # 4-tier logger — Rule 2
 └── git_manager.py       # Atomic commits + hash logging — Rule 4
+
+index_store/
+└── tool_indexes/        # 20 SQLite (.sqlite) + JSON (_index.json) tool index databases
 
 logs/
 ├── global/
@@ -99,15 +113,17 @@ logs/
 │   ├── antigravity_prompt_log.jsonl
 │   └── antigravity_prompt_log.md
 └── stages/
-    └── stage_1_scaffolding.jsonl
+    ├── stage_1_scaffolding.jsonl
+    └── stage_2_indexing.jsonl
 
 tools/
 └── registry.json        # 20-tool manifest
 
-backend/app.py           # FastAPI telemetry server :8000
+backend/app.py           # FastAPI telemetry & index server :8000
 frontend/index.html      # Control Center UI
 ```
 
 ---
 
 *Auto-enforced by Antigravity IDE — do not delete or modify this file.*
+

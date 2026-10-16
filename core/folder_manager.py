@@ -169,6 +169,24 @@ def complete_action_run(
         manifest["error"] = error_msg
 
     manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+
+    # Rule 5: Auto-Indexing into index_store/tool_indexes/<tool_id>.sqlite & <tool_id>_index.json
+    try:
+        tool_id = manifest.get("tool_id")
+        if tool_id:
+            import importlib
+            from core.base_indexer import BaseToolIndexer
+            indexer_cls = BaseToolIndexer
+            try:
+                mod = importlib.import_module(f"tools.{tool_id}.indexer")
+                indexer_cls = getattr(mod, "ToolIndexer", BaseToolIndexer)
+            except Exception:
+                pass
+            indexer = indexer_cls(tool_id)
+            indexer.index_single_run(run_dir)
+    except Exception:
+        pass
+
     return manifest
 
 
