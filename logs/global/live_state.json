@@ -1,73 +1,58 @@
 {
-  "is_running": true,
-  "current_stage": "Stage 1",
-  "current_step": "Step 1.4",
-  "active_tool_id": "17_surya_ocr",
-  "active_action": "visual_test_ocr",
-  "current_subtask": "Executing visual text extraction on assessment screenshot",
+  "is_running": false,
+  "current_stage": "Stage 2",
+  "current_step": "Step 2.1",
+  "active_tool_id": "core_indexer",
+  "active_action": "verify_step_2_1",
+  "current_subtask": "Step 2.1 verified: 20/20 indexers operational",
   "started_at_epoch": 1792087773.3703308,
-  "elapsed_seconds": 27.3,
-  "progress_percent": 60,
+  "elapsed_seconds": 32356.8,
+  "progress_percent": 100,
   "recent_events": [
     {
-      "timestamp": "2026-10-15T18:09:32.960882+00:00",
-      "message": "STARTED: Stage 1 / Step 1.4 \u2014 Executing Crawl4AI action 'scrape_for_leetcode'"
+      "timestamp": "2026-10-16T03:08:48.298246+00:00",
+      "message": "PROGRESS 20%: Indexing & verifying 04_httpx_parsel (4/20)..."
     },
     {
-      "timestamp": "2026-10-15T18:09:32.969624+00:00",
-      "message": "PROGRESS 20%: Fetching target technical page https://leetcode.com/problems/trapping-rain-water/"
+      "timestamp": "2026-10-16T03:08:48.409789+00:00",
+      "message": "PROGRESS 23%: Indexing & verifying 05_trafilatura (5/20)..."
     },
     {
-      "timestamp": "2026-10-15T18:09:33.232385+00:00",
-      "message": "PROGRESS 60%: Generating clean LLM-optimized Markdown via Crawl4AI"
+      "timestamp": "2026-10-16T03:08:48.589754+00:00",
+      "message": "PROGRESS 27%: Indexing & verifying 06_playwright (6/20)..."
     },
     {
-      "timestamp": "2026-10-15T18:09:33.240221+00:00",
-      "message": "PROGRESS 80%: Extracting media/links and performing semantic chunking"
+      "timestamp": "2026-10-16T03:08:48.979281+00:00",
+      "message": "PROGRESS 31%: Indexing & verifying 07_patchright (7/20)..."
     },
     {
-      "timestamp": "2026-10-15T18:09:33.256916+00:00",
-      "message": "PROGRESS 95%: Finalizing action run manifest and 4-tier logs"
+      "timestamp": "2026-10-16T03:08:49.210851+00:00",
+      "message": "PROGRESS 35%: Indexing & verifying 08_camoufox (8/20)..."
     },
     {
-      "timestamp": "2026-10-15T18:09:33.268054+00:00",
-      "message": "COMPLETED: Task completed."
+      "timestamp": "2026-10-16T03:08:49.440864+00:00",
+      "message": "PROGRESS 38%: Indexing & verifying 09_nodriver (9/20)..."
     },
     {
-      "timestamp": "2026-10-15T18:09:33.370335+00:00",
-      "message": "STARTED: Stage 1 / Step 1.4 \u2014 Executing visual test OCR action 'visual_test_ocr'"
+      "timestamp": "2026-10-16T03:08:49.663697+00:00",
+      "message": "PROGRESS 42%: Indexing & verifying 10_scrapling (10/20)..."
     },
     {
-      "timestamp": "2026-10-15T18:09:33.380259+00:00",
-      "message": "PROGRESS 20%: Generating high-resolution coding assessment screenshot"
+      "timestamp": "2026-10-16T03:08:49.841451+00:00",
+      "message": "PROGRESS 46%: Indexing & verifying 11_yt_dlp_ffmpeg (11/20)..."
     },
     {
-      "timestamp": "2026-10-15T18:09:33.419325+00:00",
-      "message": "PROGRESS 45%: Initializing RapidOCR ONNX layout & text detection engine"
+      "timestamp": "2026-10-16T03:08:50.015102+00:00",
+      "message": "PROGRESS 50%: Indexing & verifying 12_instaloader (12/20)..."
     },
     {
-      "timestamp": "2026-10-15T18:09:34.171889+00:00",
-      "message": "PROGRESS 60%: Executing visual text extraction on assessment screenshot"
+      "timestamp": "2026-10-16T03:08:50.120750+00:00",
+      "message": "PROGRESS 53%: Indexing & verifying 13_gallery_dl (13/20)..."
     }
   ],
   "worker_processes": [
     {
-      "pid": 39320,
-      "name": "python.exe",
-      "cmdline": [
-        "D:\\Project_Files\\Crawlers_testing\\.venv\\Scripts\\python.exe",
-        "-m",
-        "uvicorn",
-        "backend.app:app",
-        "--host",
-        "127.0.0.1"
-      ],
-      "cpu_pct": 45.6,
-      "ram_mb": 82.2,
-      "runtime_s": 1481.7
-    },
-    {
-      "pid": 48448,
+      "pid": 43876,
       "name": "python.exe",
       "cmdline": [
         "D:\\Project_Files\\Crawlers_testing\\.venv\\Scripts\\python.exe",
@@ -78,8 +63,23 @@
         "127.0.0.1"
       ],
       "cpu_pct": 0.0,
-      "ram_mb": 4.1,
-      "runtime_s": 1482.0
+      "ram_mb": 4.0,
+      "runtime_s": 62.3
+    },
+    {
+      "pid": 55964,
+      "name": "python.exe",
+      "cmdline": [
+        "D:\\Project_Files\\Crawlers_testing\\.venv\\Scripts\\python.exe",
+        "-m",
+        "uvicorn",
+        "backend.app:app",
+        "--host",
+        "127.0.0.1"
+      ],
+      "cpu_pct": 68.4,
+      "ram_mb": 63.5,
+      "runtime_s": 62.8
     }
   ]
 }

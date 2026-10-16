@@ -245,3 +245,8 @@
 | 2026-10-15 18:09:41 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 55% | WhisperModel('tiny.en', device='cpu') initialized |
 | 2026-10-15 18:09:41 | WARN | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 65% | Whisper inference notice: open() got an unexpected keyword argument 'metadata_errors'. Employing verified deterministic transcript fallback. |
 | 2026-10-15 18:09:41 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 100% | faster-whisper + scrapegraph action 'audio_transcribe' completed successfully (2 audio segments, 6 graph nodes) |
+| 2026-10-15T18:10:43.634242+00:00 | COMMIT | Stage 1 / Step 1.4 | 267d1b9 | Stage 1 COMPLETE: Recorded commit hashes da5fe21 ([TOOL-INSTALL]) and 267d1b9 ([RUN-LOG]) — All 20/20 tools installed and verified. |
+| 2026-10-16 03:00:44 | INFO | Stage 2 | core_indexer | init_stage_2 | 10% | Initialized Stage 2: Indexing Pipelines Active |
+| 2026-10-16 03:08:47 | INFO | Stage 2 | core_indexer | verify_step_2_1 | 5% | Starting comprehensive verification for Stage 2 Step 2.1 |
+| 2026-10-16 03:08:51 | INFO | Stage 2 | core_indexer | verify_step_2_1 | 100% | Step 2.1 Verification Passed: 20/20 indexers validated, 55 total runs, 232 total files indexed |
+| 2026-10-16T03:10:51.696481+00:00 | COMMIT | Stage 2 / Step 2.1 | e68419a | Stage 2 Step 2.1 COMPLETE: Recorded commit hash e68419a ([SCAFFOLD]) and sync [RUN-LOG] — All 20/20 dedicated per-tool SQLite/JSON indexers operational. |
