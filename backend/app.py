@@ -639,6 +639,352 @@ async def rebuild_index(payload: dict | None = None):
     })
 
 
+@app.get("/api/index/pipelines-status")
+async def get_pipelines_status():
+    """
+    Compares each of the 20 isolated SQLite databases (index_store/tool_indexes/<tool_id>.sqlite)
+    against index_store/global_master_index.sqlite.
+    Returns: tool_id, name, batch, mechanism_type, sqlite_path, db_size_kb,
+             isolated_runs_count, global_runs_count, isolated_files_count, global_files_count,
+             isolated_logs_count, sync_status ("SYNCED" | "OUT_OF_SYNC"), last_indexed_at, supported_actions.
+    """
+    try:
+        registry_path = ROOT / "tools" / "registry.json"
+        tools_list = []
+        if registry_path.exists():
+            with open(registry_path, "r", encoding="utf-8") as f:
+                tools_list = json.load(f).get("tools", [])
+
+        master_db = ROOT / "index_store" / "global_master_index.sqlite"
+        master_conn = None
+        global_tools_map = {}
+        if master_db.exists():
+            master_conn = sqlite3.connect(str(master_db))
+            master_conn.row_factory = sqlite3.Row
+            for row in master_conn.execute("SELECT * FROM global_tools").fetchall():
+                global_tools_map[row["tool_id"]] = dict(row)
+
+        pipelines = []
+        synced_count = 0
+        total_isolated_size_kb = 0.0
+
+        for t in tools_list:
+            tid = t["tool_id"]
+            tool_db = ROOT / "index_store" / "tool_indexes" / f"{tid}.sqlite"
+            db_size_kb = round(tool_db.stat().st_size / 1024, 2) if tool_db.exists() else 0.0
+            total_isolated_size_kb += db_size_kb
+
+            isolated_runs = 0
+            isolated_files = 0
+            isolated_logs = 0
+            last_indexed = None
+
+            if tool_db.exists():
+                try:
+                    conn = sqlite3.connect(str(tool_db))
+                    conn.row_factory = sqlite3.Row
+                    meta = conn.execute("SELECT * FROM tool_metadata WHERE tool_id = ?", (tid,)).fetchone()
+                    if meta:
+                        last_indexed = meta["last_indexed_at"]
+                    isolated_runs = conn.execute("SELECT COUNT(*) FROM indexed_runs WHERE tool_id = ?", (tid,)).fetchone()[0]
+                    isolated_files = conn.execute("SELECT COUNT(*) FROM indexed_files WHERE tool_id = ?", (tid,)).fetchone()[0]
+                    isolated_logs = conn.execute("SELECT COUNT(*) FROM indexed_logs WHERE tool_id = ?", (tid,)).fetchone()[0]
+                    conn.close()
+                except Exception:
+                    pass
+
+            g_info = global_tools_map.get(tid, {})
+            global_runs = g_info.get("total_runs", 0)
+            global_files = (g_info.get("total_raw_files", 0) + g_info.get("total_cleaned_files", 0))
+
+            is_synced = (isolated_runs == global_runs and isolated_files == global_files)
+            sync_status = "SYNCED" if is_synced else "OUT_OF_SYNC"
+            if is_synced:
+                synced_count += 1
+
+            pipelines.append({
+                "tool_id": tid,
+                "name": t.get("name", tid),
+                "batch": t.get("batch", 1),
+                "mechanism_type": t.get("mechanism_type", "HTTP"),
+                "sqlite_path": f"index_store/tool_indexes/{tid}.sqlite",
+                "db_size_kb": db_size_kb,
+                "isolated_runs_count": isolated_runs,
+                "global_runs_count": global_runs,
+                "isolated_files_count": isolated_files,
+                "global_files_count": global_files,
+                "isolated_logs_count": isolated_logs,
+                "sync_status": sync_status,
+                "last_indexed_at": last_indexed or g_info.get("last_indexed_at"),
+                "supported_actions": t.get("supported_actions", []),
+                "installed": t.get("installed", True),
+            })
+
+        master_size_kb = round(master_db.stat().st_size / 1024, 2) if master_db.exists() else 0.0
+        if master_conn:
+            master_conn.close()
+
+        return JSONResponse({
+            "pipelines": pipelines,
+            "total_tools": len(pipelines),
+            "synced_count": synced_count,
+            "master_db_size_kb": master_size_kb,
+            "total_isolated_size_kb": round(total_isolated_size_kb, 2),
+        })
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.get("/api/index/cascading-facets")
+async def get_cascading_facets(
+    scope: str = "global",
+    tool_id: str | None = None,
+    action_name: str | None = None,
+    run_date: str | None = None,
+):
+    """
+    Returns available hierarchy of values for cascading dropdowns:
+    tools, actions, dates, runs, stages, steps.
+    Queries either global_master_index.sqlite (when scope=global)
+    or index_store/tool_indexes/<scope>.sqlite (when scope=<tool_id>).
+    """
+    try:
+        active_tool = scope if scope != "global" else tool_id
+
+        if scope and scope != "global":
+            db_path = ROOT / "index_store" / "tool_indexes" / f"{scope}.sqlite"
+            if not db_path.exists():
+                return JSONResponse({"error": f"Tool index not found: {scope}"}, status_code=404)
+            runs_tbl = "indexed_runs"
+            logs_tbl = "indexed_logs"
+            tools_tbl = "tool_metadata"
+        else:
+            db_path = ROOT / "index_store" / "global_master_index.sqlite"
+            if not db_path.exists():
+                return JSONResponse({"error": "Global master index not found"}, status_code=404)
+            runs_tbl = "global_runs"
+            logs_tbl = "global_logs"
+            tools_tbl = "global_tools"
+
+        conn = sqlite3.connect(str(db_path))
+        conn.row_factory = sqlite3.Row
+
+        # 1. Tools list
+        tools_res = []
+        if scope == "global":
+            t_rows = conn.execute(f"SELECT tool_id, name, total_runs FROM {tools_tbl} ORDER BY tool_id ASC").fetchall()
+            for r in t_rows:
+                tools_res.append({"tool_id": r["tool_id"], "name": r["name"], "runs_count": r["total_runs"]})
+        else:
+            t_rows = conn.execute(f"SELECT tool_id, name, total_runs FROM {tools_tbl}").fetchall()
+            for r in t_rows:
+                tools_res.append({"tool_id": r["tool_id"], "name": r["name"], "runs_count": r["total_runs"]})
+
+        # 2. Actions list (filtered by active_tool if given)
+        action_query = f"SELECT action_name, COUNT(*) as runs_count FROM {runs_tbl} WHERE 1=1"
+        a_params = []
+        if active_tool:
+            action_query += " AND tool_id = ?"
+            a_params.append(active_tool)
+        action_query += " GROUP BY action_name ORDER BY runs_count DESC, action_name ASC"
+        actions_res = [{"action_name": r["action_name"], "runs_count": r["runs_count"]} for r in conn.execute(action_query, a_params).fetchall()]
+
+        # 3. Dates list (filtered by active_tool and action_name if given)
+        date_query = f"SELECT run_date, COUNT(*) as runs_count FROM {runs_tbl} WHERE 1=1"
+        d_params = []
+        if active_tool:
+            date_query += " AND tool_id = ?"
+            d_params.append(active_tool)
+        if action_name:
+            date_query += " AND action_name = ?"
+            d_params.append(action_name)
+        date_query += " GROUP BY run_date ORDER BY run_date DESC"
+        dates_res = [{"run_date": r["run_date"], "runs_count": r["runs_count"]} for r in conn.execute(date_query, d_params).fetchall()]
+
+        # 4. Runs list (filtered by active_tool, action_name, run_date if given)
+        runs_query = f"SELECT run_id, tool_id, action_name, run_date, status, elapsed_sec, target_url, raw_file_count, cleaned_file_count FROM {runs_tbl} WHERE 1=1"
+        r_params = []
+        if active_tool:
+            runs_query += " AND tool_id = ?"
+            r_params.append(active_tool)
+        if action_name:
+            runs_query += " AND action_name = ?"
+            r_params.append(action_name)
+        if run_date:
+            runs_query += " AND run_date = ?"
+            r_params.append(run_date)
+        runs_query += " ORDER BY started_at DESC LIMIT 100"
+        runs_res = [dict(r) for r in conn.execute(runs_query, r_params).fetchall()]
+
+        # 5. Stages and Steps in logs
+        stages_res = [r[0] for r in conn.execute(f"SELECT DISTINCT stage FROM {logs_tbl} WHERE stage IS NOT NULL AND stage != '' ORDER BY stage ASC").fetchall()]
+        steps_res = [r[0] for r in conn.execute(f"SELECT DISTINCT step FROM {logs_tbl} WHERE step IS NOT NULL AND step != '' ORDER BY step ASC").fetchall()]
+
+        conn.close()
+
+        return JSONResponse({
+            "scope": scope,
+            "active_tool_id": active_tool,
+            "tools": tools_res,
+            "actions": actions_res,
+            "dates": dates_res,
+            "runs": runs_res,
+            "stages": stages_res,
+            "steps": steps_res,
+        })
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.get("/api/index/folder-bundle")
+async def get_folder_bundle(
+    run_id: str,
+    scope: str = "global",
+):
+    """
+    Returns a unified single-call bundle for a specific run_id:
+    run_metadata (with parsed domain_metrics), raw_files, cleaned_files, action_logs, tool_ops_logs.
+    """
+    try:
+        if scope and scope != "global":
+            db_path = ROOT / "index_store" / "tool_indexes" / f"{scope}.sqlite"
+            runs_tbl = "indexed_runs"
+            files_tbl = "indexed_files"
+            logs_tbl = "indexed_logs"
+        else:
+            db_path = ROOT / "index_store" / "global_master_index.sqlite"
+            runs_tbl = "global_runs"
+            files_tbl = "global_files"
+            logs_tbl = "global_logs"
+
+        if not db_path.exists():
+            return JSONResponse({"error": f"Database not found: {db_path.name}"}, status_code=404)
+
+        conn = sqlite3.connect(str(db_path))
+        conn.row_factory = sqlite3.Row
+
+        run_row = conn.execute(f"SELECT * FROM {runs_tbl} WHERE run_id = ?", (run_id,)).fetchone()
+
+        # If not found in isolated DB, try falling back to global master
+        if not run_row and scope != "global":
+            master_path = ROOT / "index_store" / "global_master_index.sqlite"
+            if master_path.exists():
+                mconn = sqlite3.connect(str(master_path))
+                mconn.row_factory = sqlite3.Row
+                run_row = mconn.execute("SELECT * FROM global_runs WHERE run_id = ?", (run_id,)).fetchone()
+                if run_row:
+                    runs_tbl = "global_runs"
+                    files_tbl = "global_files"
+                    logs_tbl = "global_logs"
+                    conn.close()
+                    conn = mconn
+
+        if not run_row:
+            conn.close()
+            return JSONResponse({"error": f"Run not found: {run_id}"}, status_code=404)
+
+        run_dict = dict(run_row)
+        if run_dict.get("domain_metrics_json"):
+            try:
+                run_dict["domain_metrics"] = json.loads(run_dict["domain_metrics_json"])
+            except Exception:
+                run_dict["domain_metrics"] = {}
+        else:
+            run_dict["domain_metrics"] = {}
+
+        tool_id = run_dict.get("tool_id")
+
+        # Files
+        raw_rows = conn.execute(
+            f"SELECT * FROM {files_tbl} WHERE run_id = ? AND tier = 'raw' ORDER BY filename ASC",
+            (run_id,)
+        ).fetchall()
+        cleaned_rows = conn.execute(
+            f"SELECT * FROM {files_tbl} WHERE run_id = ? AND tier = 'cleaned' ORDER BY filename ASC",
+            (run_id,)
+        ).fetchall()
+
+        # Action logs for this run
+        action_log_rows = conn.execute(
+            f"SELECT * FROM {logs_tbl} WHERE run_id = ? ORDER BY timestamp ASC",
+            (run_id,)
+        ).fetchall()
+
+        # Tool ops logs for this tool
+        tool_ops_rows = []
+        if tool_id:
+            tool_ops_rows = conn.execute(
+                f"SELECT * FROM {logs_tbl} WHERE tool_id = ? AND log_tier = 'tool_ops' ORDER BY timestamp DESC LIMIT 40",
+                (tool_id,)
+            ).fetchall()
+
+        conn.close()
+
+        return JSONResponse({
+            "run_id": run_id,
+            "tool_id": tool_id,
+            "run_metadata": run_dict,
+            "raw_files": [dict(r) for r in raw_rows],
+            "cleaned_files": [dict(r) for r in cleaned_rows],
+            "action_logs": [dict(r) for r in action_log_rows],
+            "tool_ops_logs": [dict(r) for r in tool_ops_rows],
+        })
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.get("/api/index/prompt-history")
+async def get_prompt_history(limit: int = 100):
+    """
+    Reads logs/global/antigravity_prompt_log.jsonl and extracts prompt execution
+    milestones alongside Git commit hashes, stages, steps, timestamps, and status.
+    """
+    try:
+        log_file = ROOT / "logs" / "global" / "antigravity_prompt_log.jsonl"
+        records = []
+        milestones = []
+
+        if log_file.exists():
+            with open(log_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        rec = json.loads(line)
+                        records.append(rec)
+                        msg = rec.get("message", "")
+                        if any(p in msg for p in ["[SCAFFOLD]", "[TOOL-INSTALL]", "[UPDATE]", "[FIX]", "[RUN-LOG]"]) or "Git commit:" in msg or "Stage" in msg or "Step" in msg:
+                            git_commit = ""
+                            if "Git commit:" in msg:
+                                parts = msg.split("Git commit:")
+                                if len(parts) > 1:
+                                    git_commit = parts[1].split()[0].strip()
+                            milestones.append({
+                                "timestamp": rec.get("timestamp"),
+                                "stage": rec.get("stage"),
+                                "step": rec.get("step"),
+                                "level": rec.get("level", "INFO"),
+                                "message": msg,
+                                "git_commit": git_commit or rec.get("git_commit", ""),
+                                "progress_pct": rec.get("progress_percent") or rec.get("progress_pct"),
+                            })
+                    except Exception:
+                        pass
+
+        milestones_sorted = list(reversed(milestones))[:limit]
+        recent_records = list(reversed(records))[:limit]
+
+        return JSONResponse({
+            "count": len(records),
+            "milestones_count": len(milestones),
+            "milestones": milestones_sorted,
+            "prompt_logs": recent_records,
+        })
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
 
 
 @app.post("/api/run-tool/{tool_id}")

@@ -228,8 +228,8 @@
         <!-- Pipeline Mode Bar -->
         <div class="index-mode-bar">
           <div class="mode-bar-left">
-            <span class="mode-bar-label">SOURCE PIPELINE:</span>
-            <select id="index-scope-select" onchange="onIndexScopeChange()">
+            <span class="mode-label">SOURCE PIPELINE:</span>
+            <select id="index-scope-select" class="scope-select" onchange="onIndexScopeChange(this.value)">
               <option value="global" selected>🌐 Global Master Index (Connected 20 Tools + 4 Log Tiers)</option>
               <optgroup label="Isolated Tool Indexes (Per-Tool SQLite)">
                 <option value="01_curl_cffi">01_curl_cffi.sqlite</option>
@@ -266,6 +266,15 @@
           </div>
         </div>
 
+        <!-- Isolated Mode Warning & Return Banner -->
+        <div id="isolated-mode-banner" class="isolated-mode-banner" style="display:none;">
+          <div class="banner-left">
+            <span class="banner-icon">⚡</span>
+            <span><strong>ISOLATED PIPELINE MODE:</strong> Reading directly from dedicated SQLite database <code id="isolated-db-name" class="mono">index_store/tool_indexes/...</code></span>
+          </div>
+          <button class="banner-return-btn" onclick="onIndexScopeChange('global')">↩ Switch Back to Connected Global Index</button>
+        </div>
+
         <!-- KPI Ribbon -->
         <div class="index-kpi-ribbon">
           <div class="kpi-card">
@@ -297,107 +306,220 @@
 
         <!-- Sub-View Switcher -->
         <div class="subview-nav">
-          <button class="subview-btn active" data-subview="subview-runs" onclick="switchSubView('subview-runs', this)">
-            📊 Indexed Runs & Domain KPIs
+          <button class="subview-btn active" data-subview="subview-switchboard" onclick="switchSubView('subview-switchboard', this)">
+            🔌 20-Tool Pipeline Switchboard
           </button>
-          <button class="subview-btn" data-subview="subview-files" onclick="switchSubView('subview-files', this)">
-            🔍 Raw & Cleaned File Search (FTS5)
+          <button class="subview-btn" data-subview="subview-cascading" onclick="switchSubView('subview-cascading', this)">
+            📂 Cascading Folder-Wise Inspector
           </button>
-          <button class="subview-btn" data-subview="subview-logs" onclick="switchSubView('subview-logs', this)">
-            📜 Multi-Tier Indexed Logs Explorer
+          <button class="subview-btn" data-subview="subview-matrix" onclick="switchSubView('subview-matrix', this)">
+            📜 4-Tier Log Filter Matrix
+          </button>
+          <button class="subview-btn" data-subview="subview-search" onclick="switchSubView('subview-search', this)">
+            🔍 FTS5 Artifact Search
           </button>
         </div>
 
-        <!-- Unified Filter Bar -->
-        <div class="index-filter-bar">
-          <div class="search-box">
-            <input type="text" id="index-search-input" placeholder="Search runs, files, previews, logs (SQLite FTS5)..." onkeyup="handleIndexSearchKey(event)" />
-            <button class="search-btn" onclick="executeIndexSearch()">Search</button>
+        <!-- ═════════════════════════════════════════════════════ -->
+        <!-- SUB-VIEW A: 20-TOOL PIPELINE SWITCHBOARD             -->
+        <!-- ═════════════════════════════════════════════════════ -->
+        <div class="subview-content active" id="subview-switchboard">
+          <div class="arch-overview-banner">
+            <div class="arch-node-master">
+              <div class="node-badge">CONNECTED CORE MASTER</div>
+              <div class="node-title">🌐 Global Master Index Hub</div>
+              <div class="node-sub mono">index_store/global_master_index.sqlite (FTS5 Porter + WAL Mode)</div>
+              <div class="node-stats">
+                <span><strong>Tools:</strong> <span id="arch-tools-count">20/20 Connected</span></span>
+                <span><strong>Runs:</strong> <span id="arch-runs-count">57</span></span>
+                <span><strong>Master DB Size:</strong> <span id="arch-master-size">2.5 MB</span></span>
+                <span><strong>Auto-Sync Hook:</strong> <span class="sync-active-badge">RULE 5 ACTIVE ✓</span></span>
+              </div>
+            </div>
+            <div class="arch-link-lines">
+              <span class="arch-arrow">▼</span>
+              <span class="arch-arrow-label">Continuous Auto-Sync on Every Completed Run (`core/folder_manager.py`)</span>
+              <span class="arch-arrow">▼</span>
+            </div>
+            <div class="arch-sub-heading">20 ISOLATED PER-TOOL INDEX PIPELINES (`index_store/tool_indexes/*.sqlite`)</div>
           </div>
-          <div class="filter-controls">
-            <select id="index-filter-stage" onchange="executeIndexFilter()" title="Filter by Stage">
+
+          <div class="pipelines-grid" id="pipelines-grid">
+            <div class="loading-dots">Loading 20-tool pipeline switchboard status...</div>
+          </div>
+        </div>
+
+        <!-- ═════════════════════════════════════════════════════ -->
+        <!-- SUB-VIEW B: CASCADING FOLDER-WISE INSPECTOR          -->
+        <!-- ═════════════════════════════════════════════════════ -->
+        <div class="subview-content" id="subview-cascading">
+          <div class="cascading-nav-bar">
+            <div class="cascade-step">
+              <label class="cascade-label">1. SELECT TOOL</label>
+              <select id="cascade-select-tool" onchange="onCascadeToolChange(this.value)">
+                <option value="">Loading tools...</option>
+              </select>
+            </div>
+            <div class="cascade-arrow">➔</div>
+            <div class="cascade-step">
+              <label class="cascade-label">2. ACTION FOLDER</label>
+              <select id="cascade-select-action" onchange="onCascadeActionChange(this.value)">
+                <option value="">All Actions</option>
+              </select>
+            </div>
+            <div class="cascade-arrow">➔</div>
+            <div class="cascade-step">
+              <label class="cascade-label">3. DATE FOLDER</label>
+              <select id="cascade-select-date" onchange="onCascadeDateChange(this.value)">
+                <option value="">All Dates</option>
+              </select>
+            </div>
+            <div class="cascade-arrow">➔</div>
+            <div class="cascade-step">
+              <label class="cascade-label">4. RUN FOLDER</label>
+              <select id="cascade-select-run" onchange="onCascadeRunChange(this.value)">
+                <option value="">Select a run...</option>
+              </select>
+            </div>
+            <button class="action-btn" onclick="refreshCascadingFacets()" title="Refresh Hierarchy">🔄 Refresh</button>
+          </div>
+
+          <!-- Run Inspection Container (3-Panel Grid) -->
+          <div class="cascade-bundle-grid" id="cascade-bundle-grid">
+            <!-- Panel 1: Manifest & Domain KPIs -->
+            <div class="cascade-panel" id="cascade-panel-manifest">
+              <div class="panel-header-mini">
+                <span class="panel-title-mini">📊 Run Manifest & Domain KPIs</span>
+                <span id="cascade-status-pill" class="tool-status-badge status-scaffolded">READY</span>
+              </div>
+              <div id="cascade-manifest-body" class="cascade-panel-body">
+                <div class="empty-state">Select a run folder from the dropdowns above to inspect its contents.</div>
+              </div>
+            </div>
+
+            <!-- Panel 2: Side-by-Side Raw vs Cleaned Files -->
+            <div class="cascade-panel" id="cascade-panel-files">
+              <div class="panel-header-mini">
+                <span class="panel-title-mini">📦 Artifact Inventory (raw/ vs cleaned/)</span>
+                <span id="cascade-files-count" class="mono-badge">0 files</span>
+              </div>
+              <div id="cascade-files-body" class="cascade-panel-body">
+                <div class="empty-state">No run selected.</div>
+              </div>
+            </div>
+
+            <!-- Panel 3: Action Log & Tool Ops Log -->
+            <div class="cascade-panel full-width" id="cascade-panel-logs">
+              <div class="panel-header-mini">
+                <span class="panel-title-mini">📋 Folder Action Log (`action_run.jsonl`) & Tool Ops Logs</span>
+                <div class="panel-actions-mini">
+                  <select id="cascade-log-level-filter" onchange="filterCascadeLogs()">
+                    <option value="">All Levels</option>
+                    <option value="INFO">INFO</option>
+                    <option value="WARN">WARN</option>
+                    <option value="ERROR">ERROR</option>
+                  </select>
+                  <input type="text" id="cascade-log-search" placeholder="Search log lines..." onkeyup="filterCascadeLogs()" />
+                </div>
+              </div>
+              <div id="cascade-logs-body" class="cascade-logs-console">
+                <div class="empty-state">No run selected.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═════════════════════════════════════════════════════ -->
+        <!-- SUB-VIEW C: DEDICATED 4-TIER LOG FILTER MATRIX       -->
+        <!-- ═════════════════════════════════════════════════════ -->
+        <div class="subview-content" id="subview-matrix">
+          <div class="matrix-tier-selector">
+            <button class="tier-pill-btn active" data-matrix-tier="all" onclick="selectMatrixTier('all', this)">
+              🌐 All Multi-Tier Logs (<span id="count-tier-all">0</span>)
+            </button>
+            <button class="tier-pill-btn tier-4" data-matrix-tier="global_prompt" onclick="selectMatrixTier('global_prompt', this)">
+              ⚡ Tier 4: Global Prompt & Milestones (<span id="count-tier-4">0</span>)
+            </button>
+            <button class="tier-pill-btn tier-3" data-matrix-tier="stage_log" onclick="selectMatrixTier('stage_log', this)">
+              📈 Tier 3: Stage Logs (<span id="count-tier-3">0</span>)
+            </button>
+            <button class="tier-pill-btn tier-2" data-matrix-tier="tool_ops" onclick="selectMatrixTier('tool_ops', this)">
+              🛠 Tier 2: Tool Operational Logs (<span id="count-tier-2">0</span>)
+            </button>
+            <button class="tier-pill-btn tier-1" data-matrix-tier="action_run" onclick="selectMatrixTier('action_run', this)">
+              📂 Tier 1: Action Run Logs (<span id="count-tier-1">0</span>)
+            </button>
+          </div>
+
+          <div class="matrix-filter-bar">
+            <input type="text" id="matrix-search-input" placeholder="Search logs with SQLite FTS5 full-text match..." onkeyup="handleMatrixSearchKey(event)" />
+            <select id="matrix-stage-select" onchange="loadMatrixLogs()">
               <option value="">All Stages</option>
               <option value="Stage 1">Stage 1</option>
               <option value="Stage 2">Stage 2</option>
             </select>
-            <select id="index-filter-logtier" onchange="executeIndexFilter()" title="Filter by Log Tier">
-              <option value="">All Log Tiers</option>
-              <option value="global_prompt">Tier 4: Global Prompt</option>
-              <option value="stage_log">Tier 3: Stage Log</option>
-              <option value="tool_ops">Tier 2: Tool Ops</option>
-              <option value="action_run">Tier 1: Action Run</option>
+            <select id="matrix-tool-select" onchange="loadMatrixLogs()">
+              <option value="">All Tools (01-20)</option>
             </select>
-            <select id="index-filter-batch" onchange="executeIndexFilter()" title="Filter by Batch">
-              <option value="">All Batches</option>
-              <option value="1">Batch 1 (01-05)</option>
-              <option value="2">Batch 2 (06-10)</option>
-              <option value="3">Batch 3 (11-15)</option>
-              <option value="4">Batch 4 (16-20)</option>
+            <select id="matrix-level-select" onchange="loadMatrixLogs()">
+              <option value="">All Levels</option>
+              <option value="INFO">INFO</option>
+              <option value="WARN">WARN</option>
+              <option value="ERROR">ERROR</option>
+              <option value="DEBUG">DEBUG</option>
             </select>
-            <select id="index-filter-tool" onchange="executeIndexFilter()" title="Filter by Tool">
-              <option value="">All Tools</option>
-              <option value="01_curl_cffi">01 curl_cffi</option>
-              <option value="02_selectolax_lxml">02 selectolax_lxml</option>
-              <option value="03_scrapy">03 scrapy</option>
-              <option value="04_httpx_parsel">04 httpx_parsel</option>
-              <option value="05_trafilatura">05 trafilatura</option>
-              <option value="06_playwright">06 playwright</option>
-              <option value="07_patchright">07 patchright</option>
-              <option value="08_camoufox">08 camoufox</option>
-              <option value="09_nodriver">09 nodriver</option>
-              <option value="10_scrapling">10 scrapling</option>
-              <option value="11_yt_dlp_ffmpeg">11 yt_dlp_ffmpeg</option>
-              <option value="12_instaloader">12 instaloader</option>
-              <option value="13_gallery_dl">13 gallery_dl</option>
-              <option value="14_singlefile_archive">14 singlefile_archive</option>
-              <option value="15_mitmproxy_interceptor">15 mitmproxy_interceptor</option>
-              <option value="16_crawl4ai">16 crawl4ai</option>
-              <option value="17_surya_ocr">17 surya_ocr</option>
-              <option value="18_paddleocr_img2table">18 paddleocr_img2table</option>
-              <option value="19_docling_pdf">19 docling_pdf</option>
-              <option value="20_faster_whisper_scrapegraph">20 faster_whisper_scrapegraph</option>
-            </select>
-            <select id="index-filter-action" onchange="executeIndexFilter()" title="Filter by Action">
-              <option value="">All Actions</option>
-            </select>
-            <input type="date" id="index-filter-date" onchange="executeIndexFilter()" title="Filter by Date" />
-            <select id="index-filter-tier" onchange="executeIndexFilter()" title="File Tier">
-              <option value="">All File Tiers</option>
-              <option value="raw">Raw Tier</option>
-              <option value="cleaned">Cleaned Tier</option>
-            </select>
-            <button class="clear-btn" onclick="resetIndexFilters()">⊗ Reset</button>
+            <button class="action-btn" onclick="exportFilteredLogs()" title="Download as JSON file">
+              📥 Export Filtered Logs (.json)
+            </button>
+            <button class="clear-btn" onclick="resetMatrixFilters()">⊗ Reset</button>
           </div>
-        </div>
 
-        <!-- Sub-view 1: Runs Table -->
-        <div class="subview-content active" id="subview-runs">
           <div class="index-table-container">
-            <table class="index-table" id="runs-table">
+            <table class="index-table" id="matrix-table">
               <thead>
                 <tr>
-                  <th>Tool</th>
+                  <th>Timestamp</th>
+                  <th>Tier</th>
+                  <th>Stage / Step</th>
+                  <th>Tool ID</th>
                   <th>Action</th>
-                  <th>Run ID</th>
-                  <th>Date</th>
-                  <th>Duration</th>
-                  <th>Status</th>
-                  <th>Files</th>
-                  <th>Domain Metrics & KPIs</th>
-                  <th>Inspect</th>
+                  <th>Level</th>
+                  <th>Commit</th>
+                  <th>Log Message / Milestone</th>
                 </tr>
               </thead>
-              <tbody id="runs-table-body">
-                <tr><td colspan="9" class="loading-td">Loading indexed runs...</td></tr>
+              <tbody id="matrix-table-body">
+                <tr><td colspan="8" class="loading-td">Loading 4-tier log matrix...</td></tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- Sub-view 2: Files FTS5 Search Results -->
-        <div class="subview-content" id="subview-files">
+        <!-- ═════════════════════════════════════════════════════ -->
+        <!-- SUB-VIEW D: FTS5 ARTIFACT SEARCH                     -->
+        <!-- ═════════════════════════════════════════════════════ -->
+        <div class="subview-content" id="subview-search">
+          <div class="index-filter-bar">
+            <div class="search-box">
+              <input type="text" id="fts-search-input" placeholder="Search raw & cleaned file contents, domain metrics, filenames (SQLite FTS5)..." onkeyup="handleFtsSearchKey(event)" />
+              <button class="search-btn" onclick="loadFtsFiles()">Search Artifacts</button>
+            </div>
+            <div class="filter-controls">
+              <select id="fts-filter-tool" onchange="loadFtsFiles()">
+                <option value="">All Tools</option>
+              </select>
+              <select id="fts-filter-tier" onchange="loadFtsFiles()">
+                <option value="">All File Tiers</option>
+                <option value="raw">Raw Tier</option>
+                <option value="cleaned">Cleaned Tier</option>
+              </select>
+              <input type="date" id="fts-filter-date" onchange="loadFtsFiles()" />
+              <button class="clear-btn" onclick="resetFtsFilters()">⊗ Reset</button>
+            </div>
+          </div>
+
           <div class="index-table-container">
-            <table class="index-table" id="files-table">
+            <table class="index-table" id="fts-files-table">
               <thead>
                 <tr>
                   <th>Tier</th>
@@ -406,38 +528,19 @@
                   <th>Action</th>
                   <th>Size</th>
                   <th>SHA-256</th>
-                  <th>Content Preview</th>
+                  <th>FTS5 Content Preview & Highlight</th>
                   <th>Inspect</th>
                 </tr>
               </thead>
-              <tbody id="files-table-body">
-                <tr><td colspan="8" class="loading-td">Loading indexed files...</td></tr>
+              <tbody id="fts-files-table-body">
+                <tr><td colspan="8" class="loading-td">Enter search term or select filters to explore artifacts...</td></tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- Sub-view 3: Multi-Tier Indexed Logs Explorer -->
-        <div class="subview-content" id="subview-logs">
-          <div class="index-table-container">
-            <table class="index-table" id="logs-table">
-              <thead>
-                <tr>
-                  <th>Timestamp</th>
-                  <th>Log Tier</th>
-                  <th>Stage / Step</th>
-                  <th>Tool</th>
-                  <th>Action</th>
-                  <th>Level</th>
-                  <th>Message</th>
-                </tr>
-              </thead>
-              <tbody id="logs-table-body">
-                <tr><td colspan="7" class="loading-td">Loading multi-tier logs...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      </div>
+    </div>
       </div>
     </div>
   </div>
