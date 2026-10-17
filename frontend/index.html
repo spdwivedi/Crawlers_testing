@@ -75,6 +75,9 @@
       <button class="tab-btn" data-tab="tab-explorer" onclick="switchTab('tab-explorer', this)">
         <span class="tab-icon">📁</span> Data Explorer
       </button>
+      <button class="tab-btn" data-tab="tab-index" onclick="switchTab('tab-index', this)">
+        <span class="tab-icon">🗂</span> Index & Search Hub
+      </button>
     </nav>
 
     <!-- ─── TAB 1: LIVE EXECUTION ─────────────────────────── -->
@@ -85,10 +88,15 @@
           <div class="panel-header">
             <h2 class="panel-title">Real-Time Log Stream</h2>
             <div class="log-filters">
+              <select id="filter-stage" onchange="applyFilters()" title="Filter by Stage">
+                <option value="">All Stages</option>
+                <option value="Stage 1">Stage 1</option>
+                <option value="Stage 2">Stage 2</option>
+              </select>
               <select id="filter-tier" onchange="applyFilters()" title="Log Tier">
                 <option value="">All Tiers</option>
                 <option value="antigravity_prompt_log">Global Prompt Log</option>
-                <option value="stage_1">Stage 1 Log</option>
+                <option value="stage_log">Stage Logs (1 & 2)</option>
                 <option value="tool_ops">Tool Log</option>
                 <option value="action_run">Action Run Log</option>
               </select>
@@ -212,6 +220,226 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- ─── TAB 4: INDEX & SEARCH HUB ─────────────────────── -->
+    <div class="tab-content" id="tab-index">
+      <div class="index-hub-layout">
+        <!-- Pipeline Mode Bar -->
+        <div class="index-mode-bar">
+          <div class="mode-bar-left">
+            <span class="mode-bar-label">SOURCE PIPELINE:</span>
+            <select id="index-scope-select" onchange="onIndexScopeChange()">
+              <option value="global" selected>🌐 Global Master Index (Connected 20 Tools + 4 Log Tiers)</option>
+              <optgroup label="Isolated Tool Indexes (Per-Tool SQLite)">
+                <option value="01_curl_cffi">01_curl_cffi.sqlite</option>
+                <option value="02_selectolax_lxml">02_selectolax_lxml.sqlite</option>
+                <option value="03_scrapy">03_scrapy.sqlite</option>
+                <option value="04_httpx_parsel">04_httpx_parsel.sqlite</option>
+                <option value="05_trafilatura">05_trafilatura.sqlite</option>
+                <option value="06_playwright">06_playwright.sqlite</option>
+                <option value="07_patchright">07_patchright.sqlite</option>
+                <option value="08_camoufox">08_camoufox.sqlite</option>
+                <option value="09_nodriver">09_nodriver.sqlite</option>
+                <option value="10_scrapling">10_scrapling.sqlite</option>
+                <option value="11_yt_dlp_ffmpeg">11_yt_dlp_ffmpeg.sqlite</option>
+                <option value="12_instaloader">12_instaloader.sqlite</option>
+                <option value="13_gallery_dl">13_gallery_dl.sqlite</option>
+                <option value="14_singlefile_archive">14_singlefile_archive.sqlite</option>
+                <option value="15_mitmproxy_interceptor">15_mitmproxy_interceptor.sqlite</option>
+                <option value="16_crawl4ai">16_crawl4ai.sqlite</option>
+                <option value="17_surya_ocr">17_surya_ocr.sqlite</option>
+                <option value="18_paddleocr_img2table">18_paddleocr_img2table.sqlite</option>
+                <option value="19_docling_pdf">19_docling_pdf.sqlite</option>
+                <option value="20_faster_whisper_scrapegraph">20_faster_whisper_scrapegraph.sqlite</option>
+              </optgroup>
+            </select>
+            <span class="scope-pill" id="index-scope-pill">GLOBAL MASTER</span>
+          </div>
+          <div class="mode-bar-right">
+            <button class="action-btn" id="btn-rebuild-active" onclick="triggerIndexRebuild('active')">
+              🔄 Rebuild Active Index
+            </button>
+            <button class="action-btn primary" id="btn-rebuild-all" onclick="triggerIndexRebuild('global')">
+              🔄 Rebuild All (20 Tools + Global)
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Ribbon -->
+        <div class="index-kpi-ribbon">
+          <div class="kpi-card">
+            <div class="kpi-label">INDEXED RUNS</div>
+            <div class="kpi-val" id="kpi-runs">0</div>
+            <div class="kpi-sub" id="kpi-actions">0 distinct actions</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">RAW ARTIFACTS</div>
+            <div class="kpi-val" id="kpi-raw-files">0</div>
+            <div class="kpi-sub" id="kpi-raw-size">0 KB</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">CLEANED ARTIFACTS</div>
+            <div class="kpi-val" id="kpi-clean-files">0</div>
+            <div class="kpi-sub" id="kpi-clean-size">0 KB</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">MULTI-TIER LOGS</div>
+            <div class="kpi-val" id="kpi-logs">0</div>
+            <div class="kpi-sub" id="kpi-logs-breakdown">Act: 0 | Tool: 0 | Stg: 0 | Glob: 0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">ACTIVE SCOPE / PIPELINE</div>
+            <div class="kpi-val highlight" id="kpi-scope">GLOBAL</div>
+            <div class="kpi-sub" id="kpi-last-sync">Auto-indexing active</div>
+          </div>
+        </div>
+
+        <!-- Sub-View Switcher -->
+        <div class="subview-nav">
+          <button class="subview-btn active" data-subview="subview-runs" onclick="switchSubView('subview-runs', this)">
+            📊 Indexed Runs & Domain KPIs
+          </button>
+          <button class="subview-btn" data-subview="subview-files" onclick="switchSubView('subview-files', this)">
+            🔍 Raw & Cleaned File Search (FTS5)
+          </button>
+          <button class="subview-btn" data-subview="subview-logs" onclick="switchSubView('subview-logs', this)">
+            📜 Multi-Tier Indexed Logs Explorer
+          </button>
+        </div>
+
+        <!-- Unified Filter Bar -->
+        <div class="index-filter-bar">
+          <div class="search-box">
+            <input type="text" id="index-search-input" placeholder="Search runs, files, previews, logs (SQLite FTS5)..." onkeyup="handleIndexSearchKey(event)" />
+            <button class="search-btn" onclick="executeIndexSearch()">Search</button>
+          </div>
+          <div class="filter-controls">
+            <select id="index-filter-stage" onchange="executeIndexFilter()" title="Filter by Stage">
+              <option value="">All Stages</option>
+              <option value="Stage 1">Stage 1</option>
+              <option value="Stage 2">Stage 2</option>
+            </select>
+            <select id="index-filter-logtier" onchange="executeIndexFilter()" title="Filter by Log Tier">
+              <option value="">All Log Tiers</option>
+              <option value="global_prompt">Tier 4: Global Prompt</option>
+              <option value="stage_log">Tier 3: Stage Log</option>
+              <option value="tool_ops">Tier 2: Tool Ops</option>
+              <option value="action_run">Tier 1: Action Run</option>
+            </select>
+            <select id="index-filter-batch" onchange="executeIndexFilter()" title="Filter by Batch">
+              <option value="">All Batches</option>
+              <option value="1">Batch 1 (01-05)</option>
+              <option value="2">Batch 2 (06-10)</option>
+              <option value="3">Batch 3 (11-15)</option>
+              <option value="4">Batch 4 (16-20)</option>
+            </select>
+            <select id="index-filter-tool" onchange="executeIndexFilter()" title="Filter by Tool">
+              <option value="">All Tools</option>
+              <option value="01_curl_cffi">01 curl_cffi</option>
+              <option value="02_selectolax_lxml">02 selectolax_lxml</option>
+              <option value="03_scrapy">03 scrapy</option>
+              <option value="04_httpx_parsel">04 httpx_parsel</option>
+              <option value="05_trafilatura">05 trafilatura</option>
+              <option value="06_playwright">06 playwright</option>
+              <option value="07_patchright">07 patchright</option>
+              <option value="08_camoufox">08 camoufox</option>
+              <option value="09_nodriver">09 nodriver</option>
+              <option value="10_scrapling">10 scrapling</option>
+              <option value="11_yt_dlp_ffmpeg">11 yt_dlp_ffmpeg</option>
+              <option value="12_instaloader">12 instaloader</option>
+              <option value="13_gallery_dl">13 gallery_dl</option>
+              <option value="14_singlefile_archive">14 singlefile_archive</option>
+              <option value="15_mitmproxy_interceptor">15 mitmproxy_interceptor</option>
+              <option value="16_crawl4ai">16 crawl4ai</option>
+              <option value="17_surya_ocr">17 surya_ocr</option>
+              <option value="18_paddleocr_img2table">18 paddleocr_img2table</option>
+              <option value="19_docling_pdf">19 docling_pdf</option>
+              <option value="20_faster_whisper_scrapegraph">20 faster_whisper_scrapegraph</option>
+            </select>
+            <select id="index-filter-action" onchange="executeIndexFilter()" title="Filter by Action">
+              <option value="">All Actions</option>
+            </select>
+            <input type="date" id="index-filter-date" onchange="executeIndexFilter()" title="Filter by Date" />
+            <select id="index-filter-tier" onchange="executeIndexFilter()" title="File Tier">
+              <option value="">All File Tiers</option>
+              <option value="raw">Raw Tier</option>
+              <option value="cleaned">Cleaned Tier</option>
+            </select>
+            <button class="clear-btn" onclick="resetIndexFilters()">⊗ Reset</button>
+          </div>
+        </div>
+
+        <!-- Sub-view 1: Runs Table -->
+        <div class="subview-content active" id="subview-runs">
+          <div class="index-table-container">
+            <table class="index-table" id="runs-table">
+              <thead>
+                <tr>
+                  <th>Tool</th>
+                  <th>Action</th>
+                  <th>Run ID</th>
+                  <th>Date</th>
+                  <th>Duration</th>
+                  <th>Status</th>
+                  <th>Files</th>
+                  <th>Domain Metrics & KPIs</th>
+                  <th>Inspect</th>
+                </tr>
+              </thead>
+              <tbody id="runs-table-body">
+                <tr><td colspan="9" class="loading-td">Loading indexed runs...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Sub-view 2: Files FTS5 Search Results -->
+        <div class="subview-content" id="subview-files">
+          <div class="index-table-container">
+            <table class="index-table" id="files-table">
+              <thead>
+                <tr>
+                  <th>Tier</th>
+                  <th>Filename</th>
+                  <th>Tool ID</th>
+                  <th>Action</th>
+                  <th>Size</th>
+                  <th>SHA-256</th>
+                  <th>Content Preview</th>
+                  <th>Inspect</th>
+                </tr>
+              </thead>
+              <tbody id="files-table-body">
+                <tr><td colspan="8" class="loading-td">Loading indexed files...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Sub-view 3: Multi-Tier Indexed Logs Explorer -->
+        <div class="subview-content" id="subview-logs">
+          <div class="index-table-container">
+            <table class="index-table" id="logs-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Log Tier</th>
+                  <th>Stage / Step</th>
+                  <th>Tool</th>
+                  <th>Action</th>
+                  <th>Level</th>
+                  <th>Message</th>
+                </tr>
+              </thead>
+              <tbody id="logs-table-body">
+                <tr><td colspan="7" class="loading-td">Loading multi-tier logs...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- File Content Preview Modal -->

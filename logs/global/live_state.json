@@ -1,22 +1,14 @@
 {
   "is_running": false,
   "current_stage": "Stage 2",
-  "current_step": "Step 2.1",
-  "active_tool_id": "core_indexer",
-  "active_action": "verify_step_2_1",
-  "current_subtask": "Step 2.1 verified: 20/20 indexers operational",
-  "started_at_epoch": 1792087773.3703308,
-  "elapsed_seconds": 32356.8,
+  "current_step": "Step 2.2",
+  "active_tool_id": "global_indexer",
+  "active_action": "build_master_index",
+  "current_subtask": "Initializing global master indexer and FTS5 engine...",
+  "started_at_epoch": 1792198049.8600423,
+  "elapsed_seconds": 769.6,
   "progress_percent": 100,
   "recent_events": [
-    {
-      "timestamp": "2026-10-16T03:08:48.298246+00:00",
-      "message": "PROGRESS 20%: Indexing & verifying 04_httpx_parsel (4/20)..."
-    },
-    {
-      "timestamp": "2026-10-16T03:08:48.409789+00:00",
-      "message": "PROGRESS 23%: Indexing & verifying 05_trafilatura (5/20)..."
-    },
     {
       "timestamp": "2026-10-16T03:08:48.589754+00:00",
       "message": "PROGRESS 27%: Indexing & verifying 06_playwright (6/20)..."
@@ -48,6 +40,14 @@
     {
       "timestamp": "2026-10-16T03:08:50.120750+00:00",
       "message": "PROGRESS 53%: Indexing & verifying 13_gallery_dl (13/20)..."
+    },
+    {
+      "timestamp": "2026-10-17T00:47:29.860055+00:00",
+      "message": "STARTED: Stage 2 / Step 2.2 \u2014 Initializing global master indexer and FTS5 engine..."
+    },
+    {
+      "timestamp": "2026-10-17T01:00:19.456771+00:00",
+      "message": "COMPLETED: Task completed."
     }
   ],
   "worker_processes": [
@@ -63,8 +63,8 @@
         "127.0.0.1"
       ],
       "cpu_pct": 0.0,
-      "ram_mb": 4.0,
-      "runtime_s": 62.3
+      "ram_mb": 4.1,
+      "runtime_s": 6314.8
     },
     {
       "pid": 55964,
@@ -77,9 +77,9 @@
         "--host",
         "127.0.0.1"
       ],
-      "cpu_pct": 68.4,
-      "ram_mb": 63.5,
-      "runtime_s": 62.8
+      "cpu_pct": 15.7,
+      "ram_mb": 85.8,
+      "runtime_s": 6315.2
     }
   ]
 }

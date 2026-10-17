@@ -1,0 +1,18 @@
+{
+  "run_id": "run_005943_2760a059",
+  "tool_id": "01_curl_cffi",
+  "action_name": "test_index_sync",
+  "date": "2026-10-17",
+  "target_url": "https://example.com/test_sync",
+  "started_at": "2026-10-17T00:59:43.791636+00:00",
+  "ended_at": "2026-10-17T00:59:43.798880+00:00",
+  "elapsed_sec": 0.007,
+  "status": "completed",
+  "raw_files": [
+    "test_raw.html"
+  ],
+  "cleaned_files": [
+    "test_clean.json"
+  ],
+  "git_commit": null
+}

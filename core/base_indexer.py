@@ -473,3 +473,16 @@ class BaseToolIndexer:
                 "recent_logs": recent_logs,
                 "indexed_at": meta.get("last_indexed_at", datetime.now(timezone.utc).isoformat()),
             }
+
+
+def get_tool_indexer(tool_id: str) -> BaseToolIndexer:
+    """Factory function returning the dedicated ToolIndexer for a tool, or BaseToolIndexer fallback."""
+    import importlib
+    indexer_cls = BaseToolIndexer
+    try:
+        mod = importlib.import_module(f"tools.{tool_id}.indexer")
+        indexer_cls = getattr(mod, "ToolIndexer", BaseToolIndexer)
+    except Exception:
+        pass
+    return indexer_cls(tool_id)
+

@@ -62,9 +62,10 @@ auth_profiles/*
 !auth_profiles/README_AUTH.md
 
 # ── Index Databases ───────────────────────────
-index_store/**/*.sqlite
-index_store/**/*.sqlite3
-index_store/**/*.db
+index_store/*.sqlite*
+index_store/**/*.sqlite*
+index_store/**/*.sqlite3*
+index_store/**/*.db*
 
 # ─────────────────────────────────────────────
 # STRICTLY TRACKED — Force-include these always
@@ -77,4 +78,6 @@ index_store/**/*.db
 !logs/**
 !data/**/.gitkeep
 !tools/**/.gitkeep
+!index_store/*.json
 !index_store/**/*.json
+

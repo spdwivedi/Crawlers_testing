@@ -39,6 +39,7 @@ function switchTab(tabId, btn) {
   btn.classList.add("active");
 
   if (tabId === "tab-explorer") loadDataTree();
+  if (tabId === "tab-index") loadIndexHub();
 }
 
 // ─── Telemetry WebSocket ──────────────────────────────────────────────────────
@@ -200,12 +201,14 @@ function renderLogLine(record, container) {
 }
 
 function passesFilter(record) {
+  const stage  = document.getElementById("filter-stage")?.value;
   const tier   = document.getElementById("filter-tier")?.value;
   const level  = document.getElementById("filter-level")?.value;
   const tool   = document.getElementById("filter-tool")?.value;
   const action = document.getElementById("filter-action")?.value;
   const date   = document.getElementById("filter-date")?.value;
 
+  if (stage  && record.stage !== stage) return false;
   if (level  && record.level !== level) return false;
   if (tool   && record.tool_id !== tool) return false;
   if (action && record.action_name !== action) return false;
@@ -463,6 +466,7 @@ function showRunDetail(toolId, actionName, date, run) {
   const m      = run.manifest || {};
   const status = m.status || "unknown";
   const statusCls = `manifest-status-${status}`;
+  const domainMetrics = m.domain_metrics || run.domain_metrics;
 
   const rawFiles = (run.raw_files || []).map(f => `
     <div class="file-item clickable" onclick="previewFile('${toolId}', '${actionName}', '${date}', '${run.run_id}', 'raw', '${f}')">
@@ -477,6 +481,19 @@ function showRunDetail(toolId, actionName, date, run) {
       <span class="file-item-badge">Preview</span>
     </div>
   `).join("") || "<div class='empty-state'>No cleaned files</div>";
+
+  const metricsSection = domainMetrics && Object.keys(domainMetrics).length ? `
+    <div class="file-list-section">
+      <div class="file-list-title">📊 Indexed Domain Metrics & KPIs</div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px; padding:6px 0;">
+        ${Object.entries(domainMetrics).map(([k, v]) => `
+          <span class="metric-pill" style="font-size:11px; padding:3px 8px;">
+            <strong>${escHtml(k)}:</strong> ${escHtml(typeof v === 'object' ? JSON.stringify(v) : String(v))}
+          </span>
+        `).join("")}
+      </div>
+    </div>
+  ` : "";
 
   panel.innerHTML = `
     <div class="manifest-grid">
@@ -501,6 +518,8 @@ function showRunDetail(toolId, actionName, date, run) {
       <span class="manifest-key">Git Commit</span>
       <span class="manifest-val">${m.git_commit || "—"}</span>
     </div>
+
+    ${metricsSection}
 
     <div class="file-list-section">
       <div class="file-list-title">📦 Raw Files (${(run.raw_files||[]).length}) — click to preview</div>
@@ -662,4 +681,406 @@ async function runTool(toolId, btn) {
     }
   }
 }
+
+// ─── Jump To Run Detail (Tab 4 -> Tab 3 Integration) ─────────────────────────
+async function jumpToRunDetail(toolId, actionName, date, runId) {
+  const explorerBtn = document.querySelector('.tab-btn[data-tab="tab-explorer"]');
+  switchTab("tab-explorer", explorerBtn);
+
+  // Try to find run in data-tree
+  try {
+    const res = await fetch(`${API_BASE}/api/data-tree`);
+    const data = await res.json();
+    const tree = data.tree || {};
+    if (tree[toolId] && tree[toolId][actionName] && tree[toolId][actionName][date]) {
+      const match = tree[toolId][actionName][date].find(r => r.run_id === runId);
+      if (match) {
+        showRunDetail(toolId, actionName, date, match);
+        return;
+      }
+    }
+  } catch (e) { /* ignore */ }
+
+  // Fallback if not found in cache
+  showRunDetail(toolId, actionName, date, {
+    run_id: runId,
+    manifest: { tool_id: toolId, action_name: actionName, date: date, run_id: runId },
+    raw_files: [],
+    cleaned_files: []
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TAB 4: INDEX & SEARCH HUB LOGIC
+// ═══════════════════════════════════════════════════════════════════════════════
+let currentIndexScope = "global";
+let currentSubView = "subview-runs";
+let indexSearchDebounce = null;
+let indexOverviewData = null;
+
+function onIndexScopeChange(scope) {
+  currentIndexScope = scope;
+  const pill = document.getElementById("index-scope-pill");
+  const kpiScope = document.getElementById("kpi-scope");
+
+  if (scope === "global") {
+    if (pill) {
+      pill.textContent = "GLOBAL MASTER";
+      pill.className = "scope-pill";
+    }
+    if (kpiScope) kpiScope.textContent = "GLOBAL";
+  } else {
+    if (pill) {
+      pill.textContent = `SEPARATE: ${scope}.sqlite`;
+      pill.className = "scope-pill pill-separate";
+    }
+    if (kpiScope) kpiScope.textContent = scope;
+  }
+
+  loadIndexHub();
+}
+
+function switchSubView(subviewId, btn) {
+  currentSubView = subviewId;
+  document.querySelectorAll(".subview-content").forEach(el => el.classList.remove("active"));
+  document.querySelectorAll(".subview-btn").forEach(el => el.classList.remove("active"));
+
+  const target = document.getElementById(subviewId);
+  if (target) target.classList.add("active");
+  if (btn) btn.classList.add("active");
+
+  loadActiveSubView();
+}
+
+function loadActiveSubView() {
+  if (currentSubView === "subview-runs") {
+    loadIndexRuns();
+  } else if (currentSubView === "subview-files") {
+    loadIndexFiles();
+  } else if (currentSubView === "subview-logs") {
+    loadIndexLogs();
+  }
+}
+
+async function loadIndexHub() {
+  await loadIndexOverview();
+  loadActiveSubView();
+}
+
+async function loadIndexOverview() {
+  try {
+    const res = await fetch(`${API_BASE}/api/index/overview`);
+    const data = await res.json();
+    indexOverviewData = data;
+
+    // Update KPI Ribbon
+    if (currentIndexScope === "global") {
+      const tot = data.totals || {};
+      const lb = (data.logs_breakdown && data.logs_breakdown.by_tier) || {};
+      setText("kpi-runs", tot.total_runs || 0);
+      setText("kpi-actions", `${tot.total_tools || 20} tools connected`);
+      setText("kpi-raw-files", tot.total_raw_files || 0);
+      setText("kpi-raw-size", formatBytes(tot.total_raw_bytes || 0));
+      setText("kpi-clean-files", tot.total_cleaned_files || 0);
+      setText("kpi-clean-size", formatBytes(tot.total_cleaned_bytes || 0));
+      setText("kpi-logs", tot.total_logs || 0);
+      setText("kpi-logs-breakdown", `Act: ${lb.action_run || 0} | Tool: ${lb.tool_ops || 0} | Stg: ${lb.stage_log || 0} | Glob: ${lb.global_prompt || 0}`);
+      setText("kpi-scope", "GLOBAL MASTER");
+      setText("kpi-last-sync", (data.generated_at || "Just now").slice(11, 19));
+    } else {
+      const ind = (data.individual_tool_indexes || []).find(t => t.tool_id === currentIndexScope);
+      if (ind) {
+        const meta = ind.metadata || {};
+        setText("kpi-runs", ind.total_runs || meta.total_runs || 0);
+        setText("kpi-actions", `${meta.total_actions || 1} actions`);
+        setText("kpi-raw-files", meta.total_raw_files || 0);
+        setText("kpi-raw-size", "Indexed in SQLite");
+        setText("kpi-clean-files", meta.total_cleaned_files || 0);
+        setText("kpi-clean-size", "Indexed in SQLite");
+        setText("kpi-logs", meta.total_log_entries || 0);
+        setText("kpi-logs-breakdown", `Pipeline: ${ind.tool_id}`);
+        setText("kpi-scope", ind.tool_id);
+        setText("kpi-last-sync", (ind.indexed_at || meta.last_indexed_at || "—").slice(11, 19));
+      }
+    }
+  } catch (err) {
+    console.error("Error loading index overview:", err);
+  }
+}
+
+async function loadIndexRuns() {
+  const tbody = document.getElementById("runs-table-body");
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="9" class="loading-td">Loading indexed runs...</td></tr>';
+
+  const q = document.getElementById("index-search-input")?.value?.trim() || "";
+  const batch = document.getElementById("index-filter-batch")?.value || "";
+  const tool = document.getElementById("index-filter-tool")?.value || "";
+  const action = document.getElementById("index-filter-action")?.value || "";
+  const date = document.getElementById("index-filter-date")?.value || "";
+
+  const params = new URLSearchParams({ scope: currentIndexScope, limit: "100" });
+  if (q) params.append("q", q);
+  if (batch) params.append("batch", batch);
+  if (tool && currentIndexScope === "global") params.append("tool_id", tool);
+  if (action) params.append("action_name", action);
+  if (date) params.append("run_date", date);
+
+  try {
+    const res = await fetch(`${API_BASE}/api/index/runs?${params.toString()}`);
+    const data = await res.json();
+    const runs = data.runs || [];
+
+    if (!runs.length) {
+      tbody.innerHTML = '<tr><td colspan="9" class="loading-td">No indexed runs found matching criteria.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = runs.map(r => {
+      const toolId = r.tool_id || currentIndexScope;
+      const metricsPills = formatDomainMetrics(r.domain_metrics || {});
+      const statusCls = `manifest-status-${r.status || "completed"}`;
+      const elapsed = r.elapsed_sec != null ? `${Number(r.elapsed_sec).toFixed(2)}s` : "—";
+      const filesSummary = `<span class="tier-badge raw">R:${r.raw_file_count || 0}</span> <span class="tier-badge cleaned">C:${r.cleaned_file_count || 0}</span>`;
+
+      return `
+        <tr>
+          <td><strong class="mono">${escHtml(toolId)}</strong></td>
+          <td><span class="mono">${escHtml(r.action_name || "—")}</span></td>
+          <td><span class="hash-pill" title="${escHtml(r.run_id)}">${escHtml(r.run_id)}</span></td>
+          <td>${(r.run_date || "").slice(0, 10)}</td>
+          <td>${elapsed}</td>
+          <td><span class="${statusCls}">${(r.status || "COMPLETED").toUpperCase()}</span></td>
+          <td>${filesSummary}</td>
+          <td style="max-width: 320px;">${metricsPills}</td>
+          <td>
+            <button class="inspect-btn" onclick="jumpToRunDetail('${toolId}', '${r.action_name}', '${r.run_date}', '${r.run_id}')">
+              Inspect ➔
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="9" class="loading-td">Error loading runs: ${escHtml(err.message)}</td></tr>`;
+  }
+}
+
+async function loadIndexFiles() {
+  const tbody = document.getElementById("files-table-body");
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="8" class="loading-td">Loading indexed files (SQLite FTS5)...</td></tr>';
+
+  const q = document.getElementById("index-search-input")?.value?.trim() || "";
+  const tool = document.getElementById("index-filter-tool")?.value || "";
+  const action = document.getElementById("index-filter-action")?.value || "";
+  const date = document.getElementById("index-filter-date")?.value || "";
+  const tier = document.getElementById("index-filter-tier")?.value || "";
+
+  const params = new URLSearchParams({ scope: currentIndexScope, limit: "100" });
+  if (q) params.append("q", q);
+  if (tool && currentIndexScope === "global") params.append("tool_id", tool);
+  if (action) params.append("action_name", action);
+  if (date) params.append("run_date", date);
+  if (tier) params.append("tier", tier);
+
+  try {
+    const res = await fetch(`${API_BASE}/api/index/files?${params.toString()}`);
+    const data = await res.json();
+    const files = data.files || [];
+
+    if (!files.length) {
+      tbody.innerHTML = '<tr><td colspan="8" class="loading-td">No indexed files found matching query.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = files.map(f => {
+      const tierBadge = f.tier === "cleaned" 
+        ? '<span class="tier-badge cleaned">CLEANED</span>' 
+        : '<span class="tier-badge raw">RAW</span>';
+      const sizeStr = formatBytes(f.size_bytes || 0);
+      const shaShort = f.sha256_short || "—";
+      const previewText = f.content_preview ? highlightSearch(f.content_preview, q) : '<span style="color:var(--text-muted)">(Binary or empty)</span>';
+      const toolId = f.tool_id || currentIndexScope;
+
+      return `
+        <tr>
+          <td>${tierBadge}</td>
+          <td><strong class="mono">${escHtml(f.filename || "—")}</strong></td>
+          <td><span class="mono">${escHtml(toolId)}</span></td>
+          <td><span class="mono">${escHtml(f.action_name || "—")}</span></td>
+          <td>${sizeStr}</td>
+          <td><span class="hash-pill">${escHtml(shaShort)}</span></td>
+          <td style="max-width: 380px; font-family: var(--font-mono); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${escHtml(f.content_preview || '')}">
+            ${previewText}
+          </td>
+          <td>
+            <button class="inspect-btn" onclick="previewFile('${toolId}', '${f.action_name || ''}', '${f.run_date || ''}', '${f.run_id || ''}', '${f.tier || 'raw'}', '${f.filename}')">
+              Preview
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="8" class="loading-td">Error searching files: ${escHtml(err.message)}</td></tr>`;
+  }
+}
+
+async function loadIndexLogs() {
+  const tbody = document.getElementById("logs-table-body");
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="7" class="loading-td">Loading multi-tier logs...</td></tr>';
+
+  const q = document.getElementById("index-search-input")?.value?.trim() || "";
+  const tool = document.getElementById("index-filter-tool")?.value || "";
+  const action = document.getElementById("index-filter-action")?.value || "";
+  const date = document.getElementById("index-filter-date")?.value || "";
+  const logtier = document.getElementById("index-filter-logtier")?.value || "";
+  const stage = document.getElementById("index-filter-stage")?.value || "";
+
+  const params = new URLSearchParams({ scope: currentIndexScope, limit: "150" });
+  if (q) params.append("q", q);
+  if (tool && currentIndexScope === "global") params.append("tool_id", tool);
+  if (action) params.append("action_name", action);
+  if (date) params.append("run_date", date);
+  if (logtier) params.append("log_tier", logtier);
+  if (stage) params.append("stage", stage);
+
+  try {
+    const res = await fetch(`${API_BASE}/api/index/logs?${params.toString()}`);
+    const data = await res.json();
+    const logs = data.logs || [];
+
+    if (!logs.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="loading-td">No logs found matching query.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = logs.map(l => {
+      const ts = (l.timestamp || "").replace("T", " ").slice(0, 19);
+      const tierClass = `logtier-badge ${l.log_tier || "tool_ops"}`;
+      const levelClass = `log-level-${l.level || "INFO"}`;
+      const stageStep = [l.stage, l.step].filter(Boolean).join(" / ") || "—";
+      const toolId = l.tool_id || currentIndexScope || "—";
+      const actionName = l.action_name || "—";
+      const msgText = highlightSearch(l.message || "", q);
+
+      return `
+        <tr>
+          <td style="white-space: nowrap; font-family: var(--font-mono); font-size: 11px;">${ts}</td>
+          <td><span class="${tierClass}">${escHtml(l.log_tier || "ops")}</span></td>
+          <td><span style="font-size: 11px; color: var(--text-secondary);">${escHtml(stageStep)}</span></td>
+          <td><strong class="mono">${escHtml(toolId)}</strong></td>
+          <td><span class="mono">${escHtml(actionName)}</span></td>
+          <td><span class="${levelClass}">${escHtml(l.level || "INFO")}</span></td>
+          <td style="font-family: var(--font-mono); font-size: 11px; word-break: break-all;">${msgText}</td>
+        </tr>
+      `;
+    }).join("");
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="7" class="loading-td">Error loading logs: ${escHtml(err.message)}</td></tr>`;
+  }
+}
+
+function handleIndexSearchKey(event) {
+  if (event.key === "Enter") {
+    executeIndexSearch();
+    return;
+  }
+  clearTimeout(indexSearchDebounce);
+  indexSearchDebounce = setTimeout(() => {
+    executeIndexSearch();
+  }, 350);
+}
+
+function executeIndexSearch() {
+  loadActiveSubView();
+}
+
+function executeIndexFilter() {
+  loadActiveSubView();
+}
+
+function resetIndexFilters() {
+  const searchInput = document.getElementById("index-search-input");
+  if (searchInput) searchInput.value = "";
+
+  ["index-filter-stage", "index-filter-logtier", "index-filter-batch", 
+   "index-filter-tool", "index-filter-action", "index-filter-date", 
+   "index-filter-tier"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
+
+  loadActiveSubView();
+}
+
+async function triggerIndexRebuild(scopeType) {
+  const targetScope = scopeType === "global" ? "global" : currentIndexScope;
+  const btn = document.getElementById(scopeType === "global" ? "btn-rebuild-all" : "btn-rebuild-active");
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "⏳ Rebuilding...";
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/index/rebuild`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ scope: targetScope })
+    });
+    const data = await res.json();
+
+    setTimeout(() => {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = scopeType === "global" ? "🔄 Rebuild All (20 Tools + Global)" : "🔄 Rebuild Active Index";
+      }
+      loadIndexHub();
+    }, 4000);
+  } catch (err) {
+    alert(`Rebuild error: ${err.message}`);
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = scopeType === "global" ? "🔄 Rebuild All (20 Tools + Global)" : "🔄 Rebuild Active Index";
+    }
+  }
+}
+
+function formatBytes(bytes) {
+  if (!bytes || bytes <= 0) return "0 B";
+  const units = ["B", "KB", "MB", "GB"];
+  let i = 0;
+  let val = bytes;
+  while (val >= 1024 && i < units.length - 1) {
+    val /= 1024;
+    i++;
+  }
+  return `${val.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
+}
+
+function highlightSearch(text, query) {
+  if (!text) return "";
+  const esc = escHtml(text);
+  if (!query || query.length < 2) return esc;
+  try {
+    const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    return esc.replace(re, '<mark class="fts-hl">$1</mark>');
+  } catch (e) {
+    return esc;
+  }
+}
+
+function formatDomainMetrics(metrics) {
+  if (!metrics || typeof metrics !== "object" || Object.keys(metrics).length === 0) {
+    return '<span style="color:var(--text-muted); font-size:10px;">—</span>';
+  }
+  const items = Object.entries(metrics).slice(0, 4);
+  return items.map(([k, v]) => {
+    const valStr = typeof v === "object" ? JSON.stringify(v) : String(v);
+    return `<span class="metric-pill" title="${escHtml(k)}: ${escHtml(valStr)}">${escHtml(k)}: ${escHtml(valStr)}</span>`;
+  }).join("");
+}
+
 

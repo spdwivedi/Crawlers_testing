@@ -184,6 +184,13 @@ def complete_action_run(
                 pass
             indexer = indexer_cls(tool_id)
             indexer.index_single_run(run_dir)
+
+            # Auto-sync into global master index (Rule 5)
+            try:
+                from core.global_indexer import GlobalMasterIndexer
+                GlobalMasterIndexer().sync_single_tool(tool_id)
+            except Exception:
+                pass
     except Exception:
         pass
 

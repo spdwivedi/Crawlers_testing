@@ -5,15 +5,40 @@
     "name": "curl_cffi (TLS Impersonation)",
     "batch": 1,
     "mechanism_type": "HTTP/TLS",
-    "total_runs": 6,
-    "total_actions": 2,
-    "total_raw_files": 10,
-    "total_cleaned_files": 5,
-    "total_log_entries": 35,
-    "last_indexed_at": "2026-10-16T03:09:24.853263+00:00"
+    "total_runs": 7,
+    "total_actions": 3,
+    "total_raw_files": 11,
+    "total_cleaned_files": 6,
+    "total_log_entries": 36,
+    "last_indexed_at": "2026-10-17T00:59:43.827380+00:00"
   },
-  "total_runs": 6,
+  "total_runs": 7,
   "runs": [
+    {
+      "run_id": "run_005943_2760a059",
+      "tool_id": "01_curl_cffi",
+      "action_name": "test_index_sync",
+      "run_date": "2026-10-17",
+      "target_url": "https://example.com/test_sync",
+      "started_at": "2026-10-17T00:59:43.791636+00:00",
+      "ended_at": "2026-10-17T00:59:43.798880+00:00",
+      "elapsed_sec": 0.0,
+      "status": "completed",
+      "git_commit": null,
+      "raw_file_count": 1,
+      "cleaned_file_count": 1,
+      "raw_total_bytes": 83,
+      "cleaned_total_bytes": 57,
+      "domain_metrics_json": "{\"tls_impersonation_profile\": \"chrome124\", \"graphql_problem_slug\": null, \"catalog_problems_count\": 0, \"http_status\": 200}",
+      "cleaned_text_preview": "[test_clean.json]: {\"token\": \"unique_test_token_8899\", \"status\": \"verified\"}",
+      "run_dir_relpath": "data/01_curl_cffi/test_index_sync/2026-10-17/run_005943_2760a059",
+      "domain_metrics": {
+        "tls_impersonation_profile": "chrome124",
+        "graphql_problem_slug": null,
+        "catalog_problems_count": 0,
+        "http_status": 200
+      }
+    },
     {
       "run_id": "run_030851_0fa54a8b",
       "tool_id": "01_curl_cffi",
@@ -165,7 +190,7 @@
       }
     }
   ],
-  "total_files": 15,
+  "total_files": 17,
   "files_summary": {
     "raw": [
       {
@@ -281,6 +306,20 @@
         "content_preview": "{ \"date\": \"Thu, 15 Oct 2026 15:00:45 GMT\", \"content-type\": \"application/json\", \"vary\": \"Cookie, Authorization\", \"x-frame-options\": \"SAMEORIGIN\", \"set-cookie\": \"csrftoken=kmSfVhfy1jfpMdITES0HEbthTnpWQmko; expires=Thu, 14 Oct 2027 15:00:45 GMT; Max-Age=31449600; Path=/; SameSite=Lax; Secure\", \"strict-transport-security\": \"max-age=15552000; includeSubDomains; preload\", \"content-security-policy\": \"frame-ancestors 'self' https://*.leetcode.com https://leetcode.com https://www.growingio.com https://challenges.cloudflare.com\", \"cf-cache-status\": \"DYNAMIC\", \"x-content-type-options\": \"nosniff\", \"content-encoding\": \"br\", \"server\": \"cloudflare\", \"cf-ray\": \"a4afb1f56b2c5c15-DEL\", \"_impersonate\": \"chrome124\", \"_status_code\": 200, \"_elapsed_ms\": 414.57 }"
       },
       {
+        "file_id": "run_005943_2760a059_raw_test_raw.html",
+        "run_id": "run_005943_2760a059",
+        "tool_id": "01_curl_cffi",
+        "action_name": "test_index_sync",
+        "run_date": "2026-10-17",
+        "tier": "raw",
+        "filename": "test_raw.html",
+        "extension": ".html",
+        "size_bytes": 83,
+        "sha256_short": "a36d11ed0b2d517e",
+        "relpath": "data/01_curl_cffi/test_index_sync/2026-10-17/run_005943_2760a059/raw/test_raw.html",
+        "content_preview": "<html><body>Auto-indexing verification payload unique_test_token_8899</body></html>"
+      },
+      {
         "file_id": "run_141603_5bd2eb42_raw_verify_output.txt",
         "run_id": "run_141603_5bd2eb42",
         "tool_id": "01_curl_cffi",
@@ -353,6 +392,20 @@
         "content_preview": "[ { \"id\": \"1\", \"title\": \"Two Sum\", \"slug\": \"two-sum\", \"difficulty\": \"Easy\", \"tags\": [ \"Array\", \"Hash Table\" ], \"url\": \"https://leetcode.com/problems/two-sum/\" }, { \"id\": \"2\", \"title\": \"Add Two Numbers\", \"slug\": \"add-two-numbers\", \"difficulty\": \"Medium\", \"tags\": [ \"Linked List\", \"Math\", \"Recursion\" ], \"url\": \"https://leetcode.com/problems/add-two-numbers/\" }, { \"id\": \"3\", \"title\": \"Longest Substring Without Repeating Characters\", \"slug\": \"longest-substring-without-repeating-characters\", \"difficulty\": \"Medium\", \"tags\": [ \"Hash Table\", \"String\", \"Sliding Window\" ], \"url\": \"https://leetcode.com/problems/longest-substring-without-repeating-characters/\" }, { \"id\": \"4\", \"title\": \"Median of Two Sorted Arrays\", \"slug\": \"median-of-two-sorted-arrays\", \"difficulty\": \"Hard\", \"tags\": [ \"Array\", \"Binary Search\", \"Divide and Conquer\" ], \"url\": \"https://leetcode.com/problems/median-of-two-sorted-arrays/\" }, { \"id\": \"5\", \"title\": \"Longest Palindromic Substring\", \"slug\": \"longest-palindromic-substring\", \"difficulty\": \"Medium\", \"tags\": [ \"Two Pointers\", \"String\", \"Dynamic Programming\", \"Manacher\" ], \"url\": \"https://leetcode.com/problems/longest-palindromic-substring/\" } ]"
       },
       {
+        "file_id": "run_005943_2760a059_cleaned_test_clean.json",
+        "run_id": "run_005943_2760a059",
+        "tool_id": "01_curl_cffi",
+        "action_name": "test_index_sync",
+        "run_date": "2026-10-17",
+        "tier": "cleaned",
+        "filename": "test_clean.json",
+        "extension": ".json",
+        "size_bytes": 57,
+        "sha256_short": "8fe181e8cd59dc34",
+        "relpath": "data/01_curl_cffi/test_index_sync/2026-10-17/run_005943_2760a059/cleaned/test_clean.json",
+        "content_preview": "{\"token\": \"unique_test_token_8899\", \"status\": \"verified\"}"
+      },
+      {
         "file_id": "run_145552_c1f3b819_cleaned_two_sum.md",
         "run_id": "run_145552_c1f3b819",
         "tool_id": "01_curl_cffi",
@@ -383,6 +436,21 @@
     ]
   },
   "recent_logs": [
+    {
+      "log_id": "run_005943_2760a059_act_0",
+      "run_id": "run_005943_2760a059",
+      "tool_id": "01_curl_cffi",
+      "action_name": "test_index_sync",
+      "run_date": "2026-10-17",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-17T00:59:43.791636+00:00",
+      "level": "INFO",
+      "stage": "",
+      "step": "",
+      "progress_pct": 0,
+      "elapsed_ms": 0,
+      "message": ""
+    },
     {
       "log_id": "run_030851_0fa54a8b_act_0",
       "run_id": "run_030851_0fa54a8b",
@@ -909,5 +977,5 @@
       "message": "Tool ops log created during Stage 1 scaffolding"
     }
   ],
-  "indexed_at": "2026-10-16T03:09:24.853263+00:00"
+  "indexed_at": "2026-10-17T00:59:43.827380+00:00"
 }

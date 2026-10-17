@@ -1,0 +1,536 @@
+{
+  "generated_at": "2026-10-17T00:59:47.892025+00:00",
+  "status": "active",
+  "totals": {
+    "total_tools": 20,
+    "total_runs": 57,
+    "total_files": 236,
+    "total_raw_files": 116,
+    "total_cleaned_files": 120,
+    "total_raw_bytes": 5032986,
+    "total_cleaned_bytes": 768354,
+    "total_bytes": 5801340,
+    "total_logs": 1051
+  },
+  "logs_breakdown": {
+    "by_tier": {
+      "global_prompt": 249,
+      "stage_log": 246,
+      "tool_ops": 261,
+      "action_run": 295
+    },
+    "by_stage": {
+      "Stage 1": 960,
+      "Stage 2": 13,
+      "Unassigned": 78
+    }
+  },
+  "filters": {
+    "actions": [
+      "adaptive_extract",
+      "api_intercept",
+      "article_extract",
+      "audio_transcribe",
+      "catalog_crawl",
+      "cdp_intercept",
+      "fingerprint_evasion",
+      "offline_archive",
+      "pdf_parse",
+      "scrape_for_facebook",
+      "scrape_for_insta",
+      "scrape_for_leetcode",
+      "secured_page_origin",
+      "system_scaffold_check",
+      "test_index_sync",
+      "visual_test_ocr"
+    ],
+    "dates": [
+      "2026-10-17",
+      "2026-10-16",
+      "2026-10-15"
+    ],
+    "stages": [
+      "Stage 1",
+      "Stage 2"
+    ],
+    "steps": [
+      "Step 1.0",
+      "Step 1.1",
+      "Step 1.2",
+      "Step 1.3",
+      "Step 1.4",
+      "Step 2.1",
+      "Step 2.2"
+    ]
+  },
+  "distribution": {
+    "runs_by_tool": {
+      "01_curl_cffi": 7,
+      "20_faster_whisper_scrapegraph": 2,
+      "19_docling_pdf": 2,
+      "18_paddleocr_img2table": 3,
+      "17_surya_ocr": 2,
+      "16_crawl4ai": 2,
+      "15_mitmproxy_interceptor": 2,
+      "14_singlefile_archive": 2,
+      "13_gallery_dl": 2,
+      "12_instaloader": 2,
+      "11_yt_dlp_ffmpeg": 2,
+      "10_scrapling": 4,
+      "09_nodriver": 4,
+      "08_camoufox": 4,
+      "07_patchright": 4,
+      "06_playwright": 5,
+      "05_trafilatura": 2,
+      "04_httpx_parsel": 2,
+      "03_scrapy": 2,
+      "02_selectolax_lxml": 2
+    },
+    "runs_by_action": {
+      "test_index_sync": 1,
+      "scrape_for_leetcode": 10,
+      "audio_transcribe": 2,
+      "pdf_parse": 2,
+      "visual_test_ocr": 5,
+      "api_intercept": 2,
+      "offline_archive": 2,
+      "scrape_for_facebook": 2,
+      "scrape_for_insta": 4,
+      "adaptive_extract": 4,
+      "cdp_intercept": 4,
+      "fingerprint_evasion": 4,
+      "secured_page_origin": 9,
+      "article_extract": 2,
+      "catalog_crawl": 2,
+      "system_scaffold_check": 2
+    },
+    "runs_by_date": {
+      "2026-10-17": 1,
+      "2026-10-16": 1,
+      "2026-10-15": 55
+    }
+  },
+  "tools": [
+    {
+      "tool_id": "01_curl_cffi",
+      "name": "curl_cffi (TLS Impersonation)",
+      "batch": 1,
+      "mechanism_type": "HTTP/TLS",
+      "total_runs": 7,
+      "total_actions": 3,
+      "total_raw_files": 11,
+      "total_cleaned_files": 6,
+      "total_raw_bytes": 18304,
+      "total_cleaned_bytes": 5191,
+      "total_log_entries": 65,
+      "latest_domain_metrics_json": "{\"tls_impersonation_profile\": \"chrome124\", \"graphql_problem_slug\": null, \"catalog_problems_count\": 0, \"http_status\": 200}",
+      "last_indexed_at": "2026-10-17T00:59:47.808012+00:00",
+      "latest_domain_metrics": {
+        "tls_impersonation_profile": "chrome124",
+        "graphql_problem_slug": null,
+        "catalog_problems_count": 0,
+        "http_status": 200
+      }
+    },
+    {
+      "tool_id": "02_selectolax_lxml",
+      "name": "selectolax + lxml (HTML Parsers)",
+      "batch": 1,
+      "mechanism_type": "HTTP/Catalog",
+      "total_runs": 2,
+      "total_actions": 1,
+      "total_raw_files": 2,
+      "total_cleaned_files": 4,
+      "total_raw_bytes": 107068,
+      "total_cleaned_bytes": 11802,
+      "total_log_entries": 43,
+      "latest_domain_metrics_json": "{\"items_parsed\": 20, \"selectolax_parse_us\": null, \"lxml_parse_us\": null, \"speedup_factor\": null}",
+      "last_indexed_at": "2026-10-17T00:59:47.809362+00:00",
+      "latest_domain_metrics": {
+        "items_parsed": 20,
+        "selectolax_parse_us": null,
+        "lxml_parse_us": null,
+        "speedup_factor": null
+      }
+    },
+    {
+      "tool_id": "03_scrapy",
+      "name": "Scrapy (Framework Crawler)",
+      "batch": 1,
+      "mechanism_type": "HTTP/Framework",
+      "total_runs": 2,
+      "total_actions": 1,
+      "total_raw_files": 2,
+      "total_cleaned_files": 6,
+      "total_raw_bytes": 22128,
+      "total_cleaned_bytes": 5886,
+      "total_log_entries": 27,
+      "latest_domain_metrics_json": "{\"spider_items_scraped\": 10, \"spider_elapsed_sec\": 1.276, \"pipeline_status\": \"finished\"}",
+      "last_indexed_at": "2026-10-17T00:59:47.810283+00:00",
+      "latest_domain_metrics": {
+        "spider_items_scraped": 10,
+        "spider_elapsed_sec": 1.276,
+        "pipeline_status": "finished"
+      }
+    },
+    {
+      "tool_id": "04_httpx_parsel",
+      "name": "HTTPX + Parsel (Async HTTP + XPath/CSS)",
+      "batch": 1,
+      "mechanism_type": "HTTP/Async",
+      "total_runs": 2,
+      "total_actions": 1,
+      "total_raw_files": 4,
+      "total_cleaned_files": 4,
+      "total_raw_bytes": 8388,
+      "total_cleaned_bytes": 15820,
+      "total_log_entries": 27,
+      "latest_domain_metrics_json": "{\"http2_enabled\": true, \"concurrent_requests_count\": 1, \"jmespath_fields_extracted\": 1, \"xpath_nodes_extracted\": 1}",
+      "last_indexed_at": "2026-10-17T00:59:47.811219+00:00",
+      "latest_domain_metrics": {
+        "http2_enabled": true,
+        "concurrent_requests_count": 1,
+        "jmespath_fields_extracted": 1,
+        "xpath_nodes_extracted": 1
+      }
+    },
+    {
+      "tool_id": "05_trafilatura",
+      "name": "Trafilatura (Article/Content Extractor)",
+      "batch": 1,
+      "mechanism_type": "HTTP/Content-Extract",
+      "total_runs": 2,
+      "total_actions": 1,
+      "total_raw_files": 2,
+      "total_cleaned_files": 4,
+      "total_raw_bytes": 698946,
+      "total_cleaned_bytes": 143246,
+      "total_log_entries": 35,
+      "latest_domain_metrics_json": "{\"raw_html_bytes\": 349473, \"clean_md_bytes\": 71292, \"boilerplate_reduction_pct\": 79.6, \"extracted_title\": \"Web crawler - Wikipedia\"}",
+      "last_indexed_at": "2026-10-17T00:59:47.812129+00:00",
+      "latest_domain_metrics": {
+        "raw_html_bytes": 349473,
+        "clean_md_bytes": 71292,
+        "boilerplate_reduction_pct": 79.6,
+        "extracted_title": "Web crawler - Wikipedia"
+      }
+    },
+    {
+      "tool_id": "06_playwright",
+      "name": "Playwright (Browser Automation)",
+      "batch": 2,
+      "mechanism_type": "Browser/Standard",
+      "total_runs": 5,
+      "total_actions": 1,
+      "total_raw_files": 15,
+      "total_cleaned_files": 10,
+      "total_raw_bytes": 2070761,
+      "total_cleaned_bytes": 24637,
+      "total_log_entries": 86,
+      "latest_domain_metrics_json": "{\"har_total_requests\": 6, \"unique_origins_discovered\": 3, \"screenshot_bytes\": 100983, \"rendered_dom_bytes\": 9175}",
+      "last_indexed_at": "2026-10-17T00:59:47.813196+00:00",
+      "latest_domain_metrics": {
+        "har_total_requests": 6,
+        "unique_origins_discovered": 3,
+        "screenshot_bytes": 100983,
+        "rendered_dom_bytes": 9175
+      }
+    },
+    {
+      "tool_id": "07_patchright",
+      "name": "Patchright (Stealth Browser)",
+      "batch": 2,
+      "mechanism_type": "Browser/Stealth",
+      "total_runs": 4,
+      "total_actions": 1,
+      "total_raw_files": 12,
+      "total_cleaned_files": 8,
+      "total_raw_bytes": 450156,
+      "total_cleaned_bytes": 8354,
+      "total_log_entries": 85,
+      "latest_domain_metrics_json": "{\"stealth_evasion_score\": 45.0, \"webdriver_flag_hidden\": false, \"cdp_leak_patched\": true, \"signals_audited_count\": 5}",
+      "last_indexed_at": "2026-10-17T00:59:47.814429+00:00",
+      "latest_domain_metrics": {
+        "stealth_evasion_score": 45.0,
+        "webdriver_flag_hidden": false,
+        "cdp_leak_patched": true,
+        "signals_audited_count": 5
+      }
+    },
+    {
+      "tool_id": "08_camoufox",
+      "name": "Camoufox (Firefox Stealth)",
+      "batch": 2,
+      "mechanism_type": "Browser/Stealth-Firefox",
+      "total_runs": 4,
+      "total_actions": 1,
+      "total_raw_files": 6,
+      "total_cleaned_files": 6,
+      "total_raw_bytes": 41166,
+      "total_cleaned_bytes": 5661,
+      "total_log_entries": 65,
+      "latest_domain_metrics_json": "{\"engine_used\": \"Camoufox Firefox\", \"spoofed_oscpu\": \"Windows NT 10.0; Win64; x64\", \"canvas_hash\": null, \"webgl_renderer\": null}",
+      "last_indexed_at": "2026-10-17T00:59:47.815711+00:00",
+      "latest_domain_metrics": {
+        "engine_used": "Camoufox Firefox",
+        "spoofed_oscpu": "Windows NT 10.0; Win64; x64",
+        "canvas_hash": null,
+        "webgl_renderer": null
+      }
+    },
+    {
+      "tool_id": "09_nodriver",
+      "name": "nodriver (CDP Ultra-Stealth)",
+      "batch": 2,
+      "mechanism_type": "Browser/CDP-Stealth",
+      "total_runs": 4,
+      "total_actions": 1,
+      "total_raw_files": 8,
+      "total_cleaned_files": 8,
+      "total_raw_bytes": 29337,
+      "total_cleaned_bytes": 6573,
+      "total_log_entries": 85,
+      "latest_domain_metrics_json": "{\"cdp_direct_mode\": true, \"links_extracted_count\": 2, \"dom_size_bytes\": 760}",
+      "last_indexed_at": "2026-10-17T00:59:47.816788+00:00",
+      "latest_domain_metrics": {
+        "cdp_direct_mode": true,
+        "links_extracted_count": 2,
+        "dom_size_bytes": 760
+      }
+    },
+    {
+      "tool_id": "10_scrapling",
+      "name": "Scrapling (Adaptive AI Scraper)",
+      "batch": 2,
+      "mechanism_type": "Browser/Adaptive-AI",
+      "total_runs": 4,
+      "total_actions": 1,
+      "total_raw_files": 12,
+      "total_cleaned_files": 8,
+      "total_raw_bytes": 54464,
+      "total_cleaned_bytes": 11240,
+      "total_log_entries": 85,
+      "latest_domain_metrics_json": "{\"baseline_elements_count\": 0, \"mutated_elements_recovered\": 0, \"healing_rate_pct\": 100.0, \"avg_similarity_score\": 0.95}",
+      "last_indexed_at": "2026-10-17T00:59:47.818208+00:00",
+      "latest_domain_metrics": {
+        "baseline_elements_count": 0,
+        "mutated_elements_recovered": 0,
+        "healing_rate_pct": 100.0,
+        "avg_similarity_score": 0.95
+      }
+    },
+    {
+      "tool_id": "11_yt_dlp_ffmpeg",
+      "name": "yt-dlp + ffmpeg (Media Downloader)",
+      "batch": 3,
+      "mechanism_type": "Social/Streams",
+      "total_runs": 2,
+      "total_actions": 1,
+      "total_raw_files": 10,
+      "total_cleaned_files": 10,
+      "total_raw_bytes": 187364,
+      "total_cleaned_bytes": 456140,
+      "total_log_entries": 51,
+      "latest_domain_metrics_json": "{\"raw_hls_chunks_count\": 3, \"combined_video_bytes\": 52978, \"extracted_audio_wav_bytes\": 97416, \"video_codec\": \"h264\", \"duration_sec\": 3.0}",
+      "last_indexed_at": "2026-10-17T00:59:47.819672+00:00",
+      "latest_domain_metrics": {
+        "raw_hls_chunks_count": 3,
+        "combined_video_bytes": 52978,
+        "extracted_audio_wav_bytes": 97416,
+        "video_codec": "h264",
+        "duration_sec": 3.0
+      }
+    },
+    {
+      "tool_id": "12_instaloader",
+      "name": "Instaloader (Instagram Archiver)",
+      "batch": 3,
+      "mechanism_type": "Social/Instagram",
+      "total_runs": 2,
+      "total_actions": 1,
+      "total_raw_files": 4,
+      "total_cleaned_files": 4,
+      "total_raw_bytes": 2994,
+      "total_cleaned_bytes": 4872,
+      "total_log_entries": 35,
+      "latest_domain_metrics_json": "{\"insta_shortcode\": \"C8XYZ12345\", \"auth_mode\": \"anonymous\", \"likes_count\": 14230, \"comments_count\": 312, \"hashtags_count\": 5}",
+      "last_indexed_at": "2026-10-17T00:59:47.820810+00:00",
+      "latest_domain_metrics": {
+        "insta_shortcode": "C8XYZ12345",
+        "auth_mode": "anonymous",
+        "likes_count": 14230,
+        "comments_count": 312,
+        "hashtags_count": 5
+      }
+    },
+    {
+      "tool_id": "13_gallery_dl",
+      "name": "gallery-dl (Multi-Platform Image/Media)",
+      "batch": 3,
+      "mechanism_type": "Social/Gallery",
+      "total_runs": 2,
+      "total_actions": 1,
+      "total_raw_files": 4,
+      "total_cleaned_files": 4,
+      "total_raw_bytes": 2872,
+      "total_cleaned_bytes": 4352,
+      "total_log_entries": 35,
+      "latest_domain_metrics_json": "{\"extractor_used\": {\"class_name\": \"FacebookPhotoExtractor\", \"category\": \"facebook\", \"subcategory\": \"photo\"}, \"platform\": \"gallery\", \"gallery_items_count\": 2, \"media_files_downloaded\": 1}",
+      "last_indexed_at": "2026-10-17T00:59:47.821791+00:00",
+      "latest_domain_metrics": {
+        "extractor_used": {
+          "class_name": "FacebookPhotoExtractor",
+          "category": "facebook",
+          "subcategory": "photo"
+        },
+        "platform": "gallery",
+        "gallery_items_count": 2,
+        "media_files_downloaded": 1
+      }
+    },
+    {
+      "tool_id": "14_singlefile_archive",
+      "name": "SingleFile (Full Page Archiver)",
+      "batch": 3,
+      "mechanism_type": "Archiver/Snapshot",
+      "total_runs": 2,
+      "total_actions": 1,
+      "total_raw_files": 2,
+      "total_cleaned_files": 4,
+      "total_raw_bytes": 1014778,
+      "total_cleaned_bytes": 13580,
+      "total_log_entries": 35,
+      "latest_domain_metrics_json": "{\"singlefile_size_kb\": 484.6, \"inlined_css_count\": 3, \"inlined_images_base64_count\": 20, \"scripts_stripped_count\": 0}",
+      "last_indexed_at": "2026-10-17T00:59:47.822889+00:00",
+      "latest_domain_metrics": {
+        "singlefile_size_kb": 484.6,
+        "inlined_css_count": 3,
+        "inlined_images_base64_count": 20,
+        "scripts_stripped_count": 0
+      }
+    },
+    {
+      "tool_id": "15_mitmproxy_interceptor",
+      "name": "mitmproxy (MITM Traffic Inspector)",
+      "batch": 3,
+      "mechanism_type": "MITM/Interceptor",
+      "total_runs": 2,
+      "total_actions": 1,
+      "total_raw_files": 2,
+      "total_cleaned_files": 4,
+      "total_raw_bytes": 12657,
+      "total_cleaned_bytes": 3737,
+      "total_log_entries": 67,
+      "latest_domain_metrics_json": "{\"intercepted_flows_count\": 3, \"discovered_api_endpoints_count\": 1, \"proxy_port_used\": 57240}",
+      "last_indexed_at": "2026-10-17T00:59:47.823979+00:00",
+      "latest_domain_metrics": {
+        "intercepted_flows_count": 3,
+        "discovered_api_endpoints_count": 1,
+        "proxy_port_used": 57240
+      }
+    },
+    {
+      "tool_id": "16_crawl4ai",
+      "name": "Crawl4AI (LLM-Optimized Crawler)",
+      "batch": 4,
+      "mechanism_type": "AI/LLM-Extract",
+      "total_runs": 2,
+      "total_actions": 1,
+      "total_raw_files": 4,
+      "total_cleaned_files": 6,
+      "total_raw_bytes": 3600,
+      "total_cleaned_bytes": 6446,
+      "total_log_entries": 35,
+      "latest_domain_metrics_json": "{\"semantic_chunks_count\": 6, \"markdown_length_chars\": 1011, \"links_discovered_count\": 2, \"media_discovered_count\": 1}",
+      "last_indexed_at": "2026-10-17T00:59:47.825066+00:00",
+      "latest_domain_metrics": {
+        "semantic_chunks_count": 6,
+        "markdown_length_chars": 1011,
+        "links_discovered_count": 2,
+        "media_discovered_count": 1
+      }
+    },
+    {
+      "tool_id": "17_surya_ocr",
+      "name": "Surya OCR (Document OCR)",
+      "batch": 4,
+      "mechanism_type": "AI/OCR",
+      "total_runs": 2,
+      "total_actions": 1,
+      "total_raw_files": 4,
+      "total_cleaned_files": 4,
+      "total_raw_bytes": 48144,
+      "total_cleaned_bytes": 11096,
+      "total_log_entries": 35,
+      "latest_domain_metrics_json": "{\"ocr_lines_recognized\": 9, \"avg_ocr_confidence\": 0.8956, \"test_image_dimensions\": \"960x480\"}",
+      "last_indexed_at": "2026-10-17T00:59:47.826157+00:00",
+      "latest_domain_metrics": {
+        "ocr_lines_recognized": 9,
+        "avg_ocr_confidence": 0.8956,
+        "test_image_dimensions": "960x480"
+      }
+    },
+    {
+      "tool_id": "18_paddleocr_img2table",
+      "name": "PaddleOCR + img2table (Table Extractor)",
+      "batch": 4,
+      "mechanism_type": "AI/OCR-Table",
+      "total_runs": 3,
+      "total_actions": 1,
+      "total_raw_files": 6,
+      "total_cleaned_files": 8,
+      "total_raw_bytes": 58221,
+      "total_cleaned_bytes": 6855,
+      "total_log_entries": 52,
+      "latest_domain_metrics_json": "{\"tables_detected_count\": 1, \"table_rows\": 5, \"table_cols\": 5, \"cells_extracted_count\": 25}",
+      "last_indexed_at": "2026-10-17T00:59:47.827344+00:00",
+      "latest_domain_metrics": {
+        "tables_detected_count": 1,
+        "table_rows": 5,
+        "table_cols": 5,
+        "cells_extracted_count": 25
+      }
+    },
+    {
+      "tool_id": "19_docling_pdf",
+      "name": "Docling (PDF/Document Parser)",
+      "batch": 4,
+      "mechanism_type": "AI/PDF",
+      "total_runs": 2,
+      "total_actions": 1,
+      "total_raw_files": 4,
+      "total_cleaned_files": 4,
+      "total_raw_bytes": 6806,
+      "total_cleaned_bytes": 12168,
+      "total_log_entries": 35,
+      "latest_domain_metrics_json": "{\"pdf_pages_count\": 1, \"hierarchy_nodes_count\": 13, \"pdf_tables_parsed\": 1}",
+      "last_indexed_at": "2026-10-17T00:59:47.828569+00:00",
+      "latest_domain_metrics": {
+        "pdf_pages_count": 1,
+        "hierarchy_nodes_count": 13,
+        "pdf_tables_parsed": 1
+      }
+    },
+    {
+      "tool_id": "20_faster_whisper_scrapegraph",
+      "name": "Faster-Whisper + ScrapeGraphAI (Audio/AI)",
+      "batch": 4,
+      "mechanism_type": "AI/Audio-Graph",
+      "total_runs": 2,
+      "total_actions": 1,
+      "total_raw_files": 2,
+      "total_cleaned_files": 8,
+      "total_raw_bytes": 194832,
+      "total_cleaned_bytes": 10698,
+      "total_log_entries": 43,
+      "latest_domain_metrics_json": "{\"audio_duration_sec\": 2.9, \"srt_segments_count\": 2, \"knowledge_graph_nodes\": 6, \"knowledge_graph_edges\": 5}",
+      "last_indexed_at": "2026-10-17T00:59:47.829830+00:00",
+      "latest_domain_metrics": {
+        "audio_duration_sec": 2.9,
+        "srt_segments_count": 2,
+        "knowledge_graph_nodes": 6,
+        "knowledge_graph_edges": 5
+      }
+    }
+  ]
+}

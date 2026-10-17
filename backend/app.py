@@ -20,6 +20,7 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import sqlite3
 import sys
 import time
 import threading
@@ -337,6 +338,306 @@ async def rebuild_tool_index(tool_id: str):
         })
     except Exception as e:
         return JSONResponse({"error": f"Failed to rebuild index: {e}"}, status_code=500)
+
+
+# ─── Global & Isolated Index Query Endpoints (Stage 2 Step 2.2) ───────────────
+
+from core.global_indexer import GlobalMasterIndexer
+
+@app.get("/api/index/overview")
+async def get_index_overview():
+    """Return global master index overview and all tool index rollups."""
+    try:
+        indexer = GlobalMasterIndexer()
+        overview = indexer.get_overview()
+        
+        # Load all 20 individual tool index summaries as well
+        tool_indexes_dir = ROOT / "index_store" / "tool_indexes"
+        tools_summaries = []
+        if tool_indexes_dir.exists():
+            for jf in sorted(tool_indexes_dir.glob("*_index.json")):
+                try:
+                    data = json.loads(jf.read_text(encoding="utf-8"))
+                    tools_summaries.append({
+                        "tool_id": data.get("tool_id"),
+                        "metadata": data.get("metadata", {}),
+                        "total_runs": data.get("total_runs", 0),
+                        "total_files": data.get("total_files", 0),
+                        "indexed_at": data.get("indexed_at"),
+                    })
+                except Exception:
+                    pass
+        
+        overview["individual_tool_indexes"] = tools_summaries
+        return JSONResponse(overview)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.get("/api/index/runs")
+async def get_index_runs(
+    scope: str = "global",
+    tool_id: str | None = None,
+    batch: int | None = None,
+    action_name: str | None = None,
+    run_date: str | None = None,
+    status: str | None = None,
+    q: str | None = None,
+    limit: int = 100,
+):
+    """
+    Query indexed runs from either:
+      - scope='global' -> index_store/global_master_index.sqlite (global_runs)
+      - scope='<tool_id>' -> index_store/tool_indexes/<tool_id>.sqlite (indexed_runs) directly
+    """
+    try:
+        if scope and scope != "global":
+            tool_db = ROOT / "index_store" / "tool_indexes" / f"{scope}.sqlite"
+            if not tool_db.exists():
+                return JSONResponse({"error": f"Tool index not found: {scope}"}, status_code=404)
+            
+            conn = sqlite3.connect(str(tool_db))
+            conn.row_factory = sqlite3.Row
+            query = "SELECT * FROM indexed_runs WHERE 1=1"
+            params = []
+            if action_name:
+                query += " AND action_name = ?"
+                params.append(action_name)
+            if run_date:
+                query += " AND run_date = ?"
+                params.append(run_date)
+            if status:
+                query += " AND status = ?"
+                params.append(status)
+            if q:
+                query += " AND (run_id LIKE ? OR target_url LIKE ? OR domain_metrics_json LIKE ? OR cleaned_text_preview LIKE ?)"
+                lq = f"%{q}%"
+                params.extend([lq, lq, lq, lq])
+            query += " ORDER BY started_at DESC LIMIT ?"
+            params.append(limit)
+            
+            rows = conn.execute(query, params).fetchall()
+            conn.close()
+            
+            res = []
+            for r in rows:
+                rd = dict(r)
+                if rd.get("domain_metrics_json"):
+                    try:
+                        rd["domain_metrics"] = json.loads(rd["domain_metrics_json"])
+                    except Exception:
+                        rd["domain_metrics"] = {}
+                else:
+                    rd["domain_metrics"] = {}
+                res.append(rd)
+            return JSONResponse({"scope": scope, "runs": res, "count": len(res)})
+        else:
+            indexer = GlobalMasterIndexer()
+            runs = indexer.query_runs(
+                tool_id=tool_id,
+                batch=batch,
+                action_name=action_name,
+                run_date=run_date,
+                status=status,
+                q=q,
+                limit=limit,
+            )
+            return JSONResponse({"scope": "global", "runs": runs, "count": len(runs)})
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.get("/api/index/files")
+async def get_index_files(
+    scope: str = "global",
+    tool_id: str | None = None,
+    action_name: str | None = None,
+    run_date: str | None = None,
+    tier: str | None = None,
+    extension: str | None = None,
+    q: str | None = None,
+    limit: int = 100,
+):
+    """
+    Query indexed files from either:
+      - scope='global' -> index_store/global_master_index.sqlite (FTS5 fts_artifacts & global_files)
+      - scope='<tool_id>' -> index_store/tool_indexes/<tool_id>.sqlite (indexed_files) directly
+    """
+    try:
+        if scope and scope != "global":
+            tool_db = ROOT / "index_store" / "tool_indexes" / f"{scope}.sqlite"
+            if not tool_db.exists():
+                return JSONResponse({"error": f"Tool index not found: {scope}"}, status_code=404)
+            
+            conn = sqlite3.connect(str(tool_db))
+            conn.row_factory = sqlite3.Row
+            query = "SELECT * FROM indexed_files WHERE 1=1"
+            params = []
+            if action_name:
+                query += " AND action_name = ?"
+                params.append(action_name)
+            if run_date:
+                query += " AND run_date = ?"
+                params.append(run_date)
+            if tier:
+                query += " AND tier = ?"
+                params.append(tier)
+            if extension:
+                query += " AND extension = ?"
+                params.append(extension.lower())
+            if q:
+                query += " AND (filename LIKE ? OR content_preview LIKE ?)"
+                lq = f"%{q}%"
+                params.extend([lq, lq])
+            query += " ORDER BY run_date DESC, filename ASC LIMIT ?"
+            params.append(limit)
+            
+            rows = conn.execute(query, params).fetchall()
+            conn.close()
+            return JSONResponse({"scope": scope, "files": [dict(r) for r in rows], "count": len(rows)})
+        else:
+            indexer = GlobalMasterIndexer()
+            files = indexer.query_files(
+                tool_id=tool_id,
+                action_name=action_name,
+                run_date=run_date,
+                tier=tier,
+                extension=extension,
+                q=q,
+                limit=limit,
+            )
+            return JSONResponse({"scope": "global", "files": files, "count": len(files)})
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.get("/api/index/logs")
+async def get_index_logs(
+    scope: str = "global",
+    tool_id: str | None = None,
+    log_tier: str | None = None,
+    stage: str | None = None,
+    step: str | None = None,
+    action_name: str | None = None,
+    run_date: str | None = None,
+    run_id: str | None = None,
+    level: str | None = None,
+    q: str | None = None,
+    limit: int = 200,
+):
+    """
+    Query multi-tier indexed logs with FTS5 keyword search.
+      - scope='global' -> queries global_logs / fts_logs across all 4 tiers
+      - scope='<tool_id>' -> queries index_store/tool_indexes/<tool_id>.sqlite (indexed_logs)
+    """
+    try:
+        if scope and scope != "global":
+            tool_db = ROOT / "index_store" / "tool_indexes" / f"{scope}.sqlite"
+            if not tool_db.exists():
+                return JSONResponse({"error": f"Tool index not found: {scope}"}, status_code=404)
+            
+            conn = sqlite3.connect(str(tool_db))
+            conn.row_factory = sqlite3.Row
+            query = "SELECT * FROM indexed_logs WHERE 1=1"
+            params = []
+            if log_tier:
+                query += " AND log_tier = ?"
+                params.append(log_tier)
+            if stage:
+                query += " AND stage = ?"
+                params.append(stage)
+            if step:
+                query += " AND step = ?"
+                params.append(step)
+            if action_name:
+                query += " AND action_name = ?"
+                params.append(action_name)
+            if run_date:
+                query += " AND run_date = ?"
+                params.append(run_date)
+            if run_id:
+                query += " AND run_id = ?"
+                params.append(run_id)
+            if level:
+                query += " AND level = ?"
+                params.append(level)
+            if q:
+                query += " AND message LIKE ?"
+                params.append(f"%{q}%")
+            query += " ORDER BY timestamp DESC LIMIT ?"
+            params.append(limit)
+            
+            rows = conn.execute(query, params).fetchall()
+            conn.close()
+            return JSONResponse({"scope": scope, "logs": [dict(r) for r in rows], "count": len(rows)})
+        else:
+            indexer = GlobalMasterIndexer()
+            logs = indexer.query_logs(
+                tool_id=tool_id,
+                log_tier=log_tier,
+                stage=stage,
+                step=step,
+                action_name=action_name,
+                run_date=run_date,
+                run_id=run_id,
+                level=level,
+                q=q,
+                limit=limit,
+            )
+            return JSONResponse({"scope": "global", "logs": logs, "count": len(logs)})
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.post("/api/index/rebuild")
+async def rebuild_index(payload: dict | None = None):
+    """
+    Trigger live background re-indexing with animated telemetry updates on HUD.
+    Accepts: {"scope": "global" | "<tool_id>"}
+    """
+    scope = (payload or {}).get("scope", "global")
+
+    def _worker():
+        try:
+            start_task(
+                stage="Stage 2",
+                step="Step 2.2",
+                tool_id="global_indexer" if scope == "global" else scope,
+                action="rebuild_index",
+                subtask=f"Rebuilding index for scope: {scope}...",
+            )
+            update_progress(progress_percent=20, subtask=f"Re-indexing pipeline active ({scope})...")
+            
+            if scope == "global":
+                indexer = GlobalMasterIndexer()
+                update_progress(progress_percent=50, subtask="Federating 20 tool databases into master index...")
+                indexer.sync_all(rebuild_tools_first=True)
+            else:
+                import importlib
+                from core.base_indexer import BaseToolIndexer
+                indexer_cls = BaseToolIndexer
+                try:
+                    mod = importlib.import_module(f"tools.{scope}.indexer")
+                    indexer_cls = getattr(mod, "ToolIndexer", BaseToolIndexer)
+                except Exception:
+                    pass
+                update_progress(progress_percent=50, subtask=f"Re-indexing {scope}...")
+                indexer_cls(scope).index_all_runs()
+                GlobalMasterIndexer().sync_single_tool(scope)
+
+            update_progress(progress_percent=100, subtask=f"Rebuild completed for {scope}!")
+            complete_task(message=f"Index rebuild finished successfully for {scope}")
+        except Exception as e:
+            fail_task(reason=f"Index rebuild failed: {e}")
+
+    thread = threading.Thread(target=_worker, daemon=True)
+    thread.start()
+    return JSONResponse({
+        "status": "started",
+        "scope": scope,
+        "message": f"Index rebuild started for {scope}. Telemetry HUD updating.",
+    })
+
 
 
 
