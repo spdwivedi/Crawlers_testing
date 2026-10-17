@@ -256,3 +256,9 @@
 | 2026-10-17 01:00:45 | INFO | Stage 2 |  | git_commit | 0% | Git commit: d41e4ff — [RUN-LOG] Stage 2 Step 2.2: Verify 42/42 checks for global indexing, FTS5 search, REST endpoints, and auto-sync hooks |
 | 2026-10-17 02:55:01 | INFO | Stage 2 | global_indexer | upgrade_index_explorer | 5% | Starting Stage 2 Step 2.3: Deep Upgrade of the Backend & Frontend Index Explorer, 20-Pipeline Visual Switchboard, Cascading Folder-Wise Index Inspector, and Dedicated 4-Tier Log Filter Hub |
 | 2026-10-17 04:31:58 | INFO | Stage 2 |  | git_commit | 0% | Git commit: 4386404 — [UPDATE] Stage 2 Step 2.3: Add 20-pipeline switchboard, cascading folder-wise index inspector, and 4-tier log hub |
+| 2026-10-17 04:32:07 | INFO | Stage 2 |  | git_commit | 0% | Git commit: dc78f0a — [RUN-LOG] Stage 2 Step 2.3: Verify separate-vs-global pipeline loading and cascading filters |
+| 2026-10-17 12:43:28 | INFO | Stage 3 | crypto_engine | init_stage_3 | 10% | Stage 3 initialized: Credential Vault & Session Security Active |
+| 2026-10-17 12:46:29 | WARN | Stage 3 | crypto_engine | secret_guard_intercept | 0% | [SECURITY-GUARD] Blocked forbidden sensitive file: vault_store/test_dummy_db.sqlite (matched pattern: (^|/)vault_store/.*\.sqlite.*$) |
+| 2026-10-17 12:46:29 | INFO | Stage 3 | crypto_engine | verify_step_3_1 | 98% | Verification suite completed for Stage 3 Step 3.1 |
+| 2026-10-17 12:46:55 | WARN | Stage 3 | crypto_engine | secret_guard_intercept | 0% | [SECURITY-GUARD] Blocked forbidden sensitive file: vault_store/test_dummy_db.sqlite (matched pattern: (^|/)vault_store/.*\.sqlite.*$) |
+| 2026-10-17 12:46:55 | INFO | Stage 3 | crypto_engine | verify_step_3_1 | 98% | Verification suite completed for Stage 3 Step 3.1 |

@@ -56,10 +56,23 @@ desktop.ini
 # ── Secrets / Env ─────────────────────────────
 .env
 .env.*
+!.env.example
+*.pem
+*.key
 secrets.json
 credentials.json
 auth_profiles/*
 !auth_profiles/README_AUTH.md
+
+# ── Vault Store (Stage 3 Credential & Session Databases) ─────
+vault_store/*.sqlite
+vault_store/*.sqlite-wal
+vault_store/*.sqlite-shm
+vault_store/*.db
+vault_store/temp_cookies/*
+!vault_store/.gitkeep
+!vault_store/README_VAULT.md
+!vault_store/vault_stats_public.json
 
 # ── Index Databases ───────────────────────────
 index_store/*.sqlite*

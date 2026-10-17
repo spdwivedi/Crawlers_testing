@@ -1,5 +1,5 @@
 # 🤖 Antigravity Workspace Governance — GEMINI.md
-**Project:** Crawlers_testing | **Stage:** 2 (Indexing Pipelines Active) | **Init:** 2026-10-15
+**Project:** Crawlers_testing | **Stage:** 3 (Credential Vault & Session Security Active) | **Init:** 2026-10-15
 
 This file is automatically loaded by Antigravity IDE for **every prompt execution** in this workspace. All rules below are **mandatory** and non-negotiable.
 
@@ -93,19 +93,37 @@ Every completed tool action run MUST automatically update its dedicated tool ind
 
 ---
 
+## Rule 6 — Zero-Plaintext Credential & Vault Security
+
+All credentials, passwords, session cookies, tokens, 2FA secrets, and proxy passwords MUST be encrypted via `core/crypto_engine.py` (AES-256-GCM) before storage in `vault_store/`. Plaintext secrets, `.env`, and `vault_store/*.sqlite*` must NEVER be logged or committed to Git.
+
+- `.env` holds the master key (`VAULT_MASTER_KEY`) and PBKDF2 salt (`VAULT_KDF_SALT`) and is strictly ignored by Git.
+- A safe `.env.example` template contains placeholder keys only.
+- Pre-commit secret scanning in `core/git_manager.py` automatically blocks accidental staging of credentials, `.env`, and vault databases.
+
+---
+
 ## Quick Reference — Core Modules
 
 ```
 core/
 ├── folder_manager.py    # create_action_run() — Rule 3 & complete_action_run() Auto-Index Hook — Rule 5
 ├── base_indexer.py      # BaseToolIndexer SQLite/JSON engine — Rule 5
+├── global_indexer.py    # GlobalMasterIndexer FTS5 federated engine — Rule 5
+├── crypto_engine.py     # AES-256-GCM authenticated encryption & KDF — Rule 6
 ├── state_tracker.py     # live_state.json R/W — Rule 1
 ├── cli_tracker.py       # CLI wrapper for state_tracker — Rule 1
 ├── logger_engine.py     # 4-tier logger — Rule 2
-└── git_manager.py       # Atomic commits + hash logging — Rule 4
+└── git_manager.py       # Atomic commits + secret guard — Rule 4 & 6
 
 index_store/
-└── tool_indexes/        # 20 SQLite (.sqlite) + JSON (_index.json) tool index databases
+├── global_master_index.sqlite  # Federated FTS5 search across all runs & logs
+└── tool_indexes/               # 20 SQLite (.sqlite) + JSON (_index.json) tool index databases
+
+vault_store/
+├── README_VAULT.md             # Security architecture & usage guide
+├── vault_stats_public.json     # Non-sensitive aggregate metrics (Git tracked)
+└── *.sqlite                    # Encrypted credential & session databases (Git ignored)
 
 logs/
 ├── global/
@@ -114,7 +132,8 @@ logs/
 │   └── antigravity_prompt_log.md
 └── stages/
     ├── stage_1_scaffolding.jsonl
-    └── stage_2_indexing.jsonl
+    ├── stage_2_indexing.jsonl
+    └── stage_3_credential_vault.jsonl
 
 tools/
 └── registry.json        # 20-tool manifest
@@ -126,4 +145,5 @@ frontend/index.html      # Control Center UI
 ---
 
 *Auto-enforced by Antigravity IDE — do not delete or modify this file.*
+
 

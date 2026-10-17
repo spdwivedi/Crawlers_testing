@@ -141,8 +141,11 @@ class LogEngine:
         self._action_log: Path | None = run_log_path
         self._tool_log = (ROOT / "tools" / tool_id / "logs" / "tool_ops.jsonl") if tool_id else None
         
-        if stage_log_name == "stage_1_scaffolding" and "stage 2" in stage.lower():
-            stage_log_name = "stage_2_indexing"
+        if stage_log_name == "stage_1_scaffolding":
+            if "stage 2" in stage.lower():
+                stage_log_name = "stage_2_indexing"
+            elif "stage 3" in stage.lower():
+                stage_log_name = "stage_3_credential_vault"
 
         self._stage_log = STAGES_LOG_DIR / f"{stage_log_name}.jsonl"
         self._global_jsonl = GLOBAL_LOG_DIR / "antigravity_prompt_log.jsonl"
@@ -233,8 +236,11 @@ def log_global(
     Standalone function for quick global logging (no full engine instance needed).
     Used by git_manager.py and verify scripts.
     """
-    if stage_log_name == "stage_1_scaffolding" and "stage 2" in stage.lower():
-        stage_log_name = "stage_2_indexing"
+    if stage_log_name == "stage_1_scaffolding":
+        if "stage 2" in stage.lower():
+            stage_log_name = "stage_2_indexing"
+        elif "stage 3" in stage.lower():
+            stage_log_name = "stage_3_credential_vault"
 
     engine = LogEngine(
         tool_id=tool_id,
