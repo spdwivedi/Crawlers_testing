@@ -6,13 +6,9 @@
   "active_action": "arena_benchmark",
   "current_subtask": "Verification suite complete.",
   "started_at_epoch": 1792347429.7070851,
-  "elapsed_seconds": 14.8,
+  "elapsed_seconds": 95.3,
   "progress_percent": 100,
   "recent_events": [
-    {
-      "timestamp": "2026-10-18T18:17:17.497976+00:00",
-      "message": "PROGRESS 70%: Capturing visual screenshot and rendered DOM"
-    },
     {
       "timestamp": "2026-10-18T18:17:18.171341+00:00",
       "message": "PROGRESS 85%: Extracting network origins and structured content"
@@ -48,6 +44,10 @@
     {
       "timestamp": "2026-10-18T18:17:24.516779+00:00",
       "message": "COMPLETED: Stage 4 Step 4.4: Safe Arena Engine and verification suite passed with 19/19 checks"
+    },
+    {
+      "timestamp": "2026-10-18T18:18:44.998407+00:00",
+      "message": "COMPLETED: Stage 4 Step 4.4 completed: Safe Arena Engine verified with 19/19 checks"
     }
   ],
   "worker_processes": [
