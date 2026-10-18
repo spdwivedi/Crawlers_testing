@@ -1,0 +1,17 @@
+{
+  "date": "Sun, 18 Oct 2026 15:56:09 GMT",
+  "content-type": "application/json",
+  "vary": "Cookie, Authorization",
+  "x-frame-options": "SAMEORIGIN",
+  "set-cookie": "csrftoken=HWHcsp46Xku1t3rHTHf0dw4Nih7m1Zby; expires=Sun, 17 Oct 2027 15:56:09 GMT; Max-Age=31449600; Path=/; SameSite=Lax; Secure",
+  "strict-transport-security": "max-age=15552000; includeSubDomains; preload",
+  "content-security-policy": "frame-ancestors 'self' https://*.leetcode.com https://leetcode.com https://www.growingio.com https://challenges.cloudflare.com",
+  "cf-cache-status": "DYNAMIC",
+  "x-content-type-options": "nosniff",
+  "content-encoding": "br",
+  "server": "cloudflare",
+  "cf-ray": "a4c8bb3feacdb2c5-DEL",
+  "_impersonate": "chrome124",
+  "_status_code": 200,
+  "_elapsed_ms": 380.45
+}

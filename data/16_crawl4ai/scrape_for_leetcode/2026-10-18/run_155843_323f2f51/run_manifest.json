@@ -1,0 +1,32 @@
+{
+  "run_id": "run_155843_323f2f51",
+  "tool_id": "16_crawl4ai",
+  "action_name": "scrape_for_leetcode",
+  "date": "2026-10-18",
+  "target_url": "https://leetcode.com/problems/trapping-rain-water/",
+  "started_at": "2026-10-18T15:58:43.709851+00:00",
+  "ended_at": "2026-10-18T15:58:44.260167+00:00",
+  "elapsed_sec": 0.55,
+  "status": "completed",
+  "raw_files": [
+    "crawler_meta.json",
+    "raw_page.html"
+  ],
+  "cleaned_files": [
+    "llm_ready.md",
+    "media_and_links.json",
+    "semantic_chunks.json"
+  ],
+  "git_commit": null,
+  "records_extracted": 6,
+  "quality_score": 98.0,
+  "domain_metrics": {
+    "tool_id": "16_crawl4ai",
+    "human_mode_active": true,
+    "timing_profile": "FAST_AUTOMATED",
+    "chunks_count": 6,
+    "markdown_chars": 825,
+    "pre_delay_applied": 0.24402940000072704,
+    "reading_delay_applied": 0.05065699999977369
+  }
+}

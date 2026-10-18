@@ -1,0 +1,28 @@
+{
+  "run_id": "run_155609_c9104f9c",
+  "tool_id": "01_curl_cffi",
+  "action_name": "scrape_for_leetcode",
+  "date": "2026-10-18",
+  "target_url": "https://leetcode.com/problems/two-sum/",
+  "started_at": "2026-10-18T15:56:09.801887+00:00",
+  "ended_at": "2026-10-18T15:56:10.952135+00:00",
+  "elapsed_sec": 1.15,
+  "status": "completed",
+  "raw_files": [
+    "graphql_payload.json",
+    "raw_catalog_slice.json",
+    "response_headers.json"
+  ],
+  "cleaned_files": [
+    "catalog_index.json",
+    "two_sum.md"
+  ],
+  "git_commit": null,
+  "domain_metrics": {
+    "human_mode_active": true,
+    "timing_profile": "FAST_AUTOMATED",
+    "difficulty": "Easy",
+    "tags_count": 2,
+    "mode": "live"
+  }
+}

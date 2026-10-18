@@ -1,0 +1,31 @@
+{
+  "run_id": "run_155612_d0b82596",
+  "tool_id": "06_playwright",
+  "action_name": "secured_page_origin",
+  "date": "2026-10-18",
+  "target_url": "https://quotes.toscrape.com/js/",
+  "started_at": "2026-10-18T15:56:12.608152+00:00",
+  "ended_at": "2026-10-18T15:56:21.079180+00:00",
+  "elapsed_sec": 8.471,
+  "status": "completed",
+  "raw_files": [
+    "network_origin.har",
+    "page_visual.png",
+    "rendered_dom.html"
+  ],
+  "cleaned_files": [
+    "origin_map.json",
+    "rendered_content.md"
+  ],
+  "git_commit": null,
+  "records_extracted": 6,
+  "quality_score": 95.0,
+  "domain_metrics": {
+    "human_mode_active": true,
+    "timing_profile": "FAST_AUTOMATED",
+    "page_title": "Quotes to Scrape",
+    "requests_count": 6,
+    "has_human_metrics": false,
+    "human_metrics": null
+  }
+}

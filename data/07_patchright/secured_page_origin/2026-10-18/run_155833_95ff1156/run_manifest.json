@@ -1,0 +1,31 @@
+{
+  "run_id": "run_155833_95ff1156",
+  "tool_id": "07_patchright",
+  "action_name": "secured_page_origin",
+  "date": "2026-10-18",
+  "target_url": "https://quotes.toscrape.com/js/",
+  "started_at": "2026-10-18T15:58:33.895217+00:00",
+  "ended_at": "2026-10-18T15:58:41.714398+00:00",
+  "elapsed_sec": 7.819,
+  "status": "completed",
+  "raw_files": [
+    "stealth_check.png",
+    "stealth_probe.json",
+    "target_page.html"
+  ],
+  "cleaned_files": [
+    "stealth_audit.md",
+    "stealth_signals.json"
+  ],
+  "git_commit": null,
+  "records_extracted": 1,
+  "quality_score": 45.0,
+  "domain_metrics": {
+    "tool_id": "07_patchright",
+    "human_mode_active": true,
+    "timing_profile": "FAST_AUTOMATED",
+    "evasion_score": 45,
+    "page_title": "Quotes to Scrape",
+    "has_human_metrics": true
+  }
+}

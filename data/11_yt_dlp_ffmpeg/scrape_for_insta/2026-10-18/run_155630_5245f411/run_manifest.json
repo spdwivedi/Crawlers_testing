@@ -1,0 +1,36 @@
+{
+  "run_id": "run_155630_5245f411",
+  "tool_id": "11_yt_dlp_ffmpeg",
+  "action_name": "scrape_for_insta",
+  "date": "2026-10-18",
+  "target_url": "mock://test_reel_human_mode",
+  "started_at": "2026-10-18T15:56:30.544851+00:00",
+  "ended_at": "2026-10-18T15:56:32.228081+00:00",
+  "elapsed_sec": 1.683,
+  "status": "completed",
+  "raw_files": [
+    "chunk_000.ts",
+    "chunk_001.ts",
+    "chunk_002.ts",
+    "stream.m3u8",
+    "stream_metadata.info.json"
+  ],
+  "cleaned_files": [
+    "caption_and_stats.md",
+    "combined_video.mp4",
+    "extracted_audio.mp3",
+    "extracted_audio.wav",
+    "media_analysis.json"
+  ],
+  "git_commit": null,
+  "records_extracted": 3,
+  "quality_score": 98.0,
+  "domain_metrics": {
+    "tool_id": "11_yt_dlp_ffmpeg",
+    "human_mode_active": true,
+    "timing_profile": "FAST_AUTOMATED",
+    "chunks_captured": 3,
+    "duration": 3.04,
+    "pacing_delay_applied": 0.5623449000013352
+  }
+}

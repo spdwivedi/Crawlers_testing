@@ -1,0 +1,22 @@
+{
+  "target_url": "https://leetcode.com/problems/trapping-rain-water/",
+  "total_links": 2,
+  "links": [
+    {
+      "text": "Official Editorial",
+      "href": "https://leetcode.com/problems/trapping-rain-water/solution/"
+    },
+    {
+      "text": "Submissions",
+      "href": "https://leetcode.com/problems/trapping-rain-water/submissions/"
+    }
+  ],
+  "total_media": 1,
+  "media": [
+    {
+      "type": "image",
+      "src": "https://assets.leetcode.com/uploads/2018/10/22/rainwatertrap.png",
+      "alt": "Rain Water Diagram"
+    }
+  ]
+}

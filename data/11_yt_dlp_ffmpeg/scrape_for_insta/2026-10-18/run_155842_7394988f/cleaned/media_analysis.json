@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "id": "reel_antigravity_stream_001",
+    "title": "Antigravity Instagram Reel Stream Capture & Audio Demux Test",
+    "description": "Deterministic multi-chunk HLS stream sample for Stage 1.3 verification #coding #antigravity #crawlers",
+    "uploader": "antigravity_social_crawler",
+    "duration": 3.0,
+    "width": 640,
+    "height": 360,
+    "fps": 30,
+    "vcodec": "h264",
+    "acodec": "aac",
+    "format": "hls-chunked-ts",
+    "chunk_count": 3,
+    "chunk_files": [
+      "chunk_000.ts",
+      "chunk_001.ts",
+      "chunk_002.ts"
+    ],
+    "source_url": "mock://test_reel_human_mode",
+    "auth_mode": "anonymous"
+  },
+  "stream_pipeline": {
+    "chunks_captured": 3,
+    "raw_files": [
+      "chunk_000.ts",
+      "chunk_001.ts",
+      "chunk_002.ts",
+      "stream.m3u8",
+      "stream_metadata.info.json"
+    ],
+    "raw_total_bytes": 93667
+  },
+  "combined_video": {
+    "file_name": "combined_video.mp4",
+    "size_bytes": 52978,
+    "duration_seconds": 3.04,
+    "bitrate_kbps": 139,
+    "vcodec": "h264",
+    "acodec": "aac",
+    "width": 640,
+    "height": 360,
+    "fps": 30.0
+  },
+  "extracted_audio_mp3": {
+    "file_name": "extracted_audio.mp3",
+    "size_bytes": 74751,
+    "duration_seconds": 3.08,
+    "bitrate_kbps": 194,
+    "vcodec": "unknown",
+    "acodec": "mp3",
+    "width": 0,
+    "height": 0,
+    "fps": 0.0
+  },
+  "extracted_audio_wav": {
+    "file_name": "extracted_audio.wav",
+    "size_bytes": 97416,
+    "duration_seconds": 3.04,
+    "bitrate_kbps": 256,
+    "vcodec": "unknown",
+    "acodec": "pcm_s16le",
+    "width": 0,
+    "height": 0,
+    "fps": 0.0
+  }
+}
