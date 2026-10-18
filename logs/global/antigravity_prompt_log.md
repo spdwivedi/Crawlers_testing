@@ -804,3 +804,43 @@
 | 2026-10-18 15:58:44 | INFO | Stage 4 | human_adapter_helper | verify_human_mode_integration | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() synchronizes runs and FTS5 entries without error |
 | 2026-10-18 15:58:44 | INFO | Stage 4 | human_adapter_helper | verify_human_mode_integration | 0% | CHECK PASSED: Pre-commit secret guard reports 0 plaintext secrets staged |
 | 2026-10-18 15:59:00 | INFO | Stage 4 | human_adapter_helper | integrate_working_way_1_human_mode | 100% | Stage 4 Step 4.3 completed: Shared HumanAdapterHelper built, Working Way 1 integrated across 4 adapter cohorts (01_curl_cffi, 04_httpx_parsel, 06_playwright, 07_patchright, 11_yt_dlp_ffmpeg, 16_crawl4ai), 16/16 verification checks passed. Commits: a3b804b, c3ed05d |
+| 2026-10-18 18:17:05 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: index_store/arena_reports/ exists and is a directory |
+| 2026-10-18 18:17:05 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: index_store/arena_reports/ is writable |
+| 2026-10-18 18:17:05 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Staggered delay adheres strictly to [1.0s, 8.0s] bounds |
+| 2026-10-18 18:17:05 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Staggered delay distribution mean reflects safe human pause (1.8s - 3.5s) |
+| 2026-10-18 18:17:05 | INFO | Stage 4 | arena_runner | run_arena | 0% | Arena launched: arena_run_20261018_181705_2e5b0f0c targeting 'https://quotes.toscrape.com' with 3 tools (01_curl_cffi, 04_httpx_parsel, 06_playwright) |
+| 2026-10-18 18:17:06 | INFO | Stage 4 | 01_curl_cffi | arena_benchmark | 10% | Initialized curl_cffi run run_181706_9979a949 impersonating chrome124 (human_mode=True) |
+| 2026-10-18 18:17:06 | INFO | Stage 4 | 01_curl_cffi | arena_benchmark | 0% | [HUMAN-MODE] Pre-request pause executed: 0.221s (Profile: FAST_AUTOMATED, Action: navigate) |
+| 2026-10-18 18:17:06 | INFO | Stage 4 | 01_curl_cffi | arena_benchmark | 35% | Executing GraphQL question detail query for 'two-sum' |
+| 2026-10-18 18:17:06 | INFO | Stage 4 | 01_curl_cffi | arena_benchmark | 60% | Successfully fetched live LeetCode GraphQL problem data |
+| 2026-10-18 18:17:07 | INFO | Stage 4 | 01_curl_cffi | arena_benchmark | 85% | Raw outputs saved to D:\Project_Files\Crawlers_testing\data\01_curl_cffi\arena_benchmark\2026-10-18\run_181706_9979a949\raw (mode: live) |
+| 2026-10-18 18:17:07 | INFO | Stage 4 | 01_curl_cffi | arena_benchmark | 100% | Run manifest finalized, all 4 log tiers synchronized |
+| 2026-10-18 18:17:07 | INFO | Stage 4 | arena_runner | stagger_pause | 0% | Arena staggered safety delay: pausing 0.15s before running 04_httpx_parsel |
+| 2026-10-18 18:17:07 | INFO | Stage 4 | 04_httpx_parsel | arena_benchmark | 15% | Initialized httpx_parsel run run_181707_7e4ada27 (HTTP/2 enabled, human_mode=True) |
+| 2026-10-18 18:17:08 | INFO | Stage 4 | 04_httpx_parsel | arena_benchmark | 0% | [HUMAN-MODE] Pre-request pause executed: 0.445s (Profile: FAST_AUTOMATED, Action: navigate) |
+| 2026-10-18 18:17:09 | INFO | Stage 4 | 04_httpx_parsel | arena_benchmark | 60% | Saved raw responses (mode: live) |
+| 2026-10-18 18:17:09 | INFO | Stage 4 | 04_httpx_parsel | arena_benchmark | 100% | Run manifest finalized, 4-tier logs synchronized |
+| 2026-10-18 18:17:09 | INFO | Stage 4 | arena_runner | stagger_pause | 0% | Arena staggered safety delay: pausing 0.15s before running 06_playwright |
+| 2026-10-18 18:17:09 | INFO | Stage 4 | 06_playwright | arena_benchmark | 15% | Initialized Playwright run run_181709_acd5e183 for target https://quotes.toscrape.com (human_mode=True) |
+| 2026-10-18 18:17:09 | INFO | Stage 4 | 06_playwright | arena_benchmark | 25% | Launching Playwright Chromium browser |
+| 2026-10-18 18:17:11 | INFO | Stage 4 | 06_playwright | arena_benchmark | 45% | Navigating to https://quotes.toscrape.com |
+| 2026-10-18 18:17:13 | INFO | Stage 4 | 06_playwright | arena_benchmark | 65% | Executing Playwright browser human flow (variable scrolling & eye-scan pauses) |
+| 2026-10-18 18:17:13 | INFO | Stage 4 | 06_playwright | arena_benchmark | 0% | [HUMAN-MODE] Executing async variable human scrolling with backtracking... |
+| 2026-10-18 18:17:17 | INFO | Stage 4 | 06_playwright | arena_benchmark | 0% | [HUMAN-MODE] Async browser human interaction flow completed in 4.273s |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | 06_playwright | arena_benchmark | 100% | Playwright action 'arena_benchmark' completed successfully (Title: 'Quotes to Scrape') |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | run_arena | 0% | Arena arena_run_20261018_181705_2e5b0f0c finished: Winner=04_httpx_parsel (Total time: 12.461s). Reports saved. |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: SafeArenaRunner.run_arena() completes and returns valid structured output |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Arena executed all 3 requested candidate tools |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: All candidate tools in squad completed successfully without blocks or crashes |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Each executed tool generated an isolated run directory with run_manifest.json |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Comparison matrix contains entries for all executed candidate tools |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Comparison matrix calculates speed, richness, stealth, and composite scores |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Winning tool is designated from candidate squad |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Winning rationale is documented with analytical explanation |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Structured JSON arena report file is persisted in index_store/arena_reports/ |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Human-readable Markdown arena report file is persisted with side-by-side table |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: list_arena_reports() returns sorted report summaries including current run |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: get_arena_report() retrieves exact structured arena report document |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates arena tool runs without error |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Pre-commit secret guard reports zero blocked secrets |
+| 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Pre-commit secret guard violations_found is False |

@@ -1,0 +1,189 @@
+{
+  "report_id": "arena_run_20261018_181705_2e5b0f0c",
+  "created_at": "2026-10-18T18:17:05.795283+00:00",
+  "target_url": "https://quotes.toscrape.com",
+  "action_name": "arena_benchmark",
+  "run_label": "Stage 4 Step 4.4 Verification Arena Benchmark",
+  "human_mode": true,
+  "timing_profile": "FAST_AUTOMATED",
+  "total_tools": 3,
+  "tools_tested": [
+    "01_curl_cffi",
+    "04_httpx_parsel",
+    "06_playwright"
+  ],
+  "total_elapsed_sec": 12.461,
+  "winning_tool": "04_httpx_parsel",
+  "winning_rationale": "Tool '04_httpx_parsel' placed #1 with a composite score of 88.9/100 (Speed: 76.8, Richness: 100.0, Stealth: 90.0) with execution time of 2.022s and 7862 cleaned characters.",
+  "comparison_matrix": [
+    {
+      "tool_id": "04_httpx_parsel",
+      "status": "completed",
+      "elapsed_sec": 2.022,
+      "stagger_applied_sec": 0.15,
+      "raw_bytes": 4194,
+      "cleaned_chars": 7862,
+      "raw_file_count": 2,
+      "cleaned_file_count": 2,
+      "memory_delta_mb": 16.98,
+      "peak_rss_mb": 70.83,
+      "domain_metrics": {
+        "human_mode_active": true,
+        "timing_profile": "FAST_AUTOMATED",
+        "http2": true,
+        "json_items_count": 1,
+        "html_items_count": 1
+      },
+      "error": "",
+      "run_dir": "data\\04_httpx_parsel\\arena_benchmark\\2026-10-18\\run_181707_7e4ada27",
+      "speed_score": 76.8,
+      "data_richness_score": 100.0,
+      "stealth_score": 90.0,
+      "composite_score": 88.9,
+      "rank": 1
+    },
+    {
+      "tool_id": "01_curl_cffi",
+      "status": "completed",
+      "elapsed_sec": 1.552,
+      "stagger_applied_sec": 0.0,
+      "raw_bytes": 9022,
+      "cleaned_chars": 2429,
+      "raw_file_count": 3,
+      "cleaned_file_count": 2,
+      "memory_delta_mb": 32.12,
+      "peak_rss_mb": 53.85,
+      "domain_metrics": {
+        "human_mode_active": true,
+        "timing_profile": "FAST_AUTOMATED",
+        "difficulty": "Easy",
+        "tags_count": 2,
+        "mode": "live"
+      },
+      "error": "",
+      "run_dir": "data\\01_curl_cffi\\arena_benchmark\\2026-10-18\\run_181706_9979a949",
+      "speed_score": 100.0,
+      "data_richness_score": 51.6,
+      "stealth_score": 95.0,
+      "composite_score": 81.6,
+      "rank": 2
+    },
+    {
+      "tool_id": "06_playwright",
+      "status": "completed",
+      "elapsed_sec": 8.565,
+      "stagger_applied_sec": 0.15,
+      "raw_bytes": 358163,
+      "cleaned_chars": 4140,
+      "raw_file_count": 3,
+      "cleaned_file_count": 2,
+      "memory_delta_mb": 13.34,
+      "peak_rss_mb": 84.17,
+      "domain_metrics": {
+        "human_mode_active": true,
+        "timing_profile": "FAST_AUTOMATED",
+        "page_title": "Quotes to Scrape",
+        "requests_count": 5,
+        "has_human_metrics": true,
+        "human_metrics": {
+          "human_mode_active": true,
+          "target_url": "https://quotes.toscrape.com",
+          "warmup_executed": false,
+          "scroll_executed": true,
+          "scroll_metrics": {
+            "scroll_steps": 3,
+            "backtrack_count": 0,
+            "total_scrolled_px": 1091,
+            "elapsed_time_sec": 4.272
+          },
+          "elapsed_time_sec": 4.2725
+        }
+      },
+      "error": "",
+      "run_dir": "data\\06_playwright\\arena_benchmark\\2026-10-18\\run_181709_acd5e183",
+      "speed_score": 18.1,
+      "data_richness_score": 66.9,
+      "stealth_score": 92.0,
+      "composite_score": 57.3,
+      "rank": 3
+    }
+  ],
+  "tool_executions": [
+    {
+      "tool_id": "01_curl_cffi",
+      "status": "completed",
+      "elapsed_sec": 1.552,
+      "stagger_applied_sec": 0.0,
+      "raw_bytes": 9022,
+      "cleaned_chars": 2429,
+      "raw_file_count": 3,
+      "cleaned_file_count": 2,
+      "memory_delta_mb": 32.12,
+      "peak_rss_mb": 53.85,
+      "domain_metrics": {
+        "human_mode_active": true,
+        "timing_profile": "FAST_AUTOMATED",
+        "difficulty": "Easy",
+        "tags_count": 2,
+        "mode": "live"
+      },
+      "error": "",
+      "run_dir": "data\\01_curl_cffi\\arena_benchmark\\2026-10-18\\run_181706_9979a949"
+    },
+    {
+      "tool_id": "04_httpx_parsel",
+      "status": "completed",
+      "elapsed_sec": 2.022,
+      "stagger_applied_sec": 0.15,
+      "raw_bytes": 4194,
+      "cleaned_chars": 7862,
+      "raw_file_count": 2,
+      "cleaned_file_count": 2,
+      "memory_delta_mb": 16.98,
+      "peak_rss_mb": 70.83,
+      "domain_metrics": {
+        "human_mode_active": true,
+        "timing_profile": "FAST_AUTOMATED",
+        "http2": true,
+        "json_items_count": 1,
+        "html_items_count": 1
+      },
+      "error": "",
+      "run_dir": "data\\04_httpx_parsel\\arena_benchmark\\2026-10-18\\run_181707_7e4ada27"
+    },
+    {
+      "tool_id": "06_playwright",
+      "status": "completed",
+      "elapsed_sec": 8.565,
+      "stagger_applied_sec": 0.15,
+      "raw_bytes": 358163,
+      "cleaned_chars": 4140,
+      "raw_file_count": 3,
+      "cleaned_file_count": 2,
+      "memory_delta_mb": 13.34,
+      "peak_rss_mb": 84.17,
+      "domain_metrics": {
+        "human_mode_active": true,
+        "timing_profile": "FAST_AUTOMATED",
+        "page_title": "Quotes to Scrape",
+        "requests_count": 5,
+        "has_human_metrics": true,
+        "human_metrics": {
+          "human_mode_active": true,
+          "target_url": "https://quotes.toscrape.com",
+          "warmup_executed": false,
+          "scroll_executed": true,
+          "scroll_metrics": {
+            "scroll_steps": 3,
+            "backtrack_count": 0,
+            "total_scrolled_px": 1091,
+            "elapsed_time_sec": 4.272
+          },
+          "elapsed_time_sec": 4.2725
+        }
+      },
+      "error": "",
+      "run_dir": "data\\06_playwright\\arena_benchmark\\2026-10-18\\run_181709_acd5e183"
+    }
+  ]
+}

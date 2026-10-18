@@ -5,15 +5,40 @@
     "name": "HTTPX + Parsel (Async HTTP + XPath/CSS)",
     "batch": 1,
     "mechanism_type": "HTTP/Async",
-    "total_runs": 5,
-    "total_actions": 1,
-    "total_raw_files": 10,
-    "total_cleaned_files": 10,
-    "total_log_entries": 27,
-    "last_indexed_at": "2026-10-18T15:58:25.519829+00:00"
+    "total_runs": 6,
+    "total_actions": 2,
+    "total_raw_files": 12,
+    "total_cleaned_files": 12,
+    "total_log_entries": 31,
+    "last_indexed_at": "2026-10-18T18:17:09.478150+00:00"
   },
-  "total_runs": 5,
+  "total_runs": 6,
   "runs": [
+    {
+      "run_id": "run_181707_7e4ada27",
+      "tool_id": "04_httpx_parsel",
+      "action_name": "arena_benchmark",
+      "run_date": "2026-10-18",
+      "target_url": "https://quotes.toscrape.com",
+      "started_at": "2026-10-18T18:17:07.701810+00:00",
+      "ended_at": "2026-10-18T18:17:09.446567+00:00",
+      "elapsed_sec": 0.0,
+      "status": "completed",
+      "git_commit": null,
+      "raw_file_count": 2,
+      "cleaned_file_count": 2,
+      "raw_total_bytes": 4194,
+      "cleaned_total_bytes": 7910,
+      "domain_metrics_json": "{\"http2_enabled\": true, \"concurrent_requests_count\": 1, \"jmespath_fields_extracted\": 1, \"xpath_nodes_extracted\": 1}",
+      "cleaned_text_preview": "[async_extracted.json]: { \"fetch_metadata\": { \"http2\": true, \"mode\": \"live\", \"elapsed_sec\": 1.174 }, \"json_jmespath_extracted\": [ { \"title\": \"Wake up to WonderWidgets!\", \"type\": \"all\" } ], \"html_parsel_extracted\": [ { \"heading\": \"Herman Melville - Moby-Dick\", \"paragraph\": \"Availing himself of the mild, summer-cool weather that now reigned in these latitudes, and in preparation for the peculiarly active pursuits shortly t | [report.md]: # HTTP/2 Multiplexing & Parsel Extraction Report **Tool:** `04_httpx_parsel` **HTTP/2 Multiplexed:** `True` **Elapsed Time:** `1.174s` **Mode:** `live` --- ## 1. JSON JMESPath Extraction ```json [ { \"title\": \"Wake up to WonderWidgets!\", \"type\": \"all\" } ] ``` ## 2. HTML CSS/XPath Extraction ```json [ { \"heading\": \"Herman Melville - Moby-Dick\", \"paragraph\": \"Availing himself of the mild, summer-cool",
+      "run_dir_relpath": "data/04_httpx_parsel/arena_benchmark/2026-10-18/run_181707_7e4ada27",
+      "domain_metrics": {
+        "http2_enabled": true,
+        "concurrent_requests_count": 1,
+        "jmespath_fields_extracted": 1,
+        "xpath_nodes_extracted": 1
+      }
+    },
     {
       "run_id": "run_155824_d9a0f5e1",
       "tool_id": "04_httpx_parsel",
@@ -140,7 +165,7 @@
       }
     }
   ],
-  "total_files": 20,
+  "total_files": 24,
   "files_summary": {
     "raw": [
       {
@@ -214,6 +239,20 @@
         "content_preview": "<!DOCTYPE html> <html> <head> </head> <body> <h1>Herman Melville - Moby-Dick</h1> <div> <p> Availing himself of the mild, summer-cool weather that now reigned in these latitudes, and in preparation for the peculiarly active pursuits shortly to be anticipated, Perth, the begrimed, blistered old blacksmith, had not removed his portable forge to the hold again, after concluding his contributory work for Ahab's leg, but still retained it on deck, fast lashed to ringbolts by the foremast; being now almost incessantly invoked by the headsmen, and harpooneers, and bowsmen to do some little job for them; altering, or repairing, or new shaping their various weapons and boat furniture. Often he would be surrounded by an eager circle, all waiting to be served; holding boat-spades, pike-heads, harpoons, and lances, and jealously watching his every sooty movement, as he toiled. Nevertheless, this old man's was a patient hammer wielded by a patient arm. No murmur, no impatience, no petulance did come from him. Silent, slow, and solemn; bowing over still further his chronically broken back, he toiled away, as if toil were life itself, and the heavy beating of his hammer the heavy beating of his heart. And so it was.\u2014Most miserable! A peculiar walk in this old man, a certain slight but painful appearing yawing in his gait, had at an early period of the voyage excited the curiosity of the mariners. And to the importunity of their persisted questionings he had finally given in; and so it came "
       },
       {
+        "file_id": "run_181707_7e4ada27_raw_response_page.html",
+        "run_id": "run_181707_7e4ada27",
+        "tool_id": "04_httpx_parsel",
+        "action_name": "arena_benchmark",
+        "run_date": "2026-10-18",
+        "tier": "raw",
+        "filename": "response_page.html",
+        "extension": ".html",
+        "size_bytes": 3754,
+        "sha256_short": "93f503ee8add8a37",
+        "relpath": "data/04_httpx_parsel/arena_benchmark/2026-10-18/run_181707_7e4ada27/raw/response_page.html",
+        "content_preview": "<!DOCTYPE html> <html> <head> </head> <body> <h1>Herman Melville - Moby-Dick</h1> <div> <p> Availing himself of the mild, summer-cool weather that now reigned in these latitudes, and in preparation for the peculiarly active pursuits shortly to be anticipated, Perth, the begrimed, blistered old blacksmith, had not removed his portable forge to the hold again, after concluding his contributory work for Ahab's leg, but still retained it on deck, fast lashed to ringbolts by the foremast; being now almost incessantly invoked by the headsmen, and harpooneers, and bowsmen to do some little job for them; altering, or repairing, or new shaping their various weapons and boat furniture. Often he would be surrounded by an eager circle, all waiting to be served; holding boat-spades, pike-heads, harpoons, and lances, and jealously watching his every sooty movement, as he toiled. Nevertheless, this old man's was a patient hammer wielded by a patient arm. No murmur, no impatience, no petulance did come from him. Silent, slow, and solemn; bowing over still further his chronically broken back, he toiled away, as if toil were life itself, and the heavy beating of his hammer the heavy beating of his heart. And so it was.\u2014Most miserable! A peculiar walk in this old man, a certain slight but painful appearing yawing in his gait, had at an early period of the voyage excited the curiosity of the mariners. And to the importunity of their persisted questionings he had finally given in; and so it came "
+      },
+      {
         "file_id": "run_145809_447daaf5_raw_response_payload.json",
         "run_id": "run_145809_447daaf5",
         "tool_id": "04_httpx_parsel",
@@ -281,6 +320,20 @@
         "size_bytes": 440,
         "sha256_short": "33e5e28c8e77fe52",
         "relpath": "data/04_httpx_parsel/scrape_for_leetcode/2026-10-18/run_155824_d9a0f5e1/raw/response_payload.json",
+        "content_preview": "{ \"slideshow\": { \"author\": \"Yours Truly\", \"date\": \"date of publication\", \"slides\": [ { \"title\": \"Wake up to WonderWidgets!\", \"type\": \"all\" }, { \"items\": [ \"Why <em>WonderWidgets</em> are great\", \"Who <em>buys</em> WonderWidgets\" ], \"title\": \"Overview\", \"type\": \"all\" } ], \"title\": \"Sample Slide Show\" } }"
+      },
+      {
+        "file_id": "run_181707_7e4ada27_raw_response_payload.json",
+        "run_id": "run_181707_7e4ada27",
+        "tool_id": "04_httpx_parsel",
+        "action_name": "arena_benchmark",
+        "run_date": "2026-10-18",
+        "tier": "raw",
+        "filename": "response_payload.json",
+        "extension": ".json",
+        "size_bytes": 440,
+        "sha256_short": "33e5e28c8e77fe52",
+        "relpath": "data/04_httpx_parsel/arena_benchmark/2026-10-18/run_181707_7e4ada27/raw/response_payload.json",
         "content_preview": "{ \"slideshow\": { \"author\": \"Yours Truly\", \"date\": \"date of publication\", \"slides\": [ { \"title\": \"Wake up to WonderWidgets!\", \"type\": \"all\" }, { \"items\": [ \"Why <em>WonderWidgets</em> are great\", \"Who <em>buys</em> WonderWidgets\" ], \"title\": \"Overview\", \"type\": \"all\" } ], \"title\": \"Sample Slide Show\" } }"
       }
     ],
@@ -356,6 +409,20 @@
         "content_preview": "{ \"fetch_metadata\": { \"http2\": true, \"mode\": \"live\", \"elapsed_sec\": 1.14 }, \"json_jmespath_extracted\": [ { \"title\": \"Wake up to WonderWidgets!\", \"type\": \"all\" } ], \"html_parsel_extracted\": [ { \"heading\": \"Herman Melville - Moby-Dick\", \"paragraph\": \"Availing himself of the mild, summer-cool weather that now reigned in these latitudes, and in preparation for the peculiarly active pursuits shortly to be anticipated, Perth, the begrimed, blistered old blacksmith, had not removed his portable forge to the hold again, after concluding his contributory work for Ahab's leg, but still retained it on deck, fast lashed to ringbolts by the foremast; being now almost incessantly invoked by the headsmen, and harpooneers, and bowsmen to do some little job for them; altering, or repairing, or new shaping their various weapons and boat furniture. Often he would be surrounded by an eager circle, all waiting to be served; holding boat-spades, pike-heads, harpoons, and lances, and jealously watching his every sooty movement, as he toiled. Nevertheless, this old man's was a patient hammer wielded by a patient arm. No murmur, no impatience, no petulance did come from him. Silent, slow, and solemn; bowing over still further his chronically broken back, he toiled away, as if toil were life itself, and the heavy beating of his hammer the heavy beating of his heart. And so it was.\\u2014Most miserable! A peculiar walk in this old man, a certain slight but painful appearing yawing in his gait, had at an"
       },
       {
+        "file_id": "run_181707_7e4ada27_cleaned_async_extracted.json",
+        "run_id": "run_181707_7e4ada27",
+        "tool_id": "04_httpx_parsel",
+        "action_name": "arena_benchmark",
+        "run_date": "2026-10-18",
+        "tier": "cleaned",
+        "filename": "async_extracted.json",
+        "extension": ".json",
+        "size_bytes": 3910,
+        "sha256_short": "c6e0fb1aa2d1ae57",
+        "relpath": "data/04_httpx_parsel/arena_benchmark/2026-10-18/run_181707_7e4ada27/cleaned/async_extracted.json",
+        "content_preview": "{ \"fetch_metadata\": { \"http2\": true, \"mode\": \"live\", \"elapsed_sec\": 1.174 }, \"json_jmespath_extracted\": [ { \"title\": \"Wake up to WonderWidgets!\", \"type\": \"all\" } ], \"html_parsel_extracted\": [ { \"heading\": \"Herman Melville - Moby-Dick\", \"paragraph\": \"Availing himself of the mild, summer-cool weather that now reigned in these latitudes, and in preparation for the peculiarly active pursuits shortly to be anticipated, Perth, the begrimed, blistered old blacksmith, had not removed his portable forge to the hold again, after concluding his contributory work for Ahab's leg, but still retained it on deck, fast lashed to ringbolts by the foremast; being now almost incessantly invoked by the headsmen, and harpooneers, and bowsmen to do some little job for them; altering, or repairing, or new shaping their various weapons and boat furniture. Often he would be surrounded by an eager circle, all waiting to be served; holding boat-spades, pike-heads, harpoons, and lances, and jealously watching his every sooty movement, as he toiled. Nevertheless, this old man's was a patient hammer wielded by a patient arm. No murmur, no impatience, no petulance did come from him. Silent, slow, and solemn; bowing over still further his chronically broken back, he toiled away, as if toil were life itself, and the heavy beating of his hammer the heavy beating of his heart. And so it was.\\u2014Most miserable! A peculiar walk in this old man, a certain slight but painful appearing yawing in his gait, had at a"
+      },
+      {
         "file_id": "run_145809_447daaf5_cleaned_report.md",
         "run_id": "run_145809_447daaf5",
         "tool_id": "04_httpx_parsel",
@@ -424,10 +491,84 @@
         "sha256_short": "7588ac77be72ac7a",
         "relpath": "data/04_httpx_parsel/scrape_for_leetcode/2026-10-18/run_155824_d9a0f5e1/cleaned/report.md",
         "content_preview": "# HTTP/2 Multiplexing & Parsel Extraction Report **Tool:** `04_httpx_parsel` **HTTP/2 Multiplexed:** `True` **Elapsed Time:** `1.14s` **Mode:** `live` --- ## 1. JSON JMESPath Extraction ```json [ { \"title\": \"Wake up to WonderWidgets!\", \"type\": \"all\" } ] ``` ## 2. HTML CSS/XPath Extraction ```json [ { \"heading\": \"Herman Melville - Moby-Dick\", \"paragraph\": \"Availing himself of the mild, summer-cool weather that now reigned in these latitudes, and in preparation for the peculiarly active pursuits shortly to be anticipated, Perth, the begrimed, blistered old blacksmith, had not removed his portable forge to the hold again, after concluding his contributory work for Ahab's leg, but still retained it on deck, fast lashed to ringbolts by the foremast; being now almost incessantly invoked by the headsmen, and harpooneers, and bowsmen to do some little job for them; altering, or repairing, or new shaping their various weapons and boat furniture. Often he would be surrounded by an eager circle, all waiting to be served; holding boat-spades, pike-heads, harpoons, and lances, and jealously watching his every sooty movement, as he toiled. Nevertheless, this old man's was a patient hammer wielded by a patient arm. No murmur, no impatience, no petulance did come from him. Silent, slow, and solemn; bowing over still further his chronically broken back, he toiled away, as if toil were life itself, and the heavy beating of his hammer the heavy beating of his heart. And so it was.\\u2014Most mis"
+      },
+      {
+        "file_id": "run_181707_7e4ada27_cleaned_report.md",
+        "run_id": "run_181707_7e4ada27",
+        "tool_id": "04_httpx_parsel",
+        "action_name": "arena_benchmark",
+        "run_date": "2026-10-18",
+        "tier": "cleaned",
+        "filename": "report.md",
+        "extension": ".md",
+        "size_bytes": 4000,
+        "sha256_short": "fbf2c703cf61c29c",
+        "relpath": "data/04_httpx_parsel/arena_benchmark/2026-10-18/run_181707_7e4ada27/cleaned/report.md",
+        "content_preview": "# HTTP/2 Multiplexing & Parsel Extraction Report **Tool:** `04_httpx_parsel` **HTTP/2 Multiplexed:** `True` **Elapsed Time:** `1.174s` **Mode:** `live` --- ## 1. JSON JMESPath Extraction ```json [ { \"title\": \"Wake up to WonderWidgets!\", \"type\": \"all\" } ] ``` ## 2. HTML CSS/XPath Extraction ```json [ { \"heading\": \"Herman Melville - Moby-Dick\", \"paragraph\": \"Availing himself of the mild, summer-cool weather that now reigned in these latitudes, and in preparation for the peculiarly active pursuits shortly to be anticipated, Perth, the begrimed, blistered old blacksmith, had not removed his portable forge to the hold again, after concluding his contributory work for Ahab's leg, but still retained it on deck, fast lashed to ringbolts by the foremast; being now almost incessantly invoked by the headsmen, and harpooneers, and bowsmen to do some little job for them; altering, or repairing, or new shaping their various weapons and boat furniture. Often he would be surrounded by an eager circle, all waiting to be served; holding boat-spades, pike-heads, harpoons, and lances, and jealously watching his every sooty movement, as he toiled. Nevertheless, this old man's was a patient hammer wielded by a patient arm. No murmur, no impatience, no petulance did come from him. Silent, slow, and solemn; bowing over still further his chronically broken back, he toiled away, as if toil were life itself, and the heavy beating of his hammer the heavy beating of his heart. And so it was.\\u2014Most mi"
       }
     ]
   },
   "recent_logs": [
+    {
+      "log_id": "run_181707_7e4ada27_act_3",
+      "run_id": "run_181707_7e4ada27",
+      "tool_id": "04_httpx_parsel",
+      "action_name": "arena_benchmark",
+      "run_date": "2026-10-18",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-18T18:17:09.415274+00:00",
+      "level": "INFO",
+      "stage": "Stage 4",
+      "step": "Step 4.3",
+      "progress_pct": 60,
+      "elapsed_ms": 1712,
+      "message": "Saved raw responses (mode: live)"
+    },
+    {
+      "log_id": "run_181707_7e4ada27_act_2",
+      "run_id": "run_181707_7e4ada27",
+      "tool_id": "04_httpx_parsel",
+      "action_name": "arena_benchmark",
+      "run_date": "2026-10-18",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-18T18:17:08.148484+00:00",
+      "level": "INFO",
+      "stage": "Stage 4",
+      "step": "Step 4.3",
+      "progress_pct": 0,
+      "elapsed_ms": 445,
+      "message": "[HUMAN-MODE] Pre-request pause executed: 0.445s (Profile: FAST_AUTOMATED, Action: navigate)"
+    },
+    {
+      "log_id": "run_181707_7e4ada27_act_1",
+      "run_id": "run_181707_7e4ada27",
+      "tool_id": "04_httpx_parsel",
+      "action_name": "arena_benchmark",
+      "run_date": "2026-10-18",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-18T18:17:07.702798+00:00",
+      "level": "INFO",
+      "stage": "Stage 4",
+      "step": "Step 4.3",
+      "progress_pct": 15,
+      "elapsed_ms": 0,
+      "message": "Initialized httpx_parsel run run_181707_7e4ada27 (HTTP/2 enabled, human_mode=True)"
+    },
+    {
+      "log_id": "run_181707_7e4ada27_act_0",
+      "run_id": "run_181707_7e4ada27",
+      "tool_id": "04_httpx_parsel",
+      "action_name": "arena_benchmark",
+      "run_date": "2026-10-18",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-18T18:17:07.701810+00:00",
+      "level": "INFO",
+      "stage": "",
+      "step": "",
+      "progress_pct": 0,
+      "elapsed_ms": 0,
+      "message": ""
+    },
     {
       "log_id": "run_155824_d9a0f5e1_act_3",
       "run_id": "run_155824_d9a0f5e1",
@@ -834,5 +975,5 @@
       "message": "Tool ops log created during Stage 1 scaffolding"
     }
   ],
-  "indexed_at": "2026-10-18T15:58:25.519829+00:00"
+  "indexed_at": "2026-10-18T18:17:09.478150+00:00"
 }
