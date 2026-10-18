@@ -1084,11 +1084,6 @@ async def ws_telemetry(ws: WebSocket):
                 state["elapsed_seconds"] = round(
                     time.time() - state["started_at_epoch"], 1
                 )
-            # Lightweight worker refresh every 5th tick
-            if int(time.time()) % 5 == 0:
-                state["worker_processes"] = refresh_workers()
-                write_state(state)
-
             await ws.send_text(json.dumps(state, default=str))
             await asyncio.sleep(1.0)
     except WebSocketDisconnect:
@@ -1105,13 +1100,13 @@ if _WATCHDOG_OK:
             self._queue = queue
             self._loop = loop
             self._tails: dict[str, int] = {}
-            for scan_dir in [ROOT / "logs", ROOT / "data", ROOT / "tools"]:
-                if scan_dir.exists():
-                    for p in scan_dir.rglob("*.jsonl"):
-                        try:
-                            self._tails[str(p)] = p.stat().st_size
-                        except OSError:
-                            pass
+            scan_dir = ROOT / "logs"
+            if scan_dir.exists():
+                for p in scan_dir.rglob("*.jsonl"):
+                    try:
+                        self._tails[str(p)] = p.stat().st_size
+                    except OSError:
+                        pass
 
         def on_modified(self, event):
             if event.is_directory:
@@ -1151,12 +1146,10 @@ async def ws_logs(ws: WebSocket):
     loop = asyncio.get_event_loop()
 
     observer = None
-    if _WATCHDOG_OK:
+    if _WATCHDOG_OK and (ROOT / "logs").exists():
         handler = _LogHandler(log_broadcast_queue, loop)
         observer = Observer()
         observer.schedule(handler, str(ROOT / "logs"), recursive=True)
-        observer.schedule(handler, str(ROOT / "data"), recursive=True)
-        observer.schedule(handler, str(ROOT / "tools"), recursive=True)
         observer.start()
 
     try:

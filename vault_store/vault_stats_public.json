@@ -1,25 +1,26 @@
 {
-  "total_accounts": 21,
+  "total_accounts": 44,
   "by_platform": {
-    "custom_web": 2,
-    "facebook": 6,
-    "instagram": 9,
-    "leetcode": 4
+    "custom_web": 7,
+    "facebook": 10,
+    "instagram": 19,
+    "leetcode": 8
   },
   "by_status": {
-    "active": 21
+    "active": 40,
+    "expired": 4
   },
   "by_auth_method": {
-    "user_pass": 21,
-    "totp_2fa": 9,
+    "user_pass": 44,
+    "totp_2fa": 13,
     "cookie_jar": 3,
     "api_headers": 2,
     "session_tokens": 2,
     "storage_state": 2,
     "proxy_config": 2
   },
-  "total_target_links": 532,
-  "total_distinct_targets": 42,
-  "total_audit_events": 27,
-  "last_updated_at": "2026-10-17T13:19:42.384901+00:00"
+  "total_target_links": 547,
+  "total_distinct_targets": 48,
+  "total_audit_events": 191,
+  "last_updated_at": "2026-10-18T11:50:22.217488+00:00"
 }
