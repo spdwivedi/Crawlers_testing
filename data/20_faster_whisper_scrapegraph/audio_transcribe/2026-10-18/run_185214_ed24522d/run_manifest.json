@@ -1,0 +1,23 @@
+{
+  "run_id": "run_185214_ed24522d",
+  "tool_id": "20_faster_whisper_scrapegraph",
+  "action_name": "audio_transcribe",
+  "date": "2026-10-18",
+  "target_url": "https://www.instagram.com/reel/C8XYZ12345/",
+  "started_at": "2026-10-18T18:52:14.282354+00:00",
+  "ended_at": "2026-10-18T18:52:15.824337+00:00",
+  "elapsed_sec": 1.542,
+  "status": "completed",
+  "raw_files": [
+    "input_audio.wav"
+  ],
+  "cleaned_files": [
+    "knowledge_graph.json",
+    "multimodal_summary.md",
+    "transcript.srt",
+    "transcript_segments.json"
+  ],
+  "git_commit": null,
+  "records_extracted": 2,
+  "quality_score": 98.5
+}

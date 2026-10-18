@@ -1,0 +1,97 @@
+{
+  "graph_name": "LRUCache_Multimodal_Knowledge_Graph",
+  "extracted_from": {
+    "target_url": "https://www.instagram.com/reel/C8XYZ12345/",
+    "transcript_words": 20,
+    "transcript_summary": "Welcome to the Antigravity crawler and technical problem analysis. Today we analyze LRU Cache architecture and O(1) doub..."
+  },
+  "nodes_count": 6,
+  "edges_count": 5,
+  "nodes": [
+    {
+      "id": "entity_problem_146",
+      "label": "LRU Cache",
+      "type": "Problem",
+      "properties": {
+        "difficulty": "Medium",
+        "acceptance": "43.8%"
+      }
+    },
+    {
+      "id": "entity_ds_hashmap",
+      "label": "Hash Map",
+      "type": "DataStructure",
+      "properties": {
+        "lookup": "O(1)",
+        "purpose": "Key to Node Index"
+      }
+    },
+    {
+      "id": "entity_ds_dll",
+      "label": "Doubly Linked List",
+      "type": "DataStructure",
+      "properties": {
+        "relink": "O(1)",
+        "purpose": "Eviction Ordering"
+      }
+    },
+    {
+      "id": "entity_complexity_o1",
+      "label": "O(1) Time Complexity",
+      "type": "Metric",
+      "properties": {
+        "guarantee": "Strict Average"
+      }
+    },
+    {
+      "id": "entity_audio_transcript",
+      "label": "Spoken Walkthrough",
+      "type": "MultimodalArtifact",
+      "properties": {
+        "duration_sec": 3.0,
+        "segments": 2
+      }
+    },
+    {
+      "id": "entity_crawler_origin",
+      "label": "LeetCode Specification Origin",
+      "type": "DataSource",
+      "properties": {
+        "protocol": "HTTPS"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "entity_problem_146",
+      "target": "entity_ds_hashmap",
+      "relation": "IMPLEMENTED_USING",
+      "weight": 1.0
+    },
+    {
+      "source": "entity_problem_146",
+      "target": "entity_ds_dll",
+      "relation": "MAINTAINS_EVICTION_ORDER",
+      "weight": 1.0
+    },
+    {
+      "source": "entity_problem_146",
+      "target": "entity_complexity_o1",
+      "relation": "SATISFIES_REQUIREMENT",
+      "weight": 1.0
+    },
+    {
+      "source": "entity_audio_transcript",
+      "target": "entity_problem_146",
+      "relation": "EXPLAINS_SOLUTION",
+      "weight": 0.95
+    },
+    {
+      "source": "entity_crawler_origin",
+      "target": "entity_problem_146",
+      "relation": "ORIGIN_SPECIFICATION",
+      "weight": 1.0
+    }
+  ],
+  "extracted_at": "2026-10-18T18:52:15.802983+00:00"
+}

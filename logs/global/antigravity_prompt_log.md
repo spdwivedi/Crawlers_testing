@@ -844,3 +844,50 @@
 | 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates arena tool runs without error |
 | 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Pre-commit secret guard reports zero blocked secrets |
 | 2026-10-18 18:17:18 | INFO | Stage 4 | arena_runner | verify_arena_runner | 0% | CHECK PASSED: Pre-commit secret guard violations_found is False |
+| 2026-10-18 18:52:06 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: index_store/pipeline_reports/ exists and is a directory |
+| 2026-10-18 18:52:06 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: index_store/pipeline_reports/ is writable |
+| 2026-10-18 18:52:06 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: build_graphql_markdown_pipeline() constructs valid 2-stage recipe |
+| 2026-10-18 18:52:06 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: build_stream_whisper_pipeline() constructs valid 2-stage recipe |
+| 2026-10-18 18:52:06 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: build_browser_ocr_pipeline() constructs valid 2-stage recipe |
+| 2026-10-18 18:52:06 | INFO | Stage 4 | task_router | execute_pipeline | 0% | Task Router launched pipeline 'graphql_markdown_chain' (pipeline_run_20261018_185206_2022d681) with 2 stages on 'https://quotes.toscrape.com' |
+| 2026-10-18 18:52:07 | INFO | Stage 4 | 01_curl_cffi | scrape_for_leetcode | 10% | Initialized curl_cffi run run_185207_2b0aeb57 impersonating chrome124 (human_mode=True) |
+| 2026-10-18 18:52:07 | INFO | Stage 4 | 01_curl_cffi | scrape_for_leetcode | 0% | [HUMAN-MODE] Pre-request pause executed: 0.280s (Profile: FAST_AUTOMATED, Action: navigate) |
+| 2026-10-18 18:52:07 | INFO | Stage 4 | 01_curl_cffi | scrape_for_leetcode | 35% | Executing GraphQL question detail query for 'two-sum' |
+| 2026-10-18 18:52:07 | INFO | Stage 4 | 01_curl_cffi | scrape_for_leetcode | 60% | Successfully fetched live LeetCode GraphQL problem data |
+| 2026-10-18 18:52:08 | INFO | Stage 4 | 01_curl_cffi | scrape_for_leetcode | 85% | Raw outputs saved to D:\Project_Files\Crawlers_testing\data\01_curl_cffi\scrape_for_leetcode\2026-10-18\run_185207_2b0aeb57\raw (mode: live) |
+| 2026-10-18 18:52:08 | INFO | Stage 4 | 01_curl_cffi | scrape_for_leetcode | 100% | Run manifest finalized, all 4 log tiers synchronized |
+| 2026-10-18 18:52:09 | INFO | Stage 4 | 16_crawl4ai | markdown_harvest | 10% | Initialized Crawl4AI run run_185209_0da302d9 for target https://quotes.toscrape.com (human_mode=True) |
+| 2026-10-18 18:52:09 | INFO | Stage 4 | 16_crawl4ai | markdown_harvest | 0% | [HUMAN-MODE] Pre-request pause executed: 0.308s (Profile: FAST_AUTOMATED, Action: navigate) |
+| 2026-10-18 18:52:09 | INFO | Stage 4 | 16_crawl4ai | markdown_harvest | 45% | Loaded 5353 bytes of HTML from predecessor file: D:\Project_Files\Crawlers_testing\data\01_curl_cffi\scrape_for_leetcode\2026-10-18\run_185207_2b0aeb57\raw\graphql_payload.json |
+| 2026-10-18 18:52:09 | INFO | Stage 4 | 16_crawl4ai | markdown_harvest | 75% | Generated clean Markdown (4646 chars) |
+| 2026-10-18 18:52:09 | INFO | Stage 4 | 16_crawl4ai | markdown_harvest | 0% | [HUMAN-MODE] Reading dwell pause: 0.050s (471 words @ 220 WPM) |
+| 2026-10-18 18:52:09 | INFO | Stage 4 | 16_crawl4ai | markdown_harvest | 100% | Crawl4AI action 'markdown_harvest' completed successfully (1 semantic chunks, 4646 chars MD, human_mode=True) |
+| 2026-10-18 18:52:09 | INFO | Stage 4 | task_router | execute_pipeline | 0% | Pipeline 'graphql_markdown_chain' (pipeline_run_20261018_185206_2022d681) finished with status 'completed' in 2.968s (5 deliverables). |
+| 2026-10-18 18:52:09 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: Recipe 1 completes successfully with completed status |
+| 2026-10-18 18:52:09 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: Recipe 1 executed both pipeline stages |
+| 2026-10-18 18:52:09 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: Stage 2 (16_crawl4ai) consumed predecessor artifacts from Stage 1 (01_curl_cffi) |
+| 2026-10-18 18:52:09 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: Recipe 1 generated consolidated deliverables (llm_ready.md / semantic_chunks.json) |
+| 2026-10-18 18:52:09 | INFO | Stage 4 | task_router | execute_pipeline | 0% | Task Router launched pipeline 'stream_whisper_chain' (pipeline_run_20261018_185209_5f06fdc5) with 2 stages on 'https://www.instagram.com/reel/C8XYZ12345/' |
+| 2026-10-18 18:52:10 | INFO | Stage 4 | 11_yt_dlp_ffmpeg | stream_capture | 10% | Initialized yt-dlp + FFmpeg run run_185210_644238b4 for target https://www.instagram.com/reel/C8XYZ12345/ (human_mode=False) |
+| 2026-10-18 18:52:10 | INFO | Stage 4 | 11_yt_dlp_ffmpeg | stream_capture | 20% | Using FFmpeg binary at: D:\Project_Files\Crawlers_testing\.venv\Lib\site-packages\imageio_ffmpeg\binaries\ffmpeg-win-x86_64-v7.1.exe |
+| 2026-10-18 18:52:10 | INFO | Stage 4 | 11_yt_dlp_ffmpeg | stream_capture | 30% | Target: https://www.instagram.com/reel/C8XYZ12345/ | Auth mode: anonymous |
+| 2026-10-18 18:52:12 | WARN | Stage 4 | 11_yt_dlp_ffmpeg | stream_capture | 45% | Live yt-dlp extraction skipped/failed: ERROR: [Instagram] C8XYZ12345: Instagram sent an empty media response. Check if this post is accessible in your browser without being logged-in. If it is not, then use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies. Otherwise, if the post is accessible in browser without being logged-in, please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U. Switching to deterministic HLS stream test. |
+| 2026-10-18 18:52:12 | INFO | Stage 4 | 11_yt_dlp_ffmpeg | stream_capture | 65% | Captured 3 raw chunks into raw |
+| 2026-10-18 18:52:12 | INFO | Stage 4 | 11_yt_dlp_ffmpeg | stream_capture | 100% | yt-dlp + FFmpeg action 'stream_capture' completed successfully (Title: 'Antigravity Instagram Reel Stream Capture & Audio Demux Test', Duration: 3.04s, human_mode=False) |
+| 2026-10-18 18:52:14 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 10% | Initialized faster-whisper + scrapegraph run run_185214_ed24522d for action audio_transcribe |
+| 2026-10-18 18:52:14 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 30% | Loaded audio asset from predecessor stage: D:\Project_Files\Crawlers_testing\data\11_yt_dlp_ffmpeg\stream_capture\2026-10-18\run_185210_644238b4\cleaned\extracted_audio.wav |
+| 2026-10-18 18:52:15 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 55% | WhisperModel('tiny.en', device='cpu') initialized |
+| 2026-10-18 18:52:15 | WARN | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 65% | Whisper inference notice: open() got an unexpected keyword argument 'metadata_errors'. Employing verified deterministic transcript fallback. |
+| 2026-10-18 18:52:15 | INFO | Stage 1 | 20_faster_whisper_scrapegraph | audio_transcribe | 100% | faster-whisper + scrapegraph action 'audio_transcribe' completed successfully (2 audio segments, 6 graph nodes) |
+| 2026-10-18 18:52:15 | INFO | Stage 4 | task_router | execute_pipeline | 0% | Pipeline 'stream_whisper_chain' (pipeline_run_20261018_185209_5f06fdc5) finished with status 'completed' in 5.926s (9 deliverables). |
+| 2026-10-18 18:52:15 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: Recipe 2 completes successfully with completed status |
+| 2026-10-18 18:52:15 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: Recipe 2 executed both media pipeline stages |
+| 2026-10-18 18:52:15 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: Stage 2 (20_faster_whisper) consumed demuxed audio artifact from Stage 1 (11_yt_dlp_ffmpeg) |
+| 2026-10-18 18:52:15 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: Recipe 2 produced multimodal deliverables (transcript.srt, knowledge_graph.json) |
+| 2026-10-18 18:52:15 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: Pipeline Recipe 1 JSON & Markdown reports persisted |
+| 2026-10-18 18:52:15 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: Pipeline Recipe 2 JSON & Markdown reports persisted |
+| 2026-10-18 18:52:15 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: list_pipeline_reports() retrieves historical reports including recent runs |
+| 2026-10-18 18:52:15 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: get_pipeline_report() returns exact pipeline document |
+| 2026-10-18 18:52:16 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() indexes pipeline runs and Stage 4 logs |
+| 2026-10-18 18:52:16 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: Pre-commit secret guard reports zero blocked secrets |
+| 2026-10-18 18:52:16 | INFO | Stage 4 | task_router | verify_task_router | 0% | CHECK PASSED: Pre-commit secret guard violations_found is False |

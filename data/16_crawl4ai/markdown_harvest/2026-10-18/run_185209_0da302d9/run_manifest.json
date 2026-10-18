@@ -1,0 +1,32 @@
+{
+  "run_id": "run_185209_0da302d9",
+  "tool_id": "16_crawl4ai",
+  "action_name": "markdown_harvest",
+  "date": "2026-10-18",
+  "target_url": "https://quotes.toscrape.com",
+  "started_at": "2026-10-18T18:52:09.478562+00:00",
+  "ended_at": "2026-10-18T18:52:09.875271+00:00",
+  "elapsed_sec": 0.397,
+  "status": "completed",
+  "raw_files": [
+    "crawler_meta.json",
+    "raw_page.html"
+  ],
+  "cleaned_files": [
+    "llm_ready.md",
+    "media_and_links.json",
+    "semantic_chunks.json"
+  ],
+  "git_commit": null,
+  "records_extracted": 1,
+  "quality_score": 98.0,
+  "domain_metrics": {
+    "tool_id": "16_crawl4ai",
+    "human_mode_active": true,
+    "timing_profile": "FAST_AUTOMATED",
+    "chunks_count": 1,
+    "markdown_chars": 4646,
+    "pre_delay_applied": 0.30785409999953117,
+    "reading_delay_applied": 0.05047280000144383
+  }
+}

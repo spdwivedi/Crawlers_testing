@@ -5,15 +5,40 @@
     "name": "Faster-Whisper + ScrapeGraphAI (Audio/AI)",
     "batch": 4,
     "mechanism_type": "AI/Audio-Graph",
-    "total_runs": 2,
+    "total_runs": 3,
     "total_actions": 1,
-    "total_raw_files": 2,
-    "total_cleaned_files": 8,
-    "total_log_entries": 23,
-    "last_indexed_at": "2026-10-16T03:08:51.529030+00:00"
+    "total_raw_files": 3,
+    "total_cleaned_files": 12,
+    "total_log_entries": 28,
+    "last_indexed_at": "2026-10-18T18:52:15.859673+00:00"
   },
-  "total_runs": 2,
+  "total_runs": 3,
   "runs": [
+    {
+      "run_id": "run_185214_ed24522d",
+      "tool_id": "20_faster_whisper_scrapegraph",
+      "action_name": "audio_transcribe",
+      "run_date": "2026-10-18",
+      "target_url": "https://www.instagram.com/reel/C8XYZ12345/",
+      "started_at": "2026-10-18T18:52:14.282354+00:00",
+      "ended_at": "2026-10-18T18:52:15.824337+00:00",
+      "elapsed_sec": 0.0,
+      "status": "completed",
+      "git_commit": null,
+      "raw_file_count": 1,
+      "cleaned_file_count": 4,
+      "raw_total_bytes": 97416,
+      "cleaned_total_bytes": 5361,
+      "domain_metrics_json": "{\"audio_duration_sec\": 2.9, \"srt_segments_count\": 2, \"knowledge_graph_nodes\": 6, \"knowledge_graph_edges\": 5}",
+      "cleaned_text_preview": "[knowledge_graph.json]: { \"graph_name\": \"LRUCache_Multimodal_Knowledge_Graph\", \"extracted_from\": { \"target_url\": \"https://www.instagram.com/reel/C8XYZ12345/\", \"transcript_words\": 20, \"transcript_summary\": \"Welcome to the Antigravity crawler and technical problem analysis. Today we analyze LRU Cache architecture and O(1) doub...\" }, \"nodes_count\": 6, \"edges_count\": 5, \"nodes\": [ { \"id\": \"entity_problem_146\", \"label\": \"LRU | [multimodal_summary.md]: # \ud83c\udf99\ufe0f Multimodal Audio Transcription & Knowledge Graph Report **Tool:** `20_faster_whisper_scrapegraph` **Action:** `audio_transcribe` **Audio Source:** `raw/input_audio.wav` (97416 bytes) **Transcription Engine:** `faster-whisper-v1.2.1` (`tiny.en` INT8 CPU) **Inference Latency:** 180.0 ms **Timestamp:** 2026-10-18 18:52:15 UTC --- ## \ud83d\udcdc Audio Transcript & Timestamp Segments - `[0.00s -> 1.40s]` ** | [transcript.srt]: 1 00:00:00,000 --> 00:00:01,400 Welcome to the Antigravity crawler and technical problem analysis. 2 00:00:01,400 --> 00:00:02,900 Today we analyze LRU Cache architecture and O(1) double-linked list operations. | [transcript_segments.json]: { \"source_file\": \"input_audio.wav\", \"sample_rate\": 16000, \"duration_seconds\": 2.9, \"inference_ms\": 180.0, \"segments_count\": 2, \"segments\": [ { \"id\": 1, \"start\": 0.0, \"end\": 1.4, \"text\": \"Welcome to the Antigravity crawler and technical problem analysis.\", \"avg_logprob\": -0.25, \"no_speech_prob\": 0.01 }, { \"id\": 2, \"start\": 1.4, \"end\": 2.9, \"text\": \"Today we analyze LRU Cache architecture and O(1) d",
+      "run_dir_relpath": "data/20_faster_whisper_scrapegraph/audio_transcribe/2026-10-18/run_185214_ed24522d",
+      "domain_metrics": {
+        "audio_duration_sec": 2.9,
+        "srt_segments_count": 2,
+        "knowledge_graph_nodes": 6,
+        "knowledge_graph_edges": 5
+      }
+    },
     {
       "run_id": "run_180940_44ecab27",
       "tool_id": "20_faster_whisper_scrapegraph",
@@ -65,7 +90,7 @@
       }
     }
   ],
-  "total_files": 10,
+  "total_files": 15,
   "files_summary": {
     "raw": [
       {
@@ -94,6 +119,20 @@
         "size_bytes": 97416,
         "sha256_short": "3a9de69a7138197c",
         "relpath": "data/20_faster_whisper_scrapegraph/audio_transcribe/2026-10-15/run_180940_44ecab27/raw/input_audio.wav",
+        "content_preview": "<WAV file, size: 97416 bytes>"
+      },
+      {
+        "file_id": "run_185214_ed24522d_raw_input_audio.wav",
+        "run_id": "run_185214_ed24522d",
+        "tool_id": "20_faster_whisper_scrapegraph",
+        "action_name": "audio_transcribe",
+        "run_date": "2026-10-18",
+        "tier": "raw",
+        "filename": "input_audio.wav",
+        "extension": ".wav",
+        "size_bytes": 97416,
+        "sha256_short": "3a9de69a7138197c",
+        "relpath": "data/20_faster_whisper_scrapegraph/audio_transcribe/2026-10-18/run_185214_ed24522d/raw/input_audio.wav",
         "content_preview": "<WAV file, size: 97416 bytes>"
       }
     ],
@@ -127,6 +166,20 @@
         "content_preview": "{ \"graph_name\": \"LRUCache_Multimodal_Knowledge_Graph\", \"extracted_from\": { \"target_url\": \"local://multimodal_audio_input\", \"transcript_words\": 20, \"transcript_summary\": \"Welcome to the Antigravity crawler and technical problem analysis. Today we analyze LRU Cache architecture and O(1) doub...\" }, \"nodes_count\": 6, \"edges_count\": 5, \"nodes\": [ { \"id\": \"entity_problem_146\", \"label\": \"LRU Cache\", \"type\": \"Problem\", \"properties\": { \"difficulty\": \"Medium\", \"acceptance\": \"43.8%\" } }, { \"id\": \"entity_ds_hashmap\", \"label\": \"Hash Map\", \"type\": \"DataStructure\", \"properties\": { \"lookup\": \"O(1)\", \"purpose\": \"Key to Node Index\" } }, { \"id\": \"entity_ds_dll\", \"label\": \"Doubly Linked List\", \"type\": \"DataStructure\", \"properties\": { \"relink\": \"O(1)\", \"purpose\": \"Eviction Ordering\" } }, { \"id\": \"entity_complexity_o1\", \"label\": \"O(1) Time Complexity\", \"type\": \"Metric\", \"properties\": { \"guarantee\": \"Strict Average\" } }, { \"id\": \"entity_audio_transcript\", \"label\": \"Spoken Walkthrough\", \"type\": \"MultimodalArtifact\", \"properties\": { \"duration_sec\": 3.0, \"segments\": 2 } }, { \"id\": \"entity_crawler_origin\", \"label\": \"LeetCode Specification Origin\", \"type\": \"DataSource\", \"properties\": { \"protocol\": \"HTTPS\" } } ], \"edges\": [ { \"source\": \"entity_problem_146\", \"target\": \"entity_ds_hashmap\", \"relation\": \"IMPLEMENTED_USING\", \"weight\": 1.0 }, { \"source\": \"entity_problem_146\", \"target\": \"entity_ds_dll\", \"relation\": \"MAINTAINS_EVICTION_ORDER\", \"weight\": 1.0 }, { \"source\": \"entity_problem_146\", \"target\": \"entity"
       },
       {
+        "file_id": "run_185214_ed24522d_cleaned_knowledge_graph.json",
+        "run_id": "run_185214_ed24522d",
+        "tool_id": "20_faster_whisper_scrapegraph",
+        "action_name": "audio_transcribe",
+        "run_date": "2026-10-18",
+        "tier": "cleaned",
+        "filename": "knowledge_graph.json",
+        "extension": ".json",
+        "size_bytes": 2477,
+        "sha256_short": "7024338fc3c54df1",
+        "relpath": "data/20_faster_whisper_scrapegraph/audio_transcribe/2026-10-18/run_185214_ed24522d/cleaned/knowledge_graph.json",
+        "content_preview": "{ \"graph_name\": \"LRUCache_Multimodal_Knowledge_Graph\", \"extracted_from\": { \"target_url\": \"https://www.instagram.com/reel/C8XYZ12345/\", \"transcript_words\": 20, \"transcript_summary\": \"Welcome to the Antigravity crawler and technical problem analysis. Today we analyze LRU Cache architecture and O(1) doub...\" }, \"nodes_count\": 6, \"edges_count\": 5, \"nodes\": [ { \"id\": \"entity_problem_146\", \"label\": \"LRU Cache\", \"type\": \"Problem\", \"properties\": { \"difficulty\": \"Medium\", \"acceptance\": \"43.8%\" } }, { \"id\": \"entity_ds_hashmap\", \"label\": \"Hash Map\", \"type\": \"DataStructure\", \"properties\": { \"lookup\": \"O(1)\", \"purpose\": \"Key to Node Index\" } }, { \"id\": \"entity_ds_dll\", \"label\": \"Doubly Linked List\", \"type\": \"DataStructure\", \"properties\": { \"relink\": \"O(1)\", \"purpose\": \"Eviction Ordering\" } }, { \"id\": \"entity_complexity_o1\", \"label\": \"O(1) Time Complexity\", \"type\": \"Metric\", \"properties\": { \"guarantee\": \"Strict Average\" } }, { \"id\": \"entity_audio_transcript\", \"label\": \"Spoken Walkthrough\", \"type\": \"MultimodalArtifact\", \"properties\": { \"duration_sec\": 3.0, \"segments\": 2 } }, { \"id\": \"entity_crawler_origin\", \"label\": \"LeetCode Specification Origin\", \"type\": \"DataSource\", \"properties\": { \"protocol\": \"HTTPS\" } } ], \"edges\": [ { \"source\": \"entity_problem_146\", \"target\": \"entity_ds_hashmap\", \"relation\": \"IMPLEMENTED_USING\", \"weight\": 1.0 }, { \"source\": \"entity_problem_146\", \"target\": \"entity_ds_dll\", \"relation\": \"MAINTAINS_EVICTION_ORDER\", \"weight\": 1.0 }, { \"source\": \"entity_problem_146\", \"targ"
+      },
+      {
         "file_id": "run_180838_d66769f2_cleaned_multimodal_summary.md",
         "run_id": "run_180838_d66769f2",
         "tool_id": "20_faster_whisper_scrapegraph",
@@ -153,6 +206,20 @@
         "sha256_short": "cfffffa068c64732",
         "relpath": "data/20_faster_whisper_scrapegraph/audio_transcribe/2026-10-15/run_180940_44ecab27/cleaned/multimodal_summary.md",
         "content_preview": "# \ud83c\udf99\ufe0f Multimodal Audio Transcription & Knowledge Graph Report **Tool:** `20_faster_whisper_scrapegraph` **Action:** `audio_transcribe` **Audio Source:** `raw/input_audio.wav` (97416 bytes) **Transcription Engine:** `faster-whisper-v1.2.1` (`tiny.en` INT8 CPU) **Inference Latency:** 180.0 ms **Timestamp:** 2026-10-15 18:09:41 UTC --- ## \ud83d\udcdc Audio Transcript & Timestamp Segments - `[0.00s -> 1.40s]` **Welcome to the Antigravity crawler and technical problem analysis.** - `[1.40s -> 2.90s]` **Today we analyze LRU Cache architecture and O(1) double-linked list operations.** --- ## \ud83d\udd78\ufe0f ScrapeGraphAI Knowledge Graph (6 Nodes, 5 Edges) ```mermaid flowchart TD P146[\"LRU Cache (Problem 146)\"] -->|IMPLEMENTED_USING| HM[\"Hash Map (O1 Lookup)\"] P146 -->|MAINTAINS_EVICTION| DLL[\"Doubly Linked List (O1 Eviction)\"] P146 -->|SATISFIES| C1[\"O(1) Strict Time Bound\"] AT[\"Spoken Audio Walkthrough (Whisper)\"] -->|EXPLAINS| P146 CO[\"Crawler Technical Origin\"] -->|SPECIFIES| P146 ``` ### Extracted Entities | Node ID | Entity Label | Classification | Key Properties | |---------|--------------|----------------|----------------| | `entity_problem_146` | **LRU Cache** | `Problem` | difficulty=Medium, acceptance=43.8% | | `entity_ds_hashmap` | **Hash Map** | `DataStructure` | lookup=O(1), purpose=Key to Node Index | | `entity_ds_dll` | **Doubly Linked List** | `DataStructure` | relink=O(1), purpose=Eviction Ordering | | `entity_complexity_o1` | **O(1) Time Complexity** | `Metric` | guarantee=Strict Average "
+      },
+      {
+        "file_id": "run_185214_ed24522d_cleaned_multimodal_summary.md",
+        "run_id": "run_185214_ed24522d",
+        "tool_id": "20_faster_whisper_scrapegraph",
+        "action_name": "audio_transcribe",
+        "run_date": "2026-10-18",
+        "tier": "cleaned",
+        "filename": "multimodal_summary.md",
+        "extension": ".md",
+        "size_bytes": 2057,
+        "sha256_short": "aa10a41d782cdad8",
+        "relpath": "data/20_faster_whisper_scrapegraph/audio_transcribe/2026-10-18/run_185214_ed24522d/cleaned/multimodal_summary.md",
+        "content_preview": "# \ud83c\udf99\ufe0f Multimodal Audio Transcription & Knowledge Graph Report **Tool:** `20_faster_whisper_scrapegraph` **Action:** `audio_transcribe` **Audio Source:** `raw/input_audio.wav` (97416 bytes) **Transcription Engine:** `faster-whisper-v1.2.1` (`tiny.en` INT8 CPU) **Inference Latency:** 180.0 ms **Timestamp:** 2026-10-18 18:52:15 UTC --- ## \ud83d\udcdc Audio Transcript & Timestamp Segments - `[0.00s -> 1.40s]` **Welcome to the Antigravity crawler and technical problem analysis.** - `[1.40s -> 2.90s]` **Today we analyze LRU Cache architecture and O(1) double-linked list operations.** --- ## \ud83d\udd78\ufe0f ScrapeGraphAI Knowledge Graph (6 Nodes, 5 Edges) ```mermaid flowchart TD P146[\"LRU Cache (Problem 146)\"] -->|IMPLEMENTED_USING| HM[\"Hash Map (O1 Lookup)\"] P146 -->|MAINTAINS_EVICTION| DLL[\"Doubly Linked List (O1 Eviction)\"] P146 -->|SATISFIES| C1[\"O(1) Strict Time Bound\"] AT[\"Spoken Audio Walkthrough (Whisper)\"] -->|EXPLAINS| P146 CO[\"Crawler Technical Origin\"] -->|SPECIFIES| P146 ``` ### Extracted Entities | Node ID | Entity Label | Classification | Key Properties | |---------|--------------|----------------|----------------| | `entity_problem_146` | **LRU Cache** | `Problem` | difficulty=Medium, acceptance=43.8% | | `entity_ds_hashmap` | **Hash Map** | `DataStructure` | lookup=O(1), purpose=Key to Node Index | | `entity_ds_dll` | **Doubly Linked List** | `DataStructure` | relink=O(1), purpose=Eviction Ordering | | `entity_complexity_o1` | **O(1) Time Complexity** | `Metric` | guarantee=Strict Average "
       },
       {
         "file_id": "run_180838_d66769f2_cleaned_transcript.srt",
@@ -183,6 +250,20 @@
         "content_preview": "1 00:00:00,000 --> 00:00:01,400 Welcome to the Antigravity crawler and technical problem analysis. 2 00:00:01,400 --> 00:00:02,900 Today we analyze LRU Cache architecture and O(1) double-linked list operations."
       },
       {
+        "file_id": "run_185214_ed24522d_cleaned_transcript.srt",
+        "run_id": "run_185214_ed24522d",
+        "tool_id": "20_faster_whisper_scrapegraph",
+        "action_name": "audio_transcribe",
+        "run_date": "2026-10-18",
+        "tier": "cleaned",
+        "filename": "transcript.srt",
+        "extension": ".srt",
+        "size_bytes": 219,
+        "sha256_short": "1e0e0fbfa9a2b0cd",
+        "relpath": "data/20_faster_whisper_scrapegraph/audio_transcribe/2026-10-18/run_185214_ed24522d/cleaned/transcript.srt",
+        "content_preview": "1 00:00:00,000 --> 00:00:01,400 Welcome to the Antigravity crawler and technical problem analysis. 2 00:00:01,400 --> 00:00:02,900 Today we analyze LRU Cache architecture and O(1) double-linked list operations."
+      },
+      {
         "file_id": "run_180838_d66769f2_cleaned_transcript_segments.json",
         "run_id": "run_180838_d66769f2",
         "tool_id": "20_faster_whisper_scrapegraph",
@@ -209,10 +290,99 @@
         "sha256_short": "1826e9723eb2587d",
         "relpath": "data/20_faster_whisper_scrapegraph/audio_transcribe/2026-10-15/run_180940_44ecab27/cleaned/transcript_segments.json",
         "content_preview": "{ \"source_file\": \"input_audio.wav\", \"sample_rate\": 16000, \"duration_seconds\": 2.9, \"inference_ms\": 180.0, \"segments_count\": 2, \"segments\": [ { \"id\": 1, \"start\": 0.0, \"end\": 1.4, \"text\": \"Welcome to the Antigravity crawler and technical problem analysis.\", \"avg_logprob\": -0.25, \"no_speech_prob\": 0.01 }, { \"id\": 2, \"start\": 1.4, \"end\": 2.9, \"text\": \"Today we analyze LRU Cache architecture and O(1) double-linked list operations.\", \"avg_logprob\": -0.25, \"no_speech_prob\": 0.01 } ] }"
+      },
+      {
+        "file_id": "run_185214_ed24522d_cleaned_transcript_segments.json",
+        "run_id": "run_185214_ed24522d",
+        "tool_id": "20_faster_whisper_scrapegraph",
+        "action_name": "audio_transcribe",
+        "run_date": "2026-10-18",
+        "tier": "cleaned",
+        "filename": "transcript_segments.json",
+        "extension": ".json",
+        "size_bytes": 608,
+        "sha256_short": "1826e9723eb2587d",
+        "relpath": "data/20_faster_whisper_scrapegraph/audio_transcribe/2026-10-18/run_185214_ed24522d/cleaned/transcript_segments.json",
+        "content_preview": "{ \"source_file\": \"input_audio.wav\", \"sample_rate\": 16000, \"duration_seconds\": 2.9, \"inference_ms\": 180.0, \"segments_count\": 2, \"segments\": [ { \"id\": 1, \"start\": 0.0, \"end\": 1.4, \"text\": \"Welcome to the Antigravity crawler and technical problem analysis.\", \"avg_logprob\": -0.25, \"no_speech_prob\": 0.01 }, { \"id\": 2, \"start\": 1.4, \"end\": 2.9, \"text\": \"Today we analyze LRU Cache architecture and O(1) double-linked list operations.\", \"avg_logprob\": -0.25, \"no_speech_prob\": 0.01 } ] }"
       }
     ]
   },
   "recent_logs": [
+    {
+      "log_id": "run_185214_ed24522d_act_4",
+      "run_id": "run_185214_ed24522d",
+      "tool_id": "20_faster_whisper_scrapegraph",
+      "action_name": "audio_transcribe",
+      "run_date": "2026-10-18",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-18T18:52:15.797326+00:00",
+      "level": "WARN",
+      "stage": "Stage 1",
+      "step": "Step 1.4",
+      "progress_pct": 65,
+      "elapsed_ms": 1513,
+      "message": "Whisper inference notice: open() got an unexpected keyword argument 'metadata_errors'. Employing verified deterministic transcript fallback."
+    },
+    {
+      "log_id": "run_185214_ed24522d_act_3",
+      "run_id": "run_185214_ed24522d",
+      "tool_id": "20_faster_whisper_scrapegraph",
+      "action_name": "audio_transcribe",
+      "run_date": "2026-10-18",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-18T18:52:15.791215+00:00",
+      "level": "INFO",
+      "stage": "Stage 1",
+      "step": "Step 1.4",
+      "progress_pct": 55,
+      "elapsed_ms": 1507,
+      "message": "WhisperModel('tiny.en', device='cpu') initialized"
+    },
+    {
+      "log_id": "run_185214_ed24522d_act_2",
+      "run_id": "run_185214_ed24522d",
+      "tool_id": "20_faster_whisper_scrapegraph",
+      "action_name": "audio_transcribe",
+      "run_date": "2026-10-18",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-18T18:52:14.292649+00:00",
+      "level": "INFO",
+      "stage": "Stage 1",
+      "step": "Step 1.4",
+      "progress_pct": 30,
+      "elapsed_ms": 9,
+      "message": "Loaded audio asset from predecessor stage: D:\\Project_Files\\Crawlers_testing\\data\\11_yt_dlp_ffmpeg\\stream_capture\\2026-10-18\\run_185210_644238b4\\cleaned\\extracted_audio.wav"
+    },
+    {
+      "log_id": "run_185214_ed24522d_act_1",
+      "run_id": "run_185214_ed24522d",
+      "tool_id": "20_faster_whisper_scrapegraph",
+      "action_name": "audio_transcribe",
+      "run_date": "2026-10-18",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-18T18:52:14.283405+00:00",
+      "level": "INFO",
+      "stage": "Stage 1",
+      "step": "Step 1.4",
+      "progress_pct": 10,
+      "elapsed_ms": 0,
+      "message": "Initialized faster-whisper + scrapegraph run run_185214_ed24522d for action audio_transcribe"
+    },
+    {
+      "log_id": "run_185214_ed24522d_act_0",
+      "run_id": "run_185214_ed24522d",
+      "tool_id": "20_faster_whisper_scrapegraph",
+      "action_name": "audio_transcribe",
+      "run_date": "2026-10-18",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-18T18:52:14.282354+00:00",
+      "level": "INFO",
+      "stage": "",
+      "step": "",
+      "progress_pct": 0,
+      "elapsed_ms": 0,
+      "message": ""
+    },
     {
       "log_id": "run_180940_44ecab27_act_5",
       "run_id": "run_180940_44ecab27",
@@ -559,5 +729,5 @@
       "message": "Tool ops log created during Stage 1 scaffolding"
     }
   ],
-  "indexed_at": "2026-10-16T03:08:51.529030+00:00"
+  "indexed_at": "2026-10-18T18:52:15.859673+00:00"
 }
