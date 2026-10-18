@@ -218,6 +218,7 @@ def run_action(
     target_url: str = "https://quotes.toscrape.com/js/",
     human_mode: bool = False,
     timing_profile: str = "BALANCED_HUMAN",
+    **kwargs: Any,
 ) -> dict[str, Any]:
     """Synchronous entrypoint for Playwright adapter."""
     if sys.platform == "win32":
@@ -314,6 +315,7 @@ def run(
         target_url=target_url,
         human_mode=human_mode,
         timing_profile=timing_profile,
+        **kwargs,
     )
 
 

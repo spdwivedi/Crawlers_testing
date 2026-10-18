@@ -107,6 +107,7 @@ def run_async_parsel(
     action_name: str = "scrape_for_leetcode",
     human_mode: bool = False,
     timing_profile: str = "BALANCED_HUMAN",
+    **kwargs: Any,
 ) -> dict[str, Any]:
     """Run concurrent async HTTP/2 multiplexing + Parsel JSON/HTML extraction."""
     start_task(
@@ -271,6 +272,7 @@ def run_action(
         action_name=action_name,
         human_mode=human_mode,
         timing_profile=timing_profile,
+        **kwargs,
     )
 
 
@@ -287,6 +289,7 @@ def run(
         action_name=action_name,
         human_mode=human_mode,
         timing_profile=timing_profile,
+        **kwargs,
     )
 
 

@@ -113,10 +113,12 @@ def run_scrape_for_leetcode(
     impersonate_profile: str = "chrome124",
     human_mode: bool = False,
     timing_profile: str = "BALANCED_HUMAN",
+    action_name: str = "scrape_for_leetcode",
+    **kwargs: Any,
 ) -> dict[str, Any]:
     """Execute real LeetCode scrape using curl_cffi TLS impersonation."""
-    action_name = "scrape_for_leetcode"
     start_task(
+
         stage="Stage 4" if human_mode else "Stage 1",
         step="Step 4.3" if human_mode else "Step 1.1",
         tool_id=TOOL_ID,
@@ -321,6 +323,8 @@ def run_action(
         impersonate_profile=impersonate_profile,
         human_mode=human_mode,
         timing_profile=timing_profile,
+        action_name=action_name,
+        **kwargs,
     )
 
 
@@ -329,6 +333,7 @@ def run(
     impersonate_profile: str = "chrome124",
     human_mode: bool = False,
     timing_profile: str = "BALANCED_HUMAN",
+    action_name: str = "scrape_for_leetcode",
     **kwargs: Any,
 ) -> dict[str, Any]:
     """Unified entrypoint for 01_curl_cffi adapter."""
@@ -337,6 +342,8 @@ def run(
         impersonate_profile=impersonate_profile,
         human_mode=human_mode,
         timing_profile=timing_profile,
+        action_name=action_name,
+        **kwargs,
     )
 
 
