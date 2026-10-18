@@ -1,5 +1,5 @@
 # 🤖 Antigravity Workspace Governance — GEMINI.md
-**Project:** Crawlers_testing | **Stage:** 3 (Credential Vault & Session Security Active) | **Init:** 2026-10-15
+**Project:** Crawlers_testing | **Stage:** 4 (Human-Like Behavior Engine & The 3 Working Ways) | **Init:** 2026-10-15
 
 This file is automatically loaded by Antigravity IDE for **every prompt execution** in this workspace. All rules below are **mandatory** and non-negotiable.
 
@@ -103,6 +103,12 @@ All credentials, passwords, session cookies, tokens, 2FA secrets, and proxy pass
 
 ---
 
+## Rule 7 — Human Simulation & Timing Discipline
+
+When running in human or stealth modes, scrapers must strictly use `core/human_timing.py` distributions rather than static integer sleep intervals to prevent fingerprinting. All delays must be drawn from statistical models (`gaussian_delay`, `log_normal_delay`, `exponential_backoff_jitter`) or contextual action calculators (`keystroke_delay`, `reading_pause`, `chunk_download_pacing`, `session_burst_delay`).
+
+---
+
 ## Quick Reference — Core Modules
 
 ```
@@ -111,6 +117,7 @@ core/
 ├── base_indexer.py      # BaseToolIndexer SQLite/JSON engine — Rule 5
 ├── global_indexer.py    # GlobalMasterIndexer FTS5 federated engine — Rule 5
 ├── crypto_engine.py     # AES-256-GCM authenticated encryption & KDF — Rule 6
+├── human_timing.py      # Statistical delays, human jitter & contextual pacing — Rule 7
 ├── state_tracker.py     # live_state.json R/W — Rule 1
 ├── cli_tracker.py       # CLI wrapper for state_tracker — Rule 1
 ├── logger_engine.py     # 4-tier logger — Rule 2
@@ -133,7 +140,8 @@ logs/
 └── stages/
     ├── stage_1_scaffolding.jsonl
     ├── stage_2_indexing.jsonl
-    └── stage_3_credential_vault.jsonl
+    ├── stage_3_credential_vault.jsonl
+    └── stage_4_working_ways.jsonl
 
 tools/
 └── registry.json        # 20-tool manifest

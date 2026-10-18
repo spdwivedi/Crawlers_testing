@@ -146,6 +146,8 @@ class LogEngine:
                 stage_log_name = "stage_2_indexing"
             elif "stage 3" in stage.lower():
                 stage_log_name = "stage_3_credential_vault"
+            elif "stage 4" in stage.lower():
+                stage_log_name = "stage_4_working_ways"
 
         self._stage_log = STAGES_LOG_DIR / f"{stage_log_name}.jsonl"
         self._global_jsonl = GLOBAL_LOG_DIR / "antigravity_prompt_log.jsonl"
@@ -244,6 +246,8 @@ def log_global(
             stage_log_name = "stage_2_indexing"
         elif "stage 3" in stage.lower():
             stage_log_name = "stage_3_credential_vault"
+        elif "stage 4" in stage.lower():
+            stage_log_name = "stage_4_working_ways"
 
     engine = LogEngine(
         tool_id=tool_id,

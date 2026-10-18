@@ -48,6 +48,10 @@ Every completed tool action run automatically updates its SQLite & JSON tool ind
 
 All credentials, passwords, session cookies, tokens, 2FA secrets, and proxy passwords MUST be encrypted via `core/crypto_engine.py` (AES-256-GCM) before storage in `vault_store/`. Plaintext secrets, `.env`, and `vault_store/*.sqlite*` must NEVER be logged or committed to Git.
 
+## Rule 7 — Human Simulation & Timing Discipline
+
+When running in human or stealth modes, scrapers must strictly use `core/human_timing.py` distributions rather than static integer sleep intervals to prevent fingerprinting. All delays must be drawn from statistical models (`gaussian_delay`, `log_normal_delay`, `exponential_backoff_jitter`) or contextual action calculators (`keystroke_delay`, `reading_pause`, `chunk_download_pacing`, `session_burst_delay`).
+
 ---
 
 *See `GEMINI.md` in the project root for the full reference with examples.*
