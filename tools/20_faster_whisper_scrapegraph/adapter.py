@@ -74,6 +74,9 @@ def _execute_audio_graph_workflow(
     raw_dir: Path,
     cleaned_dir: Path,
     logger: LogEngine,
+    audio_path: str | Path | None = None,
+    input_file: str | Path | None = None,
+    **kwargs: Any,
 ) -> dict[str, Any]:
     update_progress(20, subtask="Acquiring 16kHz audio source from Tool 11 or local synthesis")
 
@@ -83,17 +86,30 @@ def _execute_audio_graph_workflow(
     cleaned_graph_path = cleaned_dir / "knowledge_graph.json"
     cleaned_summary_path = cleaned_dir / "multimodal_summary.md"
 
-    # Step A: Locate audio from Tool 11 (yt_dlp_ffmpeg) or synthesize
+    # Step A: Locate audio from predecessor stage, Tool 11 (yt_dlp_ffmpeg), or synthesize
     source_found = False
-    candidate_wavs = list(ROOT.glob("data/11_yt_dlp_ffmpeg/**/cleaned/extracted_audio.wav"))
-    if candidate_wavs:
-        latest_wav = candidate_wavs[-1]
+    passed_audio = audio_path or input_file
+    if passed_audio and Path(passed_audio).exists():
         try:
-            shutil.copyfile(latest_wav, raw_audio_path)
+            shutil.copyfile(str(passed_audio), raw_audio_path)
             source_found = True
-            logger.info(f"Loaded audio asset from Tool 11: {latest_wav.name}", progress_pct=30)
+            logger.info(f"Loaded audio asset from predecessor stage: {passed_audio}", progress_pct=30)
         except Exception:
             pass
+
+    if not source_found:
+        candidate_wavs = (
+            list(ROOT.glob("data/11_yt_dlp_ffmpeg/**/cleaned/audio_16k.wav")) +
+            list(ROOT.glob("data/11_yt_dlp_ffmpeg/**/cleaned/extracted_audio.wav"))
+        )
+        if candidate_wavs:
+            latest_wav = candidate_wavs[-1]
+            try:
+                shutil.copyfile(latest_wav, raw_audio_path)
+                source_found = True
+                logger.info(f"Loaded audio asset from Tool 11: {latest_wav.name}", progress_pct=30)
+            except Exception:
+                pass
 
     if not source_found:
         _synthesize_test_audio(raw_audio_path, duration_sec=3.0)
@@ -308,6 +324,7 @@ def run_action(
             raw_dir=raw_dir,
             cleaned_dir=cleaned_dir,
             logger=logger,
+            **kwargs,
         )
 
         update_progress(95, subtask="Finalizing action run manifest and 4-tier logs")
@@ -336,6 +353,23 @@ def run_action(
             error_msg=str(exc),
         )
         raise
+
+
+def run(
+    target_url: str = "local://multimodal_audio_input",
+    action_name: str = "audio_transcribe",
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Unified entrypoint for 20_faster_whisper_scrapegraph adapter."""
+    return run_action(
+        action_name=action_name,
+        target_url=target_url,
+        human_mode=human_mode,
+        timing_profile=timing_profile,
+        **kwargs,
+    )
 
 
 if __name__ == "__main__":

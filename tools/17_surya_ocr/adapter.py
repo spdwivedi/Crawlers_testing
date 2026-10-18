@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import sys
 import time
 from datetime import datetime, timezone
@@ -69,6 +70,9 @@ def _execute_surya_ocr_workflow(
     raw_dir: Path,
     cleaned_dir: Path,
     logger: LogEngine,
+    image_path: str | Path | None = None,
+    input_file: str | Path | None = None,
+    **kwargs: Any,
 ) -> dict[str, Any]:
     update_progress(20, subtask="Generating high-resolution coding assessment screenshot")
 
@@ -77,9 +81,20 @@ def _execute_surya_ocr_workflow(
     cleaned_md_path = cleaned_dir / "reconstructed_test.md"
     cleaned_json_path = cleaned_dir / "ocr_structured.json"
 
-    # Step A: Render the visual test question image
-    _generate_coding_assessment_image(raw_image_path)
-    logger.info(f"Rendered synthetic test screenshot ({raw_image_path.stat().st_size} bytes)", progress_pct=35)
+    # Step A: Load image from predecessor stage or generate synthetic
+    source_found = False
+    passed_image = image_path or input_file
+    if passed_image and Path(passed_image).exists():
+        try:
+            shutil.copyfile(str(passed_image), raw_image_path)
+            source_found = True
+            logger.info(f"Loaded visual screenshot from predecessor stage: {passed_image}", progress_pct=35)
+        except Exception:
+            pass
+
+    if not source_found:
+        _generate_coding_assessment_image(raw_image_path)
+        logger.info(f"Rendered synthetic test screenshot ({raw_image_path.stat().st_size} bytes)", progress_pct=35)
 
     update_progress(45, subtask="Initializing RapidOCR ONNX layout & text detection engine")
     ocr = RapidOCR()
@@ -224,6 +239,7 @@ def run_action(
             raw_dir=raw_dir,
             cleaned_dir=cleaned_dir,
             logger=logger,
+            **kwargs,
         )
 
         update_progress(95, subtask="Finalizing action run manifest and 4-tier logs")
@@ -252,6 +268,23 @@ def run_action(
             error_msg=str(exc),
         )
         raise
+
+
+def run(
+    target_url: str = "local://visual_assessment",
+    action_name: str = "visual_test_ocr",
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Unified entrypoint for Surya OCR adapter."""
+    return run_action(
+        action_name=action_name,
+        target_url=target_url,
+        human_mode=human_mode,
+        timing_profile=timing_profile,
+        **kwargs,
+    )
 
 
 if __name__ == "__main__":

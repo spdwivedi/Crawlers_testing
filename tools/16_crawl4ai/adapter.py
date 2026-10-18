@@ -53,6 +53,9 @@ def _execute_crawl4ai_workflow(
     logger: LogEngine,
     human_mode: bool = False,
     timing_profile: str = "BALANCED_HUMAN",
+    html_content: str | None = None,
+    input_file: str | Path | None = None,
+    **kwargs: Any,
 ) -> dict[str, Any]:
     update_progress(20, subtask=f"Fetching target technical page {target_url}")
 
@@ -72,22 +75,31 @@ def _execute_crawl4ai_workflow(
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     }
 
-
-    html_content = ""
+    resolved_html = ""
     fetch_success = False
     start_time = time.perf_counter()
 
-    # 1. Fetch Page
-    try:
-        logger.info(f"Connecting to {target_url}...", progress_pct=30)
-        with httpx.Client(headers=headers, follow_redirects=True, timeout=10.0) as client:
-            resp = client.get(target_url)
-            if resp.status_code == 200:
-                html_content = resp.text
-                fetch_success = True
-                logger.info(f"Retrieved {len(html_content)} bytes of HTML", progress_pct=45)
-    except Exception as exc:
-        logger.warn(f"Live crawl encounter ({exc}); using resilient technical problem target", progress_pct=40)
+    # Ingest predecessor stage artifact if provided
+    if input_file and Path(input_file).exists():
+        resolved_html = Path(input_file).read_text(encoding="utf-8", errors="ignore")
+        fetch_success = True
+        logger.info(f"Loaded {len(resolved_html)} bytes of HTML from predecessor file: {input_file}", progress_pct=45)
+    elif html_content:
+        resolved_html = html_content
+        fetch_success = True
+        logger.info(f"Using provided input HTML content ({len(resolved_html)} bytes) from predecessor stage", progress_pct=45)
+    else:
+        # 1. Fetch Page
+        try:
+            logger.info(f"Connecting to {target_url}...", progress_pct=30)
+            with httpx.Client(headers=headers, follow_redirects=True, timeout=10.0) as client:
+                resp = client.get(target_url)
+                if resp.status_code == 200:
+                    resolved_html = resp.text
+                    fetch_success = True
+                    logger.info(f"Retrieved {len(resolved_html)} bytes of HTML", progress_pct=45)
+        except Exception as exc:
+            logger.warn(f"Live crawl encounter ({exc}); using resilient technical problem target", progress_pct=40)
 
     if not fetch_success:
         html_content = f"""<!DOCTYPE html>
@@ -123,6 +135,8 @@ Output: 9</code></pre>
     </div>
 </body>
 </html>"""
+    else:
+        html_content = resolved_html
 
     crawl_duration_ms = round((time.perf_counter() - start_time) * 1000, 2)
     raw_html_path.write_text(html_content, encoding="utf-8")
@@ -274,6 +288,7 @@ def run_action(
             logger=logger,
             human_mode=human_mode,
             timing_profile=timing_profile,
+            **kwargs,
         )
 
         update_progress(95, subtask="Finalizing action run manifest and 4-tier logs")
