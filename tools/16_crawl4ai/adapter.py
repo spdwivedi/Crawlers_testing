@@ -35,6 +35,7 @@ from crawl4ai import DefaultMarkdownGenerator, RegexChunking
 from core.folder_manager import create_action_run, complete_action_run
 from core.logger_engine import LogEngine
 from core.state_tracker import start_task, update_progress, complete_task, fail_task
+from core.human_adapter_helper import HumanAdapterHelper
 
 TOOL_ID = "16_crawl4ai"
 
@@ -50,6 +51,8 @@ def _execute_crawl4ai_workflow(
     raw_dir: Path,
     cleaned_dir: Path,
     logger: LogEngine,
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
 ) -> dict[str, Any]:
     update_progress(20, subtask=f"Fetching target technical page {target_url}")
 
@@ -59,10 +62,16 @@ def _execute_crawl4ai_workflow(
     cleaned_media_path = cleaned_dir / "media_and_links.json"
     cleaned_chunks_path = cleaned_dir / "semantic_chunks.json"
 
+    # Working Way 1: Human Mode pre-request delay
+    pre_delay = 0.0
+    if human_mode:
+        pre_delay = HumanAdapterHelper.apply_pre_request_delay(timing_profile=timing_profile, logger=logger)
+
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Antigravity-Crawl4AI/1.4",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     }
+
 
     html_content = ""
     fetch_success = False
@@ -177,7 +186,17 @@ tokens_estimated: {_estimate_tokens(clean_markdown)}
     }
     cleaned_media_path.write_text(json.dumps(media_map, indent=2), encoding="utf-8")
 
-    # 4. Semantic Regex Chunking
+    # 4. Working Way 1: Human Mode reading pause before chunking
+    reading_delay = 0.0
+    if human_mode:
+        word_count = len(clean_markdown.split())
+        reading_delay = HumanAdapterHelper.apply_reading_delay(
+            word_count=word_count,
+            timing_profile=timing_profile,
+            logger=logger,
+        )
+
+    # 5. Semantic Regex Chunking
     chunker = RegexChunking()
     raw_chunks = chunker.chunk(clean_markdown)
     semantic_chunks = []
@@ -204,21 +223,25 @@ tokens_estimated: {_estimate_tokens(clean_markdown)}
         "markdown_chars": len(clean_markdown),
         "chunks_count": len(semantic_chunks),
         "links_count": len(links),
+        "pre_delay": pre_delay,
+        "reading_delay": reading_delay,
     }
 
 
 def run_action(
     action_name: str = "scrape_for_leetcode",
     target_url: str = "https://leetcode.com/problems/trapping-rain-water/",
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
     **kwargs,
 ) -> dict[str, Any]:
     """Synchronous entrypoint for Crawl4AI LLM markdown crawler adapter."""
     start_task(
-        stage="Stage 1",
-        step="Step 1.4",
+        stage="Stage 4",
+        step="Step 4.3",
         tool_id=TOOL_ID,
         action=action_name,
-        subtask=f"Executing Crawl4AI action '{action_name}'",
+        subtask=f"Executing Crawl4AI action '{action_name}' (human_mode={human_mode})",
     )
 
     run_info = create_action_run(
@@ -235,11 +258,12 @@ def run_action(
         action_name=action_name,
         run_id=run_info["run_id"],
         run_log_path=run_log_path,
-        stage="Stage 1",
-        step="Step 1.4",
+        stage="Stage 4",
+        step="Step 4.3",
+        stage_log_name="stage_4_working_ways",
     )
 
-    logger.info(f"Initialized Crawl4AI run {run_info['run_id']} for target {target_url}", progress_pct=10)
+    logger.info(f"Initialized Crawl4AI run {run_info['run_id']} for target {target_url} (human_mode={human_mode})", progress_pct=10)
 
     try:
         result = _execute_crawl4ai_workflow(
@@ -248,18 +272,30 @@ def run_action(
             raw_dir=raw_dir,
             cleaned_dir=cleaned_dir,
             logger=logger,
+            human_mode=human_mode,
+            timing_profile=timing_profile,
         )
 
         update_progress(95, subtask="Finalizing action run manifest and 4-tier logs")
+        domain_metrics = {
+            "tool_id": TOOL_ID,
+            "human_mode_active": human_mode,
+            "timing_profile": timing_profile,
+            "chunks_count": result.get("chunks_count", 0),
+            "markdown_chars": result.get("markdown_chars", 0),
+            "pre_delay_applied": result.get("pre_delay", 0.0),
+            "reading_delay_applied": result.get("reading_delay", 0.0),
+        }
         manifest = complete_action_run(
             run_info=run_info,
             records_extracted=result.get("chunks_count", 1),
             quality_score=98.0,
             status="completed",
+            domain_metrics=domain_metrics,
         )
 
         logger.info(
-            f"Crawl4AI action '{action_name}' completed successfully ({result.get('chunks_count')} semantic chunks, {result.get('markdown_chars')} chars MD)",
+            f"Crawl4AI action '{action_name}' completed successfully ({result.get('chunks_count')} semantic chunks, {result.get('markdown_chars')} chars MD, human_mode={human_mode})",
             progress_pct=100,
         )
         complete_task()
@@ -278,7 +314,25 @@ def run_action(
         raise
 
 
+def run(
+    target_url: str = "https://leetcode.com/problems/trapping-rain-water/",
+    action_name: str = "scrape_for_leetcode",
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Unified entrypoint for Crawl4AI adapter with human_mode support."""
+    return run_action(
+        action_name=action_name,
+        target_url=target_url,
+        human_mode=human_mode,
+        timing_profile=timing_profile,
+        **kwargs,
+    )
+
+
 if __name__ == "__main__":
     url = sys.argv[1] if len(sys.argv) > 1 else "https://leetcode.com/problems/trapping-rain-water/"
     res = run_action(target_url=url)
     print(f"[{TOOL_ID}] Run completed: {res['manifest']['status']}")
+

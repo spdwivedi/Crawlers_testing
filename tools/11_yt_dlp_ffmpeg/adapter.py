@@ -34,6 +34,7 @@ import yt_dlp
 from core.folder_manager import create_action_run, complete_action_run
 from core.logger_engine import LogEngine
 from core.state_tracker import start_task, update_progress, complete_task, fail_task
+from core.human_adapter_helper import HumanAdapterHelper
 
 TOOL_ID = "11_yt_dlp_ffmpeg"
 
@@ -100,10 +101,17 @@ def _execute_stream_workflow(
     cleaned_dir: Path,
     logger: LogEngine,
     cookies_file: str | None = None,
+    human_mode: bool = False,
+    timing_profile: str = "STREAM_PACED",
 ) -> dict[str, Any]:
     ffmpeg_bin = get_ffmpeg_path()
     logger.info(f"Using FFmpeg binary at: {ffmpeg_bin}", progress_pct=20)
     update_progress(25, subtask="Checking authentication cookies and stream target")
+
+    pacing_delay = 0.0
+    if human_mode:
+        logger.info("Human Mode active: applying stream chunk pacing delay", progress_pct=28)
+        pacing_delay = HumanAdapterHelper.apply_chunk_pacing(chunk_duration_sec=1.0, playback_ratio=1.0, logger=logger)
 
     # Check for authentication profiles
     auth_dir = ROOT / "auth_profiles"
@@ -302,6 +310,7 @@ def _execute_stream_workflow(
         "chunks_captured": analysis["stream_pipeline"]["chunks_captured"],
         "combined_video_bytes": video_stats.get("size_bytes"),
         "audio_mp3_bytes": audio_stats.get("size_bytes"),
+        "pacing_delay_applied": pacing_delay,
     }
 
 
@@ -309,15 +318,17 @@ def run_action(
     action_name: str = "scrape_for_insta",
     target_url: str = "https://www.instagram.com/reel/C8XYZ12345/",
     cookies_file: str | None = None,
+    human_mode: bool = False,
+    timing_profile: str = "STREAM_PACED",
     **kwargs,
 ) -> dict[str, Any]:
     """Synchronous entrypoint for yt-dlp + FFmpeg media stream adapter."""
     start_task(
-        stage="Stage 1",
-        step="Step 1.3",
+        stage="Stage 4",
+        step="Step 4.3",
         tool_id=TOOL_ID,
         action=action_name,
-        subtask=f"Executing media stream action '{action_name}'",
+        subtask=f"Executing media stream action '{action_name}' (human_mode={human_mode})",
     )
 
     run_info = create_action_run(
@@ -334,11 +345,12 @@ def run_action(
         action_name=action_name,
         run_id=run_info["run_id"],
         run_log_path=run_log_path,
-        stage="Stage 1",
-        step="Step 1.3",
+        stage="Stage 4",
+        step="Step 4.3",
+        stage_log_name="stage_4_working_ways",
     )
 
-    logger.info(f"Initialized yt-dlp + FFmpeg run {run_info['run_id']} for target {target_url}", progress_pct=10)
+    logger.info(f"Initialized yt-dlp + FFmpeg run {run_info['run_id']} for target {target_url} (human_mode={human_mode})", progress_pct=10)
 
     try:
         result = _execute_stream_workflow(
@@ -348,18 +360,29 @@ def run_action(
             cleaned_dir=cleaned_dir,
             logger=logger,
             cookies_file=cookies_file,
+            human_mode=human_mode,
+            timing_profile=timing_profile,
         )
 
         update_progress(95, subtask="Finalizing action run manifest and 4-tier logs")
+        domain_metrics = {
+            "tool_id": TOOL_ID,
+            "human_mode_active": human_mode,
+            "timing_profile": timing_profile,
+            "chunks_captured": result.get("chunks_captured", 1),
+            "duration": result.get("duration"),
+            "pacing_delay_applied": result.get("pacing_delay_applied", 0.0),
+        }
         manifest = complete_action_run(
             run_info=run_info,
             records_extracted=result.get("chunks_captured", 1),
             quality_score=98.0,
             status="completed",
+            domain_metrics=domain_metrics,
         )
 
         logger.info(
-            f"yt-dlp + FFmpeg action '{action_name}' completed successfully (Title: '{result.get('title')}', Duration: {result.get('duration')}s)",
+            f"yt-dlp + FFmpeg action '{action_name}' completed successfully (Title: '{result.get('title')}', Duration: {result.get('duration')}s, human_mode={human_mode})",
             progress_pct=100,
         )
         complete_task()
@@ -378,7 +401,27 @@ def run_action(
         raise
 
 
+def run(
+    target_url: str = "https://www.instagram.com/reel/C8XYZ12345/",
+    action_name: str = "scrape_for_insta",
+    human_mode: bool = False,
+    timing_profile: str = "STREAM_PACED",
+    cookies_file: str | None = None,
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Unified entrypoint for yt-dlp + FFmpeg adapter with human_mode support."""
+    return run_action(
+        action_name=action_name,
+        target_url=target_url,
+        cookies_file=cookies_file,
+        human_mode=human_mode,
+        timing_profile=timing_profile,
+        **kwargs,
+    )
+
+
 if __name__ == "__main__":
     url = sys.argv[1] if len(sys.argv) > 1 else "https://www.instagram.com/reel/C8XYZ12345/"
     res = run_action(target_url=url)
     print(f"[{TOOL_ID}] Run completed: {res['manifest']['status']}")
+

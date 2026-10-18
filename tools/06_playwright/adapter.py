@@ -28,6 +28,7 @@ sys.path.insert(0, str(ROOT))
 from core.folder_manager import create_action_run, complete_action_run
 from core.logger_engine import LogEngine
 from core.state_tracker import start_task, update_progress, complete_task, fail_task
+from core.human_adapter_helper import HumanAdapterHelper
 
 TOOL_ID = "06_playwright"
 
@@ -37,6 +38,8 @@ async def _run_secured_page_origin(
     raw_dir: Path,
     cleaned_dir: Path,
     logger: LogEngine,
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
 ) -> dict[str, Any]:
     from playwright.async_api import async_playwright
 
@@ -48,6 +51,7 @@ async def _run_secured_page_origin(
     page_title = ""
     dom_content = ""
     status_code = 200
+    human_metrics = None
 
     logger.info("Launching Playwright Chromium browser", progress_pct=25)
     update_progress(30, subtask="Spawning headless Chromium with HAR tracing")
@@ -97,7 +101,7 @@ async def _run_secured_page_origin(
 <html>
 <head>
     <title>Playwright JS Rendered Problem Origin Target</title>
-    <style>body {{ font-family: sans-serif; background: #0f172a; color: #f8fafc; padding: 2rem; }}</style>
+    <style>body {{ font-family: sans-serif; background: #0f172a; color: #f8fafc; padding: 2rem; height: 2500px; }}</style>
 </head>
 <body>
     <h1>Playwright Secured Origin Inspector</h1>
@@ -106,6 +110,10 @@ async def _run_secured_page_origin(
         <h2>Two Sum (Problem #1)</h2>
         <p>Given an array of integers nums and an integer target, return indices of the two numbers.</p>
         <span class="badge">Easy</span> <span class="badge">Array</span> <span class="badge">Hash Table</span>
+    </div>
+    <div style="margin-top: 1000px;">
+        <h3>Middle Section - Reading Anchor</h3>
+        <p>This is human variable scroll target text for anti-bot validation.</p>
     </div>
     <script>
         console.log("Client-side JS executed successfully");
@@ -116,6 +124,13 @@ async def _run_secured_page_origin(
             await page.set_content(mock_html)
             await page.wait_for_timeout(500)
             status_code = 200
+
+        # Working Way 1: Human Mode Browser Kinematics Flow
+        if human_mode:
+            logger.info("Executing Playwright browser human flow (variable scrolling & eye-scan pauses)", progress_pct=65)
+            human_metrics = await HumanAdapterHelper.async_execute_browser_human_flow(
+                page, target_url=target_url, do_warmup=False, do_scroll=True, max_scrolls=3, logger=logger
+            )
 
         elapsed_ms = round((time.perf_counter() - t0) * 1000, 2)
         page_title = await page.title()
@@ -193,23 +208,27 @@ async def _run_secured_page_origin(
         "screenshot_size": screenshot_path.stat().st_size if screenshot_path.exists() else 0,
         "har_size": har_path.stat().st_size if har_path.exists() else 0,
         "dom_size": len(dom_content),
+        "human_metrics": human_metrics,
     }
+
 
 
 def run_action(
     action_name: str = "secured_page_origin",
     target_url: str = "https://quotes.toscrape.com/js/",
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
 ) -> dict[str, Any]:
     """Synchronous entrypoint for Playwright adapter."""
     if sys.platform == "win32":
         asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
     start_task(
-        stage="Stage 1",
-        step="Step 1.2",
+        stage="Stage 4" if human_mode else "Stage 1",
+        step="Step 4.3" if human_mode else "Step 1.2",
         tool_id=TOOL_ID,
         action=action_name,
-        subtask=f"Executing Playwright browser action '{action_name}'",
+        subtask=f"Executing Playwright browser action '{action_name}' (human_mode={human_mode})",
     )
 
     run_info = create_action_run(
@@ -226,18 +245,21 @@ def run_action(
         action_name=action_name,
         run_id=run_info["run_id"],
         run_log_path=run_log_path,
-        stage="Stage 1",
-        step="Step 1.2",
+        stage="Stage 4" if human_mode else "Stage 1",
+        step="Step 4.3" if human_mode else "Step 1.2",
     )
 
-    logger.info(f"Initialized Playwright run {run_info['run_id']} for target {target_url}", progress_pct=15)
+    logger.info(f"Initialized Playwright run {run_info['run_id']} for target {target_url} (human_mode={human_mode})", progress_pct=15)
 
     try:
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         try:
             result = loop.run_until_complete(
-                _run_secured_page_origin(target_url, raw_dir, cleaned_dir, logger)
+                _run_secured_page_origin(
+                    target_url, raw_dir, cleaned_dir, logger,
+                    human_mode=human_mode, timing_profile=timing_profile,
+                )
             )
         finally:
             loop.close()
@@ -248,6 +270,15 @@ def run_action(
             records_extracted=result.get("requests_count", 1),
             quality_score=95.0,
             status="completed",
+            domain_metrics={
+                "human_mode_active": human_mode,
+                "timing_profile": timing_profile,
+                "page_title": result.get("page_title"),
+                "requests_count": result.get("requests_count"),
+                "has_human_metrics": bool(result.get("human_metrics")),
+                "human_metrics": result.get("human_metrics"),
+            },
+
         )
 
         logger.info(
@@ -255,7 +286,7 @@ def run_action(
             progress_pct=100,
         )
         complete_task()
-        return {"run_info": run_info, "manifest": manifest, "result": result}
+        return {"run_info": run_info, "manifest": manifest, "result": result, "human_mode": human_mode}
 
     except Exception as exc:
         logger.error(f"Playwright action '{action_name}' failed: {exc}")
@@ -270,7 +301,24 @@ def run_action(
         raise
 
 
+def run(
+    target_url: str = "https://quotes.toscrape.com/js/",
+    action_name: str = "secured_page_origin",
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Unified entrypoint for 06_playwright adapter."""
+    return run_action(
+        action_name=action_name,
+        target_url=target_url,
+        human_mode=human_mode,
+        timing_profile=timing_profile,
+    )
+
+
 if __name__ == "__main__":
     url = sys.argv[1] if len(sys.argv) > 1 else "https://quotes.toscrape.com/js/"
     res = run_action(target_url=url)
     print(f"[06_playwright] Run completed: {res['manifest']['status']}")
+

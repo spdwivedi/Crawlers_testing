@@ -167,8 +167,14 @@ def complete_action_run(
         manifest["quality_score"] = quality_score
     if error_msg is not None:
         manifest["error"] = error_msg
+    if "domain_metrics" in kwargs and kwargs["domain_metrics"] is not None:
+        manifest["domain_metrics"] = kwargs["domain_metrics"]
+    for k, v in kwargs.items():
+        if k not in manifest and k not in ("run_dir", "manifest_path", "domain_metrics"):
+            manifest[k] = v
 
     manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+
 
     # Rule 5: Auto-Indexing into index_store/tool_indexes/<tool_id>.sqlite & <tool_id>_index.json
     try:

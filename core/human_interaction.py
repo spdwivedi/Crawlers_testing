@@ -12,6 +12,7 @@ Implements human pointer physics and authentic browsing kinematics:
 
 from __future__ import annotations
 
+import asyncio
 import math
 import random
 import time
@@ -429,3 +430,149 @@ class HumanInteractionEngine:
             "actions_performed": actions_performed,
             "target_domain": target_domain,
         }
+
+    # -------------------------------------------------------------------------
+    # 5. Asynchronous Browser Interaction Variants (for async Playwright)
+    # -------------------------------------------------------------------------
+
+    async def async_move_mouse_human(
+        self,
+        page: Any,
+        target_x: float,
+        target_y: float,
+        steps: int = 30,
+        deviation: float = 1.0,
+    ) -> None:
+        """Asynchronous variant of move_mouse_human for async Playwright pages."""
+        start_x, start_y = self._mouse_pos
+        path = self.generate_bezier_path(
+            (start_x, start_y),
+            (target_x, target_y),
+            steps=steps,
+            deviation=deviation,
+        )
+
+        for pt in path:
+            await page.mouse.move(pt[0], pt[1])
+            step_delay = HumanTimingEngine.gaussian_delay(0.003, 0.001, 0.0005, 0.010)
+            await asyncio.sleep(step_delay)
+
+        self._mouse_pos = (float(target_x), float(target_y))
+
+    async def async_scroll_page_human(
+        self,
+        page: Any,
+        target_scroll_y: int | None = None,
+        max_scrolls: int = 8,
+        allow_backtrack: bool = True,
+        reading_pause_words: int = 80,
+    ) -> dict[str, Any]:
+        """Asynchronous variant of scroll_page_human for async Playwright pages."""
+        t0 = time.perf_counter()
+        scroll_steps = 0
+        backtrack_count = 0
+        total_scrolled_px = 0
+
+        try:
+            current_y = int(await page.evaluate("() => window.scrollY || window.pageYOffset || 0"))
+        except Exception:
+            current_y = 0
+
+        for _ in range(max_scrolls):
+            if target_scroll_y is not None and current_y >= target_scroll_y:
+                break
+
+            chunk_dy = random.randint(250, 550)
+            if target_scroll_y is not None:
+                remaining = target_scroll_y - current_y
+                if remaining <= 0:
+                    break
+                chunk_dy = min(chunk_dy, max(50, remaining))
+
+            sub_steps = random.randint(4, 7)
+            for _ in range(sub_steps):
+                sub_dy = chunk_dy / float(sub_steps)
+                await page.mouse.wheel(0, sub_dy)
+                await asyncio.sleep(random.uniform(0.010, 0.030))
+
+            scroll_steps += 1
+            total_scrolled_px += chunk_dy
+            current_y += chunk_dy
+
+            dwell = HumanTimingEngine.reading_pause(word_count=reading_pause_words, reading_wpm=220)
+            await asyncio.sleep(min(1.2, dwell))
+
+            if allow_backtrack and scroll_steps < max_scrolls and random.random() < 0.22:
+                backtrack_dy = int(chunk_dy * random.uniform(0.15, 0.30))
+                for _ in range(3):
+                    await page.mouse.wheel(0, -(backtrack_dy / 3.0))
+                    await asyncio.sleep(random.uniform(0.010, 0.025))
+
+                backtrack_count += 1
+                current_y -= backtrack_dy
+                await asyncio.sleep(random.uniform(0.15, 0.35))
+
+            try:
+                await page.evaluate("() => document.body.scrollHeight")
+            except Exception:
+                pass
+
+        elapsed = time.perf_counter() - t0
+        return {
+            "scroll_steps": scroll_steps,
+            "backtrack_count": backtrack_count,
+            "total_scrolled_px": total_scrolled_px,
+            "elapsed_time_sec": round(elapsed, 4),
+        }
+
+    async def async_warmup_browsing_session(
+        self,
+        page: Any,
+        target_domain: str,
+        duration_sec: float = 6.0,
+    ) -> dict[str, Any]:
+        """Asynchronous variant of warmup_browsing_session for async Playwright pages."""
+        t0 = time.perf_counter()
+        actions_performed: list[str] = []
+
+        scroll_res = await self.async_scroll_page_human(
+            page,
+            max_scrolls=2,
+            allow_backtrack=False,
+            reading_pause_words=10,
+        )
+        actions_performed.append(f"scrolled_{scroll_res['scroll_steps']}_viewports")
+
+        try:
+            links = await page.locator("a, button, [role='button'], img").all()
+            hover_count = 0
+            for el in links[:4]:
+                if time.perf_counter() - t0 >= duration_sec - 1.0:
+                    break
+                box = await el.bounding_box()
+                if box and box["width"] > 15 and box["height"] > 15:
+                    target_x = box["x"] + box["width"] * random.uniform(0.3, 0.7)
+                    target_y = box["y"] + box["height"] * random.uniform(0.3, 0.7)
+                    await self.async_move_mouse_human(page, target_x, target_y, steps=20)
+                    await asyncio.sleep(random.uniform(0.15, 0.40))
+                    hover_count += 1
+            if hover_count > 0:
+                actions_performed.append(f"hovered_{hover_count}_interactive_elements")
+            else:
+                await self.async_move_mouse_human(page, random.uniform(150, 500), random.uniform(150, 400), steps=20)
+                actions_performed.append("wandered_cursor_in_viewport")
+        except Exception:
+            actions_performed.append("wandered_cursor_fallback")
+
+        rem = duration_sec - (time.perf_counter() - t0)
+        if rem > 0:
+            await asyncio.sleep(min(rem, 1.2))
+            actions_performed.append("pre_extraction_dwell_pause")
+
+        elapsed = time.perf_counter() - t0
+        return {
+            "warmup_duration_sec": round(elapsed, 4),
+            "actions_performed": actions_performed,
+            "target_domain": target_domain,
+        }
+

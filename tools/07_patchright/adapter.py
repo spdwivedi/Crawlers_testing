@@ -27,6 +27,7 @@ sys.path.insert(0, str(ROOT))
 from core.folder_manager import create_action_run, complete_action_run
 from core.logger_engine import LogEngine
 from core.state_tracker import start_task, update_progress, complete_task, fail_task
+from core.human_adapter_helper import HumanAdapterHelper
 
 TOOL_ID = "07_patchright"
 
@@ -100,6 +101,8 @@ async def _run_stealth_check(
     raw_dir: Path,
     cleaned_dir: Path,
     logger: LogEngine,
+    human_mode: bool = False,
+    timing_profile: str = "STEALTH_PARANOID",
 ) -> dict[str, Any]:
     from patchright.async_api import async_playwright as async_patchright
 
@@ -114,6 +117,7 @@ async def _run_stealth_check(
     dom_content = ""
     status_code = 200
     page_title = ""
+    human_metrics = None
 
     t0 = time.perf_counter()
     async with async_patchright() as pr:
@@ -148,14 +152,24 @@ async def _run_stealth_check(
 <head>
     <title>Patchright Stealth Evasion Verification Target</title>
 </head>
-<body style="font-family: sans-serif; background: #0b0f19; color: #e2e8f0; padding: 2rem;">
+<body style="font-family: sans-serif; background: #0b0f19; color: #e2e8f0; padding: 2rem; height: 2500px;">
     <h1>Patchright Anti-Bot Evasion Audit</h1>
     <p>Target: <code>{target_url}</code></p>
     <div id="status">Stealth audit in progress...</div>
+    <div style="margin-top: 1000px;">
+        <p>Human scroll target content for stealth evasion validation.</p>
+    </div>
 </body>
 </html>"""
             await page.set_content(mock_html)
             await page.wait_for_timeout(500)
+
+        # Working Way 1: Human Mode Browser Flow
+        if human_mode:
+            logger.info("Executing Patchright stealth browsing human flow", progress_pct=65)
+            human_metrics = await HumanAdapterHelper.async_execute_browser_human_flow(
+                page, target_url=target_url, do_warmup=False, do_scroll=True, max_scrolls=2, logger=logger
+            )
 
         elapsed_ms = round((time.perf_counter() - t0) * 1000, 2)
         page_title = await page.title()
@@ -254,23 +268,26 @@ async def _run_stealth_check(
         "evasion_score": probe_data.get("evasion_score", 0),
         "screenshot_size": screenshot_path.stat().st_size if screenshot_path.exists() else 0,
         "dom_size": len(dom_content),
+        "human_metrics": human_metrics,
     }
 
 
 def run_action(
     action_name: str = "secured_page_origin",
     target_url: str = "https://quotes.toscrape.com/js/",
+    human_mode: bool = False,
+    timing_profile: str = "STEALTH_PARANOID",
 ) -> dict[str, Any]:
     """Synchronous entrypoint for Patchright adapter."""
     if sys.platform == "win32":
         asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
     start_task(
-        stage="Stage 1",
-        step="Step 1.2",
+        stage="Stage 4",
+        step="Step 4.3",
         tool_id=TOOL_ID,
         action=action_name,
-        subtask=f"Executing Patchright stealth action '{action_name}'",
+        subtask=f"Executing Patchright stealth action '{action_name}' (human_mode={human_mode})",
     )
 
     run_info = create_action_run(
@@ -287,32 +304,49 @@ def run_action(
         action_name=action_name,
         run_id=run_info["run_id"],
         run_log_path=run_log_path,
-        stage="Stage 1",
-        step="Step 1.2",
+        stage="Stage 4",
+        step="Step 4.3",
+        stage_log_name="stage_4_working_ways",
     )
 
-    logger.info(f"Initialized Patchright run {run_info['run_id']} for target {target_url}", progress_pct=15)
+    logger.info(f"Initialized Patchright run {run_info['run_id']} for target {target_url} (human_mode={human_mode})", progress_pct=15)
 
     try:
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         try:
             result = loop.run_until_complete(
-                _run_stealth_check(target_url, raw_dir, cleaned_dir, logger)
+                _run_stealth_check(
+                    target_url,
+                    raw_dir,
+                    cleaned_dir,
+                    logger,
+                    human_mode=human_mode,
+                    timing_profile=timing_profile,
+                )
             )
         finally:
             loop.close()
 
         update_progress(95, subtask="Finalizing action run manifest and 4-tier logs")
+        domain_metrics = {
+            "tool_id": TOOL_ID,
+            "human_mode_active": human_mode,
+            "timing_profile": timing_profile,
+            "evasion_score": result.get("evasion_score", 0),
+            "page_title": result.get("page_title"),
+            "has_human_metrics": bool(result.get("human_metrics")),
+        }
         manifest = complete_action_run(
             run_info=run_info,
             records_extracted=1,
             quality_score=float(result.get("evasion_score", 95.0)),
             status="completed",
+            domain_metrics=domain_metrics,
         )
 
         logger.info(
-            f"Patchright action '{action_name}' completed (Evasion Score: {result.get('evasion_score')}/100)",
+            f"Patchright action '{action_name}' completed (Evasion Score: {result.get('evasion_score')}/100, human_mode={human_mode})",
             progress_pct=100,
         )
         complete_task()
@@ -331,7 +365,24 @@ def run_action(
         raise
 
 
+def run(
+    target_url: str = "https://quotes.toscrape.com/js/",
+    action_name: str = "secured_page_origin",
+    human_mode: bool = False,
+    timing_profile: str = "STEALTH_PARANOID",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Unified entrypoint for Patchright adapter with human_mode support."""
+    return run_action(
+        action_name=action_name,
+        target_url=target_url,
+        human_mode=human_mode,
+        timing_profile=timing_profile,
+    )
+
+
 if __name__ == "__main__":
     url = sys.argv[1] if len(sys.argv) > 1 else "https://quotes.toscrape.com/js/"
     res = run_action(target_url=url)
     print(f"[07_patchright] Run completed: {res['manifest']['status']}")
+

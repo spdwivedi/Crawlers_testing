@@ -23,6 +23,7 @@ sys.path.insert(0, str(ROOT))
 from core.folder_manager import create_action_run, complete_action_run
 from core.logger_engine import LogEngine
 from core.state_tracker import start_task, update_progress, complete_task, fail_task
+from core.human_adapter_helper import HumanAdapterHelper
 
 import httpx
 from parsel import Selector
@@ -104,11 +105,13 @@ async def _fetch_all(client: httpx.AsyncClient) -> tuple[dict, str, dict]:
 def run_async_parsel(
     target_url: str = "https://httpbin.org/json",
     action_name: str = "scrape_for_leetcode",
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
 ) -> dict[str, Any]:
     """Run concurrent async HTTP/2 multiplexing + Parsel JSON/HTML extraction."""
     start_task(
-        stage="Stage 1",
-        step="Step 1.1",
+        stage="Stage 4" if human_mode else "Stage 1",
+        step="Step 4.3" if human_mode else "Step 1.1",
         tool_id=TOOL_ID,
         action=action_name,
         subtask="Initializing httpx AsyncClient with HTTP/2 support",
@@ -128,11 +131,15 @@ def run_async_parsel(
         action_name=action_name,
         run_id=run_info["run_id"],
         run_log_path=run_log_path,
-        stage="Stage 1",
-        step="Step 1.1",
+        stage="Stage 4" if human_mode else "Stage 1",
+        step="Step 4.3" if human_mode else "Step 1.1",
     )
 
-    logger.info(f"Initialized httpx_parsel run {run_info['run_id']} (HTTP/2 enabled)", progress_pct=15)
+    logger.info(f"Initialized httpx_parsel run {run_info['run_id']} (HTTP/2 enabled, human_mode={human_mode})", progress_pct=15)
+
+    if human_mode:
+        HumanAdapterHelper.apply_pre_request_delay(profile=timing_profile, logger=logger)
+
     update_progress(25, subtask="Concurrently multiplexing HTTP/2 GET requests")
 
     async def _runner():
@@ -222,7 +229,17 @@ def run_async_parsel(
     (cleaned_dir / "report.md").write_text(report_md, encoding="utf-8")
 
     update_progress(100, subtask="Async HTTP/2 + Parsel extraction complete")
-    complete_action_run(run_info, status="completed")
+    manifest = complete_action_run(
+        run_info,
+        status="completed",
+        domain_metrics={
+            "human_mode_active": human_mode,
+            "timing_profile": timing_profile,
+            "http2": fetch_meta.get("http2", False),
+            "json_items_count": len(extracted_json_items),
+            "html_items_count": len(html_items),
+        },
+    )
     complete_task(message=f"04_httpx_parsel extraction complete: JSON + HTML parsed in {fetch_meta.get('elapsed_sec')}s")
 
     logger.info("Run manifest finalized, 4-tier logs synchronized", progress_pct=100)
@@ -232,10 +249,46 @@ def run_async_parsel(
         "tool_id": TOOL_ID,
         "action_name": action_name,
         "run_info": run_info,
+        "manifest": manifest,
         "http2": fetch_meta.get("http2", False),
         "json_items": len(extracted_json_items),
         "html_items": len(html_items),
+        "human_mode": human_mode,
     }
+
+
+
+def run_action(
+    action_name: str = "scrape_for_leetcode",
+    target_url: str = "https://httpbin.org/json",
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Action entrypoint alias for 04_httpx_parsel adapter."""
+    return run_async_parsel(
+        target_url=target_url,
+        action_name=action_name,
+        human_mode=human_mode,
+        timing_profile=timing_profile,
+    )
+
+
+def run(
+    target_url: str = "https://httpbin.org/json",
+    action_name: str = "scrape_for_leetcode",
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Unified entrypoint for 04_httpx_parsel adapter."""
+    return run_async_parsel(
+        target_url=target_url,
+        action_name=action_name,
+        human_mode=human_mode,
+        timing_profile=timing_profile,
+    )
+
 
 
 if __name__ == "__main__":

@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT))
 from core.folder_manager import create_action_run, complete_action_run
 from core.logger_engine import LogEngine
 from core.state_tracker import start_task, update_progress, complete_task, fail_task
+from core.human_adapter_helper import HumanAdapterHelper
 
 import curl_cffi.requests as curl_requests
 import markdownify
@@ -110,12 +111,14 @@ FIXTURE_CATALOG = {
 def run_scrape_for_leetcode(
     target_url: str = "https://leetcode.com/problems/two-sum/",
     impersonate_profile: str = "chrome124",
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
 ) -> dict[str, Any]:
     """Execute real LeetCode scrape using curl_cffi TLS impersonation."""
     action_name = "scrape_for_leetcode"
     start_task(
-        stage="Stage 1",
-        step="Step 1.1",
+        stage="Stage 4" if human_mode else "Stage 1",
+        step="Step 4.3" if human_mode else "Step 1.1",
         tool_id=TOOL_ID,
         action=action_name,
         subtask="Initializing curl_cffi session with TLS impersonation",
@@ -135,11 +138,20 @@ def run_scrape_for_leetcode(
         action_name=action_name,
         run_id=run_info["run_id"],
         run_log_path=run_log_path,
-        stage="Stage 1",
-        step="Step 1.1",
+        stage="Stage 4" if human_mode else "Stage 1",
+        step="Step 4.3" if human_mode else "Step 1.1",
     )
 
-    logger.info(f"Initialized curl_cffi run {run_info['run_id']} impersonating {impersonate_profile}", progress_pct=10)
+    logger.info(f"Initialized curl_cffi run {run_info['run_id']} impersonating {impersonate_profile} (human_mode={human_mode})", progress_pct=10)
+
+    # Working Way 1: Human Mode Pre-Request Latency
+    if human_mode:
+        HumanAdapterHelper.apply_pre_request_delay(
+            profile=timing_profile,
+            action_type="navigate",
+            logger=logger,
+        )
+
     update_progress(20, subtask="Connecting to LeetCode GraphQL with JA3 fingerprint")
 
     headers = {
@@ -265,7 +277,17 @@ def run_scrape_for_leetcode(
     )
 
     update_progress(100, subtask="curl_cffi LeetCode extraction complete")
-    complete_action_run(run_info, status="completed")
+    manifest = complete_action_run(
+        run_info,
+        status="completed",
+        domain_metrics={
+            "human_mode_active": human_mode,
+            "timing_profile": timing_profile,
+            "difficulty": difficulty,
+            "tags_count": len(tags),
+            "mode": mode,
+        },
+    )
     complete_task(message=f"01_curl_cffi scrape completed ({mode}): {title}")
 
     logger.info("Run manifest finalized, all 4 log tiers synchronized", progress_pct=100)
@@ -275,11 +297,48 @@ def run_scrape_for_leetcode(
         "tool_id": TOOL_ID,
         "action_name": action_name,
         "run_info": run_info,
+        "manifest": manifest,
         "mode": mode,
         "problem_title": title,
         "difficulty": difficulty,
         "tags": tags,
+        "human_mode": human_mode,
     }
+
+
+
+def run_action(
+    action_name: str = "scrape_for_leetcode",
+    target_url: str = "https://leetcode.com/problems/two-sum/",
+    impersonate_profile: str = "chrome124",
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Action entrypoint alias for 01_curl_cffi adapter."""
+    return run_scrape_for_leetcode(
+        target_url=target_url,
+        impersonate_profile=impersonate_profile,
+        human_mode=human_mode,
+        timing_profile=timing_profile,
+    )
+
+
+def run(
+    target_url: str = "https://leetcode.com/problems/two-sum/",
+    impersonate_profile: str = "chrome124",
+    human_mode: bool = False,
+    timing_profile: str = "BALANCED_HUMAN",
+    **kwargs: Any,
+) -> dict[str, Any]:
+    """Unified entrypoint for 01_curl_cffi adapter."""
+    return run_scrape_for_leetcode(
+        target_url=target_url,
+        impersonate_profile=impersonate_profile,
+        human_mode=human_mode,
+        timing_profile=timing_profile,
+    )
+
 
 
 if __name__ == "__main__":
