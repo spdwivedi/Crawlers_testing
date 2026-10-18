@@ -196,6 +196,9 @@ class LogEngine:
         self._write("ERROR", message, progress_pct, extra or None)
 
 
+LoggerEngine = LogEngine
+
+
 class ToolLogger:
     """
     Simplified logger for use inside adapter stubs (no action run log).
