@@ -187,6 +187,7 @@ def main():
 
     subprocess.run(["git", "add", "-A"], cwd=str(ROOT), check=True)
     scan_results = scan_staged_for_secrets()
+    subprocess.run(["git", "reset", "HEAD"], cwd=str(ROOT), capture_output=True, check=True)
     assert_check(
         "Pre-Commit Secret Guard reports zero blocked secrets",
         scan_results.get("blocked_secrets_count", 0) == 0,
