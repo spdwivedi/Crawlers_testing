@@ -78,6 +78,9 @@
       <button class="tab-btn" data-tab="tab-index" onclick="switchTab('tab-index', this)">
         <span class="tab-icon">🗂</span> Index & Search Hub
       </button>
+      <button class="tab-btn" data-tab="tab-vault" onclick="switchTab('tab-vault', this)">
+        <span class="tab-icon">🔐</span> Credential Vault
+      </button>
     </nav>
 
     <!-- ─── TAB 1: LIVE EXECUTION ─────────────────────────── -->
@@ -543,6 +546,221 @@
 
       </div>
     </div>
+    <!-- ─── TAB 5: CREDENTIAL VAULT & SESSION MANAGER ──────── -->
+    <div class="tab-content" id="tab-vault">
+      <div class="vault-container">
+        
+        <!-- 1. 6-Card Security & Pool KPI Ribbon -->
+        <div class="vault-ribbon">
+          <div class="vault-kpi-card">
+            <div class="vault-kpi-header">
+              <span class="vault-kpi-title">TOTAL ACCOUNTS</span>
+              <span class="vault-badge-security">AES-256-GCM</span>
+            </div>
+            <div class="vault-kpi-val" id="vault-stat-total">0</div>
+            <div class="vault-kpi-sub" id="vault-stat-total-sub">Encrypted Profiles</div>
+          </div>
+
+          <div class="vault-kpi-card success-card">
+            <div class="vault-kpi-header">
+              <span class="vault-kpi-title">ACTIVE READY POOL</span>
+              <span class="vault-badge-status status-active">READY</span>
+            </div>
+            <div class="vault-kpi-val" id="vault-stat-active">0</div>
+            <div class="vault-kpi-sub">Available for Scraper Leases</div>
+          </div>
+
+          <div class="vault-kpi-card warning-card">
+            <div class="vault-kpi-header">
+              <span class="vault-kpi-title">IN COOLDOWN / QUARANTINE</span>
+              <span class="vault-badge-status status-cooldown">AUTO-TIMER</span>
+            </div>
+            <div class="vault-kpi-val" id="vault-stat-cooldown">0</div>
+            <div class="vault-kpi-sub">Recovering Automatically</div>
+          </div>
+
+          <div class="vault-kpi-card info-card">
+            <div class="vault-kpi-header">
+              <span class="vault-kpi-title">DAILY CAPACITY REMAINING</span>
+              <span class="vault-badge-status status-info">QUOTA</span>
+            </div>
+            <div class="vault-kpi-val" id="vault-stat-capacity">0</div>
+            <div class="vault-kpi-sub">Requests Available Today</div>
+          </div>
+
+          <div class="vault-kpi-card health-card">
+            <div class="vault-kpi-header">
+              <span class="vault-kpi-title">AVG POOL HEALTH</span>
+              <span class="vault-badge-status status-health">SCORE</span>
+            </div>
+            <div class="vault-kpi-val" id="vault-stat-health">100%</div>
+            <div class="vault-kpi-sub">Pool Quality Rating</div>
+          </div>
+
+          <div class="vault-kpi-card target-card">
+            <div class="vault-kpi-header">
+              <span class="vault-kpi-title">PRIVATE TARGETS COVERED</span>
+              <span class="vault-badge-status status-target">GRAPH</span>
+            </div>
+            <div class="vault-kpi-val" id="vault-stat-targets">0</div>
+            <div class="vault-kpi-sub">Distinct Followed Handles</div>
+          </div>
+        </div>
+
+        <!-- 2. Filter & Action Bar -->
+        <div class="vault-action-bar">
+          <div class="vault-filters">
+            <select id="vault-filter-platform" onchange="filterVaultAccounts()">
+              <option value="">All Platforms</option>
+              <option value="instagram">Instagram</option>
+              <option value="facebook">Facebook</option>
+              <option value="leetcode">LeetCode</option>
+              <option value="twitter">Twitter</option>
+              <option value="custom_web">Custom Web</option>
+            </select>
+            <select id="vault-filter-status" onchange="filterVaultAccounts()">
+              <option value="">All Statuses</option>
+              <option value="active">Active</option>
+              <option value="cooldown">Cooldown</option>
+              <option value="checkpoint_required">Checkpoint Required</option>
+              <option value="expired">Expired</option>
+            </select>
+            <select id="vault-filter-method" onchange="filterVaultAccounts()">
+              <option value="">All Auth Methods</option>
+              <option value="user_pass">User / Password</option>
+              <option value="totp_2fa">2FA TOTP</option>
+              <option value="cookie_jar">Cookie Jar</option>
+              <option value="session_tokens">Session Tokens</option>
+              <option value="storage_state">Storage State</option>
+              <option value="api_headers">API Headers</option>
+              <option value="proxy_config">Proxy Config</option>
+            </select>
+            <input type="text" id="vault-filter-target" placeholder="Filter by private @target..." onkeyup="filterVaultAccounts()" />
+            <button class="clear-btn" onclick="resetVaultFilters()">⊗ Reset</button>
+          </div>
+          <div class="vault-actions">
+            <button class="vault-btn primary" onclick="openAddAccountModal()">➕ Add Credential</button>
+            <button class="vault-btn secondary" onclick="openBulkImportModal()">📥 Bulk Import</button>
+            <button class="vault-btn accent" onclick="openRecordSessionModal()">🌐 Capture Browser Login</button>
+            <button class="vault-btn refresh" onclick="loadVaultTab()">↺ Refresh</button>
+          </div>
+        </div>
+
+        <!-- 3. Main 2-Column Workspace -->
+        <div class="vault-workspace">
+          <!-- Left Column: Masked Accounts Table -->
+          <div class="vault-col-left">
+            <div class="vault-panel">
+              <div class="vault-panel-header">
+                <h3>Encrypted Account Profiles (Masked Zero-Plaintext Inventory)</h3>
+                <span class="vault-table-count" id="vault-account-count">Showing 0 accounts</span>
+              </div>
+              <div class="vault-table-container">
+                <table class="vault-table" id="vault-accounts-table">
+                  <thead>
+                    <tr>
+                      <th>Account ID & Label</th>
+                      <th>Platform / Domain</th>
+                      <th>Masked Username</th>
+                      <th>Auth Methods</th>
+                      <th>Followed Private Targets</th>
+                      <th>Usage & Health</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="vault-accounts-table-body">
+                    <tr><td colspan="8" class="loading-td">Loading encrypted vault accounts...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Target Coverage & 20-Tool Router Sandbox -->
+          <div class="vault-col-right">
+            <!-- Panel A: Private Target Follower Coverage -->
+            <div class="vault-panel target-coverage-panel">
+              <div class="vault-panel-header">
+                <h3>Private Target Coverage Graph</h3>
+                <span class="badge-pill">Strict Follower Isolation</span>
+              </div>
+              <div class="target-coverage-container" id="vault-target-coverage-list">
+                <div class="empty-state-msg">No private target links configured yet.</div>
+              </div>
+            </div>
+
+            <!-- Panel B: 20-Tool Auth Injection Sandbox -->
+            <div class="vault-panel sandbox-panel">
+              <div class="vault-panel-header">
+                <h3>20-Tool Universal Auth Router Sandbox</h3>
+                <span class="badge-pill">Ephemeral Shredder Active</span>
+              </div>
+              <div class="sandbox-controls">
+                <div class="sandbox-field">
+                  <label>Scraper Tool ID</label>
+                  <select id="vault-test-tool">
+                    <option value="01_curl_cffi">01_curl_cffi (HTTP Client)</option>
+                    <option value="02_selectolax_lxml">02_selectolax_lxml (Fast Parser)</option>
+                    <option value="03_scrapy">03_scrapy (Spider Framework)</option>
+                    <option value="04_httpx_parsel">04_httpx_parsel (Async HTTP)</option>
+                    <option value="05_trafilatura">05_trafilatura (Content Extractor)</option>
+                    <option value="06_playwright">06_playwright (Headless Browser)</option>
+                    <option value="07_patchright">07_patchright (Undetected Browser)</option>
+                    <option value="08_camoufox">08_camoufox (Anti-Detect Firefox)</option>
+                    <option value="09_nodriver">09_nodriver (CDP Browser)</option>
+                    <option value="10_scrapling">10_scrapling (Stealth Scraper)</option>
+                    <option value="11_yt_dlp_ffmpeg">11_yt_dlp_ffmpeg (Media Downloader)</option>
+                    <option value="12_instaloader">12_instaloader (Instagram Specialist)</option>
+                    <option value="13_gallery_dl">13_gallery_dl (Image Extractor)</option>
+                    <option value="14_singlefile_archive">14_singlefile_archive (HTML Archiver)</option>
+                    <option value="15_mitmproxy_interceptor">15_mitmproxy_interceptor (Proxy Sniffer)</option>
+                    <option value="16_crawl4ai">16_crawl4ai (AI Web Crawler)</option>
+                    <option value="17_browsergym_agent">17_browsergym_agent (Web Navigation Agent)</option>
+                    <option value="18_deepsearch_agents">18_deepsearch_agents (Autonomous Agent)</option>
+                    <option value="19_screen_parse_vision">19_screen_parse_vision (Vision Extractor)</option>
+                    <option value="20_faster_whisper_scrapegraph">20_faster_whisper_scrapegraph (Audio Transcriber)</option>
+                  </select>
+                </div>
+                <div class="sandbox-field">
+                  <label>Platform</label>
+                  <select id="vault-test-platform">
+                    <option value="">Any Platform</option>
+                    <option value="instagram">instagram</option>
+                    <option value="facebook">facebook</option>
+                    <option value="leetcode">leetcode</option>
+                    <option value="twitter">twitter</option>
+                    <option value="custom_web">custom_web</option>
+                  </select>
+                </div>
+                <div class="sandbox-field">
+                  <label>Required Private Target (@handle)</label>
+                  <input type="text" id="vault-test-target" placeholder="e.g. @private_vip_reel" />
+                </div>
+                <div class="sandbox-field">
+                  <label>Routing Strategy</label>
+                  <select id="vault-test-strategy">
+                    <option value="least_recently_used">least_recently_used (LRU Rotation)</option>
+                    <option value="lowest_quota_usage">lowest_quota_usage (Daily Quota Balancer)</option>
+                    <option value="health_weighted_random">health_weighted_random (High Health Weighted)</option>
+                  </select>
+                </div>
+                <button class="sandbox-run-btn" onclick="testVaultInjection()">
+                  ▶ Simulate Route & Build 20-Tool Auth Bundle
+                </button>
+              </div>
+
+              <div class="sandbox-output-box">
+                <div class="sandbox-output-header">
+                  <span>Safe Zero-Plaintext Audit Output</span>
+                  <span id="sandbox-status-badge" class="sandbox-badge-idle">IDLE</span>
+                </div>
+                <pre class="sandbox-json-display" id="vault-test-output">// Select tool, platform, or target and click Simulate Route...</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -556,6 +774,176 @@
       </div>
       <div class="modal-meta" id="modal-meta"></div>
       <pre class="modal-content" id="modal-content"></pre>
+    </div>
+  </div>
+
+  <!-- Add Credential Modal -->
+  <div id="vault-add-modal" class="modal-overlay" onclick="closeAddAccountModal(event)">
+    <div class="modal-box vault-modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title">➕ Add Encrypted Credential Profile</div>
+        <button class="modal-close" onclick="closeAddAccountModal()">✕</button>
+      </div>
+      <form id="vault-add-form" onsubmit="submitAddAccount(event)">
+        <div class="modal-form-grid">
+          <div class="form-group">
+            <label>Platform *</label>
+            <input type="text" id="add-platform" required placeholder="instagram, leetcode, facebook..." />
+          </div>
+          <div class="form-group">
+            <label>Domain</label>
+            <input type="text" id="add-domain" placeholder="instagram.com" />
+          </div>
+          <div class="form-group">
+            <label>Account Label</label>
+            <input type="text" id="add-label" placeholder="VIP Scraper Bot 01" />
+          </div>
+          <div class="form-group">
+            <label>Daily Quota Limit</label>
+            <input type="number" id="add-quota" value="50" min="1" max="10000" />
+          </div>
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="add-username" placeholder="bot_username" />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="add-password" placeholder="••••••••••••" />
+          </div>
+          <div class="form-group full-width">
+            <label>2FA TOTP Base32 Secret Key</label>
+            <input type="text" id="add-totp" placeholder="JBSWY3DPEHPK3PXP (optional RFC 6238 secret)" />
+          </div>
+          <div class="form-group full-width">
+            <label>Followed Private Targets (comma-separated @handles)</label>
+            <input type="text" id="add-targets" placeholder="@private_vip_reel, @private_coding_club" />
+          </div>
+          <div class="form-group full-width">
+            <label>Paste Netscape cookies.txt or JSON cookie jar</label>
+            <textarea id="add-cookies" rows="4" placeholder="# Netscape HTTP Cookie File or [{'name': '...', 'value': '...'}]"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" onclick="closeAddAccountModal()">Cancel</button>
+          <button type="submit" class="vault-btn primary">Encrypt & Save to Vault</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bulk Import Modal -->
+  <div id="vault-import-modal" class="modal-overlay" onclick="closeBulkImportModal(event)">
+    <div class="modal-box vault-modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title">📥 Bulk Import Accounts (High-Speed Single-Tx)</div>
+        <button class="modal-close" onclick="closeBulkImportModal()">✕</button>
+      </div>
+      <form id="vault-import-form" onsubmit="submitBulkImport(event)">
+        <div class="modal-form-grid">
+          <div class="form-group">
+            <label>Format</label>
+            <select id="import-format">
+              <option value="jsonl">JSONL Stream (one account per line)</option>
+              <option value="csv">CSV (username,password,totp_secret,targets...)</option>
+              <option value="netscape_cookies">Netscape cookies.txt (single account session)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Default Platform</label>
+            <input type="text" id="import-platform" placeholder="instagram, leetcode..." />
+          </div>
+          <div class="form-group">
+            <label>Default Domain</label>
+            <input type="text" id="import-domain" placeholder="instagram.com" />
+          </div>
+          <div class="form-group">
+            <label>On Conflict</label>
+            <select id="import-conflict">
+              <option value="update">Update existing accounts</option>
+              <option value="skip">Skip duplicates</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label>Data Payload</label>
+            <textarea id="import-data" rows="8" placeholder="Paste JSONL, CSV, or Netscape cookies here..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer" style="display:flex; justify-content:space-between; align-items:center;">
+          <button type="button" class="vault-btn secondary" onclick="seedSampleAccounts()">⚡ Generate & Import 50 Sample Multi-Platform Accounts</button>
+          <div>
+            <button type="button" class="btn-cancel" onclick="closeBulkImportModal()">Cancel</button>
+            <button type="submit" class="vault-btn primary">Start Bulk Ingestion</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Browser Session Recording Modal -->
+  <div id="vault-session-modal" class="modal-overlay" onclick="closeRecordSessionModal(event)">
+    <div class="modal-box vault-modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title">🌐 Capture Browser Login Session</div>
+        <button class="modal-close" onclick="closeRecordSessionModal()">✕</button>
+      </div>
+      <form id="vault-session-form" onsubmit="submitRecordSession(event)">
+        <div class="modal-form-grid">
+          <div class="form-group">
+            <label>Platform *</label>
+            <input type="text" id="session-platform" required value="instagram" />
+          </div>
+          <div class="form-group">
+            <label>Engine</label>
+            <select id="session-engine">
+              <option value="playwright">Playwright Chromium</option>
+              <option value="patchright">Patchright (Undetected)</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label>Destination / Login URL *</label>
+            <input type="url" id="session-url" required value="https://httpbin.org/html" />
+          </div>
+          <div class="form-group">
+            <label>Account Label</label>
+            <input type="text" id="session-label" placeholder="Captured Browser Session 01" />
+          </div>
+          <div class="form-group">
+            <label>Wait Timeout (Seconds)</label>
+            <input type="number" id="session-wait" value="30" min="5" max="300" />
+          </div>
+          <div class="form-group full-width">
+            <label>Followed Private Targets (@handles)</label>
+            <input type="text" id="session-targets" placeholder="@private_reel_creator" />
+          </div>
+          <div class="form-group full-width checkbox-row">
+            <label>
+              <input type="checkbox" id="session-interactive" />
+              Interactive Mode (Opens visible browser window so you can complete 2FA or captcha)
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" onclick="closeRecordSessionModal()">Cancel</button>
+          <button type="submit" class="vault-btn primary">Launch & Capture Session</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Floating TOTP Toast / Badge -->
+  <div id="vault-totp-toast" class="totp-toast">
+    <div class="totp-toast-header">
+      <span class="totp-icon">🔑</span>
+      <span class="totp-title" id="totp-toast-title">Live 2FA TOTP Code</span>
+      <button class="totp-close" onclick="closeTotpToast()">✕</button>
+    </div>
+    <div class="totp-code-display" id="totp-code-val">000 000</div>
+    <div class="totp-meta">
+      <span>Expires in <strong id="totp-timer-val">30</strong>s</span>
+      <span class="totp-copy-btn" onclick="copyTotpCode()">📋 Copy</span>
+    </div>
+    <div class="totp-progress-track">
+      <div class="totp-progress-bar" id="totp-progress-bar" style="width:100%"></div>
     </div>
   </div>
 

@@ -40,6 +40,7 @@ function switchTab(tabId, btn) {
 
   if (tabId === "tab-explorer") loadDataTree();
   if (tabId === "tab-index") loadIndexHub();
+  if (tabId === "tab-vault") loadVaultTab();
 }
 
 // ─── Telemetry WebSocket ──────────────────────────────────────────────────────
@@ -1446,5 +1447,548 @@ function formatDomainMetrics(metrics) {
     return `<span class="metric-pill" title="${escHtml(k)}: ${escHtml(valStr)}">${escHtml(k)}: ${escHtml(valStr)}</span>`;
   }).join("");
 }
+
+/* ═════════════════════════════════════════════════════════════════════ */
+/* TAB 5: CREDENTIAL VAULT & SESSION MANAGER CONTROLLER                   */
+/* ═════════════════════════════════════════════════════════════════════ */
+
+let totpTimerHandle = null;
+
+async function loadVaultTab() {
+  await Promise.all([
+    loadVaultDiagnostics(),
+    loadVaultAccounts(),
+  ]);
+}
+
+async function loadVaultDiagnostics() {
+  try {
+    const res = await fetch(`${API_BASE}/api/vault/diagnostics`);
+    if (!res.ok) return;
+    const diag = await res.json();
+
+    const elTotal = document.getElementById("vault-stat-total");
+    const elActive = document.getElementById("vault-stat-active");
+    const elCooldown = document.getElementById("vault-stat-cooldown");
+    const elCapacity = document.getElementById("vault-stat-capacity");
+    const elHealth = document.getElementById("vault-stat-health");
+    const elTargets = document.getElementById("vault-stat-targets");
+
+    if (elTotal) elTotal.textContent = diag.total_accounts ?? 0;
+    if (elActive) elActive.textContent = diag.active_ready_accounts ?? 0;
+    if (elCooldown) elCooldown.textContent = diag.cooldown_accounts ?? 0;
+    if (elCapacity) elCapacity.textContent = (diag.remaining_daily_capacity ?? 0).toLocaleString();
+    if (elHealth) elHealth.textContent = `${diag.avg_health_score ?? 100}%`;
+
+    const coverage = diag.private_target_coverage || {};
+    const targetKeys = Object.keys(coverage);
+    if (elTargets) elTargets.textContent = targetKeys.length;
+
+    // Render target coverage list
+    const covList = document.getElementById("vault-target-coverage-list");
+    if (covList) {
+      if (targetKeys.length === 0) {
+        covList.innerHTML = '<div class="empty-state-msg">No private target links configured yet.</div>';
+      } else {
+        covList.innerHTML = targetKeys.map(t => {
+          const info = coverage[t] || {};
+          const followers = info.active_followers ?? info.followers_count ?? 1;
+          const capacity = info.total_capacity ?? 0;
+          return `
+            <div class="target-coverage-card" onclick="filterByTarget('${escHtml(t)}')">
+              <div>
+                <div class="target-handle-text">${escHtml(t)}</div>
+                <div style="font-size:10px; color:var(--text-muted);">Capacity: ${capacity} reqs/day</div>
+              </div>
+              <div class="target-followers-badge">${followers} follower${followers > 1 ? 's' : ''}</div>
+            </div>
+          `;
+        }).join("");
+      }
+    }
+  } catch (err) {
+    console.warn("Failed to load vault diagnostics:", err);
+  }
+}
+
+async function loadVaultAccounts() {
+  const tbody = document.getElementById("vault-accounts-table-body");
+  const countSpan = document.getElementById("vault-account-count");
+  if (!tbody) return;
+
+  const platform = document.getElementById("vault-filter-platform")?.value || "";
+  const status = document.getElementById("vault-filter-status")?.value || "";
+  const method = document.getElementById("vault-filter-method")?.value || "";
+  const target = document.getElementById("vault-filter-target")?.value.trim() || "";
+
+  const params = new URLSearchParams({
+    platform,
+    status,
+    auth_method: method,
+    target_handle: target,
+    limit: "200",
+  });
+
+  tbody.innerHTML = '<tr><td colspan="8" class="loading-td">Loading encrypted vault accounts...</td></tr>';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/vault/accounts?${params.toString()}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const accounts = data.accounts || [];
+
+    if (countSpan) {
+      countSpan.textContent = `Showing ${accounts.length} of ${data.total_count ?? accounts.length} accounts`;
+    }
+
+    if (accounts.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="8" class="loading-td">No vault accounts found matching current filters.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = accounts.map(acc => {
+      const methods = acc.auth_methods || [];
+      const targets = acc.follows_targets || [];
+      const hasTotp = methods.includes("totp_2fa");
+      const statusClass = (acc.status || "active").toLowerCase();
+
+      const methodPills = methods.map(m => `<span class="method-pill">${escHtml(m)}</span>`).join("");
+      const targetPills = targets.length > 0
+        ? targets.map(t => `<span class="target-pill" onclick="filterByTarget('${escHtml(t)}')">${escHtml(t)}</span>`).join("")
+        : '<span style="color:var(--text-muted); font-size:10px;">None (Public Scraper)</span>';
+
+      return `
+        <tr>
+          <td>
+            <div style="font-weight:700; color:var(--text-primary); font-family:var(--font-mono); font-size:12px;">${escHtml(acc.account_id)}</div>
+            <div style="font-size:11px; color:var(--text-muted);">${escHtml(acc.account_label || "—")}</div>
+          </td>
+          <td>
+            <span class="vault-badge">${escHtml(acc.platform)}</span>
+            <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">${escHtml(acc.domain || "")}</div>
+          </td>
+          <td>
+            <span style="font-family:var(--font-mono); font-weight:600; color:#cbd5e1;">${escHtml(acc.username_masked || "—")}</span>
+          </td>
+          <td>${methodPills}</td>
+          <td>${targetPills}</td>
+          <td>
+            <div style="font-family:var(--font-mono); font-size:11px;">${acc.requests_today ?? 0} / ${acc.daily_quota_limit ?? 50}</div>
+            <div style="font-size:10px; color:${(acc.health_score ?? 100) > 70 ? 'var(--accent-green)' : '#eab308'}; font-weight:700;">${acc.health_score ?? 100}% Health</div>
+          </td>
+          <td>
+            <span class="status-pill ${statusClass}">${escHtml(acc.status.toUpperCase())}</span>
+          </td>
+          <td>
+            <div class="row-actions-group">
+              ${hasTotp ? `<button class="row-btn totp-btn" title="Generate Live 2FA TOTP Code" onclick="fetchLiveTotp('${escHtml(acc.account_id)}')">🔑 2FA</button>` : ''}
+              <button class="row-btn test-btn" title="Send to 20-Tool Router Sandbox" onclick="prefillSandbox('${escHtml(acc.account_id)}', '${escHtml(acc.platform)}')">⚡ Test</button>
+              <button class="row-btn" title="Toggle Cooldown / Active" onclick="toggleAccountOutcome('${escHtml(acc.account_id)}', '${escHtml(acc.status)}')">⏱ Cooldown</button>
+              <button class="row-btn del-btn" title="Delete Profile" onclick="deleteVaultAccount('${escHtml(acc.account_id)}')">🗑</button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="8" class="loading-td" style="color:var(--accent-red);">Failed to load accounts: ${escHtml(err.message)}</td></tr>`;
+  }
+}
+
+function filterVaultAccounts() {
+  loadVaultAccounts();
+}
+
+function resetVaultFilters() {
+  const p = document.getElementById("vault-filter-platform");
+  const s = document.getElementById("vault-filter-status");
+  const m = document.getElementById("vault-filter-method");
+  const t = document.getElementById("vault-filter-target");
+  if (p) p.value = "";
+  if (s) s.value = "";
+  if (m) m.value = "";
+  if (t) t.value = "";
+  loadVaultAccounts();
+}
+
+function filterByTarget(targetHandle) {
+  const t = document.getElementById("vault-filter-target");
+  if (t) {
+    t.value = targetHandle;
+    loadVaultAccounts();
+  }
+}
+
+function openAddAccountModal() {
+  const modal = document.getElementById("vault-add-modal");
+  if (modal) modal.classList.add("open");
+}
+
+function closeAddAccountModal(event) {
+  if (event && event.target && event.target.closest && event.target.closest(".vault-modal-box") && !event.target.classList.contains("modal-close") && !event.target.classList.contains("btn-cancel")) {
+    return;
+  }
+  const modal = document.getElementById("vault-add-modal");
+  if (modal) modal.classList.remove("open");
+}
+
+async function submitAddAccount(event) {
+  event.preventDefault();
+  const platform = document.getElementById("add-platform")?.value.trim() || "";
+  const domain = document.getElementById("add-domain")?.value.trim() || "";
+  const label = document.getElementById("add-label")?.value.trim() || "";
+  const quota = parseInt(document.getElementById("add-quota")?.value || "50", 10);
+  const username = document.getElementById("add-username")?.value.trim() || "";
+  const password = document.getElementById("add-password")?.value || "";
+  const totp = document.getElementById("add-totp")?.value.trim() || "";
+  const targets = document.getElementById("add-targets")?.value.trim() || "";
+  const cookies = document.getElementById("add-cookies")?.value.trim() || "";
+
+  const payload = {
+    platform,
+    domain,
+    account_label: label,
+    daily_quota_limit: quota,
+    username,
+    password,
+    totp_secret: totp,
+    follows_targets: targets,
+  };
+
+  if (cookies) {
+    if (cookies.startsWith("[") || cookies.startsWith("{")) {
+      try {
+        payload.cookies_json = JSON.parse(cookies);
+      } catch (e) {
+        payload.cookies_txt = cookies;
+      }
+    } else {
+      payload.cookies_txt = cookies;
+    }
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/vault/accounts`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || `HTTP ${res.status}`);
+    }
+    closeAddAccountModal();
+    document.getElementById("vault-add-form")?.reset();
+    await loadVaultTab();
+    alert("Encrypted credential profile created successfully!");
+  } catch (err) {
+    alert(`Failed to add account: ${err.message}`);
+  }
+}
+
+function openBulkImportModal() {
+  const modal = document.getElementById("vault-import-modal");
+  if (modal) modal.classList.add("open");
+}
+
+function closeBulkImportModal(event) {
+  if (event && event.target && event.target.closest && event.target.closest(".vault-modal-box") && !event.target.classList.contains("modal-close") && !event.target.classList.contains("btn-cancel")) {
+    return;
+  }
+  const modal = document.getElementById("vault-import-modal");
+  if (modal) modal.classList.remove("open");
+}
+
+async function submitBulkImport(event) {
+  event.preventDefault();
+  const format = document.getElementById("import-format")?.value || "jsonl";
+  const platform = document.getElementById("import-platform")?.value.trim() || "";
+  const domain = document.getElementById("import-domain")?.value.trim() || "";
+  const conflict = document.getElementById("import-conflict")?.value || "update";
+  const data = document.getElementById("import-data")?.value.trim() || "";
+
+  if (!data) {
+    alert("Please paste data payload to import.");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/vault/bulk-import`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        format,
+        platform,
+        domain,
+        on_conflict: conflict,
+        data,
+      }),
+    });
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.error || `HTTP ${res.status}`);
+
+    closeBulkImportModal();
+    document.getElementById("vault-import-form")?.reset();
+    await loadVaultTab();
+    alert(`Bulk import completed: ${JSON.stringify(result.import_summary)}`);
+  } catch (err) {
+    alert(`Bulk import failed: ${err.message}`);
+  }
+}
+
+async function seedSampleAccounts() {
+  const platforms = ["instagram", "facebook", "leetcode", "twitter", "custom_web"];
+  const sampleTargets = ["@private_vip_reel", "@private_coding_club", "@private_reel_creator", "@vip_finance_group"];
+  const records = [];
+
+  for (let i = 1; i <= 50; i++) {
+    const plat = platforms[i % platforms.length];
+    const tgt = sampleTargets[i % sampleTargets.length];
+    records.push({
+      platform: plat,
+      domain: `${plat}.com`,
+      username: `seed_bot_${plat}_${i}`,
+      password: `SeedSecretPass${i}!`,
+      account_label: `Seed Bot ${plat.toUpperCase()} #${i}`,
+      totp_secret: "JBSWY3DPEHPK3PXP",
+      daily_quota_limit: 40 + (i % 30),
+      follows_targets: [tgt],
+      cookie_jar: [
+        { name: "sessionid", value: `sess_${plat}_${i}_xyz`, domain: `.${plat}.com`, path: "/", secure: true, httpOnly: true },
+        { name: "csrftoken", value: `csrf_${plat}_${i}_abc`, domain: `.${plat}.com`, path: "/", secure: true, httpOnly: false },
+      ],
+    });
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/vault/bulk-import`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        format: "records",
+        on_conflict: "update",
+        data: records,
+      }),
+    });
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.error || `HTTP ${res.status}`);
+
+    closeBulkImportModal();
+    await loadVaultTab();
+    alert(`Quick-Seed Complete! Successfully imported 50 sample accounts into encrypted vault.`);
+  } catch (err) {
+    alert(`Quick-seed failed: ${err.message}`);
+  }
+}
+
+function openRecordSessionModal() {
+  const modal = document.getElementById("vault-session-modal");
+  if (modal) modal.classList.add("open");
+}
+
+function closeRecordSessionModal(event) {
+  if (event && event.target && event.target.closest && event.target.closest(".vault-modal-box") && !event.target.classList.contains("modal-close") && !event.target.classList.contains("btn-cancel")) {
+    return;
+  }
+  const modal = document.getElementById("vault-session-modal");
+  if (modal) modal.classList.remove("open");
+}
+
+async function submitRecordSession(event) {
+  event.preventDefault();
+  const platform = document.getElementById("session-platform")?.value.trim() || "instagram";
+  const engine = document.getElementById("session-engine")?.value || "playwright";
+  const url = document.getElementById("session-url")?.value.trim() || "https://httpbin.org/html";
+  const label = document.getElementById("session-label")?.value.trim() || "";
+  const waitSec = parseInt(document.getElementById("session-wait")?.value || "30", 10);
+  const targets = document.getElementById("session-targets")?.value.trim() || "";
+  const interactive = document.getElementById("session-interactive")?.checked || false;
+
+  const payload = {
+    platform,
+    engine,
+    login_url: url,
+    account_label: label,
+    wait_seconds: waitSec,
+    interactive,
+    follows_targets: targets ? [targets] : [],
+  };
+
+  try {
+    closeRecordSessionModal();
+    alert("Browser session recording initiated. Watching for login and cookies...");
+    const res = await fetch(`${API_BASE}/api/vault/record-session`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const result = await res.json();
+    if (!res.ok) throw new Error(result.error || `HTTP ${res.status}`);
+
+    await loadVaultTab();
+    alert(`Session Captured Successfully! Cookies: ${result.cookies_captured_count}, Tokens: ${result.extracted_token_keys?.join(', ')}`);
+  } catch (err) {
+    alert(`Session recording failed: ${err.message}`);
+  }
+}
+
+async function fetchLiveTotp(accountId) {
+  try {
+    const res = await fetch(`${API_BASE}/api/vault/accounts/${encodeURIComponent(accountId)}/totp`, {
+      method: "POST",
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || `HTTP ${res.status}`);
+    }
+    const data = await res.json();
+
+    const toast = document.getElementById("vault-totp-toast");
+    const codeVal = document.getElementById("totp-code-val");
+    const timerVal = document.getElementById("totp-timer-val");
+    const progressBar = document.getElementById("totp-progress-bar");
+    const titleVal = document.getElementById("totp-toast-title");
+
+    if (!toast) return;
+
+    if (titleVal) titleVal.textContent = `2FA TOTP: ${accountId}`;
+    const rawCode = String(data.code || "000000");
+    if (codeVal) codeVal.textContent = `${rawCode.slice(0, 3)} ${rawCode.slice(3)}`;
+
+    let secondsLeft = data.time_remaining_sec ?? 30;
+    const period = data.period_sec ?? 30;
+
+    if (timerVal) timerVal.textContent = secondsLeft;
+    if (progressBar) progressBar.style.width = `${(secondsLeft / period) * 100}%`;
+
+    toast.style.display = "flex";
+
+    if (totpTimerHandle) clearInterval(totpTimerHandle);
+    totpTimerHandle = setInterval(() => {
+      secondsLeft -= 1;
+      if (timerVal) timerVal.textContent = Math.max(secondsLeft, 0);
+      if (progressBar) progressBar.style.width = `${Math.max((secondsLeft / period) * 100, 0)}%`;
+      if (secondsLeft <= 0) {
+        clearInterval(totpTimerHandle);
+        closeTotpToast();
+      }
+    }, 1000);
+  } catch (err) {
+    alert(`Failed to generate 2FA TOTP: ${err.message}`);
+  }
+}
+
+function closeTotpToast() {
+  const toast = document.getElementById("vault-totp-toast");
+  if (toast) toast.style.display = "none";
+  if (totpTimerHandle) clearInterval(totpTimerHandle);
+}
+
+function copyTotpCode() {
+  const codeVal = document.getElementById("totp-code-val");
+  if (!codeVal) return;
+  const cleanCode = codeVal.textContent.replace(/\s+/g, "");
+  navigator.clipboard.writeText(cleanCode).then(() => {
+    alert(`2FA Code ${cleanCode} copied to clipboard!`);
+  }).catch(() => {
+    prompt("Copy 2FA code manually:", cleanCode);
+  });
+}
+
+async function toggleAccountOutcome(accountId, currentStatus) {
+  const outcome = currentStatus === "cooldown" ? "success" : "rate_limited";
+  const cooldownSec = outcome === "rate_limited" ? 1800 : 0;
+  try {
+    const res = await fetch(`${API_BASE}/api/vault/accounts/${encodeURIComponent(accountId)}/outcome`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        outcome,
+        cooldown_seconds: cooldownSec,
+        notes: `Toggled via Control Center UI (${outcome})`,
+      }),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    await loadVaultTab();
+  } catch (err) {
+    alert(`Failed to update account state: ${err.message}`);
+  }
+}
+
+async function deleteVaultAccount(accountId) {
+  if (!confirm(`Are you sure you want to delete account ${accountId} from the encrypted vault?`)) {
+    return;
+  }
+  try {
+    const res = await fetch(`${API_BASE}/api/vault/accounts/${encodeURIComponent(accountId)}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    await loadVaultTab();
+  } catch (err) {
+    alert(`Failed to delete account: ${err.message}`);
+  }
+}
+
+function prefillSandbox(accountId, platform) {
+  const platSelect = document.getElementById("vault-test-platform");
+  if (platSelect) platSelect.value = platform || "";
+  const sandboxPanel = document.querySelector(".sandbox-panel");
+  if (sandboxPanel) {
+    sandboxPanel.scrollIntoView({ behavior: "smooth" });
+    sandboxPanel.style.borderColor = "var(--accent-cyan)";
+    setTimeout(() => {
+      sandboxPanel.style.borderColor = "var(--border)";
+    }, 2000);
+  }
+}
+
+async function testVaultInjection() {
+  const toolId = document.getElementById("vault-test-tool")?.value || "01_curl_cffi";
+  const platform = document.getElementById("vault-test-platform")?.value || "";
+  const target = document.getElementById("vault-test-target")?.value.trim() || "";
+  const strategy = document.getElementById("vault-test-strategy")?.value || "least_recently_used";
+
+  const outPre = document.getElementById("vault-test-output");
+  const badge = document.getElementById("sandbox-status-badge");
+  if (outPre) outPre.textContent = "// Routing request and generating auth bundles...";
+  if (badge) {
+    badge.textContent = "ROUTING...";
+    badge.className = "sandbox-badge-running";
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/vault/test-injection`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        tool_id: toolId,
+        platform,
+        required_target: target,
+        strategy,
+      }),
+    });
+    const result = await res.json();
+    if (outPre) {
+      outPre.textContent = JSON.stringify(result, null, 2);
+    }
+    if (badge) {
+      if (result.authenticated) {
+        badge.textContent = "AUTHENTICATED";
+        badge.style.color = "var(--accent-green)";
+      } else {
+        badge.textContent = "NO_ACCOUNT";
+        badge.style.color = "var(--accent-red)";
+      }
+    }
+  } catch (err) {
+    if (outPre) outPre.textContent = `// Error: ${err.message}`;
+    if (badge) {
+      badge.textContent = "ERROR";
+      badge.style.color = "var(--accent-red)";
+    }
+  }
+}
+
 
 

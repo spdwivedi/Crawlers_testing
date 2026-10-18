@@ -31,10 +31,17 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+
+from core.credential_vault import CredentialVault, get_credential_vault
+from core.vault_importer import VaultImporter
+from core.totp_helper import TOTPHelper
+from core.account_router import AccountRouter, get_account_router
+from core.browser_session_recorder import BrowserSessionRecorder, get_browser_session_recorder
+from core.auth_injector import AuthInjector, get_auth_injector
 
 from core.state_tracker import (
     complete_task,
@@ -987,21 +994,328 @@ async def get_prompt_history(limit: int = 100):
 
 
 
+# ─── Credential Vault & Auth Router Endpoints (Stage 3) ──────────────────────
+
+@app.get("/api/vault/diagnostics")
+async def get_vault_diagnostics(platform: str = ""):
+    """Returns combined pool health metrics and non-sensitive public stats."""
+    try:
+        router = get_account_router()
+        vault = get_credential_vault()
+        diag = router.get_pool_diagnostics(platform=platform)
+        public_stats = vault.export_public_stats()
+        diag["public_stats"] = public_stats
+        return JSONResponse(diag)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.get("/api/vault/accounts")
+async def list_vault_accounts(
+    platform: str = "",
+    status: str = "",
+    target_handle: str = "",
+    auth_method: str = "",
+    limit: int = 200,
+    offset: int = 0,
+):
+    """Returns masked accounts list (0 plaintext secrets exposed)."""
+    try:
+        vault = get_credential_vault()
+        result = vault.list_accounts_masked(
+            platform=platform,
+            status=status,
+            target_handle=target_handle,
+            auth_method=auth_method,
+            limit=limit,
+            offset=offset,
+        )
+        result["total_count"] = result.get("total", len(result.get("accounts", [])))
+        return JSONResponse(result)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.post("/api/vault/accounts")
+async def add_or_update_vault_account(request: Request):
+    """Create or update an encrypted account profile."""
+    try:
+        body = await request.json()
+        vault = get_credential_vault()
+        importer = VaultImporter(vault=vault)
+
+        platform = body.get("platform", "").strip().lower()
+        if not platform:
+            return JSONResponse({"error": "platform is required"}, status_code=400)
+
+        domain = body.get("domain", "").strip()
+        account_label = body.get("account_label", "").strip()
+        username = body.get("username", "").strip()
+        password = body.get("password", "")
+        totp_secret = body.get("totp_secret", "").strip()
+        daily_quota = int(body.get("daily_quota_limit", 50))
+        follows_targets = body.get("follows_targets", [])
+        if isinstance(follows_targets, str):
+            follows_targets = [t.strip() for t in follows_targets.split(",") if t.strip()]
+
+        cookie_jar = None
+        session_tokens = body.get("session_tokens") or {}
+        api_headers = body.get("api_headers") or {}
+        proxy_config = body.get("proxy_config") or {}
+        fingerprint_profile = body.get("fingerprint_profile") or {}
+
+        # Parse cookies_txt if provided
+        cookies_txt = body.get("cookies_txt", "")
+        if cookies_txt:
+            parsed = importer.parse_netscape_cookies_txt(cookies_txt)
+            cookie_jar = parsed.get("cookies", [])
+            session_tokens.update(parsed.get("extracted_tokens", {}))
+
+        # Parse cookies_json if provided
+        cookies_json = body.get("cookies_json")
+        if cookies_json:
+            parsed = importer.parse_json_cookie_jar(cookies_json)
+            if cookie_jar is None:
+                cookie_jar = parsed.get("cookies", [])
+            else:
+                cookie_jar.extend(parsed.get("cookies", []))
+            session_tokens.update(parsed.get("extracted_tokens", {}))
+
+        account_id = body.get("account_id")
+        result = vault.add_account(
+            platform=platform,
+            domain=domain,
+            username=username,
+            password=password,
+            account_label=account_label,
+            totp_secret=totp_secret,
+            cookie_jar=cookie_jar,
+            session_tokens=session_tokens if session_tokens else None,
+            api_headers=api_headers if api_headers else None,
+            proxy_config=proxy_config if proxy_config else None,
+            fingerprint_profile=fingerprint_profile if fingerprint_profile else None,
+            follows_targets=follows_targets,
+            daily_quota_limit=daily_quota,
+            account_id=account_id,
+        )
+        return JSONResponse(result)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.post("/api/vault/bulk-import")
+async def bulk_import_accounts(request: Request):
+    """High-speed bulk credential ingestion from records, JSONL, CSV, or Netscape cookies."""
+    try:
+        body = await request.json()
+        importer = VaultImporter()
+
+        fmt = body.get("format", "records").strip().lower()
+        data = body.get("data")
+        platform = body.get("platform", "")
+        domain = body.get("domain", "")
+        targets = body.get("follows_targets", [])
+        on_conflict = body.get("on_conflict", "update")
+
+        if fmt == "jsonl":
+            summary = importer.import_from_jsonl(
+                data if isinstance(data, str) else json.dumps(data),
+                default_platform=platform,
+                default_domain=domain,
+                on_conflict=on_conflict,
+            )
+        elif fmt == "csv":
+            summary = importer.import_from_csv(
+                data if isinstance(data, str) else "",
+                default_platform=platform,
+                default_domain=domain,
+                on_conflict=on_conflict,
+            )
+        elif fmt == "netscape_cookies":
+            parsed = importer.parse_netscape_cookies_txt(str(data))
+            rec = {
+                "platform": platform or "custom_web",
+                "domain": domain or "",
+                "account_label": f"Imported Netscape Cookie ({platform or 'web'})",
+                "cookie_jar": parsed.get("cookies", []),
+                "session_tokens": parsed.get("extracted_tokens", {}),
+                "follows_targets": targets,
+            }
+            summary = importer.bulk_import_accounts([rec], on_conflict=on_conflict)
+        else:
+            records = data if isinstance(data, list) else []
+            summary = importer.bulk_import_accounts(records, on_conflict=on_conflict)
+
+        return JSONResponse({"status": "ok", "import_summary": summary})
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.post("/api/vault/accounts/{account_id}/totp")
+async def get_live_totp_code(account_id: str):
+    """Generate ephemeral 6-digit TOTP code for account without exposing raw secret."""
+    try:
+        vault = get_credential_vault()
+        totp_data = TOTPHelper.get_totp_for_account(
+            vault=vault,
+            account_id=account_id,
+            tool_id="vault_api",
+            run_id="live_ui_request",
+        )
+        return JSONResponse(totp_data)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.post("/api/vault/accounts/{account_id}/outcome")
+async def report_account_outcome_endpoint(account_id: str, request: Request):
+    """Report outcome to adjust cooldown quarantine and health scores."""
+    try:
+        body = await request.json()
+        outcome = body.get("outcome", "success")
+        cooldown_sec = float(body.get("cooldown_seconds", 1800))
+        notes = body.get("notes", "")
+
+        router = get_account_router()
+        result = router.report_account_outcome(
+            account_id=account_id,
+            outcome=outcome,
+            cooldown_seconds=cooldown_sec,
+            notes=notes,
+            tool_id="vault_api",
+            run_id="ui_outcome_report",
+        )
+        return JSONResponse(result)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.delete("/api/vault/accounts/{account_id}")
+async def delete_vault_account_endpoint(account_id: str):
+    """Delete an account from the vault."""
+    try:
+        vault = get_credential_vault()
+        deleted = vault.delete_account(account_id)
+        if not deleted:
+            return JSONResponse({"error": f"Account {account_id} not found"}, status_code=404)
+        return JSONResponse({"deleted": True, "account_id": account_id})
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.post("/api/vault/record-session")
+async def record_browser_session_endpoint(request: Request):
+    """Programmatic or interactive browser session recording into encrypted vault."""
+    try:
+        body = await request.json()
+        platform = body.get("platform", "instagram")
+        login_url = body.get("login_url", "https://httpbin.org/html")
+        label = body.get("account_label", "")
+        interactive = bool(body.get("interactive", False))
+        engine = body.get("engine", "playwright")
+        wait_sec = int(body.get("wait_seconds", 30))
+        targets = body.get("follows_targets", [])
+        account_id = body.get("account_id")
+        seed_cookies = body.get("seed_cookies")
+        seed_storage = body.get("seed_local_storage")
+
+        recorder = get_browser_session_recorder()
+        summary = await asyncio.to_thread(
+            recorder.record_browser_session,
+            platform=platform,
+            login_url=login_url,
+            account_label=label,
+            account_id=account_id,
+            interactive=interactive,
+            engine=engine,
+            wait_seconds=wait_sec,
+            follows_targets=targets,
+            seed_cookies=seed_cookies,
+            seed_local_storage=seed_storage,
+        )
+        return JSONResponse(summary)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+@app.post("/api/vault/test-injection")
+async def test_auth_injection_endpoint(request: Request):
+    """Test 20-tool auth routing and verify ephemeral Netscape file generation & shredding."""
+    try:
+        body = await request.json()
+        tool_id = body.get("tool_id", "01_curl_cffi")
+        platform = body.get("platform", "")
+        account_id = body.get("account_id", "")
+        required_target = body.get("required_target", "")
+        strategy = body.get("strategy", "least_recently_used")
+
+        injector = get_auth_injector()
+        with injector.authenticated_session(
+            tool_id=tool_id,
+            platform=platform,
+            account_id=account_id,
+            required_target=required_target,
+            strategy=strategy,
+            run_id="test_injection_probe",
+        ) as bundle:
+            return JSONResponse({
+                "authenticated": bundle.get("authenticated", False),
+                "account_id": bundle.get("account_id", ""),
+                "platform": bundle.get("platform", ""),
+                "tool_id": bundle.get("tool_id", tool_id),
+                "safe_summary": bundle.get("safe_summary", {}),
+                "routing_meta": bundle.get("routing_meta", {}),
+                "available_bundle_keys": [k for k in bundle.keys() if k.endswith("_bundle")],
+            })
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
 @app.post("/api/run-tool/{tool_id}")
-async def trigger_tool_run(tool_id: str):
-    """Trigger smoke test run for a specific tool in background thread."""
+async def trigger_tool_run(tool_id: str, request: Request = None):
+    """Trigger smoke test run for a specific tool in background thread with optional auth."""
+    body = {}
+    if request:
+        try:
+            body = await request.json()
+        except Exception:
+            body = {}
+
     adapter_file = ROOT / "tools" / tool_id / "adapter.py"
     if not adapter_file.exists():
-        # Fall back to adapter_stub.py if adapter.py does not exist yet
         adapter_file = ROOT / "tools" / tool_id / "adapter_stub.py"
     if not adapter_file.exists():
         return JSONResponse({"error": f"Adapter not found for {tool_id}"}, status_code=404)
+
+    # Optional auth injection via AuthInjector
+    auth_summary = None
+    platform = body.get("platform", "")
+    account_id = body.get("account_id", "")
+    required_target = body.get("required_target", "")
+
+    if platform or account_id or required_target:
+        try:
+            injector = get_auth_injector()
+            auth_bundle = injector.prepare_tool_auth(
+                tool_id=tool_id,
+                platform=platform,
+                account_id=account_id,
+                required_target=required_target,
+                write_ephemeral_cookie_file=False,
+            )
+            if auth_bundle.get("authenticated"):
+                auth_summary = auth_bundle.get("safe_summary")
+        except Exception:
+            pass
 
     def _worker():
         import subprocess
         env = dict(os.environ)
         env["OPENBLAS_NUM_THREADS"] = "1"
         env["MKL_NUM_THREADS"] = "1"
+        if auth_summary:
+            env["VAULT_AUTH_ACCOUNT_ID"] = str(auth_summary.get("account_id", ""))
+            env["VAULT_AUTH_PLATFORM"] = str(auth_summary.get("platform", ""))
         subprocess.run(
             [sys.executable, str(adapter_file)],
             cwd=str(ROOT),
@@ -1015,6 +1329,8 @@ async def trigger_tool_run(tool_id: str):
     return JSONResponse({
         "status": "started",
         "tool_id": tool_id,
+        "authenticated": bool(auth_summary),
+        "auth_summary": auth_summary,
         "message": f"Smoke test launched for {tool_id}. Watch HUD and logs.",
     })
 
