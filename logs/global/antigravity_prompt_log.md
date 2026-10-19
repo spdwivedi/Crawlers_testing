@@ -1079,3 +1079,29 @@
 | 2026-10-19 06:12:30 | INFO | Stage 4 | working_ways | verify_stage_4_completion | 0% | CHECK PASSED: frontend/styles.css contains complete Tab 6 design system classes |
 | 2026-10-19 06:12:30 | INFO | Stage 4 | working_ways | verify_stage_4_completion | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() completes with non-zero indexing count |
 | 2026-10-19 06:12:30 | INFO | Stage 4 | working_ways | verify_stage_4_completion | 0% | CHECK PASSED: Pre-commit secret guard passes with zero leaks |
+| 2026-10-19 08:51:04 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: logs/stages/stage_5_real_pipelines.jsonl exists |
+| 2026-10-19 08:51:04 | INFO | Stage 5 | cleaning_pipeline | init_stage_5 | 0% | Stage 5 governance initialized |
+| 2026-10-19 08:51:04 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: stage_5_real_pipelines.jsonl successfully receives structured entries |
+| 2026-10-19 08:51:04 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: GEMINI.md reflects Stage 5 in header |
+| 2026-10-19 08:51:04 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: GEMINI.md defines Rule 8 (Data Lake Silver Tier Contract Enforcement) |
+| 2026-10-19 08:51:04 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: frontend/index.html includes Stage 5 in filter dropdowns |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: CleanedMarkdownContract instance created with valid attributes |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: Word count and estimated reading time correctly calculated |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: Boilerplate nav, footer, and script elements cleanly stripped |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: to_markdown_file() produces valid file on disk |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: File contains valid YAML frontmatter delimited by --- |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: YAML frontmatter contains title, url, word_count, and domain_tags |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: CleanedCodeProblemContract normalizes ID, slug, and difficulty |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: Topic tags and starter snippets correctly extracted |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: Sample testcases and constraints parsed from HTML content |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: CleanedSocialMediaContract normalizes post identity and author handle |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: Hashtags, metrics, and media type parsed accurately |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: CleanedForensicsContract discovers backend API endpoints |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: Third-party trackers identified correctly |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: Security headers audit calculated with score |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: CleanedMultimodalContract identifies table_grid content type and matrices |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: Confidence score and structured elements count verified |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: validate_and_save() successfully wrote all 5 standardized Silver Tier contracts to disk |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: compute_sha256() computes valid 64-character SHA-256 hex string |
+| 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates Stage 5 logs without error |
+| 2026-10-19 08:51:06 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: Pre-commit secret guard passes with zero leaks |
