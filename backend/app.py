@@ -1785,4 +1785,11 @@ async def on_startup():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("backend.app:app", host="127.0.0.1", port=8000, reload=False)
+    import socket
+    port = int(os.environ.get("PORT", 8000))
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        if s.connect_ex(("127.0.0.1", port)) == 0:
+            port = 8001
+    print(f"Starting server on http://127.0.0.1:{port}")
+    uvicorn.run("backend.app:app", host="127.0.0.1", port=port, reload=False)
+
