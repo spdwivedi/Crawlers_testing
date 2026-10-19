@@ -41,6 +41,7 @@ function switchTab(tabId, btn) {
   if (tabId === "tab-explorer") loadDataTree();
   if (tabId === "tab-index") loadIndexHub();
   if (tabId === "tab-vault") loadVaultTab();
+  if (tabId === "tab-working-ways") loadWorkingWaysTab();
 }
 
 // ─── Telemetry WebSocket ──────────────────────────────────────────────────────
@@ -1988,6 +1989,562 @@ async function testVaultInjection() {
       badge.style.color = "var(--accent-red)";
     }
   }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TAB 6: WORKING WAYS & SAFE ARENA CONTROLLER
+// ═══════════════════════════════════════════════════════════════════════════════
+
+let activePipelineRecipe = "graphql_markdown";
+let lastArenaReportData = null;
+let lastPipelineReportData = null;
+
+async function loadWorkingWaysTab() {
+  await Promise.allSettled([
+    loadWorkingWaysOverview(),
+    loadArenaReports(),
+    loadPipelineReports(),
+    runTimingSimulation(),
+  ]);
+  clearKinematicsCanvas();
+}
+
+function switchWorkingWaysSubView(subviewName, btn) {
+  document.querySelectorAll(".ww-subview-panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".ww-subview-btn").forEach(b => b.classList.remove("active"));
+  
+  const target = document.getElementById(`subview-${subviewName}`);
+  if (target) target.classList.add("active");
+  if (btn) btn.classList.add("active");
+
+  if (subviewName === "timing") {
+    clearKinematicsCanvas();
+    animateKinematicsCurve();
+  }
+}
+
+async function loadWorkingWaysOverview() {
+  try {
+    const res = await fetch(`${API_BASE}/api/working-ways/overview`);
+    if (!res.ok) return;
+    const data = await res.json();
+
+    setText("ww-kpi-arena-count", data.total_arena_reports || 0);
+    setText("ww-kpi-top-winner", data.top_winning_scraper || "None");
+    setText("ww-kpi-winner-rate", `${data.top_winning_count || 0} wins`);
+    setText("ww-kpi-pipeline-count", data.total_pipeline_reports || 0);
+
+    const timingSelect = document.getElementById("arena-timing-profile");
+    if (timingSelect && timingSelect.value) {
+      setText("ww-kpi-active-profile", timingSelect.value);
+    }
+  } catch (err) {
+    console.error("Failed to load working ways overview:", err);
+  }
+}
+
+// ─── Sub-View A: Safe Arena Methods ──────────────────────────────────────────
+
+function setArenaTarget(url) {
+  const inp = document.getElementById("arena-target-url");
+  if (inp) inp.value = url;
+}
+
+function toggleAllArenaTools(checkAll) {
+  document.querySelectorAll("input[name='arena-tools']").forEach(cb => {
+    cb.checked = checkAll;
+  });
+}
+
+async function launchArenaTournament() {
+  const btn = document.getElementById("btn-launch-arena");
+  const targetUrl = document.getElementById("arena-target-url")?.value.trim() || "https://quotes.toscrape.com";
+  const selectedTools = Array.from(document.querySelectorAll("input[name='arena-tools']:checked")).map(cb => cb.value);
+  const timingProfile = document.getElementById("arena-timing-profile")?.value || "BALANCED_HUMAN";
+  const humanMode = document.getElementById("arena-human-mode")?.checked ?? true;
+  const runLabel = document.getElementById("arena-run-label")?.value.trim() || "";
+
+  if (!selectedTools.length) {
+    alert("Please select at least one crawler tool in the squad.");
+    return;
+  }
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "⏳ Running Tournament...";
+  }
+
+  const statusBadge = document.getElementById("arena-results-status");
+  if (statusBadge) {
+    statusBadge.textContent = "RUNNING";
+    statusBadge.className = "ww-badge badge-running";
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/working-ways/arena/run`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        target_url: targetUrl,
+        tool_ids: selectedTools,
+        timing_profile: timingProfile,
+        human_mode: humanMode,
+        run_label: runLabel,
+      }),
+    });
+    const result = await res.json();
+    console.log("Arena launched:", result);
+
+    let attempts = 0;
+    const pollInterval = setInterval(async () => {
+      attempts++;
+      await loadArenaReports();
+      await loadWorkingWaysOverview();
+
+      if (attempts >= 15 || (lastArenaReportData && lastArenaReportData.target_url === targetUrl)) {
+        clearInterval(pollInterval);
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "▶ Launch Safe Arena Tournament";
+        }
+        if (statusBadge) {
+          statusBadge.textContent = "COMPLETED";
+          statusBadge.className = "ww-badge badge-success";
+        }
+      }
+    }, 2000);
+
+  } catch (err) {
+    alert(`Failed to launch arena: ${err.message}`);
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = "▶ Launch Safe Arena Tournament";
+    }
+    if (statusBadge) {
+      statusBadge.textContent = "ERROR";
+      statusBadge.className = "ww-badge badge-error";
+    }
+  }
+}
+
+async function loadArenaReports() {
+  try {
+    const res = await fetch(`${API_BASE}/api/working-ways/arena/reports?limit=10`);
+    if (!res.ok) return;
+    const data = await res.json();
+    const reports = data.reports || [];
+
+    const listEl = document.getElementById("arena-history-list");
+    if (!listEl) return;
+
+    if (!reports.length) {
+      listEl.innerHTML = "<div class='empty-state'>No arena reports found. Launch one above!</div>";
+      return;
+    }
+
+    listEl.innerHTML = reports.map(r => {
+      const winner = r.winning_tool || "N/A";
+      const dt = (r.created_at || "").slice(0, 19).replace("T", " ");
+      return `
+        <div class="ww-history-card" onclick="viewArenaReport('${r.report_id}')">
+          <div class="ww-hc-top">
+            <strong>${escHtml(r.run_label || r.report_id)}</strong>
+            <span class="ww-badge-winner">🏆 ${escHtml(winner)}</span>
+          </div>
+          <div class="ww-hc-meta">
+            <span>🎯 ${escHtml(r.target_url)}</span>
+            <span>⏱️ ${r.total_elapsed_sec}s</span>
+            <span>🛠️ ${r.total_tools} tools</span>
+            <span>📅 ${dt}</span>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    if (reports.length && (!lastArenaReportData || reports[0].report_id !== lastArenaReportData.report_id)) {
+      await viewArenaReport(reports[0].report_id);
+    }
+  } catch (err) {
+    console.error("Failed to load arena reports:", err);
+  }
+}
+
+async function viewArenaReport(reportId) {
+  try {
+    const res = await fetch(`${API_BASE}/api/working-ways/arena/reports/${encodeURIComponent(reportId)}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    lastArenaReportData = data;
+    renderArenaResults(data);
+  } catch (err) {
+    console.error("Failed to view arena report:", err);
+  }
+}
+
+function renderArenaResults(report) {
+  if (!report) return;
+
+  const winnerBanner = document.getElementById("arena-winner-banner");
+  const winnerName = document.getElementById("arena-winner-name");
+  const winnerRationale = document.getElementById("arena-winner-rationale");
+
+  if (winnerBanner && report.winning_tool) {
+    winnerBanner.style.display = "flex";
+    if (winnerName) winnerName.textContent = report.winning_tool;
+    if (winnerRationale) winnerRationale.textContent = report.winning_rationale || "Top composite score.";
+  }
+
+  if (report.total_elapsed_sec) {
+    setText("ww-kpi-avg-latency", `${report.total_elapsed_sec}s`);
+  }
+
+  const tbody = document.getElementById("arena-matrix-tbody");
+  if (!tbody) return;
+
+  const matrix = report.comparison_matrix || [];
+  if (!matrix.length) {
+    tbody.innerHTML = "<tr><td colspan='10' class='empty-cell'>No candidate tools evaluated in this report.</td></tr>";
+    return;
+  }
+
+  const medals = ["🥇", "🥈", "🥉"];
+  tbody.innerHTML = matrix.map((m, idx) => {
+    const rankIcon = idx < 3 ? medals[idx] : `#${idx + 1}`;
+    const statusIcon = m.status === "completed" ? "✅" : "❌";
+    const isWinner = m.tool_id === report.winning_tool;
+    const rowClass = isWinner ? "winner-row" : "";
+
+    return `
+      <tr class="${rowClass}">
+        <td><strong>${rankIcon}</strong></td>
+        <td><code>${escHtml(m.tool_id)}</code></td>
+        <td>${statusIcon} ${m.status}</td>
+        <td>${m.elapsed_sec}s</td>
+        <td>${(m.raw_bytes || 0).toLocaleString()} B</td>
+        <td>${(m.cleaned_chars || 0).toLocaleString()}</td>
+        <td>${m.speed_score}</td>
+        <td>${m.data_richness_score}</td>
+        <td>${m.stealth_score}</td>
+        <td><strong>${m.composite_score}</strong></td>
+      </tr>
+    `;
+  }).join("");
+}
+
+// ─── Sub-View B: Precision Pipeline Studio Methods ───────────────────────────
+
+function selectPipelineRecipe(recipeId) {
+  activePipelineRecipe = recipeId;
+  document.querySelectorAll(".ww-recipe-card").forEach(c => c.classList.remove("active"));
+  const card = document.getElementById(`recipe-card-${recipeId}`);
+  if (card) card.classList.add("active");
+
+  const urlInput = document.getElementById("pipeline-target-url");
+  if (urlInput) {
+    if (recipeId === "graphql_markdown") {
+      urlInput.value = "https://leetcode.com/problems/two-sum/";
+    } else if (recipeId === "stream_whisper") {
+      urlInput.value = "https://www.instagram.com/reel/C8XYZ12345/";
+    } else if (recipeId === "browser_ocr") {
+      urlInput.value = "https://quotes.toscrape.com/js/";
+    }
+  }
+}
+
+async function launchPipelineRun() {
+  const btn = document.getElementById("btn-launch-pipeline");
+  const targetUrl = document.getElementById("pipeline-target-url")?.value.trim() || "https://quotes.toscrape.com";
+  const timingProfile = document.getElementById("pipeline-timing-profile")?.value || "BALANCED_HUMAN";
+  const humanMode = document.getElementById("pipeline-human-mode")?.checked ?? false;
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "⏳ Running Pipeline...";
+  }
+
+  const statusBadge = document.getElementById("pipeline-results-status");
+  if (statusBadge) {
+    statusBadge.textContent = "RUNNING";
+    statusBadge.className = "ww-badge badge-running";
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/working-ways/pipelines/run`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        recipe: activePipelineRecipe,
+        target_url: targetUrl,
+        timing_profile: timingProfile,
+        human_mode: humanMode,
+      }),
+    });
+    const result = await res.json();
+    console.log("Pipeline run launched:", result);
+
+    let attempts = 0;
+    const pollInterval = setInterval(async () => {
+      attempts++;
+      await loadPipelineReports();
+      await loadWorkingWaysOverview();
+
+      if (attempts >= 12 || (lastPipelineReportData && lastPipelineReportData.target_url === targetUrl)) {
+        clearInterval(pollInterval);
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "▶ Run Chained Pipeline";
+        }
+        if (statusBadge) {
+          statusBadge.textContent = "COMPLETED";
+          statusBadge.className = "ww-badge badge-success";
+        }
+      }
+    }, 2000);
+
+  } catch (err) {
+    alert(`Failed to launch pipeline: ${err.message}`);
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = "▶ Run Chained Pipeline";
+    }
+    if (statusBadge) {
+      statusBadge.textContent = "ERROR";
+      statusBadge.className = "ww-badge badge-error";
+    }
+  }
+}
+
+async function loadPipelineReports() {
+  try {
+    const res = await fetch(`${API_BASE}/api/working-ways/pipelines/reports?limit=10`);
+    if (!res.ok) return;
+    const data = await res.json();
+    const reports = data.reports || [];
+
+    const listEl = document.getElementById("pipeline-history-list");
+    if (!listEl) return;
+
+    if (!reports.length) {
+      listEl.innerHTML = "<div class='empty-state'>No pipeline reports found. Run one above!</div>";
+      return;
+    }
+
+    listEl.innerHTML = reports.map(r => {
+      const dt = (r.created_at || "").slice(0, 19).replace("T", " ");
+      return `
+        <div class="ww-history-card" onclick="viewPipelineReport('${r.report_id}')">
+          <div class="ww-hc-top">
+            <strong>${escHtml(r.pipeline_label || r.pipeline_id)}</strong>
+            <span class="ww-badge badge-success">${escHtml(r.status)}</span>
+          </div>
+          <div class="ww-hc-meta">
+            <span>🎯 ${escHtml(r.target_url)}</span>
+            <span>⏱️ ${r.total_elapsed_sec}s</span>
+            <span>📦 ${r.deliverables_count} deliverables</span>
+            <span>📅 ${dt}</span>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    if (reports.length && (!lastPipelineReportData || reports[0].report_id !== lastPipelineReportData.report_id)) {
+      await viewPipelineReport(reports[0].report_id);
+    }
+  } catch (err) {
+    console.error("Failed to load pipeline reports:", err);
+  }
+}
+
+async function viewPipelineReport(reportId) {
+  try {
+    const res = await fetch(`${API_BASE}/api/working-ways/pipelines/reports/${encodeURIComponent(reportId)}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    lastPipelineReportData = data;
+    renderPipelineResults(data);
+  } catch (err) {
+    console.error("Failed to view pipeline report:", err);
+  }
+}
+
+function renderPipelineResults(report) {
+  if (!report) return;
+
+  const timelineEl = document.getElementById("pipeline-timeline");
+  const stages = report.stage_records || [];
+
+  if (timelineEl) {
+    if (!stages.length) {
+      timelineEl.innerHTML = "<div class='timeline-empty'>No stages executed.</div>";
+    } else {
+      timelineEl.innerHTML = stages.map((s, idx) => {
+        const isCompleted = s.status === "completed";
+        const badgeClass = isCompleted ? "status-ok" : "status-fail";
+        const consumedStr = (s.artifacts_consumed || []).map(a => `<span class="ww-pill-consumed">📥 ${escHtml(a.key)}</span>`).join(" ");
+
+        return `
+          <div class="timeline-step">
+            <div class="timeline-node ${badgeClass}">${idx + 1}</div>
+            <div class="timeline-info">
+              <div class="timeline-stage-title"><strong>Stage ${idx + 1}:</strong> <code>${escHtml(s.stage_id)}</code></div>
+              <div class="timeline-tool">Tool: <code>${escHtml(s.tool_id)}</code> (${s.elapsed_sec}s)</div>
+              ${consumedStr ? `<div class="timeline-consumed">${consumedStr}</div>` : ""}
+            </div>
+            ${idx < stages.length - 1 ? `<div class="timeline-connector">➔</div>` : ""}
+          </div>
+        `;
+      }).join("");
+    }
+  }
+
+  const deliverablesEl = document.getElementById("pipeline-deliverables-list");
+  const deliverables = report.consolidated_deliverables || [];
+
+  if (deliverablesEl) {
+    if (!deliverables.length) {
+      deliverablesEl.innerHTML = "<div class='empty-state'>No deliverables recorded.</div>";
+    } else {
+      deliverablesEl.innerHTML = deliverables.map(d => {
+        const kb = Math.round((d.size_bytes || 0) / 1024 * 10) / 10;
+        return `
+          <div class="ww-deliverable-item" onclick="previewDeliverableFile('${escHtml(d.path)}')">
+            <div class="deliv-main">
+              <span class="deliv-icon">📄</span>
+              <span class="deliv-name"><strong>${escHtml(d.name)}</strong></span>
+              <span class="deliv-meta">Stage: <code>${escHtml(d.stage_id)}</code> via <code>${escHtml(d.tool_id)}</code> (${kb} KB)</span>
+            </div>
+            <span class="deliv-action">👁️ View</span>
+          </div>
+        `;
+      }).join("");
+    }
+  }
+}
+
+function previewDeliverableFile(workspacePath) {
+  const modal = document.getElementById("file-modal");
+  const title = document.getElementById("modal-title");
+  const meta = document.getElementById("modal-meta");
+  const content = document.getElementById("modal-content");
+
+  if (!modal) return;
+  title.textContent = workspacePath.split(/[\\/]/).pop();
+  meta.textContent = `Path: ${workspacePath}`;
+  content.textContent = "Loading deliverable preview...";
+  modal.classList.add("open");
+
+  const parts = workspacePath.replace(/\\/g, "/").split("/");
+  if (parts.length >= 7 && parts[0] === "data") {
+    previewFile(parts[1], parts[2], parts[3], parts[4], parts[5], parts[6]);
+  } else {
+    content.textContent = `Workspace deliverable: ${workspacePath}\n\n(Auto-indexed in global master index).`;
+  }
+}
+
+// ─── Sub-View C: Human Timing & Kinematics Sandbox Methods ────────────────────
+
+async function runTimingSimulation() {
+  const profile = document.getElementById("timing-sim-profile")?.value || "BALANCED_HUMAN";
+  const actionType = document.getElementById("timing-sim-action")?.value || "navigate";
+
+  try {
+    const res = await fetch(`${API_BASE}/api/working-ways/timing/simulate?profile=${encodeURIComponent(profile)}&action_type=${encodeURIComponent(actionType)}&samples=40`);
+    if (!res.ok) return;
+    const data = await res.json();
+
+    setText("sim-min-val", `${data.min_sec}s`);
+    setText("sim-mean-val", `${data.mean_sec}s`);
+    setText("sim-max-val", `${data.max_sec}s`);
+
+    const container = document.getElementById("timing-bars-container");
+    if (!container) return;
+
+    const maxVal = Math.max(...(data.delays || [1]));
+    container.innerHTML = (data.delays || []).map((val, idx) => {
+      const pct = Math.max(8, Math.round((val / maxVal) * 100));
+      return `
+        <div class="timing-bar-col" title="Sample #${idx + 1}: ${val}s">
+          <div class="timing-bar" style="height:${pct}%;"></div>
+          <span class="timing-bar-lbl">${val}s</span>
+        </div>
+      `;
+    }).join("");
+  } catch (err) {
+    console.error("Failed to run timing simulation:", err);
+  }
+}
+
+function clearKinematicsCanvas() {
+  const canvas = document.getElementById("kinematics-canvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+  ctx.lineWidth = 1;
+  for (let x = 0; x < canvas.width; x += 30) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+  for (let y = 0; y < canvas.height; y += 30) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+}
+
+function animateKinematicsCurve() {
+  const canvas = document.getElementById("kinematics-canvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  clearKinematicsCanvas();
+
+  const startX = 40, startY = 220;
+  const endX = 420, endY = 60;
+
+  // 1. Draw Robotic Straight Line in dashed red
+  ctx.beginPath();
+  ctx.setLineDash([4, 4]);
+  ctx.strokeStyle = "rgba(239, 68, 68, 0.6)";
+  ctx.lineWidth = 2;
+  ctx.moveTo(startX, startY);
+  ctx.lineTo(endX, endY);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = "rgba(239, 68, 68, 0.8)";
+  ctx.font = "11px Inter, sans-serif";
+  ctx.fillText("Bot Linear Jump (Flagged)", 150, 170);
+
+  // 2. Draw Human Neuromotor Bezier Curve in cyan
+  const cp1X = startX + (endX - startX) * 0.25 + (Math.random() * 60 - 30);
+  const cp1Y = startY - (startY - endY) * 0.70 + (Math.random() * 40 - 20);
+  const cp2X = startX + (endX - startX) * 0.75 + (Math.random() * 40 - 20);
+  const cp2Y = endY + (Math.random() * 50 - 25);
+
+  ctx.beginPath();
+  ctx.strokeStyle = "#38bdf8";
+  ctx.lineWidth = 3;
+  ctx.moveTo(startX, startY);
+  ctx.bezierCurveTo(cp1X, cp1Y, cp2X, cp2Y, endX, endY);
+  ctx.stroke();
+
+  ctx.fillStyle = "#10b981";
+  ctx.beginPath();
+  ctx.arc(startX, startY, 6, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "#f59e0b";
+  ctx.beginPath();
+  ctx.arc(endX, endY, 6, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "#38bdf8";
+  ctx.font = "12px Inter, sans-serif";
+  ctx.fillText("Antigravity Human Arc (Stealth)", endX - 180, endY - 15);
 }
 
 

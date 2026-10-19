@@ -43,6 +43,11 @@ from core.account_router import AccountRouter, get_account_router
 from core.browser_session_recorder import BrowserSessionRecorder, get_browser_session_recorder
 from core.auth_injector import AuthInjector, get_auth_injector
 
+from core.arena_runner import SafeArenaRunner
+from core.task_router import PrecisionTaskRouter
+from core.human_timing import HumanTimingEngine, TimingProfile
+from core.human_interaction import HumanInteractionEngine
+
 from core.state_tracker import (
     complete_task,
     fail_task,
@@ -1332,6 +1337,279 @@ async def trigger_tool_run(tool_id: str, request: Request = None):
         "authenticated": bool(auth_summary),
         "auth_summary": auth_summary,
         "message": f"Smoke test launched for {tool_id}. Watch HUD and logs.",
+    })
+
+
+# ─── Working Ways & Safe Arena API Endpoints (Stage 4) ────────────────────────
+
+@app.get("/api/working-ways/overview")
+async def get_working_ways_overview():
+    """Returns aggregated stats, leaderboard, and recipes for Working Ways."""
+    arena_dir = ROOT / "index_store" / "arena_reports"
+    pipeline_dir = ROOT / "index_store" / "pipeline_reports"
+
+    arena_reports = list(arena_dir.glob("arena_run_*.json")) if arena_dir.exists() else []
+    pipeline_reports = list(pipeline_dir.glob("pipeline_run_*.json")) if pipeline_dir.exists() else []
+
+    leaderboard: dict[str, int] = {}
+    top_winner = "None"
+    max_wins = 0
+
+    for rep in arena_reports:
+        try:
+            data = json.loads(rep.read_text(encoding="utf-8"))
+            winner = data.get("winning_tool")
+            if winner:
+                leaderboard[winner] = leaderboard.get(winner, 0) + 1
+                if leaderboard[winner] > max_wins:
+                    max_wins = leaderboard[winner]
+                    top_winner = winner
+        except Exception:
+            pass
+
+    return JSONResponse({
+        "status": "success",
+        "total_arena_reports": len(arena_reports),
+        "total_pipeline_reports": len(pipeline_reports),
+        "winning_scrapers_leaderboard": leaderboard,
+        "top_winning_scraper": top_winner,
+        "top_winning_count": max_wins,
+        "canonical_recipes": [
+            {
+                "id": "graphql_markdown",
+                "name": "GraphQL / REST -> Clean Markdown",
+                "stages": ["01_curl_cffi", "16_crawl4ai"],
+                "description": "High-speed TLS impersonation fetch chained to semantic Markdown chunker.",
+            },
+            {
+                "id": "stream_whisper",
+                "name": "Media Stream -> Whisper Transcribe",
+                "stages": ["11_yt_dlp_ffmpeg", "20_faster_whisper_scrapegraph"],
+                "description": "Stream chunk interceptor and demuxer chained to INT8 speech-to-text & entity knowledge graph.",
+            },
+            {
+                "id": "browser_ocr",
+                "name": "Browser Capture -> Visual Layout OCR",
+                "stages": ["06_playwright", "17_surya_ocr"],
+                "description": "Playwright human browser kinematics chained to RapidOCR ONNX layout & exam sheet extractor.",
+            },
+        ],
+        "timing_profiles": [
+            {"id": "FAST_AUTOMATED", "name": "Fast Automated", "desc": "Minimal statistical jitter (0.05s-0.2s) for rapid tests"},
+            {"id": "BALANCED_HUMAN", "name": "Balanced Human", "desc": "Log-normal human pauses (1.2s-4.5s) with reading intervals"},
+            {"id": "STEALTH_PARANOID", "name": "Stealth Paranoid", "desc": "High entropy, Gaussian jitter (3.0s-12.0s) for aggressive Cloudflare/Akamai"},
+            {"id": "STREAM_PACED", "name": "Stream Paced", "desc": "Adaptive chunk pacing (0.3s-1.8s) avoiding rate-limiting on media CDNs"},
+        ],
+    })
+
+
+@app.get("/api/working-ways/arena/reports")
+async def list_arena_reports_endpoint(limit: int = 50):
+    """Lists historical Safe Arena benchmark reports."""
+    runner = SafeArenaRunner()
+    reports = runner.list_arena_reports(limit=limit)
+    return JSONResponse({"status": "success", "count": len(reports), "reports": reports})
+
+
+@app.get("/api/working-ways/arena/reports/{report_id}")
+async def get_arena_report_endpoint(report_id: str):
+    """Retrieves full structured JSON and Markdown report for a specific arena run."""
+    runner = SafeArenaRunner()
+    report = runner.get_arena_report(report_id)
+    if not report:
+        return JSONResponse({"error": f"Arena report '{report_id}' not found."}, status_code=404)
+
+    md_path = runner.reports_dir / f"{report_id}.md"
+    if md_path.exists():
+        try:
+            report["markdown_content"] = md_path.read_text(encoding="utf-8")
+        except Exception:
+            report["markdown_content"] = ""
+    else:
+        report["markdown_content"] = ""
+
+    return JSONResponse(report)
+
+
+@app.post("/api/working-ways/arena/run")
+async def run_arena_endpoint(request: Request):
+    """Launches Safe Arena multi-crawler execution in background thread with live telemetry HUD."""
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+
+    target_url = body.get("target_url") or "https://quotes.toscrape.com"
+    tool_ids = body.get("tool_ids")
+    human_mode = body.get("human_mode", True)
+    timing_profile = body.get("timing_profile", "BALANCED_HUMAN")
+    auth_account_id = body.get("auth_account_id", "")
+    auth_target = body.get("auth_target", "")
+    run_label = body.get("run_label", "")
+
+    def _worker():
+        try:
+            runner = SafeArenaRunner()
+            runner.run_arena(
+                target_url=target_url,
+                tool_ids=tool_ids,
+                human_mode=human_mode,
+                timing_profile=timing_profile,
+                auth_account_id=auth_account_id,
+                auth_target=auth_target,
+                run_label=run_label,
+            )
+        except Exception as e:
+            from core.logger_engine import log_global
+            from core.state_tracker import fail_task
+            fail_task(reason=str(e))
+            log_global(
+                message=f"Arena background execution error: {e}",
+                level="ERROR",
+                stage="Stage 4",
+                step="Step 4.6",
+                tool_id="arena_runner",
+                action_name="run_arena",
+                stage_log_name="stage_4_working_ways",
+            )
+
+    thread = threading.Thread(target=_worker, daemon=True)
+    thread.start()
+    return JSONResponse({
+        "status": "started",
+        "target_url": target_url,
+        "tool_ids": tool_ids,
+        "human_mode": human_mode,
+        "timing_profile": timing_profile,
+        "message": "Safe Arena benchmark launched in background. Watch live telemetry HUD.",
+    })
+
+
+@app.get("/api/working-ways/pipelines/reports")
+async def list_pipeline_reports_endpoint(limit: int = 50):
+    """Lists historical chained pipeline execution reports."""
+    router = PrecisionTaskRouter()
+    reports = router.list_pipeline_reports(limit=limit)
+    return JSONResponse({"status": "success", "count": len(reports), "reports": reports})
+
+
+@app.get("/api/working-ways/pipelines/reports/{report_id}")
+async def get_pipeline_report_endpoint(report_id: str):
+    """Retrieves full structured JSON and Markdown report for a specific pipeline execution."""
+    router = PrecisionTaskRouter()
+    report = router.get_pipeline_report(report_id)
+    if not report:
+        return JSONResponse({"error": f"Pipeline report '{report_id}' not found."}, status_code=404)
+
+    md_path = router.reports_dir / f"{report_id}.md"
+    if md_path.exists():
+        try:
+            report["markdown_content"] = md_path.read_text(encoding="utf-8")
+        except Exception:
+            report["markdown_content"] = ""
+    else:
+        report["markdown_content"] = ""
+
+    return JSONResponse(report)
+
+
+@app.post("/api/working-ways/pipelines/run")
+async def run_pipeline_endpoint(request: Request):
+    """Executes a multi-stage tool pipeline in background thread with artifact handoffs."""
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+
+    recipe = body.get("recipe", "graphql_markdown")
+    target_url = body.get("target_url") or "https://quotes.toscrape.com"
+    custom_stages = body.get("custom_stages")
+    human_mode = body.get("human_mode", False)
+    timing_profile = body.get("timing_profile", "BALANCED_HUMAN")
+    auth_account_id = body.get("auth_account_id", "")
+    auth_target = body.get("auth_target", "")
+
+    router = PrecisionTaskRouter()
+    if recipe == "graphql_markdown":
+        pipe_def = router.build_graphql_markdown_pipeline(target_url=target_url)
+    elif recipe == "stream_whisper":
+        pipe_def = router.build_stream_whisper_pipeline(target_url=target_url)
+    elif recipe == "browser_ocr":
+        pipe_def = router.build_browser_ocr_pipeline(target_url=target_url)
+    elif recipe == "custom" and custom_stages:
+        pipe_def = {
+            "pipeline_id": "custom_pipeline",
+            "target_url": target_url,
+            "pipeline_label": "User Custom Multi-Tool Pipeline",
+            "stages": custom_stages,
+        }
+    else:
+        pipe_def = router.build_graphql_markdown_pipeline(target_url=target_url)
+
+    def _worker():
+        try:
+            router.execute_pipeline(
+                pipeline_id=pipe_def["pipeline_id"],
+                target_url=pipe_def["target_url"],
+                stages=pipe_def["stages"],
+                pipeline_label=pipe_def.get("pipeline_label", ""),
+                human_mode=human_mode,
+                timing_profile=timing_profile,
+                auth_account_id=auth_account_id,
+                auth_target=auth_target,
+            )
+        except Exception as e:
+            from core.logger_engine import log_global
+            from core.state_tracker import fail_task
+            fail_task(reason=str(e))
+            log_global(
+                message=f"Pipeline background execution error: {e}",
+                level="ERROR",
+                stage="Stage 4",
+                step="Step 4.6",
+                tool_id="task_router",
+                action_name="execute_pipeline",
+                stage_log_name="stage_4_working_ways",
+            )
+
+    thread = threading.Thread(target=_worker, daemon=True)
+    thread.start()
+    return JSONResponse({
+        "status": "started",
+        "recipe": recipe,
+        "pipeline_id": pipe_def["pipeline_id"],
+        "target_url": target_url,
+        "human_mode": human_mode,
+        "timing_profile": timing_profile,
+        "message": f"Pipeline '{pipe_def['pipeline_id']}' execution launched in background. Watch live telemetry HUD.",
+    })
+
+
+@app.get("/api/working-ways/timing/simulate")
+async def simulate_timing_endpoint(
+    profile: str = "BALANCED_HUMAN",
+    action_type: str = "navigate",
+    samples: int = 50,
+):
+    """Simulates a sample array of delays from HumanTimingEngine for frontend distribution display."""
+    samples = max(5, min(samples, 200))
+    engine = HumanTimingEngine()
+    delays = [
+        round(engine.get_delay(profile=profile, action_type=action_type), 4)
+        for _ in range(samples)
+    ]
+    mean_delay = round(sum(delays) / len(delays), 4)
+    min_delay = round(min(delays), 4)
+    max_delay = round(max(delays), 4)
+
+    return JSONResponse({
+        "profile": profile,
+        "action_type": action_type,
+        "samples_count": samples,
+        "delays": delays,
+        "mean_sec": mean_delay,
+        "min_sec": min_delay,
+        "max_sec": max_delay,
     })
 
 

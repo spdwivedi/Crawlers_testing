@@ -81,6 +81,9 @@
       <button class="tab-btn" data-tab="tab-vault" onclick="switchTab('tab-vault', this)">
         <span class="tab-icon">🔐</span> Credential Vault
       </button>
+      <button class="tab-btn" data-tab="tab-working-ways" onclick="switchTab('tab-working-ways', this)">
+        <span class="tab-icon">⚙</span> Working Ways & Safe Arena
+      </button>
     </nav>
 
     <!-- ─── TAB 1: LIVE EXECUTION ─────────────────────────── -->
@@ -758,6 +761,338 @@
                   <span id="sandbox-status-badge" class="sandbox-badge-idle">IDLE</span>
                 </div>
                 <pre class="sandbox-json-display" id="vault-test-output">// Select tool, platform, or target and click Simulate Route...</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── TAB 6: WORKING WAYS & SAFE ARENA ─────────────────────── -->
+    <div class="tab-content" id="tab-working-ways">
+      <div class="working-ways-layout">
+        
+        <!-- Top KPI Leaderboard Ribbon -->
+        <div class="working-ways-ribbon">
+          <div class="ww-kpi-card">
+            <div class="ww-kpi-icon">🏟️</div>
+            <div class="ww-kpi-info">
+              <div class="ww-kpi-label">Arena Tournaments Run</div>
+              <div class="ww-kpi-val" id="ww-kpi-arena-count">0</div>
+            </div>
+          </div>
+          <div class="ww-kpi-card highlight-gold">
+            <div class="ww-kpi-icon">🏆</div>
+            <div class="ww-kpi-info">
+              <div class="ww-kpi-label">Top Winning Scraper</div>
+              <div class="ww-kpi-val" id="ww-kpi-top-winner">None</div>
+              <span class="ww-kpi-badge" id="ww-kpi-winner-rate">0 wins</span>
+            </div>
+          </div>
+          <div class="ww-kpi-card">
+            <div class="ww-kpi-icon">🔗</div>
+            <div class="ww-kpi-info">
+              <div class="ww-kpi-label">Chained Pipelines Run</div>
+              <div class="ww-kpi-val" id="ww-kpi-pipeline-count">0</div>
+            </div>
+          </div>
+          <div class="ww-kpi-card">
+            <div class="ww-kpi-icon">⚡</div>
+            <div class="ww-kpi-info">
+              <div class="ww-kpi-label">Avg Arena Latency</div>
+              <div class="ww-kpi-val" id="ww-kpi-avg-latency">0.0s</div>
+            </div>
+          </div>
+          <div class="ww-kpi-card">
+            <div class="ww-kpi-icon">⏱️</div>
+            <div class="ww-kpi-info">
+              <div class="ww-kpi-label">Active Pacing Profile</div>
+              <div class="ww-kpi-val" id="ww-kpi-active-profile">BALANCED_HUMAN</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sub-View Navigation Bar -->
+        <div class="ww-subview-nav">
+          <button class="ww-subview-btn active" id="btn-subview-arena" onclick="switchWorkingWaysSubView('arena', this)">
+            <span>🏟️</span> Sub-View A: Safe Arena Tournaments
+          </button>
+          <button class="ww-subview-btn" id="btn-subview-pipelines" onclick="switchWorkingWaysSubView('pipelines', this)">
+            <span>🔗</span> Sub-View B: Precision Pipeline Studio
+          </button>
+          <button class="ww-subview-btn" id="btn-subview-timing" onclick="switchWorkingWaysSubView('timing', this)">
+            <span>⏱️</span> Sub-View C: Human Timing & Kinematics Sandbox
+          </button>
+        </div>
+
+        <!-- ── SUB-VIEW A: SAFE ARENA TOURNAMENTS ── -->
+        <div class="ww-subview-panel active" id="subview-arena">
+          <div class="ww-two-col">
+            <!-- Left: Tournament Setup Panel -->
+            <div class="ww-card arena-setup-card">
+              <div class="ww-card-header">
+                <h3>🎯 Safe Arena Tournament Launcher</h3>
+                <span class="ww-tag">Single Target • Multi-Tool Benchmarking</span>
+              </div>
+              <div class="ww-form-group">
+                <label>Target URL</label>
+                <input type="url" id="arena-target-url" value="https://quotes.toscrape.com" placeholder="https://..." />
+                <div class="ww-preset-chips">
+                  <span class="ww-chip" onclick="setArenaTarget('https://quotes.toscrape.com')">Quotes (Catalog)</span>
+                  <span class="ww-chip" onclick="setArenaTarget('https://books.toscrape.com')">Books (Multi-page)</span>
+                  <span class="ww-chip" onclick="setArenaTarget('https://httpbin.org/html')">HttpBin (Echo)</span>
+                  <span class="ww-chip" onclick="setArenaTarget('https://leetcode.com/problems/two-sum/')">LeetCode (Two Sum)</span>
+                </div>
+              </div>
+
+              <div class="ww-form-group">
+                <label>Candidate Tool Squad</label>
+                <div class="ww-squad-selector">
+                  <label class="ww-checkbox-pill"><input type="checkbox" name="arena-tools" value="01_curl_cffi" checked /> <code>01_curl_cffi</code> (TLS JA3)</label>
+                  <label class="ww-checkbox-pill"><input type="checkbox" name="arena-tools" value="04_httpx_parsel" checked /> <code>04_httpx_parsel</code> (HTTP/2)</label>
+                  <label class="ww-checkbox-pill"><input type="checkbox" name="arena-tools" value="06_playwright" checked /> <code>06_playwright</code> (Chromium)</label>
+                  <label class="ww-checkbox-pill"><input type="checkbox" name="arena-tools" value="07_patchright" /> <code>07_patchright</code> (Stealth)</label>
+                  <label class="ww-checkbox-pill"><input type="checkbox" name="arena-tools" value="16_crawl4ai" /> <code>16_crawl4ai</code> (LLM MD)</label>
+                </div>
+                <div class="ww-squad-actions">
+                  <button type="button" class="ww-link-btn" onclick="toggleAllArenaTools(true)">Select All</button>
+                  <button type="button" class="ww-link-btn" onclick="toggleAllArenaTools(false)">Clear</button>
+                </div>
+              </div>
+
+              <div class="ww-form-row">
+                <div class="ww-form-group">
+                  <label>Timing Profile</label>
+                  <select id="arena-timing-profile">
+                    <option value="FAST_AUTOMATED">Fast Automated (0.05s-0.2s)</option>
+                    <option value="BALANCED_HUMAN" selected>Balanced Human (1.2s-4.5s)</option>
+                    <option value="STEALTH_PARANOID">Stealth Paranoid (3.0s-12.0s)</option>
+                  </select>
+                </div>
+                <div class="ww-form-group checkbox-toggle-group">
+                  <label>Working Way 1</label>
+                  <label class="ww-switch-label">
+                    <input type="checkbox" id="arena-human-mode" checked />
+                    <span>Human Mode Simulation</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="ww-form-group">
+                <label>Tournament Label (Optional)</label>
+                <input type="text" id="arena-run-label" placeholder="e.g. Production Catalog Benchmark" />
+              </div>
+
+              <button class="ww-primary-btn" id="btn-launch-arena" onclick="launchArenaTournament()">
+                ▶ Launch Safe Arena Tournament
+              </button>
+            </div>
+
+            <!-- Right: Winner Showcase & Comparison Matrix -->
+            <div class="ww-card arena-results-card">
+              <div class="ww-card-header">
+                <h3>🏆 Latest Tournament Benchmark Matrix</h3>
+                <span class="ww-badge" id="arena-results-status">READY</span>
+              </div>
+
+              <!-- Winner Banner -->
+              <div id="arena-winner-banner" class="ww-winner-banner" style="display:none;">
+                <div class="ww-trophy-icon">🏆</div>
+                <div class="ww-winner-details">
+                  <div class="ww-winner-title">Arena Winner: <span id="arena-winner-name">04_httpx_parsel</span></div>
+                  <div class="ww-winner-rationale" id="arena-winner-rationale">Placed #1 with top composite score.</div>
+                </div>
+              </div>
+
+              <!-- Comparison Matrix Table -->
+              <div class="ww-table-container">
+                <table class="ww-table" id="arena-matrix-table">
+                  <thead>
+                    <tr>
+                      <th>Rank</th>
+                      <th>Tool ID</th>
+                      <th>Status</th>
+                      <th>Latency</th>
+                      <th>Raw Size</th>
+                      <th>Clean Chars</th>
+                      <th>Speed</th>
+                      <th>Richness</th>
+                      <th>Stealth</th>
+                      <th>Composite</th>
+                    </tr>
+                  </thead>
+                  <tbody id="arena-matrix-tbody">
+                    <tr><td colspan="10" class="empty-cell">No tournament run loaded yet. Launch a tournament or select from history below.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Historical Tournaments Drawer -->
+              <div class="ww-sub-section">
+                <h4>📜 Past Tournament History</h4>
+                <div class="ww-history-list" id="arena-history-list">
+                  <div class="loading-state">Loading tournament history...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SUB-VIEW B: PRECISION PIPELINE STUDIO ── -->
+        <div class="ww-subview-panel" id="subview-pipelines">
+          <div class="ww-two-col">
+            <!-- Left: Recipe Selection & Launcher -->
+            <div class="ww-card pipeline-setup-card">
+              <div class="ww-card-header">
+                <h3>🔗 Chained Pipeline Recipes</h3>
+                <span class="ww-tag">Multi-Stage • Artifact Hand-Off</span>
+              </div>
+
+              <!-- Recipe Cards -->
+              <div class="ww-recipe-cards">
+                <div class="ww-recipe-card active" id="recipe-card-graphql_markdown" onclick="selectPipelineRecipe('graphql_markdown')">
+                  <div class="ww-rc-header">
+                    <span class="ww-rc-badge">Recipe 1</span>
+                    <strong>GraphQL -> Clean Markdown</strong>
+                  </div>
+                  <p class="ww-rc-desc"><code>01_curl_cffi</code> (TLS fetch) &rarr; <code>16_crawl4ai</code> (LLM Markdown & semantic chunks)</p>
+                </div>
+
+                <div class="ww-recipe-card" id="recipe-card-stream_whisper" onclick="selectPipelineRecipe('stream_whisper')">
+                  <div class="ww-rc-header">
+                    <span class="ww-rc-badge">Recipe 2</span>
+                    <strong>Media Stream -> Whisper Transcribe</strong>
+                  </div>
+                  <p class="ww-rc-desc"><code>11_yt_dlp_ffmpeg</code> (Capture stream, mux MP4, demux 16kHz WAV) &rarr; <code>20_faster_whisper</code> (SRT + Knowledge Graph)</p>
+                </div>
+
+                <div class="ww-recipe-card" id="recipe-card-browser_ocr" onclick="selectPipelineRecipe('browser_ocr')">
+                  <div class="ww-rc-header">
+                    <span class="ww-rc-badge">Recipe 3</span>
+                    <strong>Browser Capture -> Visual Layout OCR</strong>
+                  </div>
+                  <p class="ww-rc-desc"><code>06_playwright</code> (Kinematic render & screenshot) &rarr; <code>17_surya_ocr</code> (ONNX layout boxes & exam sheet)</p>
+                </div>
+              </div>
+
+              <div class="ww-form-group">
+                <label>Target URL</label>
+                <input type="url" id="pipeline-target-url" value="https://quotes.toscrape.com" />
+              </div>
+
+              <div class="ww-form-row">
+                <div class="ww-form-group">
+                  <label>Timing Profile</label>
+                  <select id="pipeline-timing-profile">
+                    <option value="BALANCED_HUMAN" selected>Balanced Human</option>
+                    <option value="FAST_AUTOMATED">Fast Automated</option>
+                    <option value="STEALTH_PARANOID">Stealth Paranoid</option>
+                  </select>
+                </div>
+                <div class="ww-form-group checkbox-toggle-group">
+                  <label>Working Way 1</label>
+                  <label class="ww-switch-label">
+                    <input type="checkbox" id="pipeline-human-mode" checked />
+                    <span>Human Mode</span>
+                  </label>
+                </div>
+              </div>
+
+              <button class="ww-primary-btn" id="btn-launch-pipeline" onclick="launchPipelineRun()">
+                ▶ Run Chained Pipeline
+              </button>
+            </div>
+
+            <!-- Right: Stage Handoff Timeline & Consolidated Deliverables -->
+            <div class="ww-card pipeline-results-card">
+              <div class="ww-card-header">
+                <h3>📦 Stage Handoffs & End-to-End Deliverables</h3>
+                <span class="ww-badge" id="pipeline-results-status">READY</span>
+              </div>
+
+              <!-- Interactive Timeline / Nodes -->
+              <div class="ww-pipeline-timeline" id="pipeline-timeline">
+                <div class="timeline-empty">Run a pipeline to view the interactive stage execution handoff timeline.</div>
+              </div>
+
+              <!-- Consolidated Deliverables List -->
+              <div class="ww-sub-section">
+                <h4>🎁 Consolidated End-to-End Deliverables</h4>
+                <div class="ww-deliverables-list" id="pipeline-deliverables-list">
+                  <div class="empty-state">No deliverables produced yet.</div>
+                </div>
+              </div>
+
+              <!-- Historical Pipelines Drawer -->
+              <div class="ww-sub-section">
+                <h4>📜 Historical Pipeline Runs</h4>
+                <div class="ww-history-list" id="pipeline-history-list">
+                  <div class="loading-state">Loading pipeline history...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SUB-VIEW C: HUMAN TIMING & KINEMATICS SANDBOX ── -->
+        <div class="ww-subview-panel" id="subview-timing">
+          <div class="ww-two-col">
+            <!-- Left: Timing Engine Simulator -->
+            <div class="ww-card timing-setup-card">
+              <div class="ww-card-header">
+                <h3>🎲 Statistical Latency Distribution Simulator</h3>
+                <span class="ww-tag">Anti-Fingerprint Engine</span>
+              </div>
+              <div class="ww-form-row">
+                <div class="ww-form-group">
+                  <label>Timing Profile</label>
+                  <select id="timing-sim-profile" onchange="runTimingSimulation()">
+                    <option value="BALANCED_HUMAN" selected>Balanced Human (Log-Normal)</option>
+                    <option value="STEALTH_PARANOID">Stealth Paranoid (Gaussian + Jitter)</option>
+                    <option value="FAST_AUTOMATED">Fast Automated (Bounded Micro-Jitter)</option>
+                    <option value="STREAM_PACED">Stream Paced (Buffer Flow Simulation)</option>
+                  </select>
+                </div>
+                <div class="ww-form-group">
+                  <label>Action Context</label>
+                  <select id="timing-sim-action" onchange="runTimingSimulation()">
+                    <option value="navigate" selected>Navigation / Page Load</option>
+                    <option value="search_submit">Search Form Submission</option>
+                    <option value="scroll_reading">Scroll Comprehension Dwell</option>
+                    <option value="keystroke">Keystroke Cadence</option>
+                  </select>
+                </div>
+              </div>
+              <button class="ww-secondary-btn" onclick="runTimingSimulation()">🎲 Resimulate 50 Distribution Samples</button>
+
+              <div class="timing-stats-grid">
+                <div class="timing-stat-box"><span class="t-label">Min Latency</span><span class="t-val" id="sim-min-val">0.00s</span></div>
+                <div class="timing-stat-box highlight"><span class="t-label">Mean Pause</span><span class="t-val" id="sim-mean-val">0.00s</span></div>
+                <div class="timing-stat-box"><span class="t-label">Max Latency</span><span class="t-val" id="sim-max-val">0.00s</span></div>
+              </div>
+
+              <!-- Bar chart distribution visualization -->
+              <div class="timing-bars-container" id="timing-bars-container">
+                <!-- Bars dynamically rendered -->
+              </div>
+            </div>
+
+            <!-- Right: Human Mouse Kinematics Simulator -->
+            <div class="ww-card kinematics-card">
+              <div class="ww-card-header">
+                <h3>🖱️ Human Bezier Kinematics vs. Bot Trajectories</h3>
+                <span class="ww-tag">Cubic Splines • Overshoot • Micro-Jitter</span>
+              </div>
+              <p class="ww-card-desc">
+                Anti-bot sensors flag linear coordinate jumps. Antigravity models real neuromotor inertia using randomized control points, overshoots, and correction arcs.
+              </p>
+              <div class="canvas-wrapper">
+                <canvas id="kinematics-canvas" width="480" height="280"></canvas>
+              </div>
+              <div class="canvas-controls">
+                <button class="ww-secondary-btn" onclick="animateKinematicsCurve()">Simulate Human Movement Arc</button>
+                <button class="ww-link-btn" onclick="clearKinematicsCanvas()">Clear Canvas</button>
               </div>
             </div>
           </div>
