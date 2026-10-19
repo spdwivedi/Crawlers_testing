@@ -1,5 +1,5 @@
 # 🤖 Antigravity Workspace Governance — GEMINI.md
-**Project:** Crawlers_testing | **Stage:** 4 (Human-Like Behavior Engine & The 3 Working Ways) | **Init:** 2026-10-15
+**Project:** Crawlers_testing | **Stage:** 5 (Standardized Cleaned Schemas & Real Task Pipelines) | **Init:** 2026-10-15
 
 This file is automatically loaded by Antigravity IDE for **every prompt execution** in this workspace. All rules below are **mandatory** and non-negotiable.
 
@@ -109,11 +109,18 @@ When running in human or stealth modes, scrapers must strictly use `core/human_t
 
 ---
 
+## Rule 8 — Data Lake Silver Tier Contract Enforcement
+
+All transformed files saved into `cleaned/` directories must conform strictly to standardized schemas enforced by `core/cleaning_pipeline.py`. Arbitrary unvalidated dumps are strictly prohibited.
+
+---
+
 ## Quick Reference — Core Modules
 
 ```
 core/
 ├── folder_manager.py    # create_action_run() — Rule 3 & complete_action_run() Auto-Index Hook — Rule 5
+├── cleaning_pipeline.py # CleaningPipeline & Silver Tier Contracts — Rule 8
 ├── base_indexer.py      # BaseToolIndexer SQLite/JSON engine — Rule 5
 ├── global_indexer.py    # GlobalMasterIndexer FTS5 federated engine — Rule 5
 ├── crypto_engine.py     # AES-256-GCM authenticated encryption & KDF — Rule 6
@@ -141,7 +148,8 @@ logs/
     ├── stage_1_scaffolding.jsonl
     ├── stage_2_indexing.jsonl
     ├── stage_3_credential_vault.jsonl
-    └── stage_4_working_ways.jsonl
+    ├── stage_4_working_ways.jsonl
+    └── stage_5_real_pipelines.jsonl
 
 tools/
 └── registry.json        # 20-tool manifest
