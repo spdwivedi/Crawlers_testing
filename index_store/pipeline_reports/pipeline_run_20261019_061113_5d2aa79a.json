@@ -1,0 +1,158 @@
+{
+  "report_id": "pipeline_run_20261019_061113_5d2aa79a",
+  "pipeline_id": "graphql_markdown_chain",
+  "pipeline_label": "Two-Stage GraphQL Fetch to LLM-Ready Markdown Chunker",
+  "created_at": "2026-10-19T06:11:13.371792+00:00",
+  "target_url": "https://quotes.toscrape.com",
+  "status": "completed",
+  "human_mode": true,
+  "timing_profile": "FAST_AUTOMATED",
+  "total_stages": 2,
+  "stages_executed": 2,
+  "total_elapsed_sec": 3.651,
+  "error": "",
+  "stage_records": [
+    {
+      "stage_id": "fetch",
+      "tool_id": "01_curl_cffi",
+      "action_name": "scrape_for_leetcode",
+      "status": "completed",
+      "elapsed_sec": 2.394,
+      "peak_rss_mb": 87.81,
+      "run_id": "run_061113_a23ee948",
+      "run_dir": "D:\\Project_Files\\Crawlers_testing\\data\\01_curl_cffi\\scrape_for_leetcode\\2026-10-19\\run_061113_a23ee948",
+      "raw_dir": "D:\\Project_Files\\Crawlers_testing\\data\\01_curl_cffi\\scrape_for_leetcode\\2026-10-19\\run_061113_a23ee948\\raw",
+      "cleaned_dir": "D:\\Project_Files\\Crawlers_testing\\data\\01_curl_cffi\\scrape_for_leetcode\\2026-10-19\\run_061113_a23ee948\\cleaned",
+      "artifacts_consumed": [],
+      "artifacts_produced": [
+        {
+          "name": "catalog_index.json",
+          "tier": "cleaned",
+          "path": "data\\01_curl_cffi\\scrape_for_leetcode\\2026-10-19\\run_061113_a23ee948\\cleaned\\catalog_index.json",
+          "size_bytes": 1481
+        },
+        {
+          "name": "two_sum.md",
+          "tier": "cleaned",
+          "path": "data\\01_curl_cffi\\scrape_for_leetcode\\2026-10-19\\run_061113_a23ee948\\cleaned\\two_sum.md",
+          "size_bytes": 1058
+        },
+        {
+          "name": "graphql_payload.json",
+          "tier": "raw",
+          "path": "data\\01_curl_cffi\\scrape_for_leetcode\\2026-10-19\\run_061113_a23ee948\\raw\\graphql_payload.json",
+          "size_bytes": 5378
+        },
+        {
+          "name": "raw_catalog_slice.json",
+          "tier": "raw",
+          "path": "data\\01_curl_cffi\\scrape_for_leetcode\\2026-10-19\\run_061113_a23ee948\\raw\\raw_catalog_slice.json",
+          "size_bytes": 2848
+        },
+        {
+          "name": "response_headers.json",
+          "tier": "raw",
+          "path": "data\\01_curl_cffi\\scrape_for_leetcode\\2026-10-19\\run_061113_a23ee948\\raw\\response_headers.json",
+          "size_bytes": 796
+        }
+      ],
+      "error": ""
+    },
+    {
+      "stage_id": "clean_markdown",
+      "tool_id": "16_crawl4ai",
+      "action_name": "markdown_harvest",
+      "status": "completed",
+      "elapsed_sec": 1.24,
+      "peak_rss_mb": 140.63,
+      "run_id": "run_061116_e84d936e",
+      "run_dir": "D:\\Project_Files\\Crawlers_testing\\data\\16_crawl4ai\\markdown_harvest\\2026-10-19\\run_061116_e84d936e",
+      "raw_dir": "D:\\Project_Files\\Crawlers_testing\\data\\16_crawl4ai\\markdown_harvest\\2026-10-19\\run_061116_e84d936e\\raw",
+      "cleaned_dir": "D:\\Project_Files\\Crawlers_testing\\data\\16_crawl4ai\\markdown_harvest\\2026-10-19\\run_061116_e84d936e\\cleaned",
+      "artifacts_consumed": [
+        {
+          "key": "graphql_payload.json",
+          "source_stage": "fetch",
+          "path": "data\\01_curl_cffi\\scrape_for_leetcode\\2026-10-19\\run_061113_a23ee948\\raw\\graphql_payload.json",
+          "size_bytes": 5378
+        },
+        {
+          "key": "two_sum.md",
+          "source_stage": "fetch",
+          "path": "data\\01_curl_cffi\\scrape_for_leetcode\\2026-10-19\\run_061113_a23ee948\\cleaned\\two_sum.md",
+          "size_bytes": 1058
+        }
+      ],
+      "artifacts_produced": [
+        {
+          "name": "llm_ready.md",
+          "tier": "cleaned",
+          "path": "data\\16_crawl4ai\\markdown_harvest\\2026-10-19\\run_061116_e84d936e\\cleaned\\llm_ready.md",
+          "size_bytes": 4860
+        },
+        {
+          "name": "media_and_links.json",
+          "tier": "cleaned",
+          "path": "data\\16_crawl4ai\\markdown_harvest\\2026-10-19\\run_061116_e84d936e\\cleaned\\media_and_links.json",
+          "size_bytes": 125
+        },
+        {
+          "name": "semantic_chunks.json",
+          "tier": "cleaned",
+          "path": "data\\16_crawl4ai\\markdown_harvest\\2026-10-19\\run_061116_e84d936e\\cleaned\\semantic_chunks.json",
+          "size_bytes": 5618
+        },
+        {
+          "name": "crawler_meta.json",
+          "tier": "raw",
+          "path": "data\\16_crawl4ai\\markdown_harvest\\2026-10-19\\run_061116_e84d936e\\raw\\crawler_meta.json",
+          "size_bytes": 214
+        },
+        {
+          "name": "raw_page.html",
+          "tier": "raw",
+          "path": "data\\16_crawl4ai\\markdown_harvest\\2026-10-19\\run_061116_e84d936e\\raw\\raw_page.html",
+          "size_bytes": 5378
+        }
+      ],
+      "error": ""
+    }
+  ],
+  "consolidated_deliverables": [
+    {
+      "stage_id": "fetch",
+      "tool_id": "01_curl_cffi",
+      "name": "catalog_index.json",
+      "path": "data\\01_curl_cffi\\scrape_for_leetcode\\2026-10-19\\run_061113_a23ee948\\cleaned\\catalog_index.json",
+      "size_bytes": 1481
+    },
+    {
+      "stage_id": "fetch",
+      "tool_id": "01_curl_cffi",
+      "name": "two_sum.md",
+      "path": "data\\01_curl_cffi\\scrape_for_leetcode\\2026-10-19\\run_061113_a23ee948\\cleaned\\two_sum.md",
+      "size_bytes": 1058
+    },
+    {
+      "stage_id": "clean_markdown",
+      "tool_id": "16_crawl4ai",
+      "name": "llm_ready.md",
+      "path": "data\\16_crawl4ai\\markdown_harvest\\2026-10-19\\run_061116_e84d936e\\cleaned\\llm_ready.md",
+      "size_bytes": 4860
+    },
+    {
+      "stage_id": "clean_markdown",
+      "tool_id": "16_crawl4ai",
+      "name": "media_and_links.json",
+      "path": "data\\16_crawl4ai\\markdown_harvest\\2026-10-19\\run_061116_e84d936e\\cleaned\\media_and_links.json",
+      "size_bytes": 125
+    },
+    {
+      "stage_id": "clean_markdown",
+      "tool_id": "16_crawl4ai",
+      "name": "semantic_chunks.json",
+      "path": "data\\16_crawl4ai\\markdown_harvest\\2026-10-19\\run_061116_e84d936e\\cleaned\\semantic_chunks.json",
+      "size_bytes": 5618
+    }
+  ]
+}
