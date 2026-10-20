@@ -1105,3 +1105,36 @@
 | 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: compute_sha256() computes valid 64-character SHA-256 hex string |
 | 2026-10-19 08:51:05 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates Stage 5 logs without error |
 | 2026-10-19 08:51:06 | INFO | Stage 5 | cleaning_pipeline | verify_step_5_1 | 0% | CHECK PASSED: Pre-commit secret guard passes with zero leaks |
+| 2026-10-20 07:57:22 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: pipelines/ directory exists |
+| 2026-10-20 07:57:22 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: pipelines/README.md documents the 4 production task pipelines |
+| 2026-10-20 07:57:22 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: pipelines/01_leetcode_archiver.py exists and is non-empty |
+| 2026-10-20 07:57:22 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: LeetCodeArchiverPipeline class dynamically loaded successfully |
+| 2026-10-20 07:57:22 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 10% | Initialized LeetCode archiver for slug 'two-sum' |
+| 2026-10-20 08:03:28 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: pipelines/ directory exists |
+| 2026-10-20 08:03:28 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: pipelines/README.md documents the 4 production task pipelines |
+| 2026-10-20 08:03:28 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: pipelines/01_leetcode_archiver.py exists and is non-empty |
+| 2026-10-20 08:03:28 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: LeetCodeArchiverPipeline class dynamically loaded successfully |
+| 2026-10-20 08:03:28 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 10% | Initialized LeetCode archiver for slug 'two-sum' |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 25% | Human simulation pause completed: 0.19s |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 50% | Successfully fetched live problem data from LeetCode GraphQL |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 100% | Successfully archived LeetCode problem 1 ('Two Sum') in 0.66s |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: archive_problem() finishes with completed status |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: Run directory allocated under data/pipelines/01_leetcode_archiver |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: raw/graphql_response.json captured with valid JSON structure |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: raw/description_raw.html captured with HTML content |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: cleaned/problem_spec.json exists |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: problem_spec.json strictly validates against CleanedCodeProblemContract |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: cleaned/README.md exists |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: cleaned/README.md contains valid YAML frontmatter header delimited by --- |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: README.md frontmatter specifies problem_id, difficulty, and tags |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: cleaned/testcases.json exists and contains structured testcases |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: testcases.json parsed as a non-empty list of case objects |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: cleaned/starter_codes/ directory exists |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: solution.py exists with valid Python starter snippet |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: solution.js exists with valid JavaScript starter snippet |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: solution.cpp exists with valid C++ starter snippet |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: solution.java exists with valid Java starter snippet |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: run_manifest.json exists with completed status |
+| 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: Manifest records domain metrics and SHA-256 file hashes |
+| 2026-10-20 08:03:31 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates the pipeline run cleanly |
+| 2026-10-20 08:03:31 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: Pre-commit secret guard passes with zero leaks |

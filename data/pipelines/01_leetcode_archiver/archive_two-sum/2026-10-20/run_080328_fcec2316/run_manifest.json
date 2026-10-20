@@ -1,0 +1,44 @@
+{
+  "run_id": "run_080328_fcec2316",
+  "tool_id": "pipelines/01_leetcode_archiver",
+  "action_name": "archive_two-sum",
+  "date": "2026-10-20",
+  "target_url": "https://leetcode.com/problems/two-sum/",
+  "started_at": "2026-10-20T08:03:28.860121+00:00",
+  "ended_at": "2026-10-20T08:03:29.523966+00:00",
+  "elapsed_sec": 0.664,
+  "status": "completed",
+  "raw_files": [
+    "description_raw.html",
+    "graphql_response.json"
+  ],
+  "cleaned_files": [
+    "problem_spec.json",
+    "README.md",
+    "testcases.json"
+  ],
+  "git_commit": null,
+  "records_extracted": 1,
+  "quality_score": 1.0,
+  "domain_metrics": {
+    "problem_id": 1,
+    "title": "Two Sum",
+    "slug": "two-sum",
+    "difficulty": "Easy",
+    "tags_count": 2,
+    "starter_languages_count": 4,
+    "clean_markdown_bytes": 1505,
+    "fetch_source": "network_tls",
+    "file_hashes": {
+      "raw/description_raw.html": "a075064e8e639c3b16382fa15a1ed9ddbad18deec6748a2cdd7a2d90bac8c7cf",
+      "raw/graphql_response.json": "6a616d4835d4d68d79482a58ca4e8c715b77ae2764e97a8c52690af7419fb687",
+      "cleaned/problem_spec.json": "3cf006dbd63c8ee009918f7fc598adbda2570bf2a1b27ae8a70b4cde0781b5a6",
+      "cleaned/README.md": "c1506be4fef122e067dcff3f831e7438bb2647aaa28ed003504280c090c96e43",
+      "cleaned/testcases.json": "ed486e064aa11627932700029807ddbc096c05ee05d1eb5b454941e3952acdef",
+      "cleaned/starter_codes/solution.cpp": "21ccd92f3587ea46e80b5f1abc32969452a37be85f8a429058f58e048e8cb2b2",
+      "cleaned/starter_codes/solution.java": "a821f3485da7a070440d6a9a031118ebf864c071c5f005e9047d8af09944aea4",
+      "cleaned/starter_codes/solution.js": "00f0bf19016ba6538f50806b5974a4cc254a8f086839675d64b09227acfe4406",
+      "cleaned/starter_codes/solution.py": "ab09cfe7ad1f688a93c467d3e104be069b849a969b2a40da5532d1f223740acd"
+    }
+  }
+}
