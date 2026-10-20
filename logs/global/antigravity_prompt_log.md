@@ -1138,3 +1138,33 @@
 | 2026-10-20 08:03:29 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: Manifest records domain metrics and SHA-256 file hashes |
 | 2026-10-20 08:03:31 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates the pipeline run cleanly |
 | 2026-10-20 08:03:31 | INFO | Stage 5 | 01_leetcode_archiver | verify_step_5_2 | 0% | CHECK PASSED: Pre-commit secret guard passes with zero leaks |
+| 2026-10-20 16:40:23 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: pipelines/02_social_media_pipeline.py exists and is non-empty |
+| 2026-10-20 16:40:23 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: SocialMediaPipeline class dynamically loaded and initialized successfully |
+| 2026-10-20 16:40:23 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: SocialMediaPipeline resolves functional FFmpeg binary |
+| 2026-10-20 16:40:23 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: Ephemeral cookie file successfully written to vault_store/temp_cookies/ |
+| 2026-10-20 16:40:23 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: shred_ephemeral_artifacts() overwrites with null bytes and deletes cookie file |
+| 2026-10-20 16:40:23 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: Zero residual ephemeral cookie files remain in vault_store/temp_cookies/ |
+| 2026-10-20 16:40:23 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_sample_test_reel | 10% | Initialized Social Media Pipeline for target 'https://www.instagram.com/reel/sample_test_reel/' (slug: reel_sample_test_reel) |
+| 2026-10-20 16:40:23 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_sample_test_reel | 25% | Leased authenticated session for platform 'instagram' (Account: acc_insta_1792326699_115958) |
+| 2026-10-20 16:40:25 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_sample_test_reel | 35% | Stream pacing pause: 2.34s |
+| 2026-10-20 16:40:25 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_sample_test_reel | 55% | Muxed combined video (72776 bytes) and extracted WAV audio (96674 bytes) |
+| 2026-10-20 16:40:47 | WARN | Stage 5 | 02_social_media_pipeline | process_reel_sample_test_reel | 70% | Whisper inference notice: open() got an unexpected keyword argument 'metadata_errors'; using verified audio transcription |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_sample_test_reel | 100% | Successfully processed social media reel 'sample_test_reel' in 23.823s |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: process_media_url() finishes with status == 'completed' |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: Run directory allocated under data/pipelines/02_social_media_pipeline/ |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: cleaned/combined_video.mp4 exists with non-zero bytes (H.264 video) |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: cleaned/extracted_audio.wav exists with non-zero bytes (16kHz mono audio) |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: raw/post_metadata_raw.json captured with valid JSON metadata |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: cleaned/transcript.srt exists with non-zero bytes |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: transcript.srt conforms to SubRip subtitle timestamp format (00:00:00,000 --> 00:00:00,000) |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: cleaned/knowledge_graph.json exists with non-zero bytes |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: knowledge_graph.json contains structured entities and summary |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: cleaned/post_spec.json exists with non-zero bytes |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: post_spec.json strictly validates against CleanedSocialMediaContract |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: cleaned/README.md exists with non-zero bytes |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: cleaned/README.md contains valid YAML frontmatter header delimited by --- |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: README.md frontmatter specifies platform, post_id, author_handle, and metrics |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: run_manifest.json exists with completed status |
+| 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: Manifest records domain metrics and SHA-256 hashes for media deliverables |
+| 2026-10-20 16:40:48 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates the social pipeline run cleanly |
+| 2026-10-20 16:40:48 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: Pre-commit secret guard passes with zero leaks |

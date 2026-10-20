@@ -1,53 +1,53 @@
 {
   "is_running": false,
   "current_stage": "Stage 5",
-  "current_step": "Step 5.2",
-  "active_tool_id": "01_leetcode_archiver",
-  "active_action": "archive_problem",
-  "current_subtask": "Stage 5 Step 5.2 Verification Suite completed with 100% pass rate.",
-  "started_at_epoch": 1792481888.42118,
-  "elapsed_seconds": 1592.9,
+  "current_step": "Step 5.3",
+  "active_tool_id": "02_social_media_pipeline",
+  "active_action": "process_media_url",
+  "current_subtask": "Stage 5 Step 5.3 Verification Suite completed with 100% pass rate.",
+  "started_at_epoch": 1792512120.7629557,
+  "elapsed_seconds": 2410.6,
   "progress_percent": 100,
   "recent_events": [
     {
-      "timestamp": "2026-10-20T08:03:29.066182+00:00",
-      "message": "PROGRESS 35%: Issuing Chrome 124 TLS JA3 GraphQL request to LeetCode..."
+      "timestamp": "2026-10-20T16:40:25.371692+00:00",
+      "message": "PROGRESS 50%: Generating verified deterministic multi-track video and audio fixtures via FFmpeg..."
     },
     {
-      "timestamp": "2026-10-20T08:03:29.465084+00:00",
-      "message": "PROGRESS 60%: Normalizing raw data against CleanedCodeProblemContract schema..."
+      "timestamp": "2026-10-20T16:40:25.846825+00:00",
+      "message": "PROGRESS 65%: Social Pipeline: Transcribing audio via Faster-Whisper and extracting knowledge graph..."
     },
     {
-      "timestamp": "2026-10-20T08:03:29.474464+00:00",
-      "message": "PROGRESS 75%: Extracting and generating multi-language starter codes..."
+      "timestamp": "2026-10-20T16:40:47.064847+00:00",
+      "message": "PROGRESS 80%: Validating schema against CleanedSocialMediaContract..."
     },
     {
-      "timestamp": "2026-10-20T08:03:29.480169+00:00",
+      "timestamp": "2026-10-20T16:40:47.091185+00:00",
       "message": "PROGRESS 90%: Calculating SHA-256 signatures and finalizing manifest..."
     },
     {
-      "timestamp": "2026-10-20T08:03:29.533134+00:00",
-      "message": "PROGRESS 100%: LeetCode Archiver: Problem 'two-sum' successfully archived."
+      "timestamp": "2026-10-20T16:40:47.142666+00:00",
+      "message": "PROGRESS 100%: Social Pipeline: Finished processing 'sample_test_reel'."
     },
     {
-      "timestamp": "2026-10-20T08:03:29.539706+00:00",
-      "message": "PROGRESS 60%: Validating cleaned/ outputs against CleanedCodeProblemContract..."
+      "timestamp": "2026-10-20T16:40:47.160425+00:00",
+      "message": "PROGRESS 70%: Verifying cleaned/transcript.srt and knowledge_graph.json..."
     },
     {
-      "timestamp": "2026-10-20T08:03:29.547459+00:00",
-      "message": "PROGRESS 75%: Verifying cleaned/starter_codes/ templates for Python, JS, C++, Java..."
+      "timestamp": "2026-10-20T16:40:47.167490+00:00",
+      "message": "PROGRESS 85%: Validating post_spec.json and README.md against CleanedSocialMediaContract..."
     },
     {
-      "timestamp": "2026-10-20T08:03:29.556727+00:00",
-      "message": "PROGRESS 90%: Verifying manifest hashes, SQLite indexing, and secret security..."
+      "timestamp": "2026-10-20T16:40:47.174632+00:00",
+      "message": "PROGRESS 95%: Verifying manifest hashes, SQLite indexing, and secret security..."
     },
     {
-      "timestamp": "2026-10-20T08:03:31.388502+00:00",
-      "message": "PROGRESS 100%: Stage 5 Step 5.2 Verification Suite completed with 100% pass rate."
+      "timestamp": "2026-10-20T16:40:48.312424+00:00",
+      "message": "PROGRESS 100%: Stage 5 Step 5.3 Verification Suite completed with 100% pass rate."
     },
     {
-      "timestamp": "2026-10-20T08:04:41.356364+00:00",
-      "message": "COMPLETED: Stage 5 Step 5.2 completed: LeetCode Archiver Pipeline verified"
+      "timestamp": "2026-10-20T16:42:11.363502+00:00",
+      "message": "COMPLETED: Stage 5 Step 5.3 completed: SocialMediaPipeline verified"
     }
   ],
   "worker_processes": []

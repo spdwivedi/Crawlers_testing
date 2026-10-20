@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T08:03:31.331624+00:00",
+  "generated_at": "2026-10-20T16:40:48.257435+00:00",
   "status": "active",
   "totals": {
     "total_tools": 20,
@@ -10,13 +10,13 @@
     "total_raw_bytes": 7048321,
     "total_cleaned_bytes": 1626091,
     "total_bytes": 8674412,
-    "total_logs": 3951
+    "total_logs": 4041
   },
   "logs_breakdown": {
     "by_tier": {
-      "global_prompt": 1134,
-      "stage_log": 1130,
-      "tool_ops": 1111,
+      "global_prompt": 1164,
+      "stage_log": 1160,
+      "tool_ops": 1141,
       "action_run": 576
     },
     "by_stage": {
@@ -24,7 +24,7 @@
       "Stage 2": 27,
       "Stage 3": 832,
       "Stage 4": 1741,
-      "Stage 5": 171,
+      "Stage 5": 261,
       "Unassigned": 120
     }
   },
@@ -87,6 +87,7 @@
       "Step 4.6",
       "Step 5.1",
       "Step 5.2",
+      "Step 5.3",
       "Step D.1",
       "Step D.2",
       "Step D.3",
@@ -159,7 +160,7 @@
       "total_cleaned_bytes": 53432,
       "total_log_entries": 524,
       "latest_domain_metrics_json": "{\"tls_impersonation_profile\": \"chrome124\", \"graphql_problem_slug\": \"two-sum\", \"catalog_problems_count\": 5, \"http_status\": 200}",
-      "last_indexed_at": "2026-10-20T08:03:29.608714+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.223746+00:00",
       "latest_domain_metrics": {
         "tls_impersonation_profile": "chrome124",
         "graphql_problem_slug": "two-sum",
@@ -180,7 +181,7 @@
       "total_cleaned_bytes": 11802,
       "total_log_entries": 43,
       "latest_domain_metrics_json": "{\"items_parsed\": 20, \"selectolax_parse_us\": null, \"lxml_parse_us\": null, \"speedup_factor\": null}",
-      "last_indexed_at": "2026-10-20T08:03:29.612552+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.227301+00:00",
       "latest_domain_metrics": {
         "items_parsed": 20,
         "selectolax_parse_us": null,
@@ -201,7 +202,7 @@
       "total_cleaned_bytes": 5886,
       "total_log_entries": 27,
       "latest_domain_metrics_json": "{\"spider_items_scraped\": 10, \"spider_elapsed_sec\": 1.276, \"pipeline_status\": \"finished\"}",
-      "last_indexed_at": "2026-10-20T08:03:29.614133+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.229140+00:00",
       "latest_domain_metrics": {
         "spider_items_scraped": 10,
         "spider_elapsed_sec": 1.276,
@@ -221,7 +222,7 @@
       "total_cleaned_bytes": 47458,
       "total_log_entries": 109,
       "latest_domain_metrics_json": "{\"http2_enabled\": true, \"concurrent_requests_count\": 1, \"jmespath_fields_extracted\": 1, \"xpath_nodes_extracted\": 1}",
-      "last_indexed_at": "2026-10-20T08:03:29.615916+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.231207+00:00",
       "latest_domain_metrics": {
         "http2_enabled": true,
         "concurrent_requests_count": 1,
@@ -242,7 +243,7 @@
       "total_cleaned_bytes": 143246,
       "total_log_entries": 35,
       "latest_domain_metrics_json": "{\"raw_html_bytes\": 349473, \"clean_md_bytes\": 71292, \"boilerplate_reduction_pct\": 79.6, \"extracted_title\": \"Web crawler - Wikipedia\"}",
-      "last_indexed_at": "2026-10-20T08:03:29.617654+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.233206+00:00",
       "latest_domain_metrics": {
         "raw_html_bytes": 349473,
         "clean_md_bytes": 71292,
@@ -263,7 +264,7 @@
       "total_cleaned_bytes": 38744,
       "total_log_entries": 173,
       "latest_domain_metrics_json": "{\"har_total_requests\": 5, \"unique_origins_discovered\": 3, \"screenshot_bytes\": 126048, \"rendered_dom_bytes\": 11293}",
-      "last_indexed_at": "2026-10-20T08:03:29.619471+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.234984+00:00",
       "latest_domain_metrics": {
         "har_total_requests": 5,
         "unique_origins_discovered": 3,
@@ -284,7 +285,7 @@
       "total_cleaned_bytes": 12532,
       "total_log_entries": 151,
       "latest_domain_metrics_json": "{\"stealth_evasion_score\": 45.0, \"webdriver_flag_hidden\": false, \"cdp_leak_patched\": true, \"signals_audited_count\": 5}",
-      "last_indexed_at": "2026-10-20T08:03:29.621654+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.237244+00:00",
       "latest_domain_metrics": {
         "stealth_evasion_score": 45.0,
         "webdriver_flag_hidden": false,
@@ -305,7 +306,7 @@
       "total_cleaned_bytes": 5661,
       "total_log_entries": 65,
       "latest_domain_metrics_json": "{\"engine_used\": \"Camoufox Firefox\", \"spoofed_oscpu\": \"Windows NT 10.0; Win64; x64\", \"canvas_hash\": null, \"webgl_renderer\": null}",
-      "last_indexed_at": "2026-10-20T08:03:29.623584+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.239146+00:00",
       "latest_domain_metrics": {
         "engine_used": "Camoufox Firefox",
         "spoofed_oscpu": "Windows NT 10.0; Win64; x64",
@@ -326,7 +327,7 @@
       "total_cleaned_bytes": 6573,
       "total_log_entries": 85,
       "latest_domain_metrics_json": "{\"cdp_direct_mode\": true, \"links_extracted_count\": 2, \"dom_size_bytes\": 760}",
-      "last_indexed_at": "2026-10-20T08:03:29.625231+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.240928+00:00",
       "latest_domain_metrics": {
         "cdp_direct_mode": true,
         "links_extracted_count": 2,
@@ -346,7 +347,7 @@
       "total_cleaned_bytes": 11240,
       "total_log_entries": 85,
       "latest_domain_metrics_json": "{\"baseline_elements_count\": 0, \"mutated_elements_recovered\": 0, \"healing_rate_pct\": 100.0, \"avg_similarity_score\": 0.95}",
-      "last_indexed_at": "2026-10-20T08:03:29.627113+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.242846+00:00",
       "latest_domain_metrics": {
         "baseline_elements_count": 0,
         "mutated_elements_recovered": 0,
@@ -367,7 +368,7 @@
       "total_cleaned_bytes": 1140288,
       "total_log_entries": 134,
       "latest_domain_metrics_json": "{\"raw_hls_chunks_count\": 3, \"combined_video_bytes\": 52978, \"extracted_audio_wav_bytes\": 97416, \"video_codec\": \"h264\", \"duration_sec\": 3.0}",
-      "last_indexed_at": "2026-10-20T08:03:29.629244+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.245213+00:00",
       "latest_domain_metrics": {
         "raw_hls_chunks_count": 3,
         "combined_video_bytes": 52978,
@@ -389,7 +390,7 @@
       "total_cleaned_bytes": 4872,
       "total_log_entries": 35,
       "latest_domain_metrics_json": "{\"insta_shortcode\": \"C8XYZ12345\", \"auth_mode\": \"anonymous\", \"likes_count\": 14230, \"comments_count\": 312, \"hashtags_count\": 5}",
-      "last_indexed_at": "2026-10-20T08:03:29.631203+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.247242+00:00",
       "latest_domain_metrics": {
         "insta_shortcode": "C8XYZ12345",
         "auth_mode": "anonymous",
@@ -411,7 +412,7 @@
       "total_cleaned_bytes": 4352,
       "total_log_entries": 35,
       "latest_domain_metrics_json": "{\"extractor_used\": {\"class_name\": \"FacebookPhotoExtractor\", \"category\": \"facebook\", \"subcategory\": \"photo\"}, \"platform\": \"gallery\", \"gallery_items_count\": 2, \"media_files_downloaded\": 1}",
-      "last_indexed_at": "2026-10-20T08:03:29.632756+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.248929+00:00",
       "latest_domain_metrics": {
         "extractor_used": {
           "class_name": "FacebookPhotoExtractor",
@@ -436,7 +437,7 @@
       "total_cleaned_bytes": 13580,
       "total_log_entries": 35,
       "latest_domain_metrics_json": "{\"singlefile_size_kb\": 484.6, \"inlined_css_count\": 3, \"inlined_images_base64_count\": 20, \"scripts_stripped_count\": 0}",
-      "last_indexed_at": "2026-10-20T08:03:29.634382+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.250578+00:00",
       "latest_domain_metrics": {
         "singlefile_size_kb": 484.6,
         "inlined_css_count": 3,
@@ -457,7 +458,7 @@
       "total_cleaned_bytes": 3737,
       "total_log_entries": 67,
       "latest_domain_metrics_json": "{\"intercepted_flows_count\": 3, \"discovered_api_endpoints_count\": 1, \"proxy_port_used\": 57240}",
-      "last_indexed_at": "2026-10-20T08:03:29.635893+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.252399+00:00",
       "latest_domain_metrics": {
         "intercepted_flows_count": 3,
         "discovered_api_endpoints_count": 1,
@@ -477,7 +478,7 @@
       "total_cleaned_bytes": 76510,
       "total_log_entries": 235,
       "latest_domain_metrics_json": "{\"semantic_chunks_count\": 1, \"markdown_length_chars\": 4810, \"links_discovered_count\": 0, \"media_discovered_count\": 0}",
-      "last_indexed_at": "2026-10-20T08:03:29.637819+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.254339+00:00",
       "latest_domain_metrics": {
         "semantic_chunks_count": 1,
         "markdown_length_chars": 4810,
@@ -498,7 +499,7 @@
       "total_cleaned_bytes": 11096,
       "total_log_entries": 35,
       "latest_domain_metrics_json": "{\"ocr_lines_recognized\": 9, \"avg_ocr_confidence\": 0.8956, \"test_image_dimensions\": \"960x480\"}",
-      "last_indexed_at": "2026-10-20T08:03:29.640003+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.256436+00:00",
       "latest_domain_metrics": {
         "ocr_lines_recognized": 9,
         "avg_ocr_confidence": 0.8956,
@@ -518,7 +519,7 @@
       "total_cleaned_bytes": 6855,
       "total_log_entries": 52,
       "latest_domain_metrics_json": "{\"tables_detected_count\": 1, \"table_rows\": 5, \"table_cols\": 5, \"cells_extracted_count\": 25}",
-      "last_indexed_at": "2026-10-20T08:03:29.641622+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.257985+00:00",
       "latest_domain_metrics": {
         "tables_detected_count": 1,
         "table_rows": 5,
@@ -539,7 +540,7 @@
       "total_cleaned_bytes": 12168,
       "total_log_entries": 35,
       "latest_domain_metrics_json": "{\"pdf_pages_count\": 1, \"hierarchy_nodes_count\": 13, \"pdf_tables_parsed\": 1}",
-      "last_indexed_at": "2026-10-20T08:03:29.643127+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.259608+00:00",
       "latest_domain_metrics": {
         "pdf_pages_count": 1,
         "hierarchy_nodes_count": 13,
@@ -559,7 +560,7 @@
       "total_cleaned_bytes": 16059,
       "total_log_entries": 64,
       "latest_domain_metrics_json": "{\"audio_duration_sec\": 2.9, \"srt_segments_count\": 2, \"knowledge_graph_nodes\": 6, \"knowledge_graph_edges\": 5}",
-      "last_indexed_at": "2026-10-20T08:03:29.644612+00:00",
+      "last_indexed_at": "2026-10-20T16:40:47.261275+00:00",
       "latest_domain_metrics": {
         "audio_duration_sec": 2.9,
         "srt_segments_count": 2,

@@ -1,0 +1,43 @@
+{
+  "source_media": "combined_video.mp4",
+  "entities": [
+    {
+      "name": "Browser Kinematics",
+      "type": "Technology",
+      "relevance": 0.95
+    },
+    {
+      "name": "Neuromotor Curves",
+      "type": "Concept",
+      "relevance": 0.88
+    },
+    {
+      "name": "Anti-bot Fingerprinting",
+      "type": "Security",
+      "relevance": 0.92
+    },
+    {
+      "name": "Playwright Automation",
+      "type": "Framework",
+      "relevance": 0.85
+    }
+  ],
+  "relationships": [
+    {
+      "source": "Neuromotor Curves",
+      "relation": "enables",
+      "target": "Browser Kinematics"
+    },
+    {
+      "source": "Browser Kinematics",
+      "relation": "evades",
+      "target": "Anti-bot Fingerprinting"
+    },
+    {
+      "source": "Playwright Automation",
+      "relation": "integrates",
+      "target": "Browser Kinematics"
+    }
+  ],
+  "summary": "Detailed walkthrough of human mouse kinematics, randomized cubic Bezier trajectories, and neuromotor timing jitter deployed to evade anti-bot behavioral analysis."
+}
