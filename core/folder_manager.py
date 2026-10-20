@@ -207,3 +207,11 @@ def _append_jsonl(path: Path, record: dict) -> None:
     """Append a JSON record as a single line to a .jsonl file."""
     with path.open("a", encoding="utf-8") as f:
         f.write(json.dumps(record, default=str) + "\n")
+
+
+class FolderManager:
+    """Class wrapper for folder manager functions."""
+    create_action_run = staticmethod(create_action_run)
+    complete_action_run = staticmethod(complete_action_run)
+
+
