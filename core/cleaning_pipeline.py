@@ -663,8 +663,10 @@ class CleaningPipeline:
         source = raw.get("source_image_or_pdf") or raw.get("filename") or "sample_document.png"
 
         # Determine content_type
-        if raw.get("table_matrices") or raw.get("tables"):
-            content_type: Literal["visual_question", "table_grid", "document_tree"] = "table_grid"
+        if raw.get("content_type") in ("visual_question", "table_grid", "document_tree"):
+            content_type: Literal["visual_question", "table_grid", "document_tree"] = raw["content_type"]
+        elif raw.get("table_matrices") or raw.get("tables"):
+            content_type = "table_grid"
         elif raw.get("document_tree") or raw.get("hierarchy"):
             content_type = "document_tree"
         else:

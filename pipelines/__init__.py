@@ -20,8 +20,13 @@ def get_secured_snapshot_forensics() -> Any:
     mod = importlib.import_module("pipelines.03_secured_snapshot_forensics")
     return mod.SecuredSnapshotForensicsPipeline()
 
+def get_multimodal_auto_resolver() -> Any:
+    mod = importlib.import_module("pipelines.04_multimodal_auto_resolver")
+    return mod.MultimodalAutoResolverPipeline()
+
 __all__ = [
     "get_leetcode_archiver",
     "get_social_media_pipeline",
     "get_secured_snapshot_forensics",
+    "get_multimodal_auto_resolver",
 ]
