@@ -1,0 +1,92 @@
+[
+  {
+    "text": "ANTIGRAVITY TECHNICAL ASSESSMENT - ALGORITHMS BENCHMARK",
+    "conf": 0.98,
+    "box": [
+      30,
+      25,
+      600,
+      45
+    ]
+  },
+  {
+    "text": "Question 14: Balanced Binary Search Tree Traversal & Search",
+    "conf": 0.97,
+    "box": [
+      30,
+      95,
+      550,
+      115
+    ]
+  },
+  {
+    "text": "Given a Red-Black Tree containing N elements, what is the tight upper bound",
+    "conf": 0.96,
+    "box": [
+      30,
+      135,
+      750,
+      155
+    ]
+  },
+  {
+    "text": "worst-case time complexity for finding an arbitrary key?",
+    "conf": 0.96,
+    "box": [
+      30,
+      165,
+      500,
+      185
+    ]
+  },
+  {
+    "text": "Input: Tree height h = floor(log2(N)), Key target = 42",
+    "conf": 0.95,
+    "box": [
+      45,
+      220,
+      520,
+      240
+    ]
+  },
+  {
+    "text": "A) O(1) Constant Time",
+    "conf": 0.99,
+    "box": [
+      50,
+      290,
+      250,
+      310
+    ]
+  },
+  {
+    "text": "B) O(log N) Logarithmic Time",
+    "conf": 0.99,
+    "box": [
+      50,
+      325,
+      280,
+      345
+    ]
+  },
+  {
+    "text": "C) O(N) Linear Time",
+    "conf": 0.99,
+    "box": [
+      50,
+      360,
+      220,
+      380
+    ]
+  },
+  {
+    "text": "D) O(N log N) Linearithmic Time",
+    "conf": 0.99,
+    "box": [
+      50,
+      395,
+      290,
+      415
+    ]
+  }
+]

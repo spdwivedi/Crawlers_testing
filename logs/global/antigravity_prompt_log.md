@@ -1208,3 +1208,79 @@
 | 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: Manifest records SHA-256 for cleaned/snapshot.html and cleaned/forensics_spec.json |
 | 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates the pipeline run cleanly |
 | 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: Pre-commit secret guard passes with zero leaks |
+| 2026-10-21 12:58:58 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 15% | Initialized MultimodalAutoResolverPipeline run run_125858_ec697a54 for fixtures/exam_question_sample.png |
+| 2026-10-21 12:58:59 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 25% | Resolved modality target as 'visual_question' (expected_type='visual_question') |
+| 2026-10-21 12:58:59 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 45% | Using deterministic fixtures for visual_question (force_mock=True) |
+| 2026-10-21 12:58:59 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 65% | Enforcing CleanedMultimodalContract schema... |
+| 2026-10-21 12:59:00 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 100% | Successfully resolved multimodal content for fixtures/exam_question_sample.png in 0.48s (Type: visual_question, Conf: 0.9756) |
+| 2026-10-21 12:59:00 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 15% | Initialized MultimodalAutoResolverPipeline run run_125900_6d93e116 for fixtures/financial_table_sample.png |
+| 2026-10-21 12:59:01 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 25% | Resolved modality target as 'table_grid' (expected_type='table_grid') |
+| 2026-10-21 12:59:01 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 45% | Using deterministic fixtures for table_grid (force_mock=True) |
+| 2026-10-21 12:59:01 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 65% | Enforcing CleanedMultimodalContract schema... |
+| 2026-10-21 12:59:01 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 100% | Successfully resolved multimodal content for fixtures/financial_table_sample.png in 0.546s (Type: table_grid, Conf: 0.98) |
+| 2026-10-21 12:59:54 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: pipelines/04_multimodal_auto_resolver.py exists and is non-empty |
+| 2026-10-21 12:59:54 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: MultimodalAutoResolverPipeline class dynamically loaded and initialized successfully |
+| 2026-10-21 12:59:54 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: pipelines package exposes get_multimodal_auto_resolver() factory function |
+| 2026-10-21 12:59:54 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: CleaningPipeline and CleanedMultimodalContract load cleanly from core.cleaning_pipeline |
+| 2026-10-21 12:59:54 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 15% | Initialized MultimodalAutoResolverPipeline run run_125954_69d82ee7 for fixtures/exam_question_sample.png |
+| 2026-10-21 12:59:55 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 25% | Resolved modality target as 'visual_question' (expected_type='visual_question') |
+| 2026-10-21 12:59:55 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 45% | Using deterministic fixtures for visual_question (force_mock=True) |
+| 2026-10-21 12:59:55 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 65% | Enforcing CleanedMultimodalContract schema... |
+| 2026-10-21 12:59:55 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 100% | Successfully resolved multimodal content for fixtures/exam_question_sample.png in 0.459s (Type: visual_question, Conf: 0.9756) |
+| 2026-10-21 12:59:55 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: resolve_multimodal_content() on visual question finishes with status == 'completed' |
+| 2026-10-21 12:59:55 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: Run directory allocated under data/pipelines/04_multimodal_auto_resolver/ |
+| 2026-10-21 12:59:55 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: raw/ contains input_image.png and ocr_raw_boxes.json with non-zero bytes |
+| 2026-10-21 12:59:55 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: cleaned/bounding_boxes.json exists and contains localized coordinate boxes (>= 5) |
+| 2026-10-21 12:59:55 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: q_result reports content_type == 'visual_question' with high confidence |
+| 2026-10-21 12:59:55 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 15% | Initialized MultimodalAutoResolverPipeline run run_125955_fc7a9d61 for fixtures/financial_table_sample.png |
+| 2026-10-21 12:59:55 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 25% | Resolved modality target as 'table_grid' (expected_type='table_grid') |
+| 2026-10-21 12:59:55 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 45% | Using deterministic fixtures for table_grid (force_mock=True) |
+| 2026-10-21 12:59:55 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 65% | Enforcing CleanedMultimodalContract schema... |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 100% | Successfully resolved multimodal content for fixtures/financial_table_sample.png in 0.514s (Type: table_grid, Conf: 0.98) |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: resolve_multimodal_content() on table grid finishes with status == 'completed' |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: cleaned/tables/ directory exists and contains table_01.csv and table_01.json |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: table_01.csv contains expected problem benchmark rows (>= 5 rows) |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: table_matrices in multimodal_spec.json contains 2D/3D structured row lists |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: multimodal_spec.json strictly validates against CleanedMultimodalContract |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: cleaned/README.md exists with non-zero bytes (> 200 B) |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: cleaned/README.md contains valid YAML frontmatter header delimited by --- |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: README.md frontmatter specifies source_input, content_type, confidence_score, and counts |
+| 2026-10-21 12:59:56 | ERROR | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK FAILED: README.md contains Markdown table preview rendering for table_grid - Markdown table rendering check |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: run_manifest.json exists with completed status |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: run_manifest.json contains domain metrics and SHA-256 hashes for all generated files |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: Manifest records SHA-256 for cleaned/tables/table_01.csv and cleaned/multimodal_spec.json |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates the multimodal pipeline runs cleanly |
+| 2026-10-21 12:59:56 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: Pre-commit secret guard passes with zero leaks |
+| 2026-10-21 13:00:15 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: pipelines/04_multimodal_auto_resolver.py exists and is non-empty |
+| 2026-10-21 13:00:15 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: MultimodalAutoResolverPipeline class dynamically loaded and initialized successfully |
+| 2026-10-21 13:00:15 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: pipelines package exposes get_multimodal_auto_resolver() factory function |
+| 2026-10-21 13:00:15 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: CleaningPipeline and CleanedMultimodalContract load cleanly from core.cleaning_pipeline |
+| 2026-10-21 13:00:15 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 15% | Initialized MultimodalAutoResolverPipeline run run_130015_5d1d1610 for fixtures/exam_question_sample.png |
+| 2026-10-21 13:00:16 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 25% | Resolved modality target as 'visual_question' (expected_type='visual_question') |
+| 2026-10-21 13:00:16 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 45% | Using deterministic fixtures for visual_question (force_mock=True) |
+| 2026-10-21 13:00:16 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 65% | Enforcing CleanedMultimodalContract schema... |
+| 2026-10-21 13:00:16 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 100% | Successfully resolved multimodal content for fixtures/exam_question_sample.png in 0.45s (Type: visual_question, Conf: 0.9756) |
+| 2026-10-21 13:00:16 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: resolve_multimodal_content() on visual question finishes with status == 'completed' |
+| 2026-10-21 13:00:16 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: Run directory allocated under data/pipelines/04_multimodal_auto_resolver/ |
+| 2026-10-21 13:00:16 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: raw/ contains input_image.png and ocr_raw_boxes.json with non-zero bytes |
+| 2026-10-21 13:00:16 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: cleaned/bounding_boxes.json exists and contains localized coordinate boxes (>= 5) |
+| 2026-10-21 13:00:16 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: q_result reports content_type == 'visual_question' with high confidence |
+| 2026-10-21 13:00:16 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 15% | Initialized MultimodalAutoResolverPipeline run run_130016_0989416c for fixtures/financial_table_sample.png |
+| 2026-10-21 13:00:16 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 25% | Resolved modality target as 'table_grid' (expected_type='table_grid') |
+| 2026-10-21 13:00:16 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 45% | Using deterministic fixtures for table_grid (force_mock=True) |
+| 2026-10-21 13:00:16 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 65% | Enforcing CleanedMultimodalContract schema... |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_financial_table_sample | 100% | Successfully resolved multimodal content for fixtures/financial_table_sample.png in 0.507s (Type: table_grid, Conf: 0.98) |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: resolve_multimodal_content() on table grid finishes with status == 'completed' |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: cleaned/tables/ directory exists and contains table_01.csv and table_01.json |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: table_01.csv contains expected problem benchmark rows (>= 5 rows) |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: table_matrices in multimodal_spec.json contains 2D/3D structured row lists |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: multimodal_spec.json strictly validates against CleanedMultimodalContract |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: cleaned/README.md exists with non-zero bytes (> 200 B) |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: cleaned/README.md contains valid YAML frontmatter header delimited by --- |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: README.md frontmatter specifies source_input, content_type, confidence_score, and counts |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: README.md contains Markdown table preview rendering for table_grid |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: run_manifest.json exists with completed status |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: run_manifest.json contains domain metrics and SHA-256 hashes for all generated files |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: Manifest records SHA-256 for cleaned/tables/table_01.csv and cleaned/multimodal_spec.json |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates the multimodal pipeline runs cleanly |
+| 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: Pre-commit secret guard passes with zero leaks |

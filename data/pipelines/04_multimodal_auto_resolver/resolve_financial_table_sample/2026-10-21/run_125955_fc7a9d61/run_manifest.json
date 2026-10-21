@@ -1,0 +1,52 @@
+{
+  "run_id": "run_125955_fc7a9d61",
+  "tool_id": "pipelines/04_multimodal_auto_resolver",
+  "action_name": "resolve_financial_table_sample",
+  "date": "2026-10-21",
+  "target_url": "",
+  "started_at": "2026-10-21T12:59:55.366098+00:00",
+  "ended_at": "2026-10-21T12:59:55.884718+00:00",
+  "elapsed_sec": 0.519,
+  "status": "completed",
+  "raw_files": [
+    "input_image.png",
+    "table_cells_raw.json"
+  ],
+  "cleaned_files": [
+    "bounding_boxes.json",
+    "extracted_text.txt",
+    "multimodal_spec.json",
+    "README.md"
+  ],
+  "git_commit": null,
+  "records_extracted": 60,
+  "quality_score": 0.98,
+  "domain_metrics": {
+    "content_type": "table_grid",
+    "confidence_score": 0.98,
+    "tables_count": 1,
+    "bounding_boxes_count": 30,
+    "extracted_chars_count": 275,
+    "structured_elements_count": 60,
+    "file_hashes": {
+      "raw/input_image.png": "ab757e91f3f896c9a8b5755b75da7a20c939928b668b1b0f7f7a31e9b899fe7f",
+      "raw/table_cells_raw.json": "245bf432474aff552166017c0d511d290aa7bc43182753e9ff63b601a0deee04",
+      "cleaned/bounding_boxes.json": "f994e4243e2a3f000ab21bd2d09535ae2a532f291d3986f23355178802ac22af",
+      "cleaned/extracted_text.txt": "e1becb6e5c7eee7d54a55dcf9889d8d8cae1baa7ee1138ac8fba48219453078c",
+      "cleaned/multimodal_spec.json": "bcf85183bc1c4c804b42452c70ddbe27d028887934a6c314605886408ad728be",
+      "cleaned/README.md": "d0485abd60736555ec189badb3bd2b1d742c6228689685aa328ee108825b5aa7",
+      "cleaned/tables/table_01.csv": "038ee383f84b52d30b38c12307d834dc259cafe7aefe245f71fc07946da71a54",
+      "cleaned/tables/table_01.json": "7c83473f360490b984d08136c18b2640b5f2c03ad7f2d1465147d1e9c1fdcc8d"
+    }
+  },
+  "file_hashes": {
+    "raw/input_image.png": "ab757e91f3f896c9a8b5755b75da7a20c939928b668b1b0f7f7a31e9b899fe7f",
+    "raw/table_cells_raw.json": "245bf432474aff552166017c0d511d290aa7bc43182753e9ff63b601a0deee04",
+    "cleaned/bounding_boxes.json": "f994e4243e2a3f000ab21bd2d09535ae2a532f291d3986f23355178802ac22af",
+    "cleaned/extracted_text.txt": "e1becb6e5c7eee7d54a55dcf9889d8d8cae1baa7ee1138ac8fba48219453078c",
+    "cleaned/multimodal_spec.json": "bcf85183bc1c4c804b42452c70ddbe27d028887934a6c314605886408ad728be",
+    "cleaned/README.md": "d0485abd60736555ec189badb3bd2b1d742c6228689685aa328ee108825b5aa7",
+    "cleaned/tables/table_01.csv": "038ee383f84b52d30b38c12307d834dc259cafe7aefe245f71fc07946da71a54",
+    "cleaned/tables/table_01.json": "7c83473f360490b984d08136c18b2640b5f2c03ad7f2d1465147d1e9c1fdcc8d"
+  }
+}

@@ -1,0 +1,6 @@
+Problem ID | Title | Difficulty | Acceptance | Time Complexity
+1 | Two Sum | Easy | 52.4% | O(N)
+15 | 3Sum | Medium | 34.2% | O(N^2)
+42 | Trapping Rain Water | Hard | 62.1% | O(N)
+146 | LRU Cache | Medium | 43.8% | O(1)
+295 | Find Median from Stream | Hard | 51.9% | O(log N)
