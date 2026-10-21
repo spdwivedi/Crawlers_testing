@@ -31,10 +31,25 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request, HTTPException
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+
+from core.cleaning_pipeline import (
+    CleaningPipeline,
+    CleanedMarkdownContract,
+    CleanedCodeProblemContract,
+    CleanedSocialMediaContract,
+    CleanedForensicsContract,
+    CleanedMultimodalContract,
+)
+from pipelines import (
+    get_leetcode_archiver,
+    get_social_media_pipeline,
+    get_secured_snapshot_forensics,
+    get_multimodal_auto_resolver,
+)
 
 from core.credential_vault import CredentialVault, get_credential_vault
 from core.vault_importer import VaultImporter
@@ -1610,6 +1625,404 @@ async def simulate_timing_endpoint(
         "mean_sec": mean_delay,
         "min_sec": min_delay,
         "max_sec": max_delay,
+    })
+
+
+
+# ─── Stage 5: Production Task Pipelines & Cleaned Data Control Plane ──────────
+
+def _scan_pipeline_runs() -> list[dict[str, Any]]:
+    """Scans data/pipelines/ for all completed or active pipeline runs."""
+    pipe_dir = DATA_DIR / "pipelines"
+    if not pipe_dir.exists():
+        return []
+    runs = []
+    for manifest_path in pipe_dir.glob("*/*/*/*/run_manifest.json"):
+        try:
+            rel = manifest_path.relative_to(pipe_dir)
+            parts = rel.parts
+            if len(parts) != 5:
+                continue
+            pipeline_id, action_name, run_date, run_id = parts[0], parts[1], parts[2], parts[3]
+            manifest_data = json.loads(manifest_path.read_text(encoding="utf-8"))
+            run_dir = manifest_path.parent
+            raw_dir = run_dir / "raw"
+            cleaned_dir = run_dir / "cleaned"
+
+            raw_count = len([f for f in raw_dir.iterdir() if f.is_file()]) if raw_dir.exists() else 0
+            cleaned_count = len([f for f in cleaned_dir.rglob("*") if f.is_file()]) if cleaned_dir.exists() else 0
+
+            started_at = manifest_data.get("started_at", "")
+            ended_at = manifest_data.get("ended_at", "")
+            elapsed = manifest_data.get("elapsed_sec") or 0.0
+            status = manifest_data.get("status", "unknown")
+            metrics = manifest_data.get("domain_metrics", {})
+
+            runs.append({
+                "pipeline_id": pipeline_id,
+                "action_name": action_name,
+                "run_date": run_date,
+                "run_id": run_id,
+                "status": status,
+                "elapsed_sec": elapsed,
+                "started_at": started_at,
+                "ended_at": ended_at,
+                "raw_count": raw_count,
+                "cleaned_count": cleaned_count,
+                "domain_metrics": metrics,
+                "run_dir": str(run_dir),
+            })
+        except Exception:
+            continue
+    runs.sort(key=lambda r: r.get("started_at") or "", reverse=True)
+    return runs
+
+
+@app.get("/api/pipelines/overview")
+async def get_pipelines_overview():
+    """Aggregated statistics across all production task pipelines in the data lake."""
+    runs = _scan_pipeline_runs()
+    pipe_dir = DATA_DIR / "pipelines"
+    deliverables = [f for f in pipe_dir.glob("*/*/*/*/cleaned/**/*") if f.is_file()] if pipe_dir.exists() else []
+
+    contract_schemas = [
+        "CleanedMarkdownContract",
+        "CleanedCodeProblemContract",
+        "CleanedSocialMediaContract",
+        "CleanedForensicsContract",
+        "CleanedMultimodalContract",
+    ]
+
+    active_pipelines = [
+        {
+            "pipeline_id": "01_leetcode_archiver",
+            "name": "LeetCode Problem Archiver",
+            "contract": "CleanedCodeProblemContract",
+            "description": "TLS JA3 fingerprint impersonation, GraphQL query interception, CommonMark translation, and multi-language starter code generator.",
+        },
+        {
+            "pipeline_id": "02_social_media_pipeline",
+            "name": "Social Media Stream & Whisper Pipeline",
+            "contract": "CleanedSocialMediaContract",
+            "description": "Authenticated Instagram & Facebook post chunk downloader, stream pacing, FFmpeg audio/video muxing, and Whisper speech transcription.",
+        },
+        {
+            "pipeline_id": "03_secured_snapshot_forensics",
+            "name": "Secured Snapshot & Origin Forensics",
+            "contract": "CleanedForensicsContract",
+            "description": "Binary-patched stealth browser wiretap, offline SingleFile HTML self-contained bundling, API discovery, and 6-point security header audit.",
+        },
+        {
+            "pipeline_id": "04_multimodal_auto_resolver",
+            "name": "Smart Multimodal Auto-Resolver",
+            "contract": "CleanedMultimodalContract",
+            "description": "Dynamic multimodal routing for visual exam questions, structured financial table grids (img2table), and layout-aware document trees.",
+        },
+    ]
+
+    recent_runs = runs[:10]
+
+    return JSONResponse({
+        "status": "success",
+        "total_pipeline_runs": len(runs),
+        "deliverables_count": len(deliverables),
+        "active_pipelines": active_pipelines,
+        "contract_schemas": contract_schemas,
+        "recent_runs": recent_runs,
+    })
+
+
+@app.get("/api/pipelines/runs")
+async def list_pipeline_runs(
+    pipeline_id: str = "",
+    limit: int = 50,
+    offset: int = 0,
+):
+    """Lists historical production pipeline executions with filtering and pagination."""
+    all_runs = _scan_pipeline_runs()
+    if pipeline_id:
+        pid_clean = pipeline_id.strip().lower()
+        all_runs = [r for r in all_runs if pid_clean in r["pipeline_id"].lower()]
+
+    total = len(all_runs)
+    paged = all_runs[offset : offset + limit]
+    return JSONResponse({
+        "status": "success",
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "runs": paged,
+    })
+
+
+@app.get("/api/pipelines/runs/{pipeline_id}/{action_name}/{run_date}/{run_id}")
+async def get_pipeline_run_details(
+    pipeline_id: str,
+    action_name: str,
+    run_date: str,
+    run_id: str,
+):
+    """Retrieves full manifest metadata, file catalogs, and validated contract specs for a run."""
+    pipe_dir = DATA_DIR / "pipelines" / pipeline_id / action_name / run_date / run_id
+    if not pipe_dir.exists():
+        raise HTTPException(status_code=404, detail="Pipeline run directory not found")
+
+    manifest_file = pipe_dir / "run_manifest.json"
+    manifest_data = json.loads(manifest_file.read_text(encoding="utf-8")) if manifest_file.exists() else {}
+
+    raw_dir = pipe_dir / "raw"
+    cleaned_dir = pipe_dir / "cleaned"
+
+    raw_files = []
+    if raw_dir.exists():
+        for f in raw_dir.glob("**/*"):
+            if f.is_file():
+                raw_files.append({
+                    "name": f.name,
+                    "path": str(f.relative_to(pipe_dir)).replace("\\", "/"),
+                    "size_bytes": f.stat().st_size,
+                })
+
+    cleaned_files = []
+    contract_spec = None
+    if cleaned_dir.exists():
+        for f in cleaned_dir.glob("**/*"):
+            if f.is_file():
+                cleaned_files.append({
+                    "name": f.name,
+                    "path": str(f.relative_to(pipe_dir)).replace("\\", "/"),
+                    "size_bytes": f.stat().st_size,
+                })
+                # Check for spec file
+                if f.name.endswith("_spec.json") and contract_spec is None:
+                    try:
+                        contract_spec = json.loads(f.read_text(encoding="utf-8"))
+                    except Exception:
+                        pass
+
+    return JSONResponse({
+        "status": "success",
+        "pipeline_id": pipeline_id,
+        "action_name": action_name,
+        "run_date": run_date,
+        "run_id": run_id,
+        "run_dir": str(pipe_dir),
+        "manifest": manifest_data,
+        "raw_files": raw_files,
+        "cleaned_files": cleaned_files,
+        "contract_spec": contract_spec,
+    })
+
+
+@app.get("/api/pipelines/artifacts/{pipeline_id}/{action_name}/{run_date}/{run_id}/{folder}/{filename:path}")
+async def get_pipeline_artifact(
+    pipeline_id: str,
+    action_name: str,
+    run_date: str,
+    run_id: str,
+    folder: str,
+    filename: str,
+):
+    """Streams raw or cleaned artifacts with directory traversal guard."""
+    pipe_dir = (DATA_DIR / "pipelines" / pipeline_id / action_name / run_date / run_id).resolve()
+    if not pipe_dir.exists():
+        raise HTTPException(status_code=404, detail="Pipeline run directory not found")
+
+    target_file = (pipe_dir / folder / filename).resolve()
+    try:
+        target_file.relative_to(pipe_dir)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Path traversal forbidden")
+
+    if not target_file.exists() or not target_file.is_file():
+        raise HTTPException(status_code=404, detail="Artifact file not found")
+
+    ext = target_file.suffix.lower()
+    media_map = {
+        ".json": "application/json",
+        ".html": "text/html; charset=utf-8",
+        ".htm": "text/html; charset=utf-8",
+        ".md": "text/markdown; charset=utf-8",
+        ".txt": "text/plain; charset=utf-8",
+        ".csv": "text/csv; charset=utf-8",
+        ".srt": "text/plain; charset=utf-8",
+        ".py": "text/plain; charset=utf-8",
+        ".js": "text/plain; charset=utf-8",
+        ".cpp": "text/plain; charset=utf-8",
+        ".java": "text/plain; charset=utf-8",
+        ".png": "image/png",
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+        ".webp": "image/webp",
+        ".svg": "image/svg+xml",
+        ".mp4": "video/mp4",
+        ".wav": "audio/wav",
+        ".pdf": "application/pdf",
+    }
+    media_type = media_map.get(ext, "application/octet-stream")
+    return FileResponse(path=str(target_file), media_type=media_type)
+
+
+@app.post("/api/pipelines/leetcode/run")
+async def run_pipeline_leetcode(request: Request):
+    """Executes LeetCode Problem Archiver in background thread with live telemetry HUD."""
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+
+    title_slug = body.get("title_slug") or "two-sum"
+    human_mode = body.get("human_mode", True)
+    timing_profile = body.get("timing_profile", "BALANCED_HUMAN")
+    languages = body.get("languages")
+    force_mock = body.get("force_mock", False)
+
+    def _worker():
+        try:
+            pipe = get_leetcode_archiver()
+            pipe.archive_problem(
+                title_slug=title_slug,
+                human_mode=human_mode,
+                timing_profile=timing_profile,
+                languages=languages,
+                force_mock=force_mock,
+            )
+        except Exception as exc:
+            from core.state_tracker import fail_task
+            fail_task(reason=f"LeetCode archiver failure: {exc}")
+
+    threading.Thread(target=_worker, daemon=True).start()
+    return JSONResponse({
+        "status": "started",
+        "pipeline": "01_leetcode_archiver",
+        "title_slug": title_slug,
+        "human_mode": human_mode,
+        "message": f"LeetCode problem archiver launched for '{title_slug}' in background.",
+    })
+
+
+@app.post("/api/pipelines/social/run")
+async def run_pipeline_social(request: Request):
+    """Executes Social Media Stream & Whisper Pipeline in background thread with live telemetry HUD."""
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+
+    target_url = body.get("target_url") or "https://www.instagram.com/reel/sample_test_reel/"
+    platform = body.get("platform") or "instagram"
+    auth_account_id = body.get("auth_account_id", "")
+    required_target = body.get("required_target", "")
+    human_mode = body.get("human_mode", True)
+    timing_profile = body.get("timing_profile", "STREAM_PACED")
+    transcribe_audio = body.get("transcribe_audio", True)
+    force_mock = body.get("force_mock", False)
+
+    def _worker():
+        try:
+            pipe = get_social_media_pipeline()
+            pipe.process_media_url(
+                target_url=target_url,
+                platform=platform,
+                auth_account_id=auth_account_id,
+                required_target=required_target,
+                human_mode=human_mode,
+                timing_profile=timing_profile,
+                transcribe_audio=transcribe_audio,
+                force_mock=force_mock,
+            )
+        except Exception as exc:
+            from core.state_tracker import fail_task
+            fail_task(reason=f"Social media pipeline failure: {exc}")
+
+    threading.Thread(target=_worker, daemon=True).start()
+    return JSONResponse({
+        "status": "started",
+        "pipeline": "02_social_media_pipeline",
+        "target_url": target_url,
+        "platform": platform,
+        "message": f"Social media stream pipeline launched for '{target_url}' in background.",
+    })
+
+
+@app.post("/api/pipelines/forensics/run")
+async def run_pipeline_forensics(request: Request):
+    """Executes Secured Snapshot & Origin Forensics Pipeline in background thread with live telemetry HUD."""
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+
+    target_url = body.get("target_url") or "https://httpbin.org/html"
+    human_mode = body.get("human_mode", True)
+    timing_profile = body.get("timing_profile", "STEALTH_PARANOID")
+    auth_account_id = body.get("auth_account_id", "")
+    auth_target = body.get("auth_target", "")
+    scroll_depth = body.get("scroll_depth", 2)
+    force_mock = body.get("force_mock", False)
+
+    def _worker():
+        try:
+            pipe = get_secured_snapshot_forensics()
+            pipe.capture_secured_page(
+                target_url=target_url,
+                human_mode=human_mode,
+                timing_profile=timing_profile,
+                auth_account_id=auth_account_id,
+                auth_target=auth_target,
+                scroll_depth=scroll_depth,
+                force_mock=force_mock,
+            )
+        except Exception as exc:
+            from core.state_tracker import fail_task
+            fail_task(reason=f"Forensics pipeline failure: {exc}")
+
+    threading.Thread(target=_worker, daemon=True).start()
+    return JSONResponse({
+        "status": "started",
+        "pipeline": "03_secured_snapshot_forensics",
+        "target_url": target_url,
+        "message": f"Secured snapshot forensics pipeline launched for '{target_url}' in background.",
+    })
+
+
+@app.post("/api/pipelines/multimodal/run")
+async def run_pipeline_multimodal(request: Request):
+    """Executes Smart Multimodal Auto-Resolver Pipeline in background thread with live telemetry HUD."""
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+
+    target_input = body.get("target_input") or "fixtures/exam_question_sample.png"
+    expected_type = body.get("expected_type", "auto")
+    human_mode = body.get("human_mode", True)
+    timing_profile = body.get("timing_profile", "BALANCED_HUMAN")
+    extract_tables = body.get("extract_tables", True)
+    force_mock = body.get("force_mock", False)
+
+    def _worker():
+        try:
+            pipe = get_multimodal_auto_resolver()
+            pipe.resolve_multimodal_content(
+                target_input=target_input,
+                expected_type=expected_type,
+                human_mode=human_mode,
+                timing_profile=timing_profile,
+                extract_tables=extract_tables,
+                force_mock=force_mock,
+            )
+        except Exception as exc:
+            from core.state_tracker import fail_task
+            fail_task(reason=f"Multimodal auto-resolver failure: {exc}")
+
+    threading.Thread(target=_worker, daemon=True).start()
+    return JSONResponse({
+        "status": "started",
+        "pipeline": "04_multimodal_auto_resolver",
+        "target_input": target_input,
+        "expected_type": expected_type,
+        "message": f"Multimodal auto-resolver launched for '{target_input}' in background.",
     })
 
 

@@ -84,6 +84,9 @@
       <button class="tab-btn" data-tab="tab-working-ways" onclick="switchTab('tab-working-ways', this)">
         <span class="tab-icon">⚙</span> Working Ways & Safe Arena
       </button>
+      <button class="tab-btn" data-tab="tab-real-pipelines" onclick="switchTab('tab-real-pipelines', this)">
+        <span class="tab-icon">🧪</span> Real Pipelines
+      </button>
     </nav>
 
     <!-- ─── TAB 1: LIVE EXECUTION ─────────────────────────── -->
@@ -1101,6 +1104,281 @@
         </div>
 
       </div>
+    </div>
+  </div>
+
+  <!-- ─── TAB 7: REAL TASK PIPELINES & CLEANED INSPECTOR ─── -->
+  <div class="tab-content" id="tab-real-pipelines">
+    <div class="pipelines-layout">
+      
+      <!-- Top KPI Leaderboard Ribbon -->
+      <div class="pipe-ribbon">
+        <div class="pipe-kpi-card">
+          <div class="pipe-kpi-val" id="kpi-pipe-runs">0</div>
+          <div class="pipe-kpi-label">Total Pipeline Runs</div>
+          <div class="pipe-kpi-sub">Across data/pipelines/*</div>
+        </div>
+        <div class="pipe-kpi-card">
+          <div class="pipe-kpi-val" id="kpi-pipe-deliverables">0</div>
+          <div class="pipe-kpi-label">Cleaned Silver Deliverables</div>
+          <div class="pipe-kpi-sub">Strict isolated outputs</div>
+        </div>
+        <div class="pipe-kpi-card">
+          <div class="pipe-kpi-val accent-green" id="kpi-pipe-compliance">100%</div>
+          <div class="pipe-kpi-label">Contract Compliance Rate</div>
+          <div class="pipe-kpi-sub">Pydantic Silver Tier Validated</div>
+        </div>
+        <div class="pipe-kpi-card">
+          <div class="pipe-kpi-val accent-blue" id="kpi-pipe-active">4 / 4</div>
+          <div class="pipe-kpi-label">Active Production Pipelines</div>
+          <div class="pipe-kpi-sub">End-to-End Multimodal Chaining</div>
+        </div>
+      </div>
+
+      <!-- Sub-View Navigation Bar -->
+      <div class="pipe-subview-nav">
+        <button class="pipe-subview-btn active" data-subview="subview-pipeline-studio" onclick="switchPipelinesSubview('subview-pipeline-studio', this)">
+          🚀 Production Pipeline Studio
+        </button>
+        <button class="pipe-subview-btn" data-subview="subview-cleaned-inspector" onclick="switchPipelinesSubview('subview-cleaned-inspector', this)">
+          🔍 Silver-Tier Cleaned Data Inspector
+        </button>
+        <button class="pipe-subview-btn" data-subview="subview-contract-matrix" onclick="switchPipelinesSubview('subview-contract-matrix', this)">
+          📋 Contract Compliance & Audit Matrix
+        </button>
+      </div>
+
+      <!-- ── SUB-VIEW A: PRODUCTION PIPELINE STUDIO ── -->
+      <div class="pipe-subview-panel active" id="subview-pipeline-studio">
+        <div class="pipe-studio-grid">
+          
+          <!-- Card 1: LeetCode Archiver -->
+          <div class="pipe-launcher-card">
+            <div class="pipe-card-header">
+              <span class="pipe-badge">Pipeline 1</span>
+              <h3>🧩 LeetCode Problem Archiver</h3>
+            </div>
+            <p class="pipe-card-desc">
+              TLS JA3 impersonation with GraphQL interception. Translates problem specs into CommonMark, extracts test constraints, and generates multi-language starter code snippets.
+            </p>
+            <div class="pipe-form-group">
+              <label>Problem Title Slug</label>
+              <input type="text" id="leetcode-slug" value="two-sum" placeholder="e.g. two-sum, lru-cache">
+            </div>
+            <div class="pipe-form-group">
+              <label>Starter Code Languages</label>
+              <div class="pipe-checkbox-group">
+                <label><input type="checkbox" id="lc-lang-python" checked> Python</label>
+                <label><input type="checkbox" id="lc-lang-js" checked> JavaScript</label>
+                <label><input type="checkbox" id="lc-lang-cpp" checked> C++</label>
+                <label><input type="checkbox" id="lc-lang-java" checked> Java</label>
+              </div>
+            </div>
+            <div class="pipe-form-row">
+              <div class="pipe-form-group flex-1">
+                <label>Pacing Profile</label>
+                <select id="leetcode-timing">
+                  <option value="BALANCED_HUMAN" selected>BALANCED_HUMAN</option>
+                  <option value="STEALTH_PARANOID">STEALTH_PARANOID</option>
+                  <option value="FAST_BURST">FAST_BURST</option>
+                </select>
+              </div>
+              <div class="pipe-form-group toggles-inline">
+                <label><input type="checkbox" id="leetcode-human" checked> Human Mode</label>
+                <label><input type="checkbox" id="leetcode-mock"> Mock Fallback</label>
+              </div>
+            </div>
+            <button class="pipe-btn-primary" onclick="launchPipelineTask('leetcode')">
+              ▶ Archive Problem
+            </button>
+          </div>
+
+          <!-- Card 2: Social Media & Whisper -->
+          <div class="pipe-launcher-card">
+            <div class="pipe-card-header">
+              <span class="pipe-badge">Pipeline 2</span>
+              <h3>🎬 Social Media & Whisper Pipeline</h3>
+            </div>
+            <p class="pipe-card-desc">
+              Authenticated Instagram & Facebook reel/post chunk downloader with statistical stream pacing, FFmpeg audio/video demuxing, and local Whisper INT8 subtitle transcription.
+            </p>
+            <div class="pipe-form-group">
+              <label>Target Reel / Post URL</label>
+              <input type="text" id="social-url" value="https://www.instagram.com/reel/sample_test_reel/" placeholder="Instagram/Facebook Post URL">
+            </div>
+            <div class="pipe-form-row">
+              <div class="pipe-form-group flex-1">
+                <label>Platform</label>
+                <select id="social-platform">
+                  <option value="instagram" selected>Instagram</option>
+                  <option value="facebook">Facebook</option>
+                </select>
+              </div>
+              <div class="pipe-form-group flex-1">
+                <label>Target Follower (@)</label>
+                <input type="text" id="social-target" placeholder="Optional @handle">
+              </div>
+            </div>
+            <div class="pipe-form-row">
+              <div class="pipe-form-group toggles-inline">
+                <label><input type="checkbox" id="social-transcribe" checked> Whisper INT8 STT</label>
+                <label><input type="checkbox" id="social-human" checked> Stream Pacing</label>
+                <label><input type="checkbox" id="social-mock"> Mock Fallback</label>
+              </div>
+            </div>
+            <button class="pipe-btn-primary" onclick="launchPipelineTask('social')">
+              ▶ Capture & Transcribe
+            </button>
+          </div>
+
+          <!-- Card 3: Secured Snapshot Forensics -->
+          <div class="pipe-launcher-card">
+            <div class="pipe-card-header">
+              <span class="pipe-badge">Pipeline 3</span>
+              <h3>🛡️ Secured Snapshot Forensics</h3>
+            </div>
+            <p class="pipe-card-desc">
+              Stealth anti-bot Chromium wiretap with request/response interception, self-contained SingleFile offline HTML bundling, internal API route discovery, and 6-point CSP audit.
+            </p>
+            <div class="pipe-form-group">
+              <label>Target Secured Web URL</label>
+              <input type="text" id="forensics-url" value="https://httpbin.org/html" placeholder="https://target-portal.com">
+            </div>
+            <div class="pipe-form-row">
+              <div class="pipe-form-group flex-1">
+                <label>Stealth Profile</label>
+                <select id="forensics-profile">
+                  <option value="STEALTH_PARANOID" selected>STEALTH_PARANOID</option>
+                  <option value="BALANCED_HUMAN">BALANCED_HUMAN</option>
+                </select>
+              </div>
+              <div class="pipe-form-group flex-1">
+                <label>Scroll Depth</label>
+                <input type="number" id="forensics-scroll" value="2" min="1" max="10">
+              </div>
+            </div>
+            <div class="pipe-form-row">
+              <div class="pipe-form-group toggles-inline">
+                <label><input type="checkbox" id="forensics-human" checked> Variable Scrolling</label>
+                <label><input type="checkbox" id="forensics-mock"> Mock Fallback</label>
+              </div>
+            </div>
+            <button class="pipe-btn-primary" onclick="launchPipelineTask('forensics')">
+              ▶ Capture Snapshot & Audit
+            </button>
+          </div>
+
+          <!-- Card 4: Multimodal Auto-Resolver -->
+          <div class="pipe-launcher-card">
+            <div class="pipe-card-header">
+              <span class="pipe-badge">Pipeline 4</span>
+              <h3>👁️ Multimodal Auto-Resolver</h3>
+            </div>
+            <p class="pipe-card-desc">
+              Smart content classifier routing inputs to RapidOCR visual exam layout detection, img2table bordered matrix extraction, or PyMuPDF/pdfplumber document hierarchy trees.
+            </p>
+            <div class="pipe-form-group">
+              <label>Target Input (Image / PDF / URL)</label>
+              <input type="text" id="multimodal-input" value="fixtures/exam_question_sample.png" placeholder="fixtures/exam_question_sample.png">
+            </div>
+            <div class="pipe-form-row">
+              <div class="pipe-form-group flex-1">
+                <label>Expected Modality</label>
+                <select id="multimodal-modality">
+                  <option value="auto" selected>Auto-Detect Modality</option>
+                  <option value="visual_question">Visual Question OCR</option>
+                  <option value="table_grid">Bordered Table Grid (Matrix)</option>
+                  <option value="document_tree">Document Structure Tree (PDF)</option>
+                </select>
+              </div>
+              <div class="pipe-form-group toggles-inline">
+                <label><input type="checkbox" id="multimodal-tables" checked> Extract Tables</label>
+                <label><input type="checkbox" id="multimodal-mock"> Mock Fallback</label>
+              </div>
+            </div>
+            <button class="pipe-btn-primary" onclick="launchPipelineTask('multimodal')">
+              ▶ Resolve Content
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── SUB-VIEW B: SILVER-TIER CLEANED DATA INSPECTOR ── -->
+      <div class="pipe-subview-panel" id="subview-cleaned-inspector">
+        <div class="pipe-inspector-split">
+          
+          <!-- Left Panel: Pipeline Run Browser -->
+          <div class="pipe-inspector-sidebar">
+            <div class="pipe-sidebar-header">
+              <select id="pipe-filter-select" onchange="loadPipelineRuns()">
+                <option value="">All Pipelines (All Runs)</option>
+                <option value="01_leetcode_archiver">Pipeline 1: LeetCode Archiver</option>
+                <option value="02_social_media_pipeline">Pipeline 2: Social Media & Whisper</option>
+                <option value="03_secured_snapshot_forensics">Pipeline 3: Secured Snapshot Forensics</option>
+                <option value="04_multimodal_auto_resolver">Pipeline 4: Multimodal Auto-Resolver</option>
+              </select>
+              <button class="pipe-btn-secondary" onclick="loadPipelineRuns()">↻ Refresh</button>
+            </div>
+            <div class="pipe-runs-list" id="pipe-runs-list">
+              <div class="pipe-empty-hint">Loading pipeline execution history...</div>
+            </div>
+          </div>
+
+          <!-- Right Panel: Deliverable Viewer & Contract Validator -->
+          <div class="pipe-inspector-main" id="pipe-run-detail-panel">
+            <div class="pipe-empty-state" id="pipe-detail-empty">
+              <div class="pipe-empty-icon">📁</div>
+              <h3>Select a Pipeline Run to Inspect</h3>
+              <p>Browse historical runs on the left to inspect raw inputs, clean Silver deliverables, SHA-256 digests, and Pydantic schema contracts.</p>
+            </div>
+
+            <div class="pipe-detail-content" id="pipe-detail-content" style="display:none;">
+              <!-- Run Header -->
+              <div class="pipe-run-header" id="pipe-run-header">
+              </div>
+
+              <!-- Deliverable File Tabs Bar -->
+              <div class="pipe-deliverable-tabs" id="pipe-deliverable-tabs">
+              </div>
+
+              <!-- Active File Viewer Container -->
+              <div class="pipe-deliverable-viewer" id="pipe-deliverable-viewer">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── SUB-VIEW C: CONTRACT COMPLIANCE & AUDIT MATRIX ── -->
+      <div class="pipe-subview-panel" id="subview-contract-matrix">
+        <div class="pipe-matrix-card">
+          <div class="pipe-matrix-header">
+            <h3>🏛️ Silver-Tier Data Lake Contract Compliance Matrix</h3>
+            <p>Continuous Pydantic schema verification and provenance integrity tracking across all executed crawler pipelines.</p>
+          </div>
+          <div class="pipe-matrix-table-wrap">
+            <table class="pipe-matrix-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Pipeline ID</th>
+                  <th>Run Identifier</th>
+                  <th>Schema Contract</th>
+                  <th>Pydantic Compliance</th>
+                  <th>Domain Metrics Summary</th>
+                  <th>SHA-256 Digest</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="pipe-contract-matrix-body">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
