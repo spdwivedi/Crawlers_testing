@@ -1,0 +1,12 @@
+# ANTIGRAVITY TECHNICAL ASSESSMENT - ALGORITHMS BENCHMARK
+
+## Question 14: Balanced Binary Search Tree Traversal & Search
+Given a Red-Black Tree containing N elements, what is the tight upper bound worst-case time complexity for finding an arbitrary key?
+
+**Input:** Tree height h = floor(log2(N)), Key target = 42 -> Search Path length <= 2*log2(N+1)
+
+### Options
+- **A)** O(1) Constant Time
+- **B)** O(log N) Logarithmic Time
+- **C)** O(N) Linear Time
+- **D)** O(N log N) Linearithmic Time

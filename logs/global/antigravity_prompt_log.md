@@ -1284,3 +1284,212 @@
 | 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: Manifest records SHA-256 for cleaned/tables/table_01.csv and cleaned/multimodal_spec.json |
 | 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates the multimodal pipeline runs cleanly |
 | 2026-10-21 13:00:17 | INFO | Stage 5 | 04_multimodal_auto_resolver | verify_step_5_5 | 0% | CHECK PASSED: Pre-commit secret guard passes with zero leaks |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/overview returns HTTP 200 |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Overview contains complete KPI summary keys |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Overview reports 4 active production pipelines and 5 contract schemas |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/runs returns HTTP 200 with paged runs array |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Runs response has pagination keys (total, limit, offset, runs) |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/runs?pipeline_id=01_leetcode_archiver filters correctly |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Historical pipeline runs detected in data lake |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/runs/04_multimodal_auto_resolver/resolve_financial_table_sample/2026-10-21/run_130016_0989416c returns HTTP 200 |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Run details contain manifest, raw_files, and cleaned_files |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET non-existent pipeline run returns HTTP 404 |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: POST /api/pipelines/leetcode/run returns HTTP 200 with status=started |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: POST /api/pipelines/social/run returns HTTP 200 with status=started |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: POST /api/pipelines/forensics/run returns HTTP 200 with status=started |
+| 2026-10-21 14:37:05 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: POST /api/pipelines/multimodal/run returns HTTP 200 with status=started |
+| 2026-10-21 14:37:06 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_verify_reel_sample | 10% | Initialized Social Media Pipeline for target 'https://www.instagram.com/reel/verify_reel_sample/' (slug: reel_verify_reel_sample) |
+| 2026-10-21 14:37:06 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_verify_reel_sample | 25% | Leased authenticated session for platform 'instagram' (Account: acc_insta_1792324057_a40e18) |
+| 2026-10-21 14:37:07 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_verify_reel_sample | 55% | Muxed combined video (72776 bytes) and extracted WAV audio (96674 bytes) |
+| 2026-10-21 14:37:07 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_verify_reel_sample | 100% | Successfully processed social media reel 'verify_sample' in 0.686s |
+| 2026-10-21 14:37:07 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 10% | Initialized LeetCode archiver for slug 'two-sum' |
+| 2026-10-21 14:37:07 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 55% | Loaded deterministic fixture for 'two-sum' (resilient offline fallback) |
+| 2026-10-21 14:37:07 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 100% | Successfully archived LeetCode problem 1 ('Two Sum') in 0.081s |
+| 2026-10-21 14:37:07 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 15% | Initialized SecuredSnapshotForensicsPipeline run run_143707_09e0feb6 for https://httpbin.org/html |
+| 2026-10-21 14:37:07 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 30% | Using deterministic offline fixtures for https://httpbin.org/html (force_mock=True) |
+| 2026-10-21 14:37:07 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 60% | Compiling offline SingleFile archive with inlined assets... |
+| 2026-10-21 14:37:07 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 70% | Generated offline snapshot (7085 bytes, 1 assets inlined) |
+| 2026-10-21 14:37:08 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 15% | Initialized MultimodalAutoResolverPipeline run run_143708_8c553185 for fixtures/exam_question_sample.png |
+| 2026-10-21 14:37:08 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 25% | Resolved modality target as 'exam_question' (expected_type='exam_question') |
+| 2026-10-21 14:37:08 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 45% | Using deterministic fixtures for exam_question (force_mock=True) |
+| 2026-10-21 14:37:08 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 65% | Enforcing CleanedMultimodalContract schema... |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Found sample cleaned deliverable in data lake |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/artifacts/01_leetcode_archiver/archive_two-sum/2026-10-20/run_080328_fcec2316/cleaned/problem_spec.json returns HTTP 200 with non-empty payload |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Directory traversal attempt is strictly blocked (HTTP 400) |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Non-existent artifact file returns HTTP 404 |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'data-tab="tab-real-pipelines"' |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="tab-real-pipelines"' |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="subview-pipeline-studio"' |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="subview-cleaned-inspector"' |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="subview-contract-matrix"' |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/index.html contains 'kpi-pipe-total-runs' - Missing 'kpi-pipe-total-runs' in index.html |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/index.html contains 'kpi-pipe-silver-deliverables' - Missing 'kpi-pipe-silver-deliverables' in index.html |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/index.html contains 'kpi-pipe-compliance-rate' - Missing 'kpi-pipe-compliance-rate' in index.html |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/index.html contains 'kpi-pipe-active-count' - Missing 'kpi-pipe-active-count' in index.html |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/index.html contains 'pipe-card-leetcode' - Missing 'pipe-card-leetcode' in index.html |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/index.html contains 'pipe-card-social' - Missing 'pipe-card-social' in index.html |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/index.html contains 'pipe-card-forensics' - Missing 'pipe-card-forensics' in index.html |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/index.html contains 'pipe-card-multimodal' - Missing 'pipe-card-multimodal' in index.html |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/index.html contains 'pipeline-run-history-list' - Missing 'pipeline-run-history-list' in index.html |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/index.html contains 'cleaned-inspector-content' - Missing 'cleaned-inspector-content' in index.html |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'contract-matrix-body' |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'loadPipelinesTab' |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'switchPipelinesSubview' |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'loadPipelineRuns' |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'inspectPipelineRun' |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'renderCleanedArtifact' |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'launchPipelineTask' |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler '/api/pipelines/overview' |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler '/api/pipelines/runs' |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipeline-card' |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/styles.css contains style rule '.pipeline-inspector-grid' - Missing '.pipeline-inspector-grid' in styles.css |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/styles.css contains style rule '.cleaned-tree-panel' - Missing '.cleaned-tree-panel' in styles.css |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/styles.css contains style rule '.contract-matrix-table' - Missing '.contract-matrix-table' in styles.css |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/styles.css contains style rule '.pipeline-kpi-ribbon' - Missing '.pipeline-kpi-ribbon' in styles.css |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/styles.css contains style rule '.pipeline-studio-grid' - Missing '.pipeline-studio-grid' in styles.css |
+| 2026-10-21 14:37:09 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/styles.css contains style rule '.file-viewer-pane' - Missing '.file-viewer-pane' in styles.css |
+| 2026-10-21 14:37:09 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 100% | Successfully executed forensics audit for https://httpbin.org/html in 0.447s (Grade: A) |
+| 2026-10-21 14:37:10 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() completes without error |
+| 2026-10-21 14:37:10 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Pre-Commit Secret Guard reports ZERO violations |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/overview returns HTTP 200 |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Overview contains complete KPI summary keys |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Overview reports 4 active production pipelines and 5 contract schemas |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/runs returns HTTP 200 with paged runs array |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Runs response has pagination keys (total, limit, offset, runs) |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/runs?pipeline_id=01_leetcode_archiver filters correctly |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Historical pipeline runs detected in data lake |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/runs/04_multimodal_auto_resolver/resolve_exam_question_sample/2026-10-21/run_143708_8c553185 returns HTTP 200 |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Run details contain manifest, raw_files, and cleaned_files |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET non-existent pipeline run returns HTTP 404 |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: POST /api/pipelines/leetcode/run returns HTTP 200 with status=started |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: POST /api/pipelines/social/run returns HTTP 200 with status=started |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: POST /api/pipelines/forensics/run returns HTTP 200 with status=started |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: POST /api/pipelines/multimodal/run returns HTTP 200 with status=started |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_verify_reel_sample | 10% | Initialized Social Media Pipeline for target 'https://www.instagram.com/reel/verify_reel_sample/' (slug: reel_verify_reel_sample) |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 10% | Initialized LeetCode archiver for slug 'two-sum' |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 55% | Loaded deterministic fixture for 'two-sum' (resilient offline fallback) |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_verify_reel_sample | 25% | Leased authenticated session for platform 'instagram' (Account: acc_insta_1792241418_14bf57) |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 100% | Successfully archived LeetCode problem 1 ('Two Sum') in 0.06s |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 15% | Initialized SecuredSnapshotForensicsPipeline run run_143743_751f30f1 for https://httpbin.org/html |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 30% | Using deterministic offline fixtures for https://httpbin.org/html (force_mock=True) |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 60% | Compiling offline SingleFile archive with inlined assets... |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 15% | Initialized MultimodalAutoResolverPipeline run run_143743_6345df3a for fixtures/exam_question_sample.png |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 25% | Resolved modality target as 'exam_question' (expected_type='exam_question') |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 45% | Using deterministic fixtures for exam_question (force_mock=True) |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 65% | Enforcing CleanedMultimodalContract schema... |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 70% | Generated offline snapshot (7085 bytes, 1 assets inlined) |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_verify_reel_sample | 55% | Muxed combined video (72776 bytes) and extracted WAV audio (96674 bytes) |
+| 2026-10-21 14:37:43 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_verify_reel_sample | 100% | Successfully processed social media reel 'verify_sample' in 0.578s |
+| 2026-10-21 14:37:45 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 100% | Successfully executed forensics audit for https://httpbin.org/html in 0.412s (Grade: A) |
+| 2026-10-21 14:37:45 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 100% | Successfully resolved multimodal content for fixtures/exam_question_sample.png in 0.07s (Type: visual_question, Conf: 0.9756) |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Found sample cleaned deliverable in data lake |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/artifacts/01_leetcode_archiver/archive_two-sum/2026-10-20/run_080328_fcec2316/cleaned/problem_spec.json returns HTTP 200 with non-empty payload |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Directory traversal attempt is strictly blocked (HTTP 400) |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Non-existent artifact file returns HTTP 404 |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'data-tab="tab-real-pipelines"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="tab-real-pipelines"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="subview-pipeline-studio"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="subview-cleaned-inspector"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="subview-contract-matrix"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="kpi-pipe-runs"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="kpi-pipe-deliverables"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="kpi-pipe-compliance"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="kpi-pipe-active"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="leetcode-slug"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="social-url"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="forensics-url"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="multimodal-input"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="pipe-runs-list"' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="pipe-detail-content"' |
+| 2026-10-21 14:37:46 | ERROR | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK FAILED: frontend/index.html contains 'id="contract-matrix-body"' - Missing 'id="contract-matrix-body"' in index.html |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'loadPipelinesTab' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'switchPipelinesSubview' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'loadPipelineRuns' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'inspectPipelineRun' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'renderCleanedArtifact' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'launchPipelineTask' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler '/api/pipelines/overview' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler '/api/pipelines/runs' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-ribbon' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-kpi-card' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-studio-grid' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-launcher-card' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-inspector-split' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-inspector-sidebar' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-inspector-main' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-matrix-table' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-runs-list' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-code-wrapper' |
+| 2026-10-21 14:37:46 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() completes without error |
+| 2026-10-21 14:37:47 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Pre-Commit Secret Guard reports ZERO violations |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/overview returns HTTP 200 |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Overview contains complete KPI summary keys |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Overview reports 4 active production pipelines and 5 contract schemas |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/runs returns HTTP 200 with paged runs array |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Runs response has pagination keys (total, limit, offset, runs) |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/runs?pipeline_id=01_leetcode_archiver filters correctly |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Historical pipeline runs detected in data lake |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/runs/04_multimodal_auto_resolver/resolve_exam_question_sample/2026-10-21/run_143743_6345df3a returns HTTP 200 |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Run details contain manifest, raw_files, and cleaned_files |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET non-existent pipeline run returns HTTP 404 |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: POST /api/pipelines/leetcode/run returns HTTP 200 with status=started |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: POST /api/pipelines/social/run returns HTTP 200 with status=started |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: POST /api/pipelines/forensics/run returns HTTP 200 with status=started |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: POST /api/pipelines/multimodal/run returns HTTP 200 with status=started |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_verify_reel_sample | 10% | Initialized Social Media Pipeline for target 'https://www.instagram.com/reel/verify_reel_sample/' (slug: reel_verify_reel_sample) |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 10% | Initialized LeetCode archiver for slug 'two-sum' |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 55% | Loaded deterministic fixture for 'two-sum' (resilient offline fallback) |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_verify_reel_sample | 25% | Leased authenticated session for platform 'instagram' (Account: acc_insta_1792324128_7e996c) |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 01_leetcode_archiver | archive_two-sum | 100% | Successfully archived LeetCode problem 1 ('Two Sum') in 0.066s |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 15% | Initialized SecuredSnapshotForensicsPipeline run run_143759_472ad7e1 for https://httpbin.org/html |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 30% | Using deterministic offline fixtures for https://httpbin.org/html (force_mock=True) |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 60% | Compiling offline SingleFile archive with inlined assets... |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 15% | Initialized MultimodalAutoResolverPipeline run run_143759_f1ebe79c for fixtures/exam_question_sample.png |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 25% | Resolved modality target as 'exam_question' (expected_type='exam_question') |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 45% | Using deterministic fixtures for exam_question (force_mock=True) |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 65% | Enforcing CleanedMultimodalContract schema... |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_verify_reel_sample | 55% | Muxed combined video (72776 bytes) and extracted WAV audio (96674 bytes) |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 70% | Generated offline snapshot (7085 bytes, 1 assets inlined) |
+| 2026-10-21 14:37:59 | INFO | Stage 5 | 02_social_media_pipeline | process_reel_verify_reel_sample | 100% | Successfully processed social media reel 'verify_sample' in 0.51s |
+| 2026-10-21 14:38:00 | INFO | Stage 5 | 04_multimodal_auto_resolver | resolve_exam_question_sample | 100% | Successfully resolved multimodal content for fixtures/exam_question_sample.png in 0.07s (Type: visual_question, Conf: 0.9756) |
+| 2026-10-21 14:38:00 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 100% | Successfully executed forensics audit for https://httpbin.org/html in 0.405s (Grade: A) |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Found sample cleaned deliverable in data lake |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GET /api/pipelines/artifacts/01_leetcode_archiver/archive_two-sum/2026-10-20/run_080328_fcec2316/cleaned/problem_spec.json returns HTTP 200 with non-empty payload |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Directory traversal attempt is strictly blocked (HTTP 400) |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Non-existent artifact file returns HTTP 404 |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'data-tab="tab-real-pipelines"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="tab-real-pipelines"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="subview-pipeline-studio"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="subview-cleaned-inspector"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="subview-contract-matrix"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="kpi-pipe-runs"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="kpi-pipe-deliverables"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="kpi-pipe-compliance"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="kpi-pipe-active"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="leetcode-slug"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="social-url"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="forensics-url"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="multimodal-input"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="pipe-runs-list"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="pipe-detail-content"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/index.html contains 'id="pipe-contract-matrix-body"' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'loadPipelinesTab' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'switchPipelinesSubview' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'loadPipelineRuns' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'inspectPipelineRun' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'renderCleanedArtifact' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler 'launchPipelineTask' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler '/api/pipelines/overview' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/app.js contains handler '/api/pipelines/runs' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-ribbon' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-kpi-card' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-studio-grid' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-launcher-card' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-inspector-split' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-inspector-sidebar' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-inspector-main' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-matrix-table' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-runs-list' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-code-wrapper' |
+| 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() completes without error |
+| 2026-10-21 14:38:03 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Pre-Commit Secret Guard reports ZERO violations |

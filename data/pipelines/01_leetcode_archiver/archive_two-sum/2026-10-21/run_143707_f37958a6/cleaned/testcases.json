@@ -1,0 +1,17 @@
+[
+  {
+    "case_index": 1,
+    "input": "[2,7,11,15]\n9",
+    "expected_output": null
+  },
+  {
+    "case_index": 2,
+    "input": "[3,2,4]\n6",
+    "expected_output": null
+  },
+  {
+    "case_index": 3,
+    "input": "[3,3]\n6",
+    "expected_output": null
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "platform": "instagram",
+  "post_id": "verify_sample",
+  "post_url": "https://www.instagram.com/reel/verify_reel_sample/",
+  "author_handle": "@tech_innovations",
+  "author_name": "Tech Innovations Media",
+  "caption_text": "Deep dive into autonomous browser kinematics and neuromotor mouse curves! 🚀 Our latest Antigravity engine models real human jitter and bezier splines to ensure zero anti-bot detection. #automation #playwright #python #ai #stealth",
+  "hashtags": [
+    "automation",
+    "playwright",
+    "python",
+    "ai",
+    "stealth"
+  ],
+  "published_at": "2026-10-20T12:00:00Z",
+  "metrics": {
+    "likes": 4520,
+    "comments": 182,
+    "views": 32400
+  },
+  "media_type": "reel",
+  "media_files": [
+    "combined_video.mp4",
+    "extracted_audio.wav"
+  ],
+  "transcript_srt_path": null,
+  "summary_text": "Deep dive into autonomous browser kinematics and neuromotor mouse curves! 🚀 Our latest Antigravity engine models real human jitter and bezier splines to ensure zero anti-bot detection. #automation #pl..."
+}

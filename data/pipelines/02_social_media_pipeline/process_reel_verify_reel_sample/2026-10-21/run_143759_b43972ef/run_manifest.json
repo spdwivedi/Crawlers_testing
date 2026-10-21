@@ -1,0 +1,43 @@
+{
+  "run_id": "run_143759_b43972ef",
+  "tool_id": "pipelines/02_social_media_pipeline",
+  "action_name": "process_reel_verify_reel_sample",
+  "date": "2026-10-21",
+  "target_url": "https://www.instagram.com/reel/verify_reel_sample/",
+  "started_at": "2026-10-21T14:37:59.317165+00:00",
+  "ended_at": "2026-10-21T14:37:59.834503+00:00",
+  "elapsed_sec": 0.517,
+  "status": "completed",
+  "raw_files": [
+    "post_metadata_raw.json"
+  ],
+  "cleaned_files": [
+    "combined_video.mp4",
+    "extracted_audio.wav",
+    "post_spec.json",
+    "README.md"
+  ],
+  "git_commit": null,
+  "records_extracted": 1,
+  "quality_score": 1.0,
+  "domain_metrics": {
+    "platform": "instagram",
+    "media_type": "reel",
+    "has_video": true,
+    "has_audio": true,
+    "has_transcript": false,
+    "video_size_bytes": 72776,
+    "audio_size_bytes": 96674,
+    "likes": 4520,
+    "file_hashes": {
+      "raw/post_metadata_raw.json": "ac80620c933b7f517e0db9136b9588eba0f70c7f2eb04d748e7b56c77cd29403",
+      "raw/stream_chunks/chunk_001.ts": "5ea08d159a78a34987f3a44b2c72a1ad60aa9e0669e6251b93579a4a997c665e",
+      "raw/stream_chunks/chunk_002.ts": "5ea08d159a78a34987f3a44b2c72a1ad60aa9e0669e6251b93579a4a997c665e",
+      "raw/stream_chunks/chunk_003.ts": "5ea08d159a78a34987f3a44b2c72a1ad60aa9e0669e6251b93579a4a997c665e",
+      "cleaned/combined_video.mp4": "0afea778a6b993ec9b14cf0a69da01c122ea9687bdd358609e352823c92876d9",
+      "cleaned/extracted_audio.wav": "31b837af49d81bae9bb34a3e76dbaf7cbbcfda744146f66807ef15be60ff26a5",
+      "cleaned/post_spec.json": "d6922ca754661af824ee3f4652554f1cad7f9f8edf14182df3301e547239c899",
+      "cleaned/README.md": "e6ac771b99157a7d2573f3284489d7dd123c682b8466ebc4ddb593ffdc6caa55"
+    }
+  }
+}

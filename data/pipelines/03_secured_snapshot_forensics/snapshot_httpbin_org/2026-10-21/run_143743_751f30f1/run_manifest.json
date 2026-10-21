@@ -1,0 +1,47 @@
+{
+  "run_id": "run_143743_751f30f1",
+  "tool_id": "pipelines/03_secured_snapshot_forensics",
+  "action_name": "snapshot_httpbin_org",
+  "date": "2026-10-21",
+  "target_url": "https://httpbin.org/html",
+  "started_at": "2026-10-21T14:37:43.472410+00:00",
+  "ended_at": "2026-10-21T14:37:43.888172+00:00",
+  "elapsed_sec": 0.416,
+  "status": "completed",
+  "raw_files": [
+    "network_traffic.json",
+    "rendered_page.html"
+  ],
+  "cleaned_files": [
+    "forensics_spec.json",
+    "README.md",
+    "snapshot.html"
+  ],
+  "git_commit": null,
+  "records_extracted": 1,
+  "quality_score": 1.0,
+  "domain_metrics": {
+    "status_code": 200,
+    "page_title": "Secured Enterprise Portal & Security Forensics Audit \u2014 httpbin.org",
+    "discovered_apis_count": 4,
+    "trackers_count": 6,
+    "security_score": "6/6",
+    "security_grade": "A",
+    "archive_size_bytes": 7227,
+    "total_assets_inlined": 1,
+    "file_hashes": {
+      "raw/network_traffic.json": "32db5a240ad70faaf8679b8f49e9cc6819b3e23fbc5bababf5803755753b4f3b",
+      "raw/rendered_page.html": "40df29d5fec0df84701571a1af614812ac7c4ce1cafdbec3a2a5008f321dee98",
+      "cleaned/forensics_spec.json": "e4697f78141fd1e767ec9edc3c7da92012b3af0c6cbd18032e5693698cc080a8",
+      "cleaned/README.md": "169b4d314c4447610407f7aea89eebf92518ddf59473708453b3bc2ecb059c37",
+      "cleaned/snapshot.html": "35472726657813ad7cb6fa6d0e863d8bae6fe1c88c2069b101c85c3e0864aba2"
+    }
+  },
+  "file_hashes": {
+    "raw/network_traffic.json": "32db5a240ad70faaf8679b8f49e9cc6819b3e23fbc5bababf5803755753b4f3b",
+    "raw/rendered_page.html": "40df29d5fec0df84701571a1af614812ac7c4ce1cafdbec3a2a5008f321dee98",
+    "cleaned/forensics_spec.json": "e4697f78141fd1e767ec9edc3c7da92012b3af0c6cbd18032e5693698cc080a8",
+    "cleaned/README.md": "169b4d314c4447610407f7aea89eebf92518ddf59473708453b3bc2ecb059c37",
+    "cleaned/snapshot.html": "35472726657813ad7cb6fa6d0e863d8bae6fe1c88c2069b101c85c3e0864aba2"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "run_id": "run_143743_6345df3a",
+  "tool_id": "pipelines/04_multimodal_auto_resolver",
+  "action_name": "resolve_exam_question_sample",
+  "date": "2026-10-21",
+  "target_url": "",
+  "started_at": "2026-10-21T14:37:43.789388+00:00",
+  "ended_at": "2026-10-21T14:37:43.866467+00:00",
+  "elapsed_sec": 0.077,
+  "status": "completed",
+  "raw_files": [
+    "docling_raw.json",
+    "input_image.png"
+  ],
+  "cleaned_files": [
+    "bounding_boxes.json",
+    "extracted_text.txt",
+    "multimodal_spec.json",
+    "README.md"
+  ],
+  "git_commit": null,
+  "records_extracted": 9,
+  "quality_score": 0.9756,
+  "domain_metrics": {
+    "content_type": "visual_question",
+    "confidence_score": 0.9756,
+    "tables_count": 0,
+    "bounding_boxes_count": 9,
+    "extracted_chars_count": 492,
+    "structured_elements_count": 9,
+    "file_hashes": {
+      "raw/docling_raw.json": "3aa8d73ea77ec5323353ac2bc22435f1c5cc144927e308fa7a57ff52954fbb9f",
+      "raw/input_image.png": "35d45dc88c004475385ddac3213d16ce1b02575b1d8ff31caad654d7d44a04f5",
+      "cleaned/bounding_boxes.json": "afd7b26c33f2e47ef884aff4f4757fd844bf211758eb10fbfb192e2d82bcc5b8",
+      "cleaned/extracted_text.txt": "f9205a66f9d524e52f95234e1dfd1563154869a62c1062ce1955a208df2305cb",
+      "cleaned/multimodal_spec.json": "222d8d8713e4075aa026a480fbc61099a70cc5b89e803e49c5c999730c5bdf59",
+      "cleaned/README.md": "790189f11589537e57d1d72939987be5d572494a818a152856b4adaf4b30e883"
+    }
+  },
+  "file_hashes": {
+    "raw/docling_raw.json": "3aa8d73ea77ec5323353ac2bc22435f1c5cc144927e308fa7a57ff52954fbb9f",
+    "raw/input_image.png": "35d45dc88c004475385ddac3213d16ce1b02575b1d8ff31caad654d7d44a04f5",
+    "cleaned/bounding_boxes.json": "afd7b26c33f2e47ef884aff4f4757fd844bf211758eb10fbfb192e2d82bcc5b8",
+    "cleaned/extracted_text.txt": "f9205a66f9d524e52f95234e1dfd1563154869a62c1062ce1955a208df2305cb",
+    "cleaned/multimodal_spec.json": "222d8d8713e4075aa026a480fbc61099a70cc5b89e803e49c5c999730c5bdf59",
+    "cleaned/README.md": "790189f11589537e57d1d72939987be5d572494a818a152856b4adaf4b30e883"
+  }
+}

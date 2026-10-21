@@ -1,0 +1,57 @@
+{
+  "target_url": "https://httpbin.org/html",
+  "final_url": "https://httpbin.org/html",
+  "status_code": 200,
+  "page_title": "Secured Enterprise Portal & Security Forensics Audit — httpbin.org",
+  "captured_at": "2026-10-21T14:37:43.829001+00:00",
+  "singlefile_archive_path": "cleaned/snapshot.html",
+  "discovered_api_endpoints": [
+    {
+      "url": "https://httpbin.org/html/api/v1/auth/session",
+      "method": "GET",
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "url": "https://httpbin.org/html/api/v1/telemetry/metrics",
+      "method": "POST",
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "url": "https://httpbin.org/html/api/v2/users/profile",
+      "method": "GET",
+      "status": 200,
+      "content_type": "application/json"
+    },
+    {
+      "url": "https://httpbin.org/html/graphql",
+      "method": "POST",
+      "status": 200,
+      "content_type": "application/json"
+    }
+  ],
+  "third_party_trackers": [
+    "connect.facebook.net",
+    "facebook.net",
+    "fbevents.js",
+    "google-analytics.com",
+    "hotjar.com",
+    "sentry.io"
+  ],
+  "security_headers_audit": {
+    "audited_headers_count": 6,
+    "present_headers_count": 6,
+    "headers_present": {
+      "content-security-policy": "default-src 'self' https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:;",
+      "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+      "x-frame-options": "DENY",
+      "x-content-type-options": "nosniff",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "permissions-policy": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    "missing_headers": [],
+    "security_grade": "A"
+  },
+  "total_assets_inlined": 1
+}
