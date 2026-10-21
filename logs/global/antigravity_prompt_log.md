@@ -1168,3 +1168,43 @@
 | 2026-10-20 16:40:47 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: Manifest records domain metrics and SHA-256 hashes for media deliverables |
 | 2026-10-20 16:40:48 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates the social pipeline run cleanly |
 | 2026-10-20 16:40:48 | INFO | Stage 5 | 02_social_media_pipeline | verify_step_5_3 | 0% | CHECK PASSED: Pre-commit secret guard passes with zero leaks |
+| 2026-10-21 07:13:02 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 15% | Initialized SecuredSnapshotForensicsPipeline run run_071302_cd06c801 for https://httpbin.org/html |
+| 2026-10-21 07:13:02 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 20% | Applied pre-navigation human jitter delay: 10.40s |
+| 2026-10-21 07:13:03 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 30% | Using deterministic offline fixtures for https://httpbin.org/html (force_mock=True) |
+| 2026-10-21 07:13:03 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 60% | Compiling offline SingleFile archive with inlined assets... |
+| 2026-10-21 07:13:03 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 70% | Generated offline snapshot (7085 bytes, 1 assets inlined) |
+| 2026-10-21 07:13:03 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 100% | Successfully executed forensics audit for https://httpbin.org/html in 1.412s (Grade: A) |
+| 2026-10-21 07:14:25 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: pipelines/03_secured_snapshot_forensics.py exists and is non-empty |
+| 2026-10-21 07:14:25 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: SecuredSnapshotForensicsPipeline class dynamically loaded and initialized successfully |
+| 2026-10-21 07:14:25 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: pipelines package exposes get_secured_snapshot_forensics() factory function |
+| 2026-10-21 07:14:25 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: CleaningPipeline and CleanedForensicsContract load cleanly from core.cleaning_pipeline |
+| 2026-10-21 07:14:25 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 15% | Initialized SecuredSnapshotForensicsPipeline run run_071425_f6796dbb for https://httpbin.org/html |
+| 2026-10-21 07:14:25 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 20% | Applied pre-navigation human jitter delay: 5.51s |
+| 2026-10-21 07:14:26 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 30% | Using deterministic offline fixtures for https://httpbin.org/html (force_mock=True) |
+| 2026-10-21 07:14:26 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 60% | Compiling offline SingleFile archive with inlined assets... |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 70% | Generated offline snapshot (7085 bytes, 1 assets inlined) |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | pipelines/03_secured_snapshot_forensics | snapshot_httpbin_org | 100% | Successfully executed forensics audit for https://httpbin.org/html in 1.363s (Grade: A) |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: capture_secured_page() finishes with status == 'completed' |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: Run directory allocated under data/pipelines/03_secured_snapshot_forensics/ |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: raw/rendered_page.html exists with non-zero bytes (> 1 KB) |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: raw/network_traffic.json exists with non-zero bytes (> 500 B) |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: raw/network_traffic.json contains intercepted requests wiretap list (>= 5 requests) |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: cleaned/snapshot.html exists with non-zero bytes |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: cleaned/snapshot.html is a self-contained archive (> 5 KB) |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: cleaned/snapshot.html contains inlined <style> blocks |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: cleaned/snapshot.html contains base64 data URIs or inlined SVG emblem |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: cleaned/snapshot.html prepends SingleFile Antigravity provenance header comment |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: cleaned/forensics_spec.json exists with non-zero bytes |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: forensics_spec.json strictly validates against CleanedForensicsContract |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: discovered_api_endpoints is populated with internal/first-party API routes (>= 3) |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: third_party_trackers is populated with detected tracking domains (>= 2) |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: security_headers_audit is populated with 6-point audit and Grade A score |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: cleaned/README.md exists with non-zero bytes (> 200 B) |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: cleaned/README.md contains valid YAML frontmatter header delimited by --- |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: README.md frontmatter specifies target_url, security_grade, security_score, and counts |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: README.md contains Markdown audit tables for Security Headers, Discovered APIs, and Trackers |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: run_manifest.json exists with completed status |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: run_manifest.json contains domain metrics and SHA-256 hashes for all generated files |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: Manifest records SHA-256 for cleaned/snapshot.html and cleaned/forensics_spec.json |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates the pipeline run cleanly |
+| 2026-10-21 07:14:27 | INFO | Stage 5 | 03_secured_snapshot_forensics | verify_step_5_4 | 0% | CHECK PASSED: Pre-commit secret guard passes with zero leaks |

@@ -1,0 +1,239 @@
+{
+  "target_url": "https://httpbin.org/html",
+  "final_url": "https://httpbin.org/html",
+  "status_code": 200,
+  "page_title": "Secured Enterprise Portal & Security Forensics Audit \u2014 httpbin.org",
+  "total_assets_inlined": 6,
+  "captured_at": "2026-10-21T07:13:03.245724+00:00",
+  "requests": [
+    {
+      "request": {
+        "url": "https://httpbin.org/html",
+        "method": "GET",
+        "resource_type": "document",
+        "headers": [
+          {
+            "name": "user-agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/124.0.0.0 Safari/537.36"
+          },
+          {
+            "name": "accept",
+            "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+          }
+        ],
+        "post_data_size": 0
+      },
+      "response": {
+        "status": 200,
+        "content_type": "text/html; charset=utf-8",
+        "headers": [
+          {
+            "name": "content-type",
+            "value": "text/html; charset=utf-8"
+          },
+          {
+            "name": "content-security-policy",
+            "value": "default-src 'self' https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:;"
+          },
+          {
+            "name": "strict-transport-security",
+            "value": "max-age=31536000; includeSubDomains; preload"
+          },
+          {
+            "name": "x-frame-options",
+            "value": "DENY"
+          },
+          {
+            "name": "x-content-type-options",
+            "value": "nosniff"
+          },
+          {
+            "name": "referrer-policy",
+            "value": "strict-origin-when-cross-origin"
+          },
+          {
+            "name": "permissions-policy",
+            "value": "camera=(), microphone=(), geolocation=(), payment=()"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "url": "https://httpbin.org/html/api/v1/auth/session",
+        "method": "GET",
+        "resource_type": "fetch",
+        "headers": [
+          {
+            "name": "accept",
+            "value": "application/json"
+          }
+        ],
+        "post_data_size": 0
+      },
+      "response": {
+        "status": 200,
+        "content_type": "application/json",
+        "headers": [
+          {
+            "name": "content-type",
+            "value": "application/json"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "url": "https://httpbin.org/html/api/v1/telemetry/metrics",
+        "method": "POST",
+        "resource_type": "fetch",
+        "headers": [
+          {
+            "name": "content-type",
+            "value": "application/json"
+          }
+        ],
+        "post_data_size": 128
+      },
+      "response": {
+        "status": 200,
+        "content_type": "application/json",
+        "headers": [
+          {
+            "name": "content-type",
+            "value": "application/json"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "url": "https://httpbin.org/html/api/v2/users/profile",
+        "method": "GET",
+        "resource_type": "xhr",
+        "headers": [
+          {
+            "name": "accept",
+            "value": "application/json"
+          }
+        ],
+        "post_data_size": 0
+      },
+      "response": {
+        "status": 200,
+        "content_type": "application/json",
+        "headers": [
+          {
+            "name": "content-type",
+            "value": "application/json"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "url": "https://httpbin.org/html/graphql",
+        "method": "POST",
+        "resource_type": "fetch",
+        "headers": [
+          {
+            "name": "content-type",
+            "value": "application/json"
+          }
+        ],
+        "post_data_size": 256
+      },
+      "response": {
+        "status": 200,
+        "content_type": "application/json",
+        "headers": [
+          {
+            "name": "content-type",
+            "value": "application/json"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "url": "https://www.google-analytics.com/analytics.js",
+        "method": "GET",
+        "resource_type": "script",
+        "headers": [],
+        "post_data_size": 0
+      },
+      "response": {
+        "status": 200,
+        "content_type": "application/javascript",
+        "headers": [
+          {
+            "name": "content-type",
+            "value": "application/javascript"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "url": "https://connect.facebook.net/en_US/fbevents.js",
+        "method": "GET",
+        "resource_type": "script",
+        "headers": [],
+        "post_data_size": 0
+      },
+      "response": {
+        "status": 200,
+        "content_type": "application/javascript",
+        "headers": [
+          {
+            "name": "content-type",
+            "value": "application/javascript"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "url": "https://sentry.io/api/123/envelope/",
+        "method": "POST",
+        "resource_type": "fetch",
+        "headers": [
+          {
+            "name": "content-type",
+            "value": "application/x-sentry-envelope"
+          }
+        ],
+        "post_data_size": 512
+      },
+      "response": {
+        "status": 200,
+        "content_type": "application/json",
+        "headers": [
+          {
+            "name": "content-type",
+            "value": "application/json"
+          }
+        ]
+      }
+    },
+    {
+      "request": {
+        "url": "https://static.hotjar.com/c/hotjar-12345.js",
+        "method": "GET",
+        "resource_type": "script",
+        "headers": [],
+        "post_data_size": 0
+      },
+      "response": {
+        "status": 200,
+        "content_type": "application/javascript",
+        "headers": [
+          {
+            "name": "content-type",
+            "value": "application/javascript"
+          }
+        ]
+      }
+    }
+  ]
+}
