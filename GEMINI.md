@@ -1,5 +1,5 @@
 # 🤖 Antigravity Workspace Governance — GEMINI.md
-**Project:** Crawlers_testing | **Stage:** 5 (Standardized Cleaned Schemas & Real Task Pipelines) | **Init:** 2026-10-15
+**Project:** Crawlers_testing | **Stage:** 6 (Master Benchmarking, Resilience Testing & Project Exporter) | **Init:** 2026-10-15
 
 This file is automatically loaded by Antigravity IDE for **every prompt execution** in this workspace. All rules below are **mandatory** and non-negotiable.
 
@@ -115,10 +115,17 @@ All transformed files saved into `cleaned/` directories must conform strictly to
 
 ---
 
+## Rule 9 — Benchmark Traceability & Non-Destructive Testing
+
+Benchmark runs must record reproducible telemetry (p50/p90/p99 latency, RAM delta, CPU utilization, raw/cleaned byte efficiency, and stealth score) into structured benchmark reports and log all executions to `logs/stages/stage_6_benchmarking.jsonl`.
+
+---
+
 ## Quick Reference — Core Modules
 
 ```
 core/
+├── benchmark_engine.py  # BenchmarkEngine & Performance Matrix — Rule 9
 ├── folder_manager.py    # create_action_run() — Rule 3 & complete_action_run() Auto-Index Hook — Rule 5
 ├── cleaning_pipeline.py # CleaningPipeline & Silver Tier Contracts — Rule 8
 ├── base_indexer.py      # BaseToolIndexer SQLite/JSON engine — Rule 5
@@ -132,6 +139,7 @@ core/
 
 index_store/
 ├── global_master_index.sqlite  # Federated FTS5 search across all runs & logs
+├── benchmark_reports/          # Structured benchmark JSON and Markdown reports
 └── tool_indexes/               # 20 SQLite (.sqlite) + JSON (_index.json) tool index databases
 
 vault_store/
@@ -149,7 +157,8 @@ logs/
     ├── stage_2_indexing.jsonl
     ├── stage_3_credential_vault.jsonl
     ├── stage_4_working_ways.jsonl
-    └── stage_5_real_pipelines.jsonl
+    ├── stage_5_real_pipelines.jsonl
+    └── stage_6_benchmarking.jsonl
 
 tools/
 └── registry.json        # 20-tool manifest
