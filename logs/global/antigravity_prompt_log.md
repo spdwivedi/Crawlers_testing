@@ -1493,3 +1493,129 @@
 | 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: frontend/styles.css contains style rule '.pipe-code-wrapper' |
 | 2026-10-21 14:38:02 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() completes without error |
 | 2026-10-21 14:38:03 | INFO | Stage 5 | 05_real_pipelines_control_plane | verify_step_5_6 | 0% | CHECK PASSED: Pre-Commit Secret Guard reports ZERO violations |
+| 2026-10-21 16:06:58 | INFO | Stage 1 | 01_curl_cffi | scrape_for_leetcode | 10% | Initialized curl_cffi run run_160658_3cee6046 impersonating chrome124 (human_mode=False) |
+| 2026-10-21 16:06:58 | INFO | Stage 1 | 01_curl_cffi | scrape_for_leetcode | 35% | Executing GraphQL question detail query for 'two-sum' |
+| 2026-10-21 16:06:58 | INFO | Stage 1 | 01_curl_cffi | scrape_for_leetcode | 60% | Successfully fetched live LeetCode GraphQL problem data |
+| 2026-10-21 16:06:58 | INFO | Stage 1 | 01_curl_cffi | scrape_for_leetcode | 85% | Raw outputs saved to D:\Project_Files\Crawlers_testing\data\01_curl_cffi\scrape_for_leetcode\2026-10-21\run_160658_3cee6046\raw (mode: live) |
+| 2026-10-21 16:06:59 | INFO | Stage 1 | 01_curl_cffi | scrape_for_leetcode | 100% | Run manifest finalized, all 4 log tiers synchronized |
+| 2026-10-21 16:07:04 | INFO | Stage 1 | 04_httpx_parsel | scrape_for_leetcode | 15% | Initialized httpx_parsel run run_160704_67c965b2 (HTTP/2 enabled, human_mode=False) |
+| 2026-10-21 16:07:05 | INFO | Stage 1 | 04_httpx_parsel | scrape_for_leetcode | 60% | Saved raw responses (mode: live) |
+| 2026-10-21 16:07:05 | INFO | Stage 1 | 04_httpx_parsel | scrape_for_leetcode | 100% | Run manifest finalized, 4-tier logs synchronized |
+| 2026-10-21 16:09:53 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: logs/stages/stage_6_benchmarking.jsonl exists |
+| 2026-10-21 16:09:53 | ERROR | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK FAILED: GEMINI.md reflects Stage 6 in header - Stage 6 header missing or incorrect |
+| 2026-10-21 16:09:53 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: GEMINI.md contains Rule 9 (Benchmark Traceability & Non-Destructive Testing) |
+| 2026-10-21 16:09:53 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: index_store/benchmark_reports/ exists and is a directory |
+| 2026-10-21 16:09:53 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: frontend/index.html includes Stage 6 in stage dropdowns |
+| 2026-10-21 16:09:53 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Percentiles for [1.0..5.0] calculate expected p50=3.0, p90=4.6, p99=4.96 |
+| 2026-10-21 16:09:53 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Mean and min/max calculated correctly for [1.0..5.0] |
+| 2026-10-21 16:09:53 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Percentiles for 100 elements satisfy p50 <= p90 <= p99 |
+| 2026-10-21 16:09:53 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Composite score for maximum inputs (100, 100, 100, 100) equals 100.0 |
+| 2026-10-21 16:09:53 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Composite score for minimum inputs (0, 0, 0, 0) equals 0.0 |
+| 2026-10-21 16:09:53 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Composite score for mixed inputs (80, 70, 90, 85) equals exactly 80.0 |
+| 2026-10-21 16:09:53 | INFO | Stage 6 | 01_curl_cffi | benchmark_run | 0% | Starting benchmark for '01_curl_cffi' on 'https://quotes.toscrape.com' (2 iterations, human_mode=False) |
+| 2026-10-21 16:09:53 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 10% | Initialized curl_cffi run run_160953_8f1893ce impersonating chrome124 (human_mode=False) |
+| 2026-10-21 16:09:53 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 35% | Executing GraphQL question detail query for 'two-sum' |
+| 2026-10-21 16:09:54 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 60% | Successfully fetched live LeetCode GraphQL problem data |
+| 2026-10-21 16:09:54 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 85% | Raw outputs saved to D:\Project_Files\Crawlers_testing\data\01_curl_cffi\benchmark_run\2026-10-21\run_160953_8f1893ce\raw (mode: live) |
+| 2026-10-21 16:09:54 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 100% | Run manifest finalized, all 4 log tiers synchronized |
+| 2026-10-21 16:09:54 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 10% | Initialized curl_cffi run run_160954_5498c780 impersonating chrome124 (human_mode=False) |
+| 2026-10-21 16:09:54 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 35% | Executing GraphQL question detail query for 'two-sum' |
+| 2026-10-21 16:09:55 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 60% | Successfully fetched live LeetCode GraphQL problem data |
+| 2026-10-21 16:09:55 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 85% | Raw outputs saved to D:\Project_Files\Crawlers_testing\data\01_curl_cffi\benchmark_run\2026-10-21\run_160954_5498c780\raw (mode: live) |
+| 2026-10-21 16:09:55 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 100% | Run manifest finalized, all 4 log tiers synchronized |
+| 2026-10-21 16:09:55 | INFO | Stage 6 | 01_curl_cffi | benchmark_run | 0% | Tool benchmark finished for '01_curl_cffi': p50=1.026s, RAM_delta=18.16MB, Composite=68.4 |
+| 2026-10-21 16:09:55 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: run_tool_benchmark completed with status 'completed' |
+| 2026-10-21 16:09:55 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Tool benchmark completed 2/2 iterations with error_rate == 0.0 |
+| 2026-10-21 16:09:55 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Tool benchmark reports non-zero latency and valid memory delta |
+| 2026-10-21 16:09:55 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Tool benchmark generates composite score in [0.0, 100.0] and 5-element radar vector |
+| 2026-10-21 16:09:55 | INFO | Stage 6 | core_benchmark_engine | run_battery_benchmark | 0% | Launching Benchmark Battery 'benchmark_battery_20261021_160955_4f809804': 2 tools vs. 'https://quotes.toscrape.com' (2 iters/tool) |
+| 2026-10-21 16:09:55 | INFO | Stage 6 | 01_curl_cffi | verify_battery_squad | 0% | Starting benchmark for '01_curl_cffi' on 'https://quotes.toscrape.com' (2 iterations, human_mode=False) |
+| 2026-10-21 16:09:55 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 10% | Initialized curl_cffi run run_160955_d0823dd7 impersonating chrome124 (human_mode=False) |
+| 2026-10-21 16:09:55 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 35% | Executing GraphQL question detail query for 'two-sum' |
+| 2026-10-21 16:09:56 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 60% | Successfully fetched live LeetCode GraphQL problem data |
+| 2026-10-21 16:09:56 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 85% | Raw outputs saved to D:\Project_Files\Crawlers_testing\data\01_curl_cffi\verify_battery_squad\2026-10-21\run_160955_d0823dd7\raw (mode: live) |
+| 2026-10-21 16:09:56 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 100% | Run manifest finalized, all 4 log tiers synchronized |
+| 2026-10-21 16:09:56 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 10% | Initialized curl_cffi run run_160956_76c258f0 impersonating chrome124 (human_mode=False) |
+| 2026-10-21 16:09:56 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 35% | Executing GraphQL question detail query for 'two-sum' |
+| 2026-10-21 16:09:57 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 60% | Successfully fetched live LeetCode GraphQL problem data |
+| 2026-10-21 16:09:57 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 85% | Raw outputs saved to D:\Project_Files\Crawlers_testing\data\01_curl_cffi\verify_battery_squad\2026-10-21\run_160956_76c258f0\raw (mode: live) |
+| 2026-10-21 16:09:57 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 100% | Run manifest finalized, all 4 log tiers synchronized |
+| 2026-10-21 16:09:57 | INFO | Stage 6 | 01_curl_cffi | verify_battery_squad | 0% | Tool benchmark finished for '01_curl_cffi': p50=1.127s, RAM_delta=2.46MB, Composite=68.92 |
+| 2026-10-21 16:09:57 | INFO | Stage 6 | 04_httpx_parsel | verify_battery_squad | 0% | Starting benchmark for '04_httpx_parsel' on 'https://quotes.toscrape.com' (2 iterations, human_mode=False) |
+| 2026-10-21 16:09:58 | INFO | Stage 1 | 04_httpx_parsel | verify_battery_squad | 15% | Initialized httpx_parsel run run_160957_f12ea859 (HTTP/2 enabled, human_mode=False) |
+| 2026-10-21 16:09:59 | INFO | Stage 1 | 04_httpx_parsel | verify_battery_squad | 60% | Saved raw responses (mode: live) |
+| 2026-10-21 16:09:59 | INFO | Stage 1 | 04_httpx_parsel | verify_battery_squad | 100% | Run manifest finalized, 4-tier logs synchronized |
+| 2026-10-21 16:09:59 | INFO | Stage 1 | 04_httpx_parsel | verify_battery_squad | 15% | Initialized httpx_parsel run run_160959_70746695 (HTTP/2 enabled, human_mode=False) |
+| 2026-10-21 16:10:00 | INFO | Stage 1 | 04_httpx_parsel | verify_battery_squad | 60% | Saved raw responses (mode: live) |
+| 2026-10-21 16:10:00 | INFO | Stage 1 | 04_httpx_parsel | verify_battery_squad | 100% | Run manifest finalized, 4-tier logs synchronized |
+| 2026-10-21 16:10:00 | INFO | Stage 6 | 04_httpx_parsel | verify_battery_squad | 0% | Tool benchmark finished for '04_httpx_parsel': p50=1.443s, RAM_delta=12.6MB, Composite=81.9 |
+| 2026-10-21 16:10:00 | INFO | Stage 6 | core_benchmark_engine | run_battery_benchmark | 0% | Benchmark battery 'benchmark_battery_20261021_160955_4f809804' complete. Winner: 04_httpx_parsel (81.9/100). Reports saved. |
+| 2026-10-21 16:10:00 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: run_battery_benchmark returns valid report document |
+| 2026-10-21 16:10:00 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Battery contains ranked leaderboard with 2 tool items |
+| 2026-10-21 16:10:00 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Battery assigns overall winner tool with positive composite score |
+| 2026-10-21 16:10:00 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Radar matrix contains vector entries for both tools |
+| 2026-10-21 16:10:00 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Benchmark JSON report persisted at benchmark_battery_20261021_160955_4f809804.json |
+| 2026-10-21 16:10:00 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Benchmark Markdown report persisted at benchmark_battery_20261021_160955_4f809804.md |
+| 2026-10-21 16:10:00 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: list_benchmark_reports() finds newly created report |
+| 2026-10-21 16:10:00 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: get_benchmark_report() retrieves report with markdown_content |
+| 2026-10-21 16:10:02 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates all runs cleanly |
+| 2026-10-21 16:10:02 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Pre-Commit Secret Guard reports ZERO violations |
+| 2026-10-21 16:10:32 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: logs/stages/stage_6_benchmarking.jsonl exists |
+| 2026-10-21 16:10:32 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: GEMINI.md reflects Stage 6 in header |
+| 2026-10-21 16:10:32 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: GEMINI.md contains Rule 9 (Benchmark Traceability & Non-Destructive Testing) |
+| 2026-10-21 16:10:32 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: index_store/benchmark_reports/ exists and is a directory |
+| 2026-10-21 16:10:32 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: frontend/index.html includes Stage 6 in stage dropdowns |
+| 2026-10-21 16:10:32 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Percentiles for [1.0..5.0] calculate expected p50=3.0, p90=4.6, p99=4.96 |
+| 2026-10-21 16:10:32 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Mean and min/max calculated correctly for [1.0..5.0] |
+| 2026-10-21 16:10:32 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Percentiles for 100 elements satisfy p50 <= p90 <= p99 |
+| 2026-10-21 16:10:32 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Composite score for maximum inputs (100, 100, 100, 100) equals 100.0 |
+| 2026-10-21 16:10:32 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Composite score for minimum inputs (0, 0, 0, 0) equals 0.0 |
+| 2026-10-21 16:10:32 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Composite score for mixed inputs (80, 70, 90, 85) equals exactly 80.0 |
+| 2026-10-21 16:10:32 | INFO | Stage 6 | 01_curl_cffi | benchmark_run | 0% | Starting benchmark for '01_curl_cffi' on 'https://quotes.toscrape.com' (2 iterations, human_mode=False) |
+| 2026-10-21 16:10:33 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 10% | Initialized curl_cffi run run_161033_847fcc6b impersonating chrome124 (human_mode=False) |
+| 2026-10-21 16:10:33 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 35% | Executing GraphQL question detail query for 'two-sum' |
+| 2026-10-21 16:10:33 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 60% | Successfully fetched live LeetCode GraphQL problem data |
+| 2026-10-21 16:10:33 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 85% | Raw outputs saved to D:\Project_Files\Crawlers_testing\data\01_curl_cffi\benchmark_run\2026-10-21\run_161033_847fcc6b\raw (mode: live) |
+| 2026-10-21 16:10:34 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 100% | Run manifest finalized, all 4 log tiers synchronized |
+| 2026-10-21 16:10:34 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 10% | Initialized curl_cffi run run_161034_cdc35d9c impersonating chrome124 (human_mode=False) |
+| 2026-10-21 16:10:34 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 35% | Executing GraphQL question detail query for 'two-sum' |
+| 2026-10-21 16:10:34 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 60% | Successfully fetched live LeetCode GraphQL problem data |
+| 2026-10-21 16:10:34 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 85% | Raw outputs saved to D:\Project_Files\Crawlers_testing\data\01_curl_cffi\benchmark_run\2026-10-21\run_161034_cdc35d9c\raw (mode: live) |
+| 2026-10-21 16:10:35 | INFO | Stage 1 | 01_curl_cffi | benchmark_run | 100% | Run manifest finalized, all 4 log tiers synchronized |
+| 2026-10-21 16:10:35 | INFO | Stage 6 | 01_curl_cffi | benchmark_run | 0% | Tool benchmark finished for '01_curl_cffi': p50=1.034s, RAM_delta=17.82MB, Composite=68.37 |
+| 2026-10-21 16:10:35 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: run_tool_benchmark completed with status 'completed' |
+| 2026-10-21 16:10:35 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Tool benchmark completed 2/2 iterations with error_rate == 0.0 |
+| 2026-10-21 16:10:35 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Tool benchmark reports non-zero latency and valid memory delta |
+| 2026-10-21 16:10:35 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Tool benchmark generates composite score in [0.0, 100.0] and 5-element radar vector |
+| 2026-10-21 16:10:35 | INFO | Stage 6 | core_benchmark_engine | run_battery_benchmark | 0% | Launching Benchmark Battery 'benchmark_battery_20261021_161035_8c27a594': 2 tools vs. 'https://quotes.toscrape.com' (2 iters/tool) |
+| 2026-10-21 16:10:35 | INFO | Stage 6 | 01_curl_cffi | verify_battery_squad | 0% | Starting benchmark for '01_curl_cffi' on 'https://quotes.toscrape.com' (2 iterations, human_mode=False) |
+| 2026-10-21 16:10:35 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 10% | Initialized curl_cffi run run_161035_9db45921 impersonating chrome124 (human_mode=False) |
+| 2026-10-21 16:10:35 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 35% | Executing GraphQL question detail query for 'two-sum' |
+| 2026-10-21 16:10:35 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 60% | Successfully fetched live LeetCode GraphQL problem data |
+| 2026-10-21 16:10:35 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 85% | Raw outputs saved to D:\Project_Files\Crawlers_testing\data\01_curl_cffi\verify_battery_squad\2026-10-21\run_161035_9db45921\raw (mode: live) |
+| 2026-10-21 16:10:35 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 100% | Run manifest finalized, all 4 log tiers synchronized |
+| 2026-10-21 16:10:36 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 10% | Initialized curl_cffi run run_161036_9917a07e impersonating chrome124 (human_mode=False) |
+| 2026-10-21 16:10:36 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 35% | Executing GraphQL question detail query for 'two-sum' |
+| 2026-10-21 16:10:36 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 60% | Successfully fetched live LeetCode GraphQL problem data |
+| 2026-10-21 16:10:37 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 85% | Raw outputs saved to D:\Project_Files\Crawlers_testing\data\01_curl_cffi\verify_battery_squad\2026-10-21\run_161036_9917a07e\raw (mode: live) |
+| 2026-10-21 16:10:37 | INFO | Stage 1 | 01_curl_cffi | verify_battery_squad | 100% | Run manifest finalized, all 4 log tiers synchronized |
+| 2026-10-21 16:10:37 | INFO | Stage 6 | 01_curl_cffi | verify_battery_squad | 0% | Tool benchmark finished for '01_curl_cffi': p50=1.248s, RAM_delta=5.3MB, Composite=67.52 |
+| 2026-10-21 16:10:37 | INFO | Stage 6 | 04_httpx_parsel | verify_battery_squad | 0% | Starting benchmark for '04_httpx_parsel' on 'https://quotes.toscrape.com' (2 iterations, human_mode=False) |
+| 2026-10-21 16:10:38 | INFO | Stage 1 | 04_httpx_parsel | verify_battery_squad | 15% | Initialized httpx_parsel run run_161038_c59e57c0 (HTTP/2 enabled, human_mode=False) |
+| 2026-10-21 16:10:39 | INFO | Stage 1 | 04_httpx_parsel | verify_battery_squad | 60% | Saved raw responses (mode: live) |
+| 2026-10-21 16:10:39 | INFO | Stage 1 | 04_httpx_parsel | verify_battery_squad | 100% | Run manifest finalized, 4-tier logs synchronized |
+| 2026-10-21 16:10:39 | INFO | Stage 1 | 04_httpx_parsel | verify_battery_squad | 15% | Initialized httpx_parsel run run_161039_6d5e4eb1 (HTTP/2 enabled, human_mode=False) |
+| 2026-10-21 16:10:40 | INFO | Stage 1 | 04_httpx_parsel | verify_battery_squad | 60% | Saved raw responses (mode: live) |
+| 2026-10-21 16:10:40 | INFO | Stage 1 | 04_httpx_parsel | verify_battery_squad | 100% | Run manifest finalized, 4-tier logs synchronized |
+| 2026-10-21 16:10:40 | INFO | Stage 6 | 04_httpx_parsel | verify_battery_squad | 0% | Tool benchmark finished for '04_httpx_parsel': p50=1.655s, RAM_delta=11.06MB, Composite=80.52 |
+| 2026-10-21 16:10:40 | INFO | Stage 6 | core_benchmark_engine | run_battery_benchmark | 0% | Benchmark battery 'benchmark_battery_20261021_161035_8c27a594' complete. Winner: 04_httpx_parsel (80.52/100). Reports saved. |
+| 2026-10-21 16:10:40 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: run_battery_benchmark returns valid report document |
+| 2026-10-21 16:10:40 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Battery contains ranked leaderboard with 2 tool items |
+| 2026-10-21 16:10:40 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Battery assigns overall winner tool with positive composite score |
+| 2026-10-21 16:10:40 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Radar matrix contains vector entries for both tools |
+| 2026-10-21 16:10:40 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Benchmark JSON report persisted at benchmark_battery_20261021_161035_8c27a594.json |
+| 2026-10-21 16:10:40 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Benchmark Markdown report persisted at benchmark_battery_20261021_161035_8c27a594.md |
+| 2026-10-21 16:10:40 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: list_benchmark_reports() finds newly created report |
+| 2026-10-21 16:10:40 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: get_benchmark_report() retrieves report with markdown_content |
+| 2026-10-21 16:10:41 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates all runs cleanly |
+| 2026-10-21 16:10:41 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Pre-Commit Secret Guard reports ZERO violations |

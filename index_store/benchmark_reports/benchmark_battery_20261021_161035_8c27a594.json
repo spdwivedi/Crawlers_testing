@@ -1,0 +1,159 @@
+{
+  "report_id": "benchmark_battery_20261021_161035_8c27a594",
+  "created_at": "2026-10-21T16:10:35.031688+00:00",
+  "target_url": "https://quotes.toscrape.com",
+  "battery_label": "verify_battery_squad",
+  "iterations_per_tool": 2,
+  "human_mode": false,
+  "timing_profile": "FAST_AUTOMATED",
+  "total_tools": 2,
+  "tools_tested": [
+    "01_curl_cffi",
+    "04_httpx_parsel"
+  ],
+  "total_elapsed_sec": 5.849,
+  "winner_tool": "04_httpx_parsel",
+  "winner_composite_score": 80.52,
+  "winner_rationale": "Winner '04_httpx_parsel' achieved the highest composite score of 80.52/100 (Speed: 58.9, Richness: 99.2, Stealth: 85.0, Memory: 88.9) with p50 latency of 1.655s and yield ratio of 1.886.",
+  "radar_axes": [
+    "Speed",
+    "Richness",
+    "Stealth",
+    "Memory",
+    "Reliability"
+  ],
+  "radar_matrix": {
+    "04_httpx_parsel": [
+      58.9,
+      99.2,
+      85.0,
+      88.9,
+      100.0
+    ],
+    "01_curl_cffi": [
+      68.0,
+      35.0,
+      95.0,
+      94.7,
+      100.0
+    ]
+  },
+  "leaderboard": [
+    {
+      "tool_id": "04_httpx_parsel",
+      "status": "completed",
+      "iterations": 2,
+      "completed_iterations": 2,
+      "error_rate": 0.0,
+      "p50_sec": 1.655,
+      "p90_sec": 1.944,
+      "p99_sec": 2.009,
+      "mean_sec": 1.655,
+      "min_sec": 1.295,
+      "max_sec": 2.016,
+      "std_dev_sec": 0.361,
+      "mem_delta_mb": 11.06,
+      "max_mem_delta_mb": 19.82,
+      "cpu_percent": 10.0,
+      "raw_bytes": 4194,
+      "cleaned_bytes": 7910,
+      "yield_ratio": 1.886,
+      "speed_score": 58.9,
+      "richness_score": 99.2,
+      "stealth_score": 85.0,
+      "memory_score": 88.9,
+      "reliability_score": 100.0,
+      "composite_score": 80.52,
+      "radar_vector": [
+        58.9,
+        99.2,
+        85.0,
+        88.9,
+        100.0
+      ],
+      "iterations_data": [
+        {
+          "iteration": 1,
+          "status": "completed",
+          "elapsed_sec": 2.016,
+          "mem_delta_mb": 19.82,
+          "cpu_percent": 11.6,
+          "raw_bytes": 4194,
+          "cleaned_bytes": 7910,
+          "yield_ratio": 1.886,
+          "error": ""
+        },
+        {
+          "iteration": 2,
+          "status": "completed",
+          "elapsed_sec": 1.295,
+          "mem_delta_mb": 2.31,
+          "cpu_percent": 8.4,
+          "raw_bytes": 4194,
+          "cleaned_bytes": 7910,
+          "yield_ratio": 1.886,
+          "error": ""
+        }
+      ],
+      "rank": 1
+    },
+    {
+      "tool_id": "01_curl_cffi",
+      "status": "completed",
+      "iterations": 2,
+      "completed_iterations": 2,
+      "error_rate": 0.0,
+      "p50_sec": 1.248,
+      "p90_sec": 1.478,
+      "p99_sec": 1.53,
+      "mean_sec": 1.248,
+      "min_sec": 0.961,
+      "max_sec": 1.536,
+      "std_dev_sec": 0.288,
+      "mem_delta_mb": 5.3,
+      "max_mem_delta_mb": 5.36,
+      "cpu_percent": 12.6,
+      "raw_bytes": 9616,
+      "cleaned_bytes": 2922,
+      "yield_ratio": 0.3039,
+      "speed_score": 68.0,
+      "richness_score": 35.0,
+      "stealth_score": 95.0,
+      "memory_score": 94.7,
+      "reliability_score": 100.0,
+      "composite_score": 67.52,
+      "radar_vector": [
+        68.0,
+        35.0,
+        95.0,
+        94.7,
+        100.0
+      ],
+      "iterations_data": [
+        {
+          "iteration": 1,
+          "status": "completed",
+          "elapsed_sec": 0.961,
+          "mem_delta_mb": 5.36,
+          "cpu_percent": 13.0,
+          "raw_bytes": 9616,
+          "cleaned_bytes": 2922,
+          "yield_ratio": 0.3039,
+          "error": ""
+        },
+        {
+          "iteration": 2,
+          "status": "completed",
+          "elapsed_sec": 1.536,
+          "mem_delta_mb": 5.24,
+          "cpu_percent": 12.2,
+          "raw_bytes": 9616,
+          "cleaned_bytes": 2922,
+          "yield_ratio": 0.3039,
+          "error": ""
+        }
+      ],
+      "rank": 2
+    }
+  ]
+}
