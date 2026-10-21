@@ -16,4 +16,12 @@ def get_social_media_pipeline() -> Any:
     mod = importlib.import_module("pipelines.02_social_media_pipeline")
     return mod.SocialMediaPipeline()
 
-__all__ = ["get_leetcode_archiver", "get_social_media_pipeline"]
+def get_secured_snapshot_forensics() -> Any:
+    mod = importlib.import_module("pipelines.03_secured_snapshot_forensics")
+    return mod.SecuredSnapshotForensicsPipeline()
+
+__all__ = [
+    "get_leetcode_archiver",
+    "get_social_media_pipeline",
+    "get_secured_snapshot_forensics",
+]
