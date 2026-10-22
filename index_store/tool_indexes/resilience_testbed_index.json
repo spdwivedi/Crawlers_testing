@@ -1,0 +1,325 @@
+{
+  "tool_id": "resilience_testbed",
+  "metadata": {
+    "tool_id": "resilience_testbed",
+    "name": "resilience_testbed",
+    "batch": 1,
+    "mechanism_type": "General",
+    "total_runs": 4,
+    "total_actions": 2,
+    "total_raw_files": 3,
+    "total_cleaned_files": 6,
+    "total_log_entries": 4,
+    "last_indexed_at": "2026-10-22T13:13:49.421787+00:00"
+  },
+  "total_runs": 4,
+  "runs": [
+    {
+      "run_id": "run_131348_02d8531b",
+      "tool_id": "resilience_testbed",
+      "action_name": "chaos_battery",
+      "run_date": "2026-10-22",
+      "target_url": "http://127.0.0.1:chaos_server",
+      "started_at": "2026-10-22T13:13:48.494099+00:00",
+      "ended_at": "2026-10-22T13:13:49.388938+00:00",
+      "elapsed_sec": 0.0,
+      "status": "completed",
+      "git_commit": null,
+      "raw_file_count": 1,
+      "cleaned_file_count": 2,
+      "raw_total_bytes": 1886,
+      "cleaned_total_bytes": 4054,
+      "domain_metrics_json": "{\"default_metric\": \"ok\", \"raw_files\": [\"chaos_scenarios_raw.json\"], \"cleaned_files\": [\"README.md\", \"resilience_report.json\"]}",
+      "cleaned_text_preview": "[README.md]: # \ud83d\udee1\ufe0f Chaos & Anti-Bot Resilience Test Report **Report ID:** `resilience_battery_20261022_131348_77d01e63` | **Date:** 2026-10-22T13:13:48.494064+00:00 | **Evaluation Status:** `RESILIENT` > \ud83c\udf96\ufe0f **Composite Resilience Index:** **97.5 / 100** > *All 4 fault-injection scenarios evaluated: Rate Limiting, DOM Mutation, Socket Chaos, Contract Fuzzing.* --- ## 1. Resilience Matrix Overview | Scenario | Ta | [resilience_report.json]: { \"report_id\": \"resilience_battery_20261022_131348_77d01e63\", \"created_at\": \"2026-10-22T13:13:48.494064+00:00\", \"resilience_index\": 97.5, \"overall_status\": \"resilient\", \"scenarios_tested\": 4, \"scenarios_passed\": 4, \"scenarios\": { \"rate_limiting\": { \"scenario\": \"rate_limiting\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"target_url\": \"http://127.0.0.1:53531/fault/rate-limit\", \"retries_attemp",
+      "run_dir_relpath": "data/resilience_testbed/chaos_battery/2026-10-22/run_131348_02d8531b",
+      "domain_metrics": {
+        "default_metric": "ok",
+        "raw_files": [
+          "chaos_scenarios_raw.json"
+        ],
+        "cleaned_files": [
+          "README.md",
+          "resilience_report.json"
+        ]
+      }
+    },
+    {
+      "run_id": "run_131248_6c58a5eb",
+      "tool_id": "resilience_testbed",
+      "action_name": "chaos_battery",
+      "run_date": "2026-10-22",
+      "target_url": "http://127.0.0.1:chaos_server",
+      "started_at": "2026-10-22T13:12:48.402542+00:00",
+      "ended_at": "2026-10-22T13:12:49.390798+00:00",
+      "elapsed_sec": 0.0,
+      "status": "completed",
+      "git_commit": null,
+      "raw_file_count": 1,
+      "cleaned_file_count": 2,
+      "raw_total_bytes": 1885,
+      "cleaned_total_bytes": 4052,
+      "domain_metrics_json": "{\"default_metric\": \"ok\", \"raw_files\": [\"chaos_scenarios_raw.json\"], \"cleaned_files\": [\"README.md\", \"resilience_report.json\"]}",
+      "cleaned_text_preview": "[README.md]: # \ud83d\udee1\ufe0f Chaos & Anti-Bot Resilience Test Report **Report ID:** `resilience_battery_20261022_131248_dfad2e85` | **Date:** 2026-10-22T13:12:48.402477+00:00 | **Evaluation Status:** `RESILIENT` > \ud83c\udf96\ufe0f **Composite Resilience Index:** **97.5 / 100** > *All 4 fault-injection scenarios evaluated: Rate Limiting, DOM Mutation, Socket Chaos, Contract Fuzzing.* --- ## 1. Resilience Matrix Overview | Scenario | Ta | [resilience_report.json]: { \"report_id\": \"resilience_battery_20261022_131248_dfad2e85\", \"created_at\": \"2026-10-22T13:12:48.402477+00:00\", \"resilience_index\": 97.5, \"overall_status\": \"resilient\", \"scenarios_tested\": 4, \"scenarios_passed\": 4, \"scenarios\": { \"rate_limiting\": { \"scenario\": \"rate_limiting\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"target_url\": \"http://127.0.0.1:62341/fault/rate-limit\", \"retries_attemp",
+      "run_dir_relpath": "data/resilience_testbed/chaos_battery/2026-10-22/run_131248_6c58a5eb",
+      "domain_metrics": {
+        "default_metric": "ok",
+        "raw_files": [
+          "chaos_scenarios_raw.json"
+        ],
+        "cleaned_files": [
+          "README.md",
+          "resilience_report.json"
+        ]
+      }
+    },
+    {
+      "run_id": "run_131147_025b4064",
+      "tool_id": "resilience_testbed",
+      "action_name": "chaos_battery",
+      "run_date": "2026-10-22",
+      "target_url": "http://127.0.0.1:chaos_server",
+      "started_at": "2026-10-22T13:11:47.467653+00:00",
+      "ended_at": "2026-10-22T13:11:48.527984+00:00",
+      "elapsed_sec": 0.0,
+      "status": "completed",
+      "git_commit": null,
+      "raw_file_count": 1,
+      "cleaned_file_count": 2,
+      "raw_total_bytes": 1887,
+      "cleaned_total_bytes": 4056,
+      "domain_metrics_json": "{\"default_metric\": \"ok\", \"raw_files\": [\"chaos_scenarios_raw.json\"], \"cleaned_files\": [\"README.md\", \"resilience_report.json\"]}",
+      "cleaned_text_preview": "[README.md]: # \ud83d\udee1\ufe0f Chaos & Anti-Bot Resilience Test Report **Report ID:** `resilience_battery_20261022_131147_bc5b2586` | **Date:** 2026-10-22T13:11:47.467616+00:00 | **Evaluation Status:** `RESILIENT` > \ud83c\udf96\ufe0f **Composite Resilience Index:** **97.5 / 100** > *All 4 fault-injection scenarios evaluated: Rate Limiting, DOM Mutation, Socket Chaos, Contract Fuzzing.* --- ## 1. Resilience Matrix Overview | Scenario | Ta | [resilience_report.json]: { \"report_id\": \"resilience_battery_20261022_131147_bc5b2586\", \"created_at\": \"2026-10-22T13:11:47.467616+00:00\", \"resilience_index\": 97.5, \"overall_status\": \"resilient\", \"scenarios_tested\": 4, \"scenarios_passed\": 4, \"scenarios\": { \"rate_limiting\": { \"scenario\": \"rate_limiting\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"target_url\": \"http://127.0.0.1:64563/fault/rate-limit\", \"retries_attemp",
+      "run_dir_relpath": "data/resilience_testbed/chaos_battery/2026-10-22/run_131147_025b4064",
+      "domain_metrics": {
+        "default_metric": "ok",
+        "raw_files": [
+          "chaos_scenarios_raw.json"
+        ],
+        "cleaned_files": [
+          "README.md",
+          "resilience_report.json"
+        ]
+      }
+    },
+    {
+      "run_id": "run_130906_aca910db",
+      "tool_id": "resilience_testbed",
+      "action_name": "test_isolation",
+      "run_date": "2026-10-22",
+      "target_url": "",
+      "started_at": "2026-10-22T13:09:06.079121+00:00",
+      "ended_at": "2026-10-22T13:09:06.087805+00:00",
+      "elapsed_sec": 0.0,
+      "status": "completed",
+      "git_commit": null,
+      "raw_file_count": 0,
+      "cleaned_file_count": 0,
+      "raw_total_bytes": 0,
+      "cleaned_total_bytes": 0,
+      "domain_metrics_json": "{\"default_metric\": \"ok\", \"raw_files\": [], \"cleaned_files\": []}",
+      "cleaned_text_preview": "",
+      "run_dir_relpath": "data/resilience_testbed/test_isolation/2026-10-22/run_130906_aca910db",
+      "domain_metrics": {
+        "default_metric": "ok",
+        "raw_files": [],
+        "cleaned_files": []
+      }
+    }
+  ],
+  "total_files": 9,
+  "files_summary": {
+    "raw": [
+      {
+        "file_id": "run_131147_025b4064_raw_chaos_scenarios_raw.json",
+        "run_id": "run_131147_025b4064",
+        "tool_id": "resilience_testbed",
+        "action_name": "chaos_battery",
+        "run_date": "2026-10-22",
+        "tier": "raw",
+        "filename": "chaos_scenarios_raw.json",
+        "extension": ".json",
+        "size_bytes": 1887,
+        "sha256_short": "ccd35ca967edc54f",
+        "relpath": "data/resilience_testbed/chaos_battery/2026-10-22/run_131147_025b4064/raw/chaos_scenarios_raw.json",
+        "content_preview": "{ \"report_id\": \"resilience_battery_20261022_131147_bc5b2586\", \"created_at\": \"2026-10-22T13:11:47.467616+00:00\", \"resilience_index\": 97.5, \"overall_status\": \"resilient\", \"scenarios_tested\": 4, \"scenarios_passed\": 4, \"scenarios\": { \"rate_limiting\": { \"scenario\": \"rate_limiting\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"target_url\": \"http://127.0.0.1:64563/fault/rate-limit\", \"retries_attempted\": 3, \"rate_limit_caught\": true, \"backoff_intervals\": [ 1.788, 5.211, 11.123 ], \"is_increasing_backoff\": true, \"cooldown_engaged\": true, \"final_status\": \"rate_limited\", \"resilience_score\": 100.0 }, \"dom_mutation\": { \"scenario\": \"dom_mutation\", \"status\": \"completed\", \"tool_id\": \"04_httpx_parsel\", \"target_url\": \"http://127.0.0.1:64563/fault/mutated-dom\", \"target_selector\": \".target-content\", \"primary_selector_found\": false, \"fallback_selector_found\": true, \"extracted_text\": \"The Secret Life of Plants\", \"extraction_accuracy_pct\": 100.0, \"graceful_degradation_detected\": true, \"unhandled_exceptions\": 0, \"resilience_score\": 95.0 }, \"network_chaos\": { \"scenario\": \"network_chaos\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"timeouts_caught\": 1, \"connection_resets_caught\": 1, \"truncations_handled\": 1, \"hung_indefinitely\": false, \"resilience_score\": 95.0 }, \"contract_fuzzing\": { \"scenario\": \"contract_fuzzing\", \"status\": \"completed\", \"fuzz_cases_tested\": 4, \"validation_errors_caught\": 4, \"pipeline_handled_count\": 2, \"unhandled_exceptions_count\": 0, \"all_passed\": true, \"resilience_scor"
+      },
+      {
+        "file_id": "run_131248_6c58a5eb_raw_chaos_scenarios_raw.json",
+        "run_id": "run_131248_6c58a5eb",
+        "tool_id": "resilience_testbed",
+        "action_name": "chaos_battery",
+        "run_date": "2026-10-22",
+        "tier": "raw",
+        "filename": "chaos_scenarios_raw.json",
+        "extension": ".json",
+        "size_bytes": 1885,
+        "sha256_short": "679275eb298c6651",
+        "relpath": "data/resilience_testbed/chaos_battery/2026-10-22/run_131248_6c58a5eb/raw/chaos_scenarios_raw.json",
+        "content_preview": "{ \"report_id\": \"resilience_battery_20261022_131248_dfad2e85\", \"created_at\": \"2026-10-22T13:12:48.402477+00:00\", \"resilience_index\": 97.5, \"overall_status\": \"resilient\", \"scenarios_tested\": 4, \"scenarios_passed\": 4, \"scenarios\": { \"rate_limiting\": { \"scenario\": \"rate_limiting\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"target_url\": \"http://127.0.0.1:62341/fault/rate-limit\", \"retries_attempted\": 3, \"rate_limit_caught\": true, \"backoff_intervals\": [ 2.917, 3.593, 8.32 ], \"is_increasing_backoff\": true, \"cooldown_engaged\": true, \"final_status\": \"rate_limited\", \"resilience_score\": 100.0 }, \"dom_mutation\": { \"scenario\": \"dom_mutation\", \"status\": \"completed\", \"tool_id\": \"04_httpx_parsel\", \"target_url\": \"http://127.0.0.1:62341/fault/mutated-dom\", \"target_selector\": \".target-content\", \"primary_selector_found\": false, \"fallback_selector_found\": true, \"extracted_text\": \"The Secret Life of Plants\", \"extraction_accuracy_pct\": 100.0, \"graceful_degradation_detected\": true, \"unhandled_exceptions\": 0, \"resilience_score\": 95.0 }, \"network_chaos\": { \"scenario\": \"network_chaos\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"timeouts_caught\": 1, \"connection_resets_caught\": 1, \"truncations_handled\": 1, \"hung_indefinitely\": false, \"resilience_score\": 95.0 }, \"contract_fuzzing\": { \"scenario\": \"contract_fuzzing\", \"status\": \"completed\", \"fuzz_cases_tested\": 4, \"validation_errors_caught\": 4, \"pipeline_handled_count\": 2, \"unhandled_exceptions_count\": 0, \"all_passed\": true, \"resilience_score\""
+      },
+      {
+        "file_id": "run_131348_02d8531b_raw_chaos_scenarios_raw.json",
+        "run_id": "run_131348_02d8531b",
+        "tool_id": "resilience_testbed",
+        "action_name": "chaos_battery",
+        "run_date": "2026-10-22",
+        "tier": "raw",
+        "filename": "chaos_scenarios_raw.json",
+        "extension": ".json",
+        "size_bytes": 1886,
+        "sha256_short": "bf0e563eff5ff31f",
+        "relpath": "data/resilience_testbed/chaos_battery/2026-10-22/run_131348_02d8531b/raw/chaos_scenarios_raw.json",
+        "content_preview": "{ \"report_id\": \"resilience_battery_20261022_131348_77d01e63\", \"created_at\": \"2026-10-22T13:13:48.494064+00:00\", \"resilience_index\": 97.5, \"overall_status\": \"resilient\", \"scenarios_tested\": 4, \"scenarios_passed\": 4, \"scenarios\": { \"rate_limiting\": { \"scenario\": \"rate_limiting\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"target_url\": \"http://127.0.0.1:53531/fault/rate-limit\", \"retries_attempted\": 3, \"rate_limit_caught\": true, \"backoff_intervals\": [ 2.375, 3.303, 6.641 ], \"is_increasing_backoff\": true, \"cooldown_engaged\": true, \"final_status\": \"rate_limited\", \"resilience_score\": 100.0 }, \"dom_mutation\": { \"scenario\": \"dom_mutation\", \"status\": \"completed\", \"tool_id\": \"04_httpx_parsel\", \"target_url\": \"http://127.0.0.1:53531/fault/mutated-dom\", \"target_selector\": \".target-content\", \"primary_selector_found\": false, \"fallback_selector_found\": true, \"extracted_text\": \"The Secret Life of Plants\", \"extraction_accuracy_pct\": 100.0, \"graceful_degradation_detected\": true, \"unhandled_exceptions\": 0, \"resilience_score\": 95.0 }, \"network_chaos\": { \"scenario\": \"network_chaos\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"timeouts_caught\": 1, \"connection_resets_caught\": 1, \"truncations_handled\": 1, \"hung_indefinitely\": false, \"resilience_score\": 95.0 }, \"contract_fuzzing\": { \"scenario\": \"contract_fuzzing\", \"status\": \"completed\", \"fuzz_cases_tested\": 4, \"validation_errors_caught\": 4, \"pipeline_handled_count\": 2, \"unhandled_exceptions_count\": 0, \"all_passed\": true, \"resilience_score"
+      }
+    ],
+    "cleaned": [
+      {
+        "file_id": "run_131147_025b4064_cleaned_README.md",
+        "run_id": "run_131147_025b4064",
+        "tool_id": "resilience_testbed",
+        "action_name": "chaos_battery",
+        "run_date": "2026-10-22",
+        "tier": "cleaned",
+        "filename": "README.md",
+        "extension": ".md",
+        "size_bytes": 2169,
+        "sha256_short": "b7c3c4f838a08060",
+        "relpath": "data/resilience_testbed/chaos_battery/2026-10-22/run_131147_025b4064/cleaned/README.md",
+        "content_preview": "# \ud83d\udee1\ufe0f Chaos & Anti-Bot Resilience Test Report **Report ID:** `resilience_battery_20261022_131147_bc5b2586` | **Date:** 2026-10-22T13:11:47.467616+00:00 | **Evaluation Status:** `RESILIENT` > \ud83c\udf96\ufe0f **Composite Resilience Index:** **97.5 / 100** > *All 4 fault-injection scenarios evaluated: Rate Limiting, DOM Mutation, Socket Chaos, Contract Fuzzing.* --- ## 1. Resilience Matrix Overview | Scenario | Target Tool / Domain | Status | Resilience Score | Key Recovery Mechanism | |:---|:---|:---:|:---:|:---| | **1. Rate Limiting** | `01_curl_cffi` | \u2705 PASS | **100.0/100** | Exponential backoff jitter + AccountRouter cooldown quarantine | | **2. DOM Mutation** | `04_httpx_parsel` | \u2705 PASS | **95.0/100** | Semantic fallback selectors (`data-semantic`, header tags) | | **3. Network Chaos** | `01_curl_cffi` | \u2705 PASS | **95.0/100** | Client socket disconnect handling & 0.3s timeout guard | | **4. Contract Fuzzing** | `CleaningPipeline` | \u2705 PASS | **100.0/100** | Pydantic ValidationError capture + graceful Silver fallbacks | --- ## 2. Detailed Scenario Results ### Scenario 1: HTTP 429 Rate Limiting & Cooldown Quarantine - **Retries Attempted:** 3 - **Backoff Intervals (s):** `[1.788, 5.211, 11.123]` - **Account Cooldown Engaged:** `True` ### Scenario 2: Scrambled DOM & Graceful Degradation - **Target Primary Selector:** `.target-content` (Found: `False`) - **Fallback Selector Found:** `True` - **Extracted Content:** *\"The Secret Life of Plants\"* (Accuracy: 100.0%) - **Unhandled Exceptions:** "
+      },
+      {
+        "file_id": "run_131248_6c58a5eb_cleaned_README.md",
+        "run_id": "run_131248_6c58a5eb",
+        "tool_id": "resilience_testbed",
+        "action_name": "chaos_battery",
+        "run_date": "2026-10-22",
+        "tier": "cleaned",
+        "filename": "README.md",
+        "extension": ".md",
+        "size_bytes": 2167,
+        "sha256_short": "d9236e03684b0a9f",
+        "relpath": "data/resilience_testbed/chaos_battery/2026-10-22/run_131248_6c58a5eb/cleaned/README.md",
+        "content_preview": "# \ud83d\udee1\ufe0f Chaos & Anti-Bot Resilience Test Report **Report ID:** `resilience_battery_20261022_131248_dfad2e85` | **Date:** 2026-10-22T13:12:48.402477+00:00 | **Evaluation Status:** `RESILIENT` > \ud83c\udf96\ufe0f **Composite Resilience Index:** **97.5 / 100** > *All 4 fault-injection scenarios evaluated: Rate Limiting, DOM Mutation, Socket Chaos, Contract Fuzzing.* --- ## 1. Resilience Matrix Overview | Scenario | Target Tool / Domain | Status | Resilience Score | Key Recovery Mechanism | |:---|:---|:---:|:---:|:---| | **1. Rate Limiting** | `01_curl_cffi` | \u2705 PASS | **100.0/100** | Exponential backoff jitter + AccountRouter cooldown quarantine | | **2. DOM Mutation** | `04_httpx_parsel` | \u2705 PASS | **95.0/100** | Semantic fallback selectors (`data-semantic`, header tags) | | **3. Network Chaos** | `01_curl_cffi` | \u2705 PASS | **95.0/100** | Client socket disconnect handling & 0.3s timeout guard | | **4. Contract Fuzzing** | `CleaningPipeline` | \u2705 PASS | **100.0/100** | Pydantic ValidationError capture + graceful Silver fallbacks | --- ## 2. Detailed Scenario Results ### Scenario 1: HTTP 429 Rate Limiting & Cooldown Quarantine - **Retries Attempted:** 3 - **Backoff Intervals (s):** `[2.917, 3.593, 8.32]` - **Account Cooldown Engaged:** `True` ### Scenario 2: Scrambled DOM & Graceful Degradation - **Target Primary Selector:** `.target-content` (Found: `False`) - **Fallback Selector Found:** `True` - **Extracted Content:** *\"The Secret Life of Plants\"* (Accuracy: 100.0%) - **Unhandled Exceptions:** `0"
+      },
+      {
+        "file_id": "run_131348_02d8531b_cleaned_README.md",
+        "run_id": "run_131348_02d8531b",
+        "tool_id": "resilience_testbed",
+        "action_name": "chaos_battery",
+        "run_date": "2026-10-22",
+        "tier": "cleaned",
+        "filename": "README.md",
+        "extension": ".md",
+        "size_bytes": 2168,
+        "sha256_short": "3cdd526849b02592",
+        "relpath": "data/resilience_testbed/chaos_battery/2026-10-22/run_131348_02d8531b/cleaned/README.md",
+        "content_preview": "# \ud83d\udee1\ufe0f Chaos & Anti-Bot Resilience Test Report **Report ID:** `resilience_battery_20261022_131348_77d01e63` | **Date:** 2026-10-22T13:13:48.494064+00:00 | **Evaluation Status:** `RESILIENT` > \ud83c\udf96\ufe0f **Composite Resilience Index:** **97.5 / 100** > *All 4 fault-injection scenarios evaluated: Rate Limiting, DOM Mutation, Socket Chaos, Contract Fuzzing.* --- ## 1. Resilience Matrix Overview | Scenario | Target Tool / Domain | Status | Resilience Score | Key Recovery Mechanism | |:---|:---|:---:|:---:|:---| | **1. Rate Limiting** | `01_curl_cffi` | \u2705 PASS | **100.0/100** | Exponential backoff jitter + AccountRouter cooldown quarantine | | **2. DOM Mutation** | `04_httpx_parsel` | \u2705 PASS | **95.0/100** | Semantic fallback selectors (`data-semantic`, header tags) | | **3. Network Chaos** | `01_curl_cffi` | \u2705 PASS | **95.0/100** | Client socket disconnect handling & 0.3s timeout guard | | **4. Contract Fuzzing** | `CleaningPipeline` | \u2705 PASS | **100.0/100** | Pydantic ValidationError capture + graceful Silver fallbacks | --- ## 2. Detailed Scenario Results ### Scenario 1: HTTP 429 Rate Limiting & Cooldown Quarantine - **Retries Attempted:** 3 - **Backoff Intervals (s):** `[2.375, 3.303, 6.641]` - **Account Cooldown Engaged:** `True` ### Scenario 2: Scrambled DOM & Graceful Degradation - **Target Primary Selector:** `.target-content` (Found: `False`) - **Fallback Selector Found:** `True` - **Extracted Content:** *\"The Secret Life of Plants\"* (Accuracy: 100.0%) - **Unhandled Exceptions:** `"
+      },
+      {
+        "file_id": "run_131147_025b4064_cleaned_resilience_report.json",
+        "run_id": "run_131147_025b4064",
+        "tool_id": "resilience_testbed",
+        "action_name": "chaos_battery",
+        "run_date": "2026-10-22",
+        "tier": "cleaned",
+        "filename": "resilience_report.json",
+        "extension": ".json",
+        "size_bytes": 1887,
+        "sha256_short": "ccd35ca967edc54f",
+        "relpath": "data/resilience_testbed/chaos_battery/2026-10-22/run_131147_025b4064/cleaned/resilience_report.json",
+        "content_preview": "{ \"report_id\": \"resilience_battery_20261022_131147_bc5b2586\", \"created_at\": \"2026-10-22T13:11:47.467616+00:00\", \"resilience_index\": 97.5, \"overall_status\": \"resilient\", \"scenarios_tested\": 4, \"scenarios_passed\": 4, \"scenarios\": { \"rate_limiting\": { \"scenario\": \"rate_limiting\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"target_url\": \"http://127.0.0.1:64563/fault/rate-limit\", \"retries_attempted\": 3, \"rate_limit_caught\": true, \"backoff_intervals\": [ 1.788, 5.211, 11.123 ], \"is_increasing_backoff\": true, \"cooldown_engaged\": true, \"final_status\": \"rate_limited\", \"resilience_score\": 100.0 }, \"dom_mutation\": { \"scenario\": \"dom_mutation\", \"status\": \"completed\", \"tool_id\": \"04_httpx_parsel\", \"target_url\": \"http://127.0.0.1:64563/fault/mutated-dom\", \"target_selector\": \".target-content\", \"primary_selector_found\": false, \"fallback_selector_found\": true, \"extracted_text\": \"The Secret Life of Plants\", \"extraction_accuracy_pct\": 100.0, \"graceful_degradation_detected\": true, \"unhandled_exceptions\": 0, \"resilience_score\": 95.0 }, \"network_chaos\": { \"scenario\": \"network_chaos\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"timeouts_caught\": 1, \"connection_resets_caught\": 1, \"truncations_handled\": 1, \"hung_indefinitely\": false, \"resilience_score\": 95.0 }, \"contract_fuzzing\": { \"scenario\": \"contract_fuzzing\", \"status\": \"completed\", \"fuzz_cases_tested\": 4, \"validation_errors_caught\": 4, \"pipeline_handled_count\": 2, \"unhandled_exceptions_count\": 0, \"all_passed\": true, \"resilience_scor"
+      },
+      {
+        "file_id": "run_131248_6c58a5eb_cleaned_resilience_report.json",
+        "run_id": "run_131248_6c58a5eb",
+        "tool_id": "resilience_testbed",
+        "action_name": "chaos_battery",
+        "run_date": "2026-10-22",
+        "tier": "cleaned",
+        "filename": "resilience_report.json",
+        "extension": ".json",
+        "size_bytes": 1885,
+        "sha256_short": "679275eb298c6651",
+        "relpath": "data/resilience_testbed/chaos_battery/2026-10-22/run_131248_6c58a5eb/cleaned/resilience_report.json",
+        "content_preview": "{ \"report_id\": \"resilience_battery_20261022_131248_dfad2e85\", \"created_at\": \"2026-10-22T13:12:48.402477+00:00\", \"resilience_index\": 97.5, \"overall_status\": \"resilient\", \"scenarios_tested\": 4, \"scenarios_passed\": 4, \"scenarios\": { \"rate_limiting\": { \"scenario\": \"rate_limiting\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"target_url\": \"http://127.0.0.1:62341/fault/rate-limit\", \"retries_attempted\": 3, \"rate_limit_caught\": true, \"backoff_intervals\": [ 2.917, 3.593, 8.32 ], \"is_increasing_backoff\": true, \"cooldown_engaged\": true, \"final_status\": \"rate_limited\", \"resilience_score\": 100.0 }, \"dom_mutation\": { \"scenario\": \"dom_mutation\", \"status\": \"completed\", \"tool_id\": \"04_httpx_parsel\", \"target_url\": \"http://127.0.0.1:62341/fault/mutated-dom\", \"target_selector\": \".target-content\", \"primary_selector_found\": false, \"fallback_selector_found\": true, \"extracted_text\": \"The Secret Life of Plants\", \"extraction_accuracy_pct\": 100.0, \"graceful_degradation_detected\": true, \"unhandled_exceptions\": 0, \"resilience_score\": 95.0 }, \"network_chaos\": { \"scenario\": \"network_chaos\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"timeouts_caught\": 1, \"connection_resets_caught\": 1, \"truncations_handled\": 1, \"hung_indefinitely\": false, \"resilience_score\": 95.0 }, \"contract_fuzzing\": { \"scenario\": \"contract_fuzzing\", \"status\": \"completed\", \"fuzz_cases_tested\": 4, \"validation_errors_caught\": 4, \"pipeline_handled_count\": 2, \"unhandled_exceptions_count\": 0, \"all_passed\": true, \"resilience_score\""
+      },
+      {
+        "file_id": "run_131348_02d8531b_cleaned_resilience_report.json",
+        "run_id": "run_131348_02d8531b",
+        "tool_id": "resilience_testbed",
+        "action_name": "chaos_battery",
+        "run_date": "2026-10-22",
+        "tier": "cleaned",
+        "filename": "resilience_report.json",
+        "extension": ".json",
+        "size_bytes": 1886,
+        "sha256_short": "bf0e563eff5ff31f",
+        "relpath": "data/resilience_testbed/chaos_battery/2026-10-22/run_131348_02d8531b/cleaned/resilience_report.json",
+        "content_preview": "{ \"report_id\": \"resilience_battery_20261022_131348_77d01e63\", \"created_at\": \"2026-10-22T13:13:48.494064+00:00\", \"resilience_index\": 97.5, \"overall_status\": \"resilient\", \"scenarios_tested\": 4, \"scenarios_passed\": 4, \"scenarios\": { \"rate_limiting\": { \"scenario\": \"rate_limiting\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"target_url\": \"http://127.0.0.1:53531/fault/rate-limit\", \"retries_attempted\": 3, \"rate_limit_caught\": true, \"backoff_intervals\": [ 2.375, 3.303, 6.641 ], \"is_increasing_backoff\": true, \"cooldown_engaged\": true, \"final_status\": \"rate_limited\", \"resilience_score\": 100.0 }, \"dom_mutation\": { \"scenario\": \"dom_mutation\", \"status\": \"completed\", \"tool_id\": \"04_httpx_parsel\", \"target_url\": \"http://127.0.0.1:53531/fault/mutated-dom\", \"target_selector\": \".target-content\", \"primary_selector_found\": false, \"fallback_selector_found\": true, \"extracted_text\": \"The Secret Life of Plants\", \"extraction_accuracy_pct\": 100.0, \"graceful_degradation_detected\": true, \"unhandled_exceptions\": 0, \"resilience_score\": 95.0 }, \"network_chaos\": { \"scenario\": \"network_chaos\", \"status\": \"completed\", \"tool_id\": \"01_curl_cffi\", \"timeouts_caught\": 1, \"connection_resets_caught\": 1, \"truncations_handled\": 1, \"hung_indefinitely\": false, \"resilience_score\": 95.0 }, \"contract_fuzzing\": { \"scenario\": \"contract_fuzzing\", \"status\": \"completed\", \"fuzz_cases_tested\": 4, \"validation_errors_caught\": 4, \"pipeline_handled_count\": 2, \"unhandled_exceptions_count\": 0, \"all_passed\": true, \"resilience_score"
+      }
+    ]
+  },
+  "recent_logs": [
+    {
+      "log_id": "run_131348_02d8531b_act_0",
+      "run_id": "run_131348_02d8531b",
+      "tool_id": "resilience_testbed",
+      "action_name": "chaos_battery",
+      "run_date": "2026-10-22",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-22T13:13:48.494099+00:00",
+      "level": "INFO",
+      "stage": "",
+      "step": "",
+      "progress_pct": 0,
+      "elapsed_ms": 0,
+      "message": ""
+    },
+    {
+      "log_id": "run_131248_6c58a5eb_act_0",
+      "run_id": "run_131248_6c58a5eb",
+      "tool_id": "resilience_testbed",
+      "action_name": "chaos_battery",
+      "run_date": "2026-10-22",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-22T13:12:48.402542+00:00",
+      "level": "INFO",
+      "stage": "",
+      "step": "",
+      "progress_pct": 0,
+      "elapsed_ms": 0,
+      "message": ""
+    },
+    {
+      "log_id": "run_131147_025b4064_act_0",
+      "run_id": "run_131147_025b4064",
+      "tool_id": "resilience_testbed",
+      "action_name": "chaos_battery",
+      "run_date": "2026-10-22",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-22T13:11:47.467653+00:00",
+      "level": "INFO",
+      "stage": "",
+      "step": "",
+      "progress_pct": 0,
+      "elapsed_ms": 0,
+      "message": ""
+    },
+    {
+      "log_id": "run_130906_aca910db_act_0",
+      "run_id": "run_130906_aca910db",
+      "tool_id": "resilience_testbed",
+      "action_name": "test_isolation",
+      "run_date": "2026-10-22",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-22T13:09:06.079121+00:00",
+      "level": "INFO",
+      "stage": "",
+      "step": "",
+      "progress_pct": 0,
+      "elapsed_ms": 0,
+      "message": ""
+    }
+  ],
+  "indexed_at": "2026-10-22T13:13:49.421787+00:00"
+}

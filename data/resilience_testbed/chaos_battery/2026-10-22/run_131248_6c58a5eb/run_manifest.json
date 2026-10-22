@@ -1,0 +1,22 @@
+{
+  "run_id": "run_131248_6c58a5eb",
+  "tool_id": "resilience_testbed",
+  "action_name": "chaos_battery",
+  "date": "2026-10-22",
+  "target_url": "http://127.0.0.1:chaos_server",
+  "started_at": "2026-10-22T13:12:48.402542+00:00",
+  "ended_at": "2026-10-22T13:12:49.390798+00:00",
+  "elapsed_sec": 0.988,
+  "status": "completed",
+  "raw_files": [
+    "chaos_scenarios_raw.json"
+  ],
+  "cleaned_files": [
+    "README.md",
+    "resilience_report.json"
+  ],
+  "git_commit": null,
+  "domain_metrics": {
+    "resilience_index": 97.5
+  }
+}

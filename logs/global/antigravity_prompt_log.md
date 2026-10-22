@@ -1619,3 +1619,65 @@
 | 2026-10-21 16:10:40 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: get_benchmark_report() retrieves report with markdown_content |
 | 2026-10-21 16:10:41 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates all runs cleanly |
 | 2026-10-21 16:10:41 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_1 | 0% | CHECK PASSED: Pre-Commit Secret Guard reports ZERO violations |
+| 2026-10-22 13:11:47 | INFO | Stage 6 | core_resilience_tester | run_full_resilience_battery | 0% | Starting Full Chaos Resilience Battery 'resilience_battery_20261022_131147_bc5b2586' across 4 scenarios |
+| 2026-10-22 13:11:48 | INFO | Stage 6 | core_resilience_tester | run_full_resilience_battery | 0% | Resilience battery 'resilience_battery_20261022_131147_bc5b2586' complete: Resilience Index = 97.5/100. Reports saved. |
+| 2026-10-22 13:12:47 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: index_store/resilience_reports/ exists and is a directory |
+| 2026-10-22 13:12:47 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: ChaosFaultServer started on ephemeral localhost port |
+| 2026-10-22 13:12:47 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Chaos server /health returns status 'chaos_server_ready' |
+| 2026-10-22 13:12:47 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Chaos server /fault/rate-limit emits HTTP 429 with Retry-After header |
+| 2026-10-22 13:12:47 | ERROR | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK FAILED: Chaos server /fault/anti-bot emits HTTP 403 with Cloudflare challenge markers - Code: 403, Server: BaseHTTP/0.6 Python/3.14.3 |
+| 2026-10-22 13:12:47 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Chaos server /fault/mutated-dom serves scrambled DOM with semantic tags |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: test_rate_limit_resilience completed with status 'completed' |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Rate-limit 429 caught across 3 retries |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Exponential backoff jitter intervals calculated |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: AccountRouter engaged cooldown quarantine on rate limit |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: test_dom_mutation_resilience completed with status 'completed' |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Standard primary selector safely reported absent without crashing |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Fallback heuristics successfully extracted target text |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Graceful degradation detected with 100% extraction accuracy |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: test_network_fault_resilience completed with status 'completed' |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: TCP connection resets caught cleanly |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Latency timeout guard prevented indefinite hang |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: test_contract_fuzzing_resilience completed with status 'completed' |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: All 4 corrupted payloads rejected with Pydantic ValidationError |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Zero unhandled exceptions during contract fuzzing |
+| 2026-10-22 13:12:48 | INFO | Stage 6 | core_resilience_tester | run_full_resilience_battery | 0% | Starting Full Chaos Resilience Battery 'resilience_battery_20261022_131248_dfad2e85' across 4 scenarios |
+| 2026-10-22 13:12:49 | INFO | Stage 6 | core_resilience_tester | run_full_resilience_battery | 0% | Resilience battery 'resilience_battery_20261022_131248_dfad2e85' complete: Resilience Index = 97.5/100. Reports saved. |
+| 2026-10-22 13:12:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: run_full_resilience_battery generated valid report document |
+| 2026-10-22 13:12:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Composite Resilience Index is high (>= 85.0/100) |
+| 2026-10-22 13:12:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Resilience JSON report persisted (resilience_battery_20261022_131248_dfad2e85.json) |
+| 2026-10-22 13:12:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Resilience Markdown report persisted (resilience_battery_20261022_131248_dfad2e85.md) |
+| 2026-10-22 13:12:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: list_resilience_reports finds newly created battery report |
+| 2026-10-22 13:12:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: get_resilience_report retrieves report with markdown_content |
+| 2026-10-22 13:12:50 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates all runs cleanly |
+| 2026-10-22 13:12:50 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Pre-Commit Secret Guard reports ZERO violations |
+| 2026-10-22 13:13:47 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: index_store/resilience_reports/ exists and is a directory |
+| 2026-10-22 13:13:47 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: ChaosFaultServer started on ephemeral localhost port |
+| 2026-10-22 13:13:47 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Chaos server /health returns status 'chaos_server_ready' |
+| 2026-10-22 13:13:47 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Chaos server /fault/rate-limit emits HTTP 429 with Retry-After header |
+| 2026-10-22 13:13:47 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Chaos server /fault/anti-bot emits HTTP 403 with Cloudflare challenge markers |
+| 2026-10-22 13:13:47 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Chaos server /fault/mutated-dom serves scrambled DOM with semantic tags |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: test_rate_limit_resilience completed with status 'completed' |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Rate-limit 429 caught across 3 retries |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Exponential backoff jitter intervals calculated |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: AccountRouter engaged cooldown quarantine on rate limit |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: test_dom_mutation_resilience completed with status 'completed' |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Standard primary selector safely reported absent without crashing |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Fallback heuristics successfully extracted target text |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Graceful degradation detected with 100% extraction accuracy |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: test_network_fault_resilience completed with status 'completed' |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: TCP connection resets caught cleanly |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Latency timeout guard prevented indefinite hang |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: test_contract_fuzzing_resilience completed with status 'completed' |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: All 4 corrupted payloads rejected with Pydantic ValidationError |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Zero unhandled exceptions during contract fuzzing |
+| 2026-10-22 13:13:48 | INFO | Stage 6 | core_resilience_tester | run_full_resilience_battery | 0% | Starting Full Chaos Resilience Battery 'resilience_battery_20261022_131348_77d01e63' across 4 scenarios |
+| 2026-10-22 13:13:49 | INFO | Stage 6 | core_resilience_tester | run_full_resilience_battery | 0% | Resilience battery 'resilience_battery_20261022_131348_77d01e63' complete: Resilience Index = 97.5/100. Reports saved. |
+| 2026-10-22 13:13:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: run_full_resilience_battery generated valid report document |
+| 2026-10-22 13:13:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Composite Resilience Index is high (>= 85.0/100) |
+| 2026-10-22 13:13:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Resilience JSON report persisted (resilience_battery_20261022_131348_77d01e63.json) |
+| 2026-10-22 13:13:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Resilience Markdown report persisted (resilience_battery_20261022_131348_77d01e63.md) |
+| 2026-10-22 13:13:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: list_resilience_reports finds newly created battery report |
+| 2026-10-22 13:13:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: get_resilience_report retrieves report with markdown_content |
+| 2026-10-22 13:13:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates all runs cleanly |
+| 2026-10-22 13:13:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Pre-Commit Secret Guard reports ZERO violations |
