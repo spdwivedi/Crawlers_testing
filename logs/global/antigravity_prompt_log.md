@@ -1730,3 +1730,52 @@
 | 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates all runs cleanly |
 | 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Pre-Commit Secret Guard reports ZERO violations |
 | 2026-10-22 13:36:32 | INFO | Stage 6 | core_project_exporter | finalize | 0% | Stage 6 Step 6.3 finalized. Commit: 86b28e6 |
+| 2026-10-22 19:32:30 | INFO | Stage 6 | core_benchmark_engine | build_step_6_4 | 0% | Stage 6 Step 6.4 initiated: Master Benchmarks, Resilience Stress Lab & Exporter UI |
+| 2026-10-22 19:38:23 | INFO | Stage 6 | core_project_exporter | bundle_data_lake | 0% | Bundling data lake artifacts (scope='cleaned', pipeline='', tool='') |
+| 2026-10-22 19:39:06 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: GET /api/benchmarks/overview returns 200 OK |
+| 2026-10-22 19:39:06 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: Benchmark overview contains valid summary keys |
+| 2026-10-22 19:39:06 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: GET /api/benchmarks/reports returns 200 OK with reports list |
+| 2026-10-22 19:39:06 | INFO | Stage 6 | core_benchmark_engine | run_battery_benchmark | 0% | Launching Benchmark Battery 'benchmark_battery_20261022_193906_ed3dfaf3': 1 tools vs. 'https://quotes.toscrape.com' (1 iters/tool) |
+| 2026-10-22 19:39:06 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: POST /api/benchmarks/run launches background battery with status == 'started' |
+| 2026-10-22 19:39:06 | INFO | Stage 6 | 01_curl_cffi | Verify Step 6.4 Battery | 0% | Starting benchmark for '01_curl_cffi' on 'https://quotes.toscrape.com' (1 iterations, human_mode=False) |
+| 2026-10-22 19:39:07 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: GET /api/resilience/overview returns 200 OK |
+| 2026-10-22 19:39:07 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: Resilience overview contains latest_resilience_index |
+| 2026-10-22 19:39:07 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: GET /api/resilience/reports returns 200 OK with reports list |
+| 2026-10-22 19:39:07 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: POST /api/resilience/run dispatches chaos test with status == 'started' |
+| 2026-10-22 19:39:07 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: GET /api/exports/list returns 200 OK with 3 export categories |
+| 2026-10-22 19:39:07 | INFO | Stage 6 | 01_curl_cffi | export_standalone_tool | 0% | Exporting standalone tool package for '01_curl_cffi' to 01_curl_cffi_standalone |
+| 2026-10-22 19:39:07 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: POST /api/exports/tool returns 200 OK with export path and manifest |
+| 2026-10-22 19:39:07 | INFO | Stage 6 | core_project_exporter | bundle_data_lake | 0% | Bundling data lake artifacts (scope='cleaned', pipeline='', tool='') |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: POST /api/exports/bundle generates verified data lake zip bundle |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: GET /api/exports/download streams valid zip archive (200 OK) |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: GET /api/exports/download strictly blocks directory traversal (400 Bad Request) |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: index.html contains Tab 8 nav button (data-tab='tab-benchmarks-exporter') |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: index.html contains #tab-benchmarks-exporter container |
+| 2026-10-22 19:39:08 | INFO | Stage 1 | 01_curl_cffi | Verify Step 6.4 Battery | 10% | Initialized curl_cffi run run_193908_12aa2b15 impersonating chrome124 (human_mode=False) |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: index.html contains Sub-View A (#subview-benchmark-lab) |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: index.html contains Sub-View B (#subview-resilience-lab) |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: index.html contains Sub-View C (#subview-exporter-lab) |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: app.js implements handler: loadBenchmarksTab |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: app.js implements handler: runBenchmarkBattery |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: app.js implements handler: loadBenchmarkReports |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: app.js implements handler: runChaosScenario |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: app.js implements handler: loadResilienceReports |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: app.js implements handler: exportStandaloneTool |
+| 2026-10-22 19:39:08 | INFO | Stage 1 | 01_curl_cffi | Verify Step 6.4 Battery | 35% | Executing GraphQL question detail query for 'two-sum' |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: app.js implements handler: bundleDataLake |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: app.js implements handler: exportStandalonePipeline |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: app.js implements handler: loadExportsTab |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: app.js implements handler: downloadExportArchive |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: styles.css defines style rule: .bench-subview-panel |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: styles.css defines style rule: .bench-card |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: styles.css defines style rule: .gold-border |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: styles.css defines style rule: .chaos-card |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: styles.css defines style rule: .export-card |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: styles.css defines style rule: .btn-danger-glow |
+| 2026-10-22 19:39:08 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: styles.css defines style rule: .resilience-item |
+| 2026-10-22 19:39:09 | INFO | Stage 1 | 01_curl_cffi | Verify Step 6.4 Battery | 60% | Successfully fetched live LeetCode GraphQL problem data |
+| 2026-10-22 19:39:09 | INFO | Stage 1 | 01_curl_cffi | Verify Step 6.4 Battery | 85% | Raw outputs saved to D:\Project_Files\Crawlers_testing\data\01_curl_cffi\Verify Step 6.4 Battery\2026-10-22\run_193908_12aa2b15\raw (mode: live) |
+| 2026-10-22 19:39:13 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates all runs cleanly |
+| 2026-10-22 19:39:13 | INFO | Stage 1 | 01_curl_cffi | Verify Step 6.4 Battery | 100% | Run manifest finalized, all 4 log tiers synchronized |
+| 2026-10-22 19:39:13 | INFO | Stage 6 | core_benchmark_engine | verify_step_6_4 | 0% | CHECK PASSED: Pre-Commit Secret Guard reports ZERO violations |
+| 2026-10-22 19:39:13 | INFO | Stage 6 | 01_curl_cffi | Verify Step 6.4 Battery | 0% | Tool benchmark finished for '01_curl_cffi': p50=6.345s, RAM_delta=35.59MB, Composite=48.81 |

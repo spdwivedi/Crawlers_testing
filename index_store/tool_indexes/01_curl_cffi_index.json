@@ -5,15 +5,40 @@
     "name": "curl_cffi (TLS Impersonation)",
     "batch": 1,
     "mechanism_type": "HTTP/TLS",
-    "total_runs": 35,
-    "total_actions": 6,
-    "total_raw_files": 95,
-    "total_cleaned_files": 62,
-    "total_log_entries": 191,
-    "last_indexed_at": "2026-10-21T16:10:37.357400+00:00"
+    "total_runs": 36,
+    "total_actions": 7,
+    "total_raw_files": 98,
+    "total_cleaned_files": 64,
+    "total_log_entries": 196,
+    "last_indexed_at": "2026-10-22T19:39:10.832768+00:00"
   },
-  "total_runs": 35,
+  "total_runs": 36,
   "runs": [
+    {
+      "run_id": "run_193908_12aa2b15",
+      "tool_id": "01_curl_cffi",
+      "action_name": "Verify Step 6.4 Battery",
+      "run_date": "2026-10-22",
+      "target_url": "https://quotes.toscrape.com",
+      "started_at": "2026-10-22T19:39:08.630599+00:00",
+      "ended_at": "2026-10-22T19:39:10.271993+00:00",
+      "elapsed_sec": 0.0,
+      "status": "completed",
+      "git_commit": null,
+      "raw_file_count": 3,
+      "cleaned_file_count": 2,
+      "raw_total_bytes": 9616,
+      "cleaned_total_bytes": 2922,
+      "domain_metrics_json": "{\"tls_impersonation_profile\": \"chrome124\", \"graphql_problem_slug\": \"two-sum\", \"catalog_problems_count\": 5, \"http_status\": 200}",
+      "cleaned_text_preview": "[catalog_index.json]: [ { \"id\": \"1\", \"title\": \"Two Sum\", \"slug\": \"two-sum\", \"difficulty\": \"Easy\", \"tags\": [ \"Array\", \"Hash Table\" ], \"url\": \"https://leetcode.com/problems/two-sum/\" }, { \"id\": \"2\", \"title\": \"Add Two Numbers\", \"slug\": \"add-two-numbers\", \"difficulty\": \"Medium\", \"tags\": [ \"Linked List\", \"Math\", \"Recursion\" ], \"url\": \"https://leetcode.com/problems/add-two-numbers/\" }, { \"id\": \"3\", \"title\": \"Longest Substrin | [two_sum.md]: # 1. Two Sum **Difficulty:** `Easy` **Tags:** `Array`, `Hash Table` **URL:** https://leetcode.com/problems/two-sum/ **Mode:** `live` (curl_cffi impersonate: `chrome124`) --- ## Problem Description You are given an array of integers `nums` and an integer `target`, return *indices of the two numbers such that they add up to `target`*. You may assume that each input would have ***exactly* one solutio",
+      "run_dir_relpath": "data/01_curl_cffi/Verify Step 6.4 Battery/2026-10-22/run_193908_12aa2b15",
+      "domain_metrics": {
+        "tls_impersonation_profile": "chrome124",
+        "graphql_problem_slug": "two-sum",
+        "catalog_problems_count": 5,
+        "http_status": 200
+      }
+    },
     {
       "run_id": "run_161036_9917a07e",
       "tool_id": "01_curl_cffi",
@@ -890,7 +915,7 @@
       }
     }
   ],
-  "total_files": 157,
+  "total_files": 162,
   "files_summary": {
     "raw": [
       {
@@ -1342,6 +1367,20 @@
         "content_preview": "{ \"data\": { \"question\": { \"questionId\": \"1\", \"questionFrontendId\": \"1\", \"title\": \"Two Sum\", \"titleSlug\": \"two-sum\", \"content\": \"<p>You are given an array of integers <code>nums</code>&nbsp;and an integer <code>target</code>, return <em>indices of the two numbers such that they add up to <code>target</code></em>.</p>\\n\\n<p>You may assume that each input would have <strong><em>exactly</em> one solution</strong>, and you may not use the <em>same</em> element twice.</p>\\n\\n<p>You can return the answer in any order.</p>\\n\\n<p>&nbsp;</p>\\n<p><strong>Example 1:</strong></p>\\n\\n<p><strong>Input:</strong> <code>nums = [2,7,11,15], target = 9</code></p>\\n\\n<p><strong>Output:</strong> <code>[0,1]</code></p>\\n\\n<p><strong>Explanation:</strong></p>\\n\\n<p>The sum of <code>nums[0]</code> and <code>nums[1]</code> is <code>2 + 7 = 9</code>, which equals the target. Therefore, the indices <code>[0, 1]</code> are returned.</p>\\n\\n<p><strong>Example 2:</strong></p>\\n\\n<p><strong>Input:</strong> <code>nums = [3,2,4], target = 6</code></p>\\n\\n<p><strong>Output:</strong> <code>[1,2]</code></p>\\n\\n<p><strong>Explanation:</strong></p>\\n\\n<p>The sum of <code>nums[1]</code> and <code>nums[2]</code> is <code>2 + 4 = 6</code>, which equals the target. Therefore, the indices <code>[1, 2]</code> are returned.</p>\\n\\n<p><strong>Example 3:</strong></p>\\n\\n<p><strong>Input:</strong> <code>nums = [3,3], target = 6</code></p>\\n\\n<p><strong>Output:</strong> <code>[0,1]</code></p>\\n\\n<p><strong>Explanation:</stro"
       },
       {
+        "file_id": "run_193908_12aa2b15_raw_graphql_payload.json",
+        "run_id": "run_193908_12aa2b15",
+        "tool_id": "01_curl_cffi",
+        "action_name": "Verify Step 6.4 Battery",
+        "run_date": "2026-10-22",
+        "tier": "raw",
+        "filename": "graphql_payload.json",
+        "extension": ".json",
+        "size_bytes": 5972,
+        "sha256_short": "e57aee4507dfed95",
+        "relpath": "data/01_curl_cffi/Verify Step 6.4 Battery/2026-10-22/run_193908_12aa2b15/raw/graphql_payload.json",
+        "content_preview": "{ \"data\": { \"question\": { \"questionId\": \"1\", \"questionFrontendId\": \"1\", \"title\": \"Two Sum\", \"titleSlug\": \"two-sum\", \"content\": \"<p>You are given an array of integers <code>nums</code>&nbsp;and an integer <code>target</code>, return <em>indices of the two numbers such that they add up to <code>target</code></em>.</p>\\n\\n<p>You may assume that each input would have <strong><em>exactly</em> one solution</strong>, and you may not use the <em>same</em> element twice.</p>\\n\\n<p>You can return the answer in any order.</p>\\n\\n<p>&nbsp;</p>\\n<p><strong>Example 1:</strong></p>\\n\\n<p><strong>Input:</strong> <code>nums = [2,7,11,15], target = 9</code></p>\\n\\n<p><strong>Output:</strong> <code>[0,1]</code></p>\\n\\n<p><strong>Explanation:</strong></p>\\n\\n<p>The sum of <code>nums[0]</code> and <code>nums[1]</code> is <code>2 + 7 = 9</code>, which equals the target. Therefore, the indices <code>[0, 1]</code> are returned.</p>\\n\\n<p><strong>Example 2:</strong></p>\\n\\n<p><strong>Input:</strong> <code>nums = [3,2,4], target = 6</code></p>\\n\\n<p><strong>Output:</strong> <code>[1,2]</code></p>\\n\\n<p><strong>Explanation:</strong></p>\\n\\n<p>The sum of <code>nums[1]</code> and <code>nums[2]</code> is <code>2 + 4 = 6</code>, which equals the target. Therefore, the indices <code>[1, 2]</code> are returned.</p>\\n\\n<p><strong>Example 3:</strong></p>\\n\\n<p><strong>Input:</strong> <code>nums = [3,3], target = 6</code></p>\\n\\n<p><strong>Output:</strong> <code>[0,1]</code></p>\\n\\n<p><strong>Explanation:</stro"
+      },
+      {
         "file_id": "run_145552_c1f3b819_raw_raw_catalog_slice.json",
         "run_id": "run_145552_c1f3b819",
         "tool_id": "01_curl_cffi",
@@ -1759,6 +1798,20 @@
         "size_bytes": 2848,
         "sha256_short": "50db59d1d6719fb1",
         "relpath": "data/01_curl_cffi/verify_battery_squad/2026-10-21/run_161036_9917a07e/raw/raw_catalog_slice.json",
+        "content_preview": "{ \"data\": { \"problemsetQuestionList\": { \"total\": 4087, \"questions\": [ { \"questionFrontendId\": \"1\", \"title\": \"Two Sum\", \"titleSlug\": \"two-sum\", \"difficulty\": \"Easy\", \"topicTags\": [ { \"name\": \"Array\", \"slug\": \"array\" }, { \"name\": \"Hash Table\", \"slug\": \"hash-table\" } ] }, { \"questionFrontendId\": \"2\", \"title\": \"Add Two Numbers\", \"titleSlug\": \"add-two-numbers\", \"difficulty\": \"Medium\", \"topicTags\": [ { \"name\": \"Linked List\", \"slug\": \"linked-list\" }, { \"name\": \"Math\", \"slug\": \"math\" }, { \"name\": \"Recursion\", \"slug\": \"recursion\" } ] }, { \"questionFrontendId\": \"3\", \"title\": \"Longest Substring Without Repeating Characters\", \"titleSlug\": \"longest-substring-without-repeating-characters\", \"difficulty\": \"Medium\", \"topicTags\": [ { \"name\": \"Hash Table\", \"slug\": \"hash-table\" }, { \"name\": \"String\", \"slug\": \"string\" }, { \"name\": \"Sliding Window\", \"slug\": \"sliding-window\" } ] }, { \"questionFrontendId\": \"4\", \"title\": \"Median of Two Sorted Arrays\", \"titleSlug\": \"median-of-two-sorted-arrays\", \"difficulty\": \"Hard\", \"topicTags\": [ { \"name\": \"Array\", \"slug\": \"array\" }, { \"name\": \"Binary Search\", \"slug\": \"binary-search\" }, { \"name\": \"Divide and Conquer\", \"slug\": \"divide-and-conquer\" } ] }, { \"questionFrontendId\": \"5\", \"title\": \"Longest Palindromic Substring\", \"titleSlug\": \"longest-palindromic-substring\", \"difficulty\": \"Medium\", \"topicTags\": [ { \"name\": \"Two Pointers\", \"slug\": \"two-pointers\" }, { \"name\": \"String\", \"slug\": \"string\" }, { \"name\": \"Dynamic Programming\", \"slug\": \"dynamic-programming\" }, { \"n"
+      },
+      {
+        "file_id": "run_193908_12aa2b15_raw_raw_catalog_slice.json",
+        "run_id": "run_193908_12aa2b15",
+        "tool_id": "01_curl_cffi",
+        "action_name": "Verify Step 6.4 Battery",
+        "run_date": "2026-10-22",
+        "tier": "raw",
+        "filename": "raw_catalog_slice.json",
+        "extension": ".json",
+        "size_bytes": 2848,
+        "sha256_short": "50db59d1d6719fb1",
+        "relpath": "data/01_curl_cffi/Verify Step 6.4 Battery/2026-10-22/run_193908_12aa2b15/raw/raw_catalog_slice.json",
         "content_preview": "{ \"data\": { \"problemsetQuestionList\": { \"total\": 4087, \"questions\": [ { \"questionFrontendId\": \"1\", \"title\": \"Two Sum\", \"titleSlug\": \"two-sum\", \"difficulty\": \"Easy\", \"topicTags\": [ { \"name\": \"Array\", \"slug\": \"array\" }, { \"name\": \"Hash Table\", \"slug\": \"hash-table\" } ] }, { \"questionFrontendId\": \"2\", \"title\": \"Add Two Numbers\", \"titleSlug\": \"add-two-numbers\", \"difficulty\": \"Medium\", \"topicTags\": [ { \"name\": \"Linked List\", \"slug\": \"linked-list\" }, { \"name\": \"Math\", \"slug\": \"math\" }, { \"name\": \"Recursion\", \"slug\": \"recursion\" } ] }, { \"questionFrontendId\": \"3\", \"title\": \"Longest Substring Without Repeating Characters\", \"titleSlug\": \"longest-substring-without-repeating-characters\", \"difficulty\": \"Medium\", \"topicTags\": [ { \"name\": \"Hash Table\", \"slug\": \"hash-table\" }, { \"name\": \"String\", \"slug\": \"string\" }, { \"name\": \"Sliding Window\", \"slug\": \"sliding-window\" } ] }, { \"questionFrontendId\": \"4\", \"title\": \"Median of Two Sorted Arrays\", \"titleSlug\": \"median-of-two-sorted-arrays\", \"difficulty\": \"Hard\", \"topicTags\": [ { \"name\": \"Array\", \"slug\": \"array\" }, { \"name\": \"Binary Search\", \"slug\": \"binary-search\" }, { \"name\": \"Divide and Conquer\", \"slug\": \"divide-and-conquer\" } ] }, { \"questionFrontendId\": \"5\", \"title\": \"Longest Palindromic Substring\", \"titleSlug\": \"longest-palindromic-substring\", \"difficulty\": \"Medium\", \"topicTags\": [ { \"name\": \"Two Pointers\", \"slug\": \"two-pointers\" }, { \"name\": \"String\", \"slug\": \"string\" }, { \"name\": \"Dynamic Programming\", \"slug\": \"dynamic-programming\" }, { \"n"
       },
       {
@@ -2180,6 +2233,20 @@
         "sha256_short": "3160e4c99d383742",
         "relpath": "data/01_curl_cffi/verify_battery_squad/2026-10-21/run_161036_9917a07e/raw/response_headers.json",
         "content_preview": "{ \"date\": \"Wed, 21 Oct 2026 16:10:36 GMT\", \"content-type\": \"application/json\", \"vary\": \"Cookie, Authorization\", \"x-frame-options\": \"SAMEORIGIN\", \"set-cookie\": \"csrftoken=aHQ7pmUuXq5Ix1qP03sO52z8aIyCbJVb; expires=Wed, 20 Oct 2027 16:10:36 GMT; Max-Age=31449600; Path=/; SameSite=Lax; Secure\", \"strict-transport-security\": \"max-age=15552000; includeSubDomains; preload\", \"content-security-policy\": \"frame-ancestors 'self' https://*.leetcode.com https://leetcode.com https://www.growingio.com https://challenges.cloudflare.com\", \"cf-cache-status\": \"DYNAMIC\", \"x-content-type-options\": \"nosniff\", \"content-encoding\": \"br\", \"server\": \"cloudflare\", \"cf-ray\": \"a4e18884ddf9b2ce-DEL\", \"_impersonate\": \"chrome124\", \"_status_code\": 200, \"_elapsed_ms\": 929.31 }"
+      },
+      {
+        "file_id": "run_193908_12aa2b15_raw_response_headers.json",
+        "run_id": "run_193908_12aa2b15",
+        "tool_id": "01_curl_cffi",
+        "action_name": "Verify Step 6.4 Battery",
+        "run_date": "2026-10-22",
+        "tier": "raw",
+        "filename": "response_headers.json",
+        "extension": ".json",
+        "size_bytes": 796,
+        "sha256_short": "37b25fe71969ff92",
+        "relpath": "data/01_curl_cffi/Verify Step 6.4 Battery/2026-10-22/run_193908_12aa2b15/raw/response_headers.json",
+        "content_preview": "{ \"date\": \"Thu, 22 Oct 2026 19:39:11 GMT\", \"content-type\": \"application/json\", \"vary\": \"Cookie, Authorization\", \"x-frame-options\": \"SAMEORIGIN\", \"set-cookie\": \"csrftoken=RtgLUOMc260gSEf4Wvw4THr2MFb8zdeJ; expires=Thu, 21 Oct 2027 19:39:10 GMT; Max-Age=31449600; Path=/; SameSite=Lax; Secure\", \"strict-transport-security\": \"max-age=15552000; includeSubDomains; preload\", \"content-security-policy\": \"frame-ancestors 'self' https://*.leetcode.com https://leetcode.com https://www.growingio.com https://challenges.cloudflare.com\", \"cf-cache-status\": \"DYNAMIC\", \"x-content-type-options\": \"nosniff\", \"content-encoding\": \"br\", \"server\": \"cloudflare\", \"cf-ray\": \"a4eaf7703e10a7c1-DEL\", \"_impersonate\": \"chrome124\", \"_status_code\": 200, \"_elapsed_ms\": 858.51 }"
       },
       {
         "file_id": "run_005943_2760a059_raw_test_raw.html",
@@ -2660,6 +2727,20 @@
         "content_preview": "[ { \"id\": \"1\", \"title\": \"Two Sum\", \"slug\": \"two-sum\", \"difficulty\": \"Easy\", \"tags\": [ \"Array\", \"Hash Table\" ], \"url\": \"https://leetcode.com/problems/two-sum/\" }, { \"id\": \"2\", \"title\": \"Add Two Numbers\", \"slug\": \"add-two-numbers\", \"difficulty\": \"Medium\", \"tags\": [ \"Linked List\", \"Math\", \"Recursion\" ], \"url\": \"https://leetcode.com/problems/add-two-numbers/\" }, { \"id\": \"3\", \"title\": \"Longest Substring Without Repeating Characters\", \"slug\": \"longest-substring-without-repeating-characters\", \"difficulty\": \"Medium\", \"tags\": [ \"Hash Table\", \"String\", \"Sliding Window\" ], \"url\": \"https://leetcode.com/problems/longest-substring-without-repeating-characters/\" }, { \"id\": \"4\", \"title\": \"Median of Two Sorted Arrays\", \"slug\": \"median-of-two-sorted-arrays\", \"difficulty\": \"Hard\", \"tags\": [ \"Array\", \"Binary Search\", \"Divide and Conquer\" ], \"url\": \"https://leetcode.com/problems/median-of-two-sorted-arrays/\" }, { \"id\": \"5\", \"title\": \"Longest Palindromic Substring\", \"slug\": \"longest-palindromic-substring\", \"difficulty\": \"Medium\", \"tags\": [ \"Two Pointers\", \"String\", \"Dynamic Programming\", \"Manacher\" ], \"url\": \"https://leetcode.com/problems/longest-palindromic-substring/\" } ]"
       },
       {
+        "file_id": "run_193908_12aa2b15_cleaned_catalog_index.json",
+        "run_id": "run_193908_12aa2b15",
+        "tool_id": "01_curl_cffi",
+        "action_name": "Verify Step 6.4 Battery",
+        "run_date": "2026-10-22",
+        "tier": "cleaned",
+        "filename": "catalog_index.json",
+        "extension": ".json",
+        "size_bytes": 1481,
+        "sha256_short": "e3ab3407e71518fd",
+        "relpath": "data/01_curl_cffi/Verify Step 6.4 Battery/2026-10-22/run_193908_12aa2b15/cleaned/catalog_index.json",
+        "content_preview": "[ { \"id\": \"1\", \"title\": \"Two Sum\", \"slug\": \"two-sum\", \"difficulty\": \"Easy\", \"tags\": [ \"Array\", \"Hash Table\" ], \"url\": \"https://leetcode.com/problems/two-sum/\" }, { \"id\": \"2\", \"title\": \"Add Two Numbers\", \"slug\": \"add-two-numbers\", \"difficulty\": \"Medium\", \"tags\": [ \"Linked List\", \"Math\", \"Recursion\" ], \"url\": \"https://leetcode.com/problems/add-two-numbers/\" }, { \"id\": \"3\", \"title\": \"Longest Substring Without Repeating Characters\", \"slug\": \"longest-substring-without-repeating-characters\", \"difficulty\": \"Medium\", \"tags\": [ \"Hash Table\", \"String\", \"Sliding Window\" ], \"url\": \"https://leetcode.com/problems/longest-substring-without-repeating-characters/\" }, { \"id\": \"4\", \"title\": \"Median of Two Sorted Arrays\", \"slug\": \"median-of-two-sorted-arrays\", \"difficulty\": \"Hard\", \"tags\": [ \"Array\", \"Binary Search\", \"Divide and Conquer\" ], \"url\": \"https://leetcode.com/problems/median-of-two-sorted-arrays/\" }, { \"id\": \"5\", \"title\": \"Longest Palindromic Substring\", \"slug\": \"longest-palindromic-substring\", \"difficulty\": \"Medium\", \"tags\": [ \"Two Pointers\", \"String\", \"Dynamic Programming\", \"Manacher\" ], \"url\": \"https://leetcode.com/problems/longest-palindromic-substring/\" } ]"
+      },
+      {
         "file_id": "run_005943_2760a059_cleaned_test_clean.json",
         "run_id": "run_005943_2760a059",
         "tool_id": "01_curl_cffi",
@@ -3092,10 +3173,99 @@
         "sha256_short": "2844e1df31038adc",
         "relpath": "data/01_curl_cffi/verify_battery_squad/2026-10-21/run_161036_9917a07e/cleaned/two_sum.md",
         "content_preview": "# 1. Two Sum **Difficulty:** `Easy` **Tags:** `Array`, `Hash Table` **URL:** https://leetcode.com/problems/two-sum/ **Mode:** `live` (curl_cffi impersonate: `chrome124`) --- ## Problem Description You are given an array of integers `nums` and an integer `target`, return *indices of the two numbers such that they add up to `target`*. You may assume that each input would have ***exactly* one solution**, and you may not use the *same* element twice. You can return the answer in any order. **Example 1:** **Input:** `nums = [2,7,11,15], target = 9` **Output:** `[0,1]` **Explanation:** The sum of `nums[0]` and `nums[1]` is `2 + 7 = 9`, which equals the target. Therefore, the indices `[0, 1]` are returned. **Example 2:** **Input:** `nums = [3,2,4], target = 6` **Output:** `[1,2]` **Explanation:** The sum of `nums[1]` and `nums[2]` is `2 + 4 = 6`, which equals the target. Therefore, the indices `[1, 2]` are returned. **Example 3:** **Input:** `nums = [3,3], target = 6` **Output:** `[0,1]` **Explanation:** The sum of `nums[0]` and `nums[1]` is `3 + 3 = 6`, which equals the target. Therefore, the indices `[0, 1]` are returned. **Constraints:** * `2 <= nums.length <= 104` * `-109 <= nums[i] <= 109` * `-109 <= target <= 109` * **Only one valid answer exists.** **Follow-up:**Can you come up with an algorithm that is less than `O(n2)` time complexity?"
+      },
+      {
+        "file_id": "run_193908_12aa2b15_cleaned_two_sum.md",
+        "run_id": "run_193908_12aa2b15",
+        "tool_id": "01_curl_cffi",
+        "action_name": "Verify Step 6.4 Battery",
+        "run_date": "2026-10-22",
+        "tier": "cleaned",
+        "filename": "two_sum.md",
+        "extension": ".md",
+        "size_bytes": 1441,
+        "sha256_short": "2844e1df31038adc",
+        "relpath": "data/01_curl_cffi/Verify Step 6.4 Battery/2026-10-22/run_193908_12aa2b15/cleaned/two_sum.md",
+        "content_preview": "# 1. Two Sum **Difficulty:** `Easy` **Tags:** `Array`, `Hash Table` **URL:** https://leetcode.com/problems/two-sum/ **Mode:** `live` (curl_cffi impersonate: `chrome124`) --- ## Problem Description You are given an array of integers `nums` and an integer `target`, return *indices of the two numbers such that they add up to `target`*. You may assume that each input would have ***exactly* one solution**, and you may not use the *same* element twice. You can return the answer in any order. **Example 1:** **Input:** `nums = [2,7,11,15], target = 9` **Output:** `[0,1]` **Explanation:** The sum of `nums[0]` and `nums[1]` is `2 + 7 = 9`, which equals the target. Therefore, the indices `[0, 1]` are returned. **Example 2:** **Input:** `nums = [3,2,4], target = 6` **Output:** `[1,2]` **Explanation:** The sum of `nums[1]` and `nums[2]` is `2 + 4 = 6`, which equals the target. Therefore, the indices `[1, 2]` are returned. **Example 3:** **Input:** `nums = [3,3], target = 6` **Output:** `[0,1]` **Explanation:** The sum of `nums[0]` and `nums[1]` is `3 + 3 = 6`, which equals the target. Therefore, the indices `[0, 1]` are returned. **Constraints:** * `2 <= nums.length <= 104` * `-109 <= nums[i] <= 109` * `-109 <= target <= 109` * **Only one valid answer exists.** **Follow-up:**Can you come up with an algorithm that is less than `O(n2)` time complexity?"
       }
     ]
   },
   "recent_logs": [
+    {
+      "log_id": "run_193908_12aa2b15_act_4",
+      "run_id": "run_193908_12aa2b15",
+      "tool_id": "01_curl_cffi",
+      "action_name": "Verify Step 6.4 Battery",
+      "run_date": "2026-10-22",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-22T19:39:09.980581+00:00",
+      "level": "INFO",
+      "stage": "Stage 1",
+      "step": "Step 1.1",
+      "progress_pct": 85,
+      "elapsed_ms": 1318,
+      "message": "Raw outputs saved to D:\\Project_Files\\Crawlers_testing\\data\\01_curl_cffi\\Verify Step 6.4 Battery\\2026-10-22\\run_193908_12aa2b15\\raw (mode: live)"
+    },
+    {
+      "log_id": "run_193908_12aa2b15_act_3",
+      "run_id": "run_193908_12aa2b15",
+      "tool_id": "01_curl_cffi",
+      "action_name": "Verify Step 6.4 Battery",
+      "run_date": "2026-10-22",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-22T19:39:09.620280+00:00",
+      "level": "INFO",
+      "stage": "Stage 1",
+      "step": "Step 1.1",
+      "progress_pct": 60,
+      "elapsed_ms": 958,
+      "message": "Successfully fetched live LeetCode GraphQL problem data"
+    },
+    {
+      "log_id": "run_193908_12aa2b15_act_2",
+      "run_id": "run_193908_12aa2b15",
+      "tool_id": "01_curl_cffi",
+      "action_name": "Verify Step 6.4 Battery",
+      "run_date": "2026-10-22",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-22T19:39:08.772195+00:00",
+      "level": "INFO",
+      "stage": "Stage 1",
+      "step": "Step 1.1",
+      "progress_pct": 35,
+      "elapsed_ms": 110,
+      "message": "Executing GraphQL question detail query for 'two-sum'"
+    },
+    {
+      "log_id": "run_193908_12aa2b15_act_1",
+      "run_id": "run_193908_12aa2b15",
+      "tool_id": "01_curl_cffi",
+      "action_name": "Verify Step 6.4 Battery",
+      "run_date": "2026-10-22",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-22T19:39:08.661845+00:00",
+      "level": "INFO",
+      "stage": "Stage 1",
+      "step": "Step 1.1",
+      "progress_pct": 10,
+      "elapsed_ms": 0,
+      "message": "Initialized curl_cffi run run_193908_12aa2b15 impersonating chrome124 (human_mode=False)"
+    },
+    {
+      "log_id": "run_193908_12aa2b15_act_0",
+      "run_id": "run_193908_12aa2b15",
+      "tool_id": "01_curl_cffi",
+      "action_name": "Verify Step 6.4 Battery",
+      "run_date": "2026-10-22",
+      "log_tier": "action_run",
+      "timestamp": "2026-10-22T19:39:08.630599+00:00",
+      "level": "INFO",
+      "stage": "",
+      "step": "",
+      "progress_pct": 0,
+      "elapsed_ms": 0,
+      "message": ""
+    },
     {
       "log_id": "run_161036_9917a07e_act_4",
       "run_id": "run_161036_9917a07e",
@@ -3770,82 +3940,7 @@
       "progress_pct": 0,
       "elapsed_ms": 0,
       "message": ""
-    },
-    {
-      "log_id": "run_061227_baec31a5_act_5",
-      "run_id": "run_061227_baec31a5",
-      "tool_id": "01_curl_cffi",
-      "action_name": "arena_benchmark",
-      "run_date": "2026-10-19",
-      "log_tier": "action_run",
-      "timestamp": "2026-10-19T06:12:28.758976+00:00",
-      "level": "INFO",
-      "stage": "Stage 4",
-      "step": "Step 4.3",
-      "progress_pct": 85,
-      "elapsed_ms": 1509,
-      "message": "Raw outputs saved to D:\\Project_Files\\Crawlers_testing\\data\\01_curl_cffi\\arena_benchmark\\2026-10-19\\run_061227_baec31a5\\raw (mode: live)"
-    },
-    {
-      "log_id": "run_061227_9d27871e_act_5",
-      "run_id": "run_061227_9d27871e",
-      "tool_id": "01_curl_cffi",
-      "action_name": "scrape_for_leetcode",
-      "run_date": "2026-10-19",
-      "log_tier": "action_run",
-      "timestamp": "2026-10-19T06:12:28.433101+00:00",
-      "level": "INFO",
-      "stage": "Stage 4",
-      "step": "Step 4.3",
-      "progress_pct": 85,
-      "elapsed_ms": 1183,
-      "message": "Raw outputs saved to D:\\Project_Files\\Crawlers_testing\\data\\01_curl_cffi\\scrape_for_leetcode\\2026-10-19\\run_061227_9d27871e\\raw (mode: live)"
-    },
-    {
-      "log_id": "run_061227_baec31a5_act_4",
-      "run_id": "run_061227_baec31a5",
-      "tool_id": "01_curl_cffi",
-      "action_name": "arena_benchmark",
-      "run_date": "2026-10-19",
-      "log_tier": "action_run",
-      "timestamp": "2026-10-19T06:12:28.338808+00:00",
-      "level": "INFO",
-      "stage": "Stage 4",
-      "step": "Step 4.3",
-      "progress_pct": 60,
-      "elapsed_ms": 1089,
-      "message": "Successfully fetched live LeetCode GraphQL problem data"
-    },
-    {
-      "log_id": "run_061227_9d27871e_act_4",
-      "run_id": "run_061227_9d27871e",
-      "tool_id": "01_curl_cffi",
-      "action_name": "scrape_for_leetcode",
-      "run_date": "2026-10-19",
-      "log_tier": "action_run",
-      "timestamp": "2026-10-19T06:12:27.940725+00:00",
-      "level": "INFO",
-      "stage": "Stage 4",
-      "step": "Step 4.3",
-      "progress_pct": 60,
-      "elapsed_ms": 690,
-      "message": "Successfully fetched live LeetCode GraphQL problem data"
-    },
-    {
-      "log_id": "run_061227_baec31a5_act_3",
-      "run_id": "run_061227_baec31a5",
-      "tool_id": "01_curl_cffi",
-      "action_name": "arena_benchmark",
-      "run_date": "2026-10-19",
-      "log_tier": "action_run",
-      "timestamp": "2026-10-19T06:12:27.513202+00:00",
-      "level": "INFO",
-      "stage": "Stage 4",
-      "step": "Step 4.3",
-      "progress_pct": 35,
-      "elapsed_ms": 264,
-      "message": "Executing GraphQL question detail query for 'two-sum'"
     }
   ],
-  "indexed_at": "2026-10-21T16:10:37.357400+00:00"
+  "indexed_at": "2026-10-22T19:39:10.832768+00:00"
 }
