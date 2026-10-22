@@ -43,6 +43,7 @@ function switchTab(tabId, btn) {
   if (tabId === "tab-vault") loadVaultTab();
   if (tabId === "tab-working-ways") loadWorkingWaysTab();
   if (tabId === "tab-real-pipelines") loadPipelinesTab();
+  if (tabId === "tab-benchmarks-exporter") loadBenchmarksTab();
 }
 
 // ─── Telemetry WebSocket ──────────────────────────────────────────────────────
@@ -2892,6 +2893,408 @@ async function launchPipelineTask(pipelineKey) {
   } catch (err) {
     alert(`Failed to launch pipeline: ${err.message}`);
   }
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// STAGE 6: BENCHMARKS, RESILIENCE & CHAOS LAB, AND STANDALONE EXPORTER (TAB 8)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function switchBenchmarksSubView(subviewId, btn) {
+  document.querySelectorAll(".bench-subview-panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".pipe-subnav-btn").forEach(b => {
+    if (b.id && b.id.startsWith("subview-btn-")) b.classList.remove("active");
+  });
+  const target = document.getElementById(subviewId);
+  if (target) target.classList.add("active");
+  if (btn) btn.classList.add("active");
+
+  if (subviewId === "subview-benchmark-lab") loadBenchmarkReports();
+  if (subviewId === "subview-resilience-lab") loadResilienceReports();
+  if (subviewId === "subview-exporter-lab") loadExportsTab();
+}
+
+function setBmTarget(url) {
+  const el = document.getElementById("bm-target-url");
+  if (el) el.value = url;
+}
+
+function toggleAllBmSquad(cb) {
+  document.querySelectorAll("input[name='bm-squad']").forEach(i => {
+    i.checked = cb.checked;
+  });
+}
+
+async function loadBenchmarksTab() {
+  try {
+    // 1. Fetch Overview Stats
+    const [bmRes, resRes, expRes] = await Promise.all([
+      fetch("/api/benchmarks/overview").then(r => r.json()).catch(() => ({})),
+      fetch("/api/resilience/overview").then(r => r.json()).catch(() => ({})),
+      fetch("/api/exports/list").then(r => r.json()).catch(() => ({})),
+    ]);
+
+    // Update Top KPI Ribbon
+    const runsEl = document.getElementById("bm-kpi-runs");
+    if (runsEl) runsEl.textContent = bmRes.total_benchmark_reports || 0;
+
+    const topScorerEl = document.getElementById("bm-kpi-top-scorer");
+    const topScoreValEl = document.getElementById("bm-kpi-top-score-val");
+    if (bmRes.top_scoring_tool && topScorerEl) {
+      topScorerEl.innerHTML = `<span class="crown-icon">👑</span> ${escapeHtml(bmRes.top_scoring_tool.winner_tool || "—")}`;
+      if (topScoreValEl) topScoreValEl.textContent = `Score: ${bmRes.top_scoring_tool.winner_composite_score || 0.0} / 100`;
+    }
+
+    const resEl = document.getElementById("bm-kpi-resilience");
+    if (resEl) {
+      const idx = resRes.latest_resilience_index !== undefined ? resRes.latest_resilience_index : 100;
+      resEl.textContent = `${idx}%`;
+    }
+
+    const expEl = document.getElementById("bm-kpi-exports-count");
+    if (expEl && expRes) {
+      const totalPkgs = (expRes.standalone_tools?.length || 0) +
+                        (expRes.data_bundles?.length || 0) +
+                        (expRes.pipeline_packages?.length || 0);
+      expEl.textContent = totalPkgs;
+    }
+
+    // Load active sub-view data
+    loadBenchmarkReports();
+  } catch (err) {
+    console.error("Error loading benchmarks overview:", err);
+  }
+}
+
+async function runBenchmarkBattery() {
+  const targetUrl = document.getElementById("bm-target-url")?.value || "https://quotes.toscrape.com";
+  const batteryLabel = document.getElementById("bm-battery-label")?.value || "Dashboard Benchmark Battery";
+  const iterations = parseInt(document.getElementById("bm-iterations")?.value || "3", 10);
+  const humanMode = document.getElementById("bm-human-mode")?.checked || false;
+
+  const squadCheckboxes = document.querySelectorAll("input[name='bm-squad']:checked");
+  const toolIds = Array.from(squadCheckboxes).map(c => c.value);
+
+  const payload = {
+    target_url: targetUrl,
+    battery_label: batteryLabel,
+    iterations: iterations,
+    human_mode: humanMode,
+    tool_ids: toolIds.length > 0 ? toolIds : null,
+  };
+
+  try {
+    const res = await fetch("/api/benchmarks/run", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const result = await res.json();
+    alert(`🏎️ ${result.message || "Benchmark battery started in background!"}`);
+    setTimeout(() => {
+      loadBenchmarkReports();
+      loadBenchmarksTab();
+    }, 3000);
+  } catch (err) {
+    alert(`Failed to launch benchmark battery: ${err.message}`);
+  }
+}
+
+async function loadBenchmarkReports() {
+  const container = document.getElementById("bm-reports-list");
+  if (!container) return;
+
+  try {
+    const res = await fetch("/api/benchmarks/reports?limit=50");
+    const data = await res.json();
+    const reports = data.reports || [];
+
+    if (reports.length === 0) {
+      container.innerHTML = '<div class="empty-state">No benchmark reports found. Run a battery to populate.</div>';
+      return;
+    }
+
+    container.innerHTML = reports.map(r => `
+      <div class="report-drawer-item" onclick="viewBenchmarkReport('${escapeHtml(r.report_id)}')">
+        <div class="item-title">
+          <strong>${escapeHtml(r.battery_label || r.report_id)}</strong>
+          <span class="badge-winner">🏆 ${escapeHtml(r.winner_tool)} (${r.winner_composite_score}/100)</span>
+        </div>
+        <div class="item-meta">
+          <span>Target: ${escapeHtml(r.target_url || "—")}</span>
+          <span>Elapsed: ${r.total_elapsed_sec}s</span>
+          <span>${new Date(r.created_at).toLocaleString()}</span>
+        </div>
+      </div>
+    `).join("");
+
+    // Load first report leaderboard by default
+    if (reports.length > 0) {
+      viewBenchmarkReport(reports[0].report_id);
+    }
+  } catch (err) {
+    container.innerHTML = `<div class="error-msg">Failed to load reports: ${err.message}</div>`;
+  }
+}
+
+async function viewBenchmarkReport(reportId) {
+  try {
+    const res = await fetch(`/api/benchmarks/reports/${encodeURIComponent(reportId)}`);
+    if (!res.ok) throw new Error(`Report not found (${res.status})`);
+    const data = await res.json();
+    const leaderboard = data.leaderboard || [];
+
+    const body = document.getElementById("bm-leaderboard-body");
+    if (!body) return;
+
+    if (leaderboard.length === 0) {
+      body.innerHTML = '<tr><td colspan="11" class="text-center text-muted">No tool results in this report.</td></tr>';
+      return;
+    }
+
+    body.innerHTML = leaderboard.map(t => {
+      const isWinner = t.rank === 1;
+      const rankBadge = isWinner ? "🥇 1" : (t.rank === 2 ? "🥈 2" : (t.rank === 3 ? "🥉 3" : `#${t.rank}`));
+      const rowClass = isWinner ? "winner-row" : "";
+      return `
+        <tr class="${rowClass}">
+          <td><strong>${rankBadge}</strong></td>
+          <td><code>${escapeHtml(t.tool_id)}</code></td>
+          <td><span class="status-badge ${t.status === 'completed' ? 'badge-active' : 'badge-failed'}">${escapeHtml(t.status)}</span></td>
+          <td>${t.p50_sec}s</td>
+          <td>${t.p90_sec}s</td>
+          <td>${t.p99_sec}s</td>
+          <td>${t.mem_delta_mb} MB</td>
+          <td>${t.cpu_percent}%</td>
+          <td>${t.yield_ratio}</td>
+          <td>${t.stealth_score}</td>
+          <td><strong class="score-pill">${t.composite_score}</strong></td>
+        </tr>
+      `;
+    }).join("");
+  } catch (err) {
+    console.error("Error viewing benchmark report:", err);
+  }
+}
+
+async function runChaosScenario(scenario) {
+  const payload = {
+    scenario: scenario,
+    tool_id: "01_curl_cffi",
+  };
+
+  try {
+    const res = await fetch("/api/resilience/run", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const result = await res.json();
+    alert(`⚡ Chaos test '${scenario}' launched in background! Watch the HUD.`);
+    setTimeout(() => {
+      loadResilienceReports();
+    }, 3000);
+  } catch (err) {
+    alert(`Failed to launch chaos scenario: ${err.message}`);
+  }
+}
+
+async function loadResilienceReports() {
+  const container = document.getElementById("resilience-reports-list");
+  if (!container) return;
+
+  try {
+    const res = await fetch("/api/resilience/reports?limit=50");
+    const data = await res.json();
+    const reports = data.reports || [];
+
+    if (reports.length === 0) {
+      container.innerHTML = '<div class="empty-state">No resilience reports found. Execute a chaos test to evaluate.</div>';
+      return;
+    }
+
+    // Update live resilience index badge from latest
+    const badge = document.getElementById("resilience-badge-val");
+    if (badge && reports.length > 0) {
+      badge.textContent = `Index: ${reports[0].resilience_index} / 100`;
+    }
+
+    container.innerHTML = reports.map(r => `
+      <div class="report-drawer-item" onclick="viewResilienceReport('${escapeHtml(r.report_id)}')">
+        <div class="item-title">
+          <strong>${escapeHtml(r.report_id)}</strong>
+          <span class="badge-index">Shield: ${r.resilience_index}/100</span>
+        </div>
+        <div class="item-meta">
+          <span>Status: ${escapeHtml(r.overall_status.toUpperCase())}</span>
+          <span>Scenarios: ${r.scenarios_tested}</span>
+          <span>${new Date(r.created_at).toLocaleString()}</span>
+        </div>
+      </div>
+    `).join("");
+  } catch (err) {
+    container.innerHTML = `<div class="error-msg">Failed to load resilience reports: ${err.message}</div>`;
+  }
+}
+
+async function viewResilienceReport(reportId) {
+  try {
+    const res = await fetch(`/api/resilience/reports/${encodeURIComponent(reportId)}`);
+    if (!res.ok) throw new Error(`Report not found (${res.status})`);
+    const data = await res.json();
+
+    const titleEl = document.getElementById("modal-title");
+    const metaEl = document.getElementById("modal-meta");
+    const contentEl = document.getElementById("modal-content");
+    const modalEl = document.getElementById("file-modal");
+
+    if (titleEl && contentEl && modalEl) {
+      titleEl.textContent = `Resilience Report: ${reportId}`;
+      if (metaEl) metaEl.textContent = `Index: ${data.resilience_index}/100 | Status: ${data.overall_status}`;
+      contentEl.textContent = data.markdown_content || JSON.stringify(data, null, 2);
+      modalEl.classList.add("active");
+    }
+  } catch (err) {
+    alert(`Error viewing resilience report: ${err.message}`);
+  }
+}
+
+async function exportStandaloneTool() {
+  const toolId = document.getElementById("export-tool-id")?.value || "01_curl_cffi";
+  const format = document.getElementById("export-tool-format")?.value || "zip";
+
+  try {
+    const res = await fetch("/api/exports/tool", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tool_id: toolId, output_format: format }),
+    });
+    const result = await res.json();
+    alert(`📦 Standalone tool exported successfully to:\n${result.export_path}\nFiles: ${result.file_count} (${result.total_bytes} bytes)`);
+    loadExportsTab();
+    loadBenchmarksTab();
+  } catch (err) {
+    alert(`Failed to export standalone tool: ${err.message}`);
+  }
+}
+
+async function bundleDataLake() {
+  const scope = document.getElementById("export-bundle-scope")?.value || "cleaned";
+  const pipe = document.getElementById("export-bundle-pipe")?.value || "";
+
+  try {
+    const res = await fetch("/api/exports/bundle", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ scope: scope, pipeline_id: pipe, archive_format: "zip" }),
+    });
+    const result = await res.json();
+    alert(`🗄️ Data Lake bundle generated!\nBundle ID: ${result.bundle_id}\nFiles: ${result.total_files} (${result.total_bytes} bytes)\nArchive: ${result.bundle_path}`);
+    loadExportsTab();
+    loadBenchmarksTab();
+  } catch (err) {
+    alert(`Failed to bundle data lake: ${err.message}`);
+  }
+}
+
+async function exportStandalonePipeline() {
+  const pipeId = document.getElementById("export-pipeline-id")?.value || "01_leetcode_archiver";
+  const includeFixtures = document.getElementById("export-pipeline-fixtures")?.checked ?? true;
+
+  try {
+    const res = await fetch("/api/exports/pipeline", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pipeline_id: pipeId, include_fixtures: includeFixtures }),
+    });
+    const result = await res.json();
+    alert(`🐳 Pipeline docker package created!\nDirectory: ${result.package_path}\nFiles: ${result.file_count} (${result.total_bytes} bytes)`);
+    loadExportsTab();
+    loadBenchmarksTab();
+  } catch (err) {
+    alert(`Failed to export pipeline package: ${err.message}`);
+  }
+}
+
+async function loadExportsTab() {
+  const body = document.getElementById("export-catalog-body");
+  if (!body) return;
+
+  try {
+    const res = await fetch("/api/exports/list");
+    const data = await res.json();
+
+    const rows = [];
+
+    // 1. Standalone Tools
+    (data.standalone_tools || []).forEach(t => {
+      rows.push({
+        category: "Standalone Tool",
+        categoryClass: "badge-tool",
+        categoryParam: "standalone_tools",
+        name: t.dir_name || t.tool_id,
+        bytes: t.total_bytes || 0,
+        sha: t.files?.[0]?.sha256?.substring(0, 16) + "..." || "—",
+        created: t.created_at || "—",
+        filename: `${t.dir_name || t.tool_id}.zip`,
+      });
+    });
+
+    // 2. Data Bundles
+    (data.data_bundles || []).forEach(b => {
+      rows.push({
+        category: "Data Bundle",
+        categoryClass: "badge-bundle",
+        categoryParam: "data_bundles",
+        name: b.bundle_id || b.manifest_file,
+        bytes: b.total_bytes || 0,
+        sha: b.files?.[0]?.sha256?.substring(0, 16) + "..." || "—",
+        created: b.created_at || "—",
+        filename: `${b.bundle_id}.zip`,
+      });
+    });
+
+    // 3. Pipeline Packages
+    (data.pipeline_packages || []).forEach(p => {
+      rows.push({
+        category: "Pipeline Container",
+        categoryClass: "badge-pipeline",
+        categoryParam: "pipeline_packages",
+        name: p.dir_name || p.pipeline_id,
+        bytes: p.total_bytes || 0,
+        sha: p.files?.[0]?.sha256?.substring(0, 16) + "..." || "—",
+        created: p.created_at || "—",
+        filename: `${p.dir_name || p.pipeline_id}.zip`,
+      });
+    });
+
+    if (rows.length === 0) {
+      body.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No exported packages or bundles found.</td></tr>';
+      return;
+    }
+
+    body.innerHTML = rows.map(r => `
+      <tr>
+        <td><span class="cat-badge ${r.categoryClass}">${escapeHtml(r.category)}</span></td>
+        <td><code>${escapeHtml(r.name)}</code></td>
+        <td>${(r.bytes / 1024).toFixed(1)} KB</td>
+        <td><code class="sha-short">${escapeHtml(r.sha)}</code></td>
+        <td>${r.created !== '—' ? new Date(r.created).toLocaleString() : '—'}</td>
+        <td>
+          <button class="btn-download-sm" onclick="downloadExportArchive('${escapeHtml(r.categoryParam)}', '${escapeHtml(r.filename)}')">
+            ⬇ Download
+          </button>
+        </td>
+      </tr>
+    `).join("");
+  } catch (err) {
+    body.innerHTML = `<tr><td colspan="6" class="text-danger">Failed to load exports: ${err.message}</td></tr>`;
+  }
+}
+
+function downloadExportArchive(category, filename) {
+  const url = `/api/exports/download/${encodeURIComponent(category)}/${encodeURIComponent(filename)}`;
+  window.open(url, "_blank");
 }
 
 

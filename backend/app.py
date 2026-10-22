@@ -75,6 +75,10 @@ from core.state_tracker import (
 from core.folder_manager import create_action_run, complete_action_run
 from core.git_manager import get_log, get_latest_hash
 
+from core.benchmark_engine import BenchmarkEngine, get_benchmark_engine
+from core.resilience_tester import ResilienceTester, get_resilience_tester
+from core.project_exporter import ProjectExporter, get_project_exporter
+
 try:
     from watchdog.observers import Observer
     from watchdog.events import FileSystemEventHandler, FileModifiedEvent
@@ -2024,6 +2028,280 @@ async def run_pipeline_multimodal(request: Request):
         "expected_type": expected_type,
         "message": f"Multimodal auto-resolver launched for '{target_input}' in background.",
     })
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# STAGE 6: BENCHMARKS, RESILIENCE & CHAOS STRESS LAB, AND PROJECT EXPORTER APIS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ─── 1. Benchmark Endpoints ───────────────────────────────────────────────────
+
+@app.get("/api/benchmarks/overview")
+async def get_benchmarks_overview():
+    """Returns aggregated stats across historical benchmark reports."""
+    engine = get_benchmark_engine()
+    reports = engine.list_benchmark_reports(limit=100)
+    top_scoring = None
+    fastest = None
+    if reports:
+        top_scoring = max(reports, key=lambda r: float(r.get("winner_composite_score", 0.0) or 0.0), default=None)
+        fastest = min(reports, key=lambda r: float(r.get("total_elapsed_sec", 999999.0) or 999999.0), default=None)
+
+    return JSONResponse({
+        "total_benchmark_reports": len(reports),
+        "top_scoring_tool": top_scoring,
+        "fastest_tool": fastest,
+        "recent_reports": reports[:10],
+    })
+
+
+@app.get("/api/benchmarks/reports")
+async def get_benchmark_reports(limit: int = 50):
+    """Returns list of historical benchmark reports."""
+    engine = get_benchmark_engine()
+    reports = engine.list_benchmark_reports(limit=limit)
+    return JSONResponse({"reports": reports, "total": len(reports)})
+
+
+@app.get("/api/benchmarks/reports/{report_id}")
+async def get_single_benchmark_report(report_id: str):
+    """Retrieves full JSON report and raw Markdown content for a benchmark report."""
+    engine = get_benchmark_engine()
+    report = engine.get_benchmark_report(report_id)
+    if not report:
+        raise HTTPException(status_code=404, detail=f"Benchmark report '{report_id}' not found.")
+    return JSONResponse(report)
+
+
+@app.post("/api/benchmarks/run")
+async def run_benchmark_battery(request: Request):
+    """
+    Launches BenchmarkEngine().run_battery_benchmark(...) in a background thread
+    with live HUD telemetry tracking.
+    """
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+
+    tool_ids = body.get("tool_ids")
+    target_url = body.get("target_url") or "https://quotes.toscrape.com"
+    iterations = int(body.get("iterations") or 3)
+    human_mode = bool(body.get("human_mode", False))
+    battery_label = body.get("battery_label") or "Dashboard Benchmark Battery"
+
+    def _worker():
+        try:
+            engine = get_benchmark_engine()
+            engine.run_battery_benchmark(
+                tool_ids=tool_ids,
+                target_url=target_url,
+                iterations=iterations,
+                human_mode=human_mode,
+                battery_label=battery_label,
+            )
+        except Exception as exc:
+            fail_task(reason=f"Benchmark battery failed: {exc}")
+
+    threading.Thread(target=_worker, daemon=True).start()
+    return JSONResponse({
+        "status": "started",
+        "message": f"Benchmark battery '{battery_label}' initiated against {target_url}.",
+        "target_url": target_url,
+        "iterations": iterations,
+        "tool_ids": tool_ids,
+    })
+
+
+# ─── 2. Resilience & Chaos Endpoints ──────────────────────────────────────────
+
+@app.get("/api/resilience/overview")
+async def get_resilience_overview():
+    """Returns aggregated stats across historical resilience test reports."""
+    tester = get_resilience_tester()
+    reports = tester.list_resilience_reports(limit=100)
+    latest_index = 0.0
+    if reports:
+        latest_index = reports[0].get("resilience_index", 0.0)
+
+    return JSONResponse({
+        "total_resilience_reports": len(reports),
+        "latest_resilience_index": latest_index,
+        "recent_reports": reports[:10],
+    })
+
+
+@app.get("/api/resilience/reports")
+async def get_resilience_reports(limit: int = 50):
+    """Returns list of historical resilience reports."""
+    tester = get_resilience_tester()
+    reports = tester.list_resilience_reports(limit=limit)
+    return JSONResponse({"reports": reports, "total": len(reports)})
+
+
+@app.get("/api/resilience/reports/{report_id}")
+async def get_single_resilience_report(report_id: str):
+    """Retrieves full JSON report and raw Markdown content for a resilience report."""
+    tester = get_resilience_tester()
+    report = tester.get_resilience_report(report_id)
+    if not report:
+        raise HTTPException(status_code=404, detail=f"Resilience report '{report_id}' not found.")
+    return JSONResponse(report)
+
+
+@app.post("/api/resilience/run")
+async def run_resilience_scenario(request: Request):
+    """
+    Dispatches the requested resilience / chaos scenario in a background thread
+    with live HUD telemetry.
+    """
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+
+    scenario = body.get("scenario", "full_battery")
+    tool_id = body.get("tool_id", "01_curl_cffi")
+
+    def _worker():
+        try:
+            tester = get_resilience_tester()
+            if scenario == "rate_limit":
+                tester.test_rate_limit_resilience(tool_id=tool_id)
+            elif scenario == "dom_mutation":
+                tester.test_dom_mutation_resilience(tool_id=tool_id)
+            elif scenario == "network_fault":
+                tester.test_network_fault_resilience(tool_id=tool_id)
+            elif scenario == "contract_fuzzing":
+                tester.test_contract_fuzzing_resilience()
+            else:
+                tester.run_full_resilience_battery()
+        except Exception as exc:
+            fail_task(reason=f"Resilience test '{scenario}' failed: {exc}")
+
+    threading.Thread(target=_worker, daemon=True).start()
+    return JSONResponse({
+        "status": "started",
+        "scenario": scenario,
+        "tool_id": tool_id,
+        "message": f"Resilience scenario '{scenario}' initiated in background.",
+    })
+
+
+# ─── 3. Project Exporter Endpoints ───────────────────────────────────────────
+
+@app.get("/api/exports/list")
+async def list_project_exports():
+    """Calls ProjectExporter().list_exports() and returns categorized metadata."""
+    exporter = get_project_exporter()
+    catalog = exporter.list_exports()
+    return JSONResponse(catalog)
+
+
+@app.post("/api/exports/tool")
+async def export_standalone_tool_endpoint(request: Request):
+    """Exports a single scraper tool into a standalone runnable package."""
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+
+    tool_id = body.get("tool_id", "01_curl_cffi")
+    output_format = body.get("output_format", "zip")
+
+    try:
+        exporter = get_project_exporter()
+        result = exporter.export_standalone_tool(tool_id=tool_id, output_format=output_format)
+        return JSONResponse(result)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Failed to export tool '{tool_id}': {exc}")
+
+
+@app.post("/api/exports/bundle")
+async def bundle_data_lake_endpoint(request: Request):
+    """Bundles data lake deliverables into a compressed, sanitized archive."""
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+
+    scope = body.get("scope", "cleaned")
+    pipeline_id = body.get("pipeline_id", "")
+    tool_id = body.get("tool_id", "")
+    archive_format = body.get("archive_format", "zip")
+
+    try:
+        exporter = get_project_exporter()
+        result = exporter.bundle_data_lake(
+            scope=scope,
+            pipeline_id=pipeline_id,
+            tool_id=tool_id,
+            archive_format=archive_format,
+        )
+        return JSONResponse(result)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Failed to bundle data lake: {exc}")
+
+
+@app.post("/api/exports/pipeline")
+async def export_standalone_pipeline_endpoint(request: Request):
+    """Packages a pipeline into an independent containerized package with Dockerfile."""
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+
+    pipeline_id = body.get("pipeline_id", "01_leetcode_archiver")
+    include_fixtures = bool(body.get("include_fixtures", True))
+
+    try:
+        exporter = get_project_exporter()
+        result = exporter.export_standalone_pipeline(
+            pipeline_id=pipeline_id,
+            include_fixtures=include_fixtures,
+        )
+        return JSONResponse(result)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Failed to export pipeline '{pipeline_id}': {exc}")
+
+
+@app.get("/api/exports/download/{category}/{filename:path}")
+async def download_export_file(category: str, filename: str):
+    """
+    Securely streams the requested .zip or manifest from exports/<category>/<filename>.
+    Validates file path strictly to prevent directory traversal attacks (returns 400 Bad Request
+    if path contains '..' or resolves outside exports/).
+    """
+    import urllib.parse
+
+    raw_path_str = f"{category}/{filename}"
+    decoded_path_str = urllib.parse.unquote(raw_path_str)
+
+    # Check for path traversal keywords
+    if ".." in category or ".." in filename or ".." in decoded_path_str:
+        raise HTTPException(status_code=400, detail="Invalid path or directory traversal detected.")
+
+    exports_dir = (ROOT / "exports").resolve()
+    target_file = (exports_dir / category / filename).resolve()
+
+    # Ensure target_file resides within exports_dir
+    try:
+        target_file.relative_to(exports_dir)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Path traversal attempt blocked.")
+
+    if not target_file.exists() or not target_file.is_file():
+        raise HTTPException(status_code=404, detail=f"Export file '{filename}' not found.")
+
+    media_type = "application/zip" if target_file.suffix == ".zip" else "application/octet-stream"
+    if target_file.suffix == ".json":
+        media_type = "application/json"
+
+    return FileResponse(
+        path=str(target_file),
+        filename=target_file.name,
+        media_type=media_type,
+    )
 
 
 @app.post("/api/demo-run")

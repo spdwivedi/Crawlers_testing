@@ -87,6 +87,9 @@
       <button class="tab-btn" data-tab="tab-real-pipelines" onclick="switchTab('tab-real-pipelines', this)">
         <span class="tab-icon">🧪</span> Real Pipelines
       </button>
+      <button class="tab-btn" data-tab="tab-benchmarks-exporter" onclick="switchTab('tab-benchmarks-exporter', this)">
+        <span class="tab-icon">📊</span> Benchmarks & Lab
+      </button>
     </nav>
 
     <!-- ─── TAB 1: LIVE EXECUTION ─────────────────────────── -->
@@ -1375,6 +1378,331 @@
                 </tr>
               </thead>
               <tbody id="pipe-contract-matrix-body">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ─── TAB 8: BENCHMARKS, STRESS LAB & EXPORTER ───────── -->
+  <div class="tab-content" id="tab-benchmarks-exporter">
+    <div class="tab-layout-column">
+
+      <!-- Top KPI Ribbon -->
+      <div class="kpi-ribbon">
+        <div class="kpi-card">
+          <div class="kpi-label">Benchmark Runs Executed</div>
+          <div class="kpi-value" id="bm-kpi-runs">0</div>
+          <div class="kpi-sub">Across 20 Tool Adapters</div>
+        </div>
+        <div class="kpi-card gold-border">
+          <div class="kpi-label">Top Composite Scorer</div>
+          <div class="kpi-value" id="bm-kpi-top-scorer"><span class="crown-icon">👑</span> —</div>
+          <div class="kpi-sub" id="bm-kpi-top-score-val">Score: 0.0 / 100</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Resilience Index</div>
+          <div class="kpi-value" id="bm-kpi-resilience">100%</div>
+          <div class="kpi-sub">Chaos & Rate-Limit Shield</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Standalone Export Packages</div>
+          <div class="kpi-value" id="bm-kpi-exports-count">0</div>
+          <div class="kpi-sub">Zero-Dependency Artifacts</div>
+        </div>
+      </div>
+
+      <!-- Sub-View Selector Bar -->
+      <div class="pipe-subnav-bar">
+        <button class="pipe-subnav-btn active" id="subview-btn-benchmark" onclick="switchBenchmarksSubView('subview-benchmark-lab', this)">
+          🏎️ Sub-View A: Master Benchmark Lab
+        </button>
+        <button class="pipe-subnav-btn" id="subview-btn-resilience" onclick="switchBenchmarksSubView('subview-resilience-lab', this)">
+          ⚡ Sub-View B: Chaos & Resilience Stress Lab
+        </button>
+        <button class="pipe-subnav-btn" id="subview-btn-exporter" onclick="switchBenchmarksSubView('subview-exporter-lab', this)">
+          📦 Sub-View C: Standalone Exporter & Data Bundler
+        </button>
+      </div>
+
+      <!-- ── SUB-VIEW A: MASTER BENCHMARK LAB ── -->
+      <div class="bench-subview-panel active" id="subview-benchmark-lab">
+        <div class="bench-grid-2col">
+          <!-- Launcher Panel -->
+          <div class="bench-card">
+            <div class="bench-card-header">
+              <h3>🎯 Benchmark Battery Launcher</h3>
+              <span class="badge-tag">Rule 9 Compliant</span>
+            </div>
+            <div class="form-group">
+              <label>Target URL</label>
+              <div class="input-with-presets">
+                <input type="url" id="bm-target-url" value="https://quotes.toscrape.com" />
+                <div class="preset-btn-group">
+                  <button type="button" class="btn-preset" onclick="setBmTarget('https://quotes.toscrape.com')">Quotes</button>
+                  <button type="button" class="btn-preset" onclick="setBmTarget('https://books.toscrape.com')">Books</button>
+                  <button type="button" class="btn-preset" onclick="setBmTarget('https://httpbin.org/html')">HttpBin</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Battery Label</label>
+              <input type="text" id="bm-battery-label" value="20-Tool Master Battery Run" />
+            </div>
+            <div class="form-group">
+              <label>Candidate Tool Squad</label>
+              <div class="squad-selector-grid">
+                <label class="checkbox-pill"><input type="checkbox" name="bm-squad" value="01_curl_cffi" checked /> 01_curl_cffi</label>
+                <label class="checkbox-pill"><input type="checkbox" name="bm-squad" value="04_httpx_parsel" checked /> 04_httpx_parsel</label>
+                <label class="checkbox-pill"><input type="checkbox" name="bm-squad" value="06_playwright" /> 06_playwright</label>
+                <label class="checkbox-pill"><input type="checkbox" name="bm-squad" value="16_crawl4ai" /> 16_crawl4ai</label>
+                <label class="checkbox-pill"><input type="checkbox" id="bm-squad-all" onchange="toggleAllBmSquad(this)" /> 🌐 All 20 Tools</label>
+              </div>
+            </div>
+            <div class="form-row-2col">
+              <div class="form-group">
+                <label>Iterations (Per Tool)</label>
+                <input type="number" id="bm-iterations" value="3" min="1" max="10" />
+              </div>
+              <div class="form-group">
+                <label>Human Neuromotor Mode</label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="bm-human-mode" />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="card-actions">
+              <button type="button" class="btn-primary-glow full-width" onclick="runBenchmarkBattery()">
+                ▶ Run Benchmark Battery
+              </button>
+            </div>
+          </div>
+
+          <!-- Historical Reports Drawer / Summary -->
+          <div class="bench-card">
+            <div class="bench-card-header">
+              <h3>📜 Historical Benchmark Reports</h3>
+              <button class="btn-refresh" onclick="loadBenchmarkReports()">🔄 Refresh</button>
+            </div>
+            <div class="reports-drawer-list" id="bm-reports-list">
+              <div class="empty-state">No benchmark reports found. Run a battery to populate.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Leaderboard Table -->
+        <div class="bench-card full-width">
+          <div class="bench-card-header">
+            <h3>🏆 Executive Performance Leaderboard</h3>
+            <p>Multi-dimensional scoring: Speed (35%), Richness (30%), Stealth (25%), Memory (10%).</p>
+          </div>
+          <div class="table-wrap">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Tool Identifier</th>
+                  <th>Status</th>
+                  <th>Latency p50</th>
+                  <th>Latency p90</th>
+                  <th>Latency p99</th>
+                  <th>RAM Δ (MB)</th>
+                  <th>CPU Peak</th>
+                  <th>Yield Efficiency</th>
+                  <th>Stealth Score</th>
+                  <th>Composite Score</th>
+                </tr>
+              </thead>
+              <tbody id="bm-leaderboard-body">
+                <tr><td colspan="11" class="text-center text-muted">Awaiting benchmark execution or select a report above.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SUB-VIEW B: CHAOS & RESILIENCE STRESS LAB ── -->
+      <div class="bench-subview-panel" id="subview-resilience-lab">
+        <!-- Fault Injection Cards Grid -->
+        <div class="chaos-cards-grid">
+          <div class="chaos-card">
+            <div class="chaos-icon">🛑</div>
+            <h4>HTTP 429 & Rate-Limit Backoff</h4>
+            <p>Simulates upstream HTTP 429 / Retry-After and verifies exponential jitter backoff and account quarantine.</p>
+            <button class="btn-secondary full-width" onclick="runChaosScenario('rate_limit')">Run 429 Test</button>
+          </div>
+          <div class="chaos-card">
+            <div class="chaos-icon">🧬</div>
+            <h4>Scrambled DOM & Mutation</h4>
+            <p>Fuzzes primary CSS classes and tests automated fallback selector extraction without IndexErrors.</p>
+            <button class="btn-secondary full-width" onclick="runChaosScenario('dom_mutation')">Run DOM Mutation Test</button>
+          </div>
+          <div class="chaos-card">
+            <div class="chaos-icon">💥</div>
+            <h4>Network Reset & Latency Spike</h4>
+            <p>Injects socket disconnects and high-latency stalls to confirm client timeouts and zero zombie hangs.</p>
+            <button class="btn-secondary full-width" onclick="runChaosScenario('network_fault')">Run Socket Chaos Test</button>
+          </div>
+          <div class="chaos-card">
+            <div class="chaos-icon">🛡️</div>
+            <h4>Silver Contract Schema Fuzzing</h4>
+            <p>Pumps malformed, missing, and corrupted payloads into Silver contracts to verify Pydantic resilience.</p>
+            <button class="btn-secondary full-width" onclick="runChaosScenario('contract_fuzzing')">Run Schema Fuzz Test</button>
+          </div>
+        </div>
+
+        <div class="master-chaos-action-bar">
+          <button class="btn-danger-glow full-width" onclick="runChaosScenario('full_battery')">
+            ▶ Execute Full Chaos Battery (All 4 Scenarios)
+          </button>
+        </div>
+
+        <!-- Resilience Scorecard & History -->
+        <div class="bench-grid-2col">
+          <div class="bench-card">
+            <div class="bench-card-header">
+              <h3>🛡️ Live Resilience Scorecard</h3>
+              <span class="badge-index" id="resilience-badge-val">Index: 100 / 100</span>
+            </div>
+            <div class="resilience-breakdown-list">
+              <div class="resilience-item">
+                <span class="item-name">Exponential Jitter Backoff</span>
+                <span class="item-status success">Active / Calibrated</span>
+              </div>
+              <div class="resilience-item">
+                <span class="item-name">Account Cooldown Quarantine</span>
+                <span class="item-status success">Active / Enforced</span>
+              </div>
+              <div class="resilience-item">
+                <span class="item-name">Semantic Fallback Selectors</span>
+                <span class="item-status success">Active / Graceful</span>
+              </div>
+              <div class="resilience-item">
+                <span class="item-name">Pydantic Silver Tier Validation</span>
+                <span class="item-status success">Active / Strict</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bench-card">
+            <div class="bench-card-header">
+              <h3>📜 Historical Resilience Reports</h3>
+              <button class="btn-refresh" onclick="loadResilienceReports()">🔄 Refresh</button>
+            </div>
+            <div class="reports-drawer-list" id="resilience-reports-list">
+              <div class="empty-state">No resilience reports found. Execute a chaos test to evaluate.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SUB-VIEW C: STANDALONE EXPORTER & DATA BUNDLER ── -->
+      <div class="bench-subview-panel" id="subview-exporter-lab">
+        <!-- 3 Action Cards -->
+        <div class="export-cards-grid">
+          <!-- Card 1: Tool Exporter -->
+          <div class="export-card">
+            <div class="export-card-header">
+              <span class="export-icon">📦</span>
+              <h4>Standalone Scraper Exporter</h4>
+            </div>
+            <p>Packages any tool adapter into a zero-monorepo dependency runnable script with local compat shim.</p>
+            <div class="form-group">
+              <label>Select Tool</label>
+              <select id="export-tool-id">
+                <option value="01_curl_cffi">01_curl_cffi (JA3/TLS Impersonation)</option>
+                <option value="04_httpx_parsel">04_httpx_parsel (Async HTTP/2)</option>
+                <option value="06_playwright">06_playwright (Headless Browser)</option>
+                <option value="16_crawl4ai">16_crawl4ai (LLM Extraction)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Output Format</label>
+              <select id="export-tool-format">
+                <option value="zip">ZIP Archive (.zip)</option>
+                <option value="dir">Directory Only</option>
+                <option value="both">Both Archive & Directory</option>
+              </select>
+            </div>
+            <button class="btn-primary full-width" onclick="exportStandaloneTool()">
+              📦 Export Tool
+            </button>
+          </div>
+
+          <!-- Card 2: Data Lake Bundler -->
+          <div class="export-card">
+            <div class="export-card-header">
+              <span class="export-icon">🗄️</span>
+              <h4>Data Lake Silver Tier Bundler</h4>
+            </div>
+            <p>Bundles and cryptographically signs data lake deliverables with Zero-Leak security filtering.</p>
+            <div class="form-group">
+              <label>Packaging Scope</label>
+              <select id="export-bundle-scope">
+                <option value="cleaned">Cleaned Silver Only (Validated Deliverables)</option>
+                <option value="all">All Raw & Cleaned Artifacts</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Pipeline Filter (Optional)</label>
+              <input type="text" id="export-bundle-pipe" placeholder="e.g. 01_leetcode_archiver" />
+            </div>
+            <button class="btn-primary full-width" onclick="bundleDataLake()">
+              🗄️ Bundle Data Lake
+            </button>
+          </div>
+
+          <!-- Card 3: Pipeline Dockerizer -->
+          <div class="export-card">
+            <div class="export-card-header">
+              <span class="export-icon">🐳</span>
+              <h4>Standalone Pipeline Dockerizer</h4>
+            </div>
+            <p>Creates a containerized microservice package with Dockerfile, CLI runner, and provenance manifest.</p>
+            <div class="form-group">
+              <label>Select Pipeline</label>
+              <select id="export-pipeline-id">
+                <option value="01_leetcode_archiver">01_leetcode_archiver</option>
+                <option value="02_social_media_pipeline">02_social_media_pipeline</option>
+                <option value="03_secured_snapshot_forensics">03_secured_snapshot_forensics</option>
+                <option value="04_multimodal_auto_resolver">04_multimodal_auto_resolver</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="export-pipeline-fixtures" checked /> Include Fallback Fixtures
+              </label>
+            </div>
+            <button class="btn-primary full-width" onclick="exportStandalonePipeline()">
+              🐳 Containerize Pipeline
+            </button>
+          </div>
+        </div>
+
+        <!-- Export Catalog Table -->
+        <div class="bench-card full-width">
+          <div class="bench-card-header">
+            <h3>📂 Export Artifacts Catalog & Download Hub</h3>
+            <button class="btn-refresh" onclick="loadExportsTab()">🔄 Refresh Catalog</button>
+          </div>
+          <div class="table-wrap">
+            <table class="export-catalog-table">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Package / File Name</th>
+                  <th>Size</th>
+                  <th>SHA-256 Digest</th>
+                  <th>Created At</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="export-catalog-body">
+                <tr><td colspan="6" class="text-center text-muted">Loading export artifacts...</td></tr>
               </tbody>
             </table>
           </div>
