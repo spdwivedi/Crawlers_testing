@@ -1,0 +1,39 @@
+{
+  "tool_id": "01_curl_cffi",
+  "package_type": "standalone_tool",
+  "created_at": "2026-10-22T13:34:54.521573+00:00",
+  "file_count": 6,
+  "total_bytes": 19263,
+  "files": [
+    {
+      "name": "adapter.py",
+      "size_bytes": 13352,
+      "sha256": "7d959247efe25e66a342d8d45b78feeb647b8f3519e643229a9dd8b6c97780d6"
+    },
+    {
+      "name": "compat.py",
+      "size_bytes": 3107,
+      "sha256": "8b0d73a219b105263e6901b235c7f87381fb245f266db182444bfef907bbe111"
+    },
+    {
+      "name": "config.json",
+      "size_bytes": 264,
+      "sha256": "df9a40b90a70c4507c192c1563a9e79316688ce93ddeba783012b5ff9f67f51a"
+    },
+    {
+      "name": "README.md",
+      "size_bytes": 598,
+      "sha256": "02af7e9fb2b67536d43e8501a027426c484016f4cf46d7d35787596a3ed08961"
+    },
+    {
+      "name": "requirements.txt",
+      "size_bytes": 39,
+      "sha256": "206c2dffe9dc2568cb86e579ac1d9f754c6417d81d09eb0109664bb870951191"
+    },
+    {
+      "name": "run.py",
+      "size_bytes": 1903,
+      "sha256": "fb96dbc9f51de157c0ae4c6ba38942695bab7471098f1b40a46e0a7bd97beda5"
+    }
+  ]
+}

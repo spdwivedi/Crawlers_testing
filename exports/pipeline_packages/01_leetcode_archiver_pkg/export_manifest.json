@@ -1,0 +1,39 @@
+{
+  "pipeline_id": "01_leetcode_archiver",
+  "package_type": "standalone_pipeline",
+  "created_at": "2026-10-22T13:35:00.162060+00:00",
+  "file_count": 6,
+  "total_bytes": 30587,
+  "files": [
+    {
+      "name": "compat.py",
+      "size_bytes": 3107,
+      "sha256": "8b0d73a219b105263e6901b235c7f87381fb245f266db182444bfef907bbe111"
+    },
+    {
+      "name": "Dockerfile",
+      "size_bytes": 169,
+      "sha256": "0b1ef76e04fcf2e62f6dfb47e564cce5962ab427f393385184835ec7d5f5ff06"
+    },
+    {
+      "name": "pipeline.py",
+      "size_bytes": 25785,
+      "sha256": "6119367a64da84ddd04fa63a7cac1a481699052e6554dec8962cfb6b568054b5"
+    },
+    {
+      "name": "pipeline_runner.py",
+      "size_bytes": 995,
+      "sha256": "3dbc5d5143484de4454e106a5b1eca8289b37275990ff90cedd30e522e868cb1"
+    },
+    {
+      "name": "README.md",
+      "size_bytes": 432,
+      "sha256": "80a91aa933c6d9762948d800ab8a0892ac5c66fdeed1be3680200473818ef657"
+    },
+    {
+      "name": "requirements.txt",
+      "size_bytes": 99,
+      "sha256": "cab6a3e42d053990662cf2da1c0546ac29132a53f49474e9e7fca889521c57de"
+    }
+  ]
+}

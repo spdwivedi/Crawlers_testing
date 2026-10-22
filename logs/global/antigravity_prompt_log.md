@@ -1681,3 +1681,51 @@
 | 2026-10-22 13:13:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: get_resilience_report retrieves report with markdown_content |
 | 2026-10-22 13:13:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates all runs cleanly |
 | 2026-10-22 13:13:49 | INFO | Stage 6 | core_resilience_tester | verify_step_6_2 | 0% | CHECK PASSED: Pre-Commit Secret Guard reports ZERO violations |
+| 2026-10-22 13:28:32 | INFO | Stage 6 | 01_curl_cffi | export_standalone_tool | 0% | Exporting standalone tool package for '01_curl_cffi' to 01_curl_cffi_standalone |
+| 2026-10-22 13:28:32 | INFO | Stage 6 | core_project_exporter | bundle_data_lake | 0% | Bundling data lake artifacts (scope='cleaned', pipeline='') |
+| 2026-10-22 13:28:34 | INFO | Stage 6 | core_project_exporter | export_standalone_pipeline | 0% | Exporting standalone pipeline package for '01_leetcode_archiver' to 01_leetcode_archiver_pkg |
+| 2026-10-22 13:32:42 | INFO | Stage 6 | 01_curl_cffi | export_standalone_tool | 0% | Exporting standalone tool package for '01_curl_cffi' to 01_curl_cffi_standalone |
+| 2026-10-22 13:33:06 | INFO | Stage 6 | core_project_exporter | export_standalone_pipeline | 0% | Exporting standalone pipeline package for '01_leetcode_archiver' to 01_leetcode_archiver_pkg |
+| 2026-10-22 13:33:36 | INFO | Stage 6 | core_project_exporter | bundle_data_lake | 0% | Bundling data lake artifacts (scope='cleaned', pipeline='', tool='01_curl_cffi') |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: standalone_tools/.gitkeep exists |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: data_bundles/.gitkeep exists |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: pipeline_packages/.gitkeep exists |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: .gitignore excludes export zip archives |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: .gitignore tracks export_manifest.json files |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | 01_curl_cffi | export_standalone_tool | 0% | Exporting standalone tool package for '01_curl_cffi' to 01_curl_cffi_standalone |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: export_standalone_tool returns package metadata |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Generated run.py exists |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Generated adapter.py exists |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Generated requirements.txt exists |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Generated README.md exists |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Generated compat.py exists |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Generated export_manifest.json exists |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: adapter.py contains NO import of core.folder_manager |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: adapter.py contains NO import of backend.app |
+| 2026-10-22 13:34:54 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: adapter.py imports from local compat shim |
+| 2026-10-22 13:34:55 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Standalone run.py executes cleanly (exit code 0) |
+| 2026-10-22 13:34:55 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Standalone run.py output indicates completed status |
+| 2026-10-22 13:34:55 | INFO | Stage 6 | core_project_exporter | bundle_data_lake | 0% | Bundling data lake artifacts (scope='cleaned', pipeline='', tool='01_curl_cffi') |
+| 2026-10-22 13:34:56 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Bundle zip file created |
+| 2026-10-22 13:34:56 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Bundle manifest JSON created |
+| 2026-10-22 13:34:56 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Bundle manifest contains files and total_bytes > 0 |
+| 2026-10-22 13:34:56 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Bundle archive SHA-256 is 64-char hex |
+| 2026-10-22 13:34:56 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Zero-Leak Audit: No blocked extensions (.env, *.sqlite, .key) or paths in zip |
+| 2026-10-22 13:34:56 | INFO | Stage 6 | core_project_exporter | bundle_data_lake | 0% | Bundling data lake artifacts (scope='all', pipeline='', tool='') |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Synthetic Threat Test: secret_session.sqlite strictly blocked from bundle |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | export_standalone_pipeline | 0% | Exporting standalone pipeline package for '01_leetcode_archiver' to 01_leetcode_archiver_pkg |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: export_standalone_pipeline returns package metadata |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Pipeline runner script exists |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Pipeline Dockerfile exists |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Pipeline requirements.txt exists |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Pipeline README.md exists |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Pipeline manifest exists |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Dockerfile defines ENTRYPOINT ["python", "pipeline_runner.py"] |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Standalone pipeline_runner.py executes cleanly (exit code 0) |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Pipeline runner output confirms successful mock execution |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: list_exports() returns all 3 export categories |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: list_exports() discovers 01_curl_cffi standalone tool |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: list_exports() discovers 01_leetcode_archiver pipeline package |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: get_export_manifest() parses valid manifest JSON |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: GlobalMasterIndexer.sync_all() federates all runs cleanly |
+| 2026-10-22 13:35:00 | INFO | Stage 6 | core_project_exporter | verify_step_6_3 | 0% | CHECK PASSED: Pre-Commit Secret Guard reports ZERO violations |
