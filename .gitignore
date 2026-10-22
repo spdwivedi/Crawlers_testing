@@ -80,6 +80,16 @@ index_store/**/*.sqlite*
 index_store/**/*.sqlite3*
 index_store/**/*.db*
 
+# ── Export Artifacts (Stage 6) ──────────────────
+exports/**/*.zip
+exports/**/*.tar.gz
+exports/**/*.tar
+exports/*.zip
+exports/*.tar.gz
+exports/*.tar
+exports/**/output/
+exports/**/output/**
+
 # ─────────────────────────────────────────────
 # STRICTLY TRACKED — Force-include these always
 # ─────────────────────────────────────────────
@@ -93,4 +103,6 @@ index_store/**/*.db*
 !tools/**/.gitkeep
 !index_store/*.json
 !index_store/**/*.json
+!exports/**/export_manifest.json
+!exports/**/.gitkeep
 
