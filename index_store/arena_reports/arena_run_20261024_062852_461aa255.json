@@ -1,0 +1,115 @@
+{
+  "report_id": "arena_run_20261024_062852_461aa255",
+  "created_at": "2026-10-24T06:28:52.899591+00:00",
+  "target_url": "https://quotes.toscrape.com",
+  "action_name": "arena_benchmark",
+  "run_label": "Arena Benchmark: 2 tools vs. https://quotes.toscrape.com",
+  "human_mode": true,
+  "timing_profile": "BALANCED_HUMAN",
+  "total_tools": 2,
+  "tools_tested": [
+    "01_curl_cffi",
+    "04_httpx_parsel"
+  ],
+  "total_elapsed_sec": 9.21,
+  "winning_tool": "01_curl_cffi",
+  "winning_rationale": "Tool '01_curl_cffi' placed #1 with a composite score of 82.8/100 (Speed: 100.0, Richness: 55.0, Stealth: 95.0) with execution time of 3.297s and 2804 cleaned characters.",
+  "comparison_matrix": [
+    {
+      "tool_id": "01_curl_cffi",
+      "status": "completed",
+      "elapsed_sec": 3.297,
+      "stagger_applied_sec": 0.0,
+      "raw_bytes": 9616,
+      "cleaned_chars": 2804,
+      "raw_file_count": 3,
+      "cleaned_file_count": 2,
+      "memory_delta_mb": 22.5,
+      "peak_rss_mb": 87.59,
+      "domain_metrics": {
+        "human_mode_active": true,
+        "timing_profile": "BALANCED_HUMAN",
+        "difficulty": "Easy",
+        "tags_count": 2,
+        "mode": "live"
+      },
+      "error": "",
+      "run_dir": "data\\01_curl_cffi\\arena_benchmark\\2026-10-24\\run_062853_95eb1a68",
+      "speed_score": 100.0,
+      "data_richness_score": 55.0,
+      "stealth_score": 95.0,
+      "composite_score": 82.8,
+      "rank": 1
+    },
+    {
+      "tool_id": "04_httpx_parsel",
+      "status": "completed",
+      "elapsed_sec": 5.801,
+      "stagger_applied_sec": 0.1,
+      "raw_bytes": 4194,
+      "cleaned_chars": 7862,
+      "raw_file_count": 2,
+      "cleaned_file_count": 2,
+      "memory_delta_mb": 18.91,
+      "peak_rss_mb": 106.5,
+      "domain_metrics": {
+        "human_mode_active": true,
+        "timing_profile": "BALANCED_HUMAN",
+        "http2": true,
+        "json_items_count": 1,
+        "html_items_count": 1
+      },
+      "error": "",
+      "run_dir": "data\\04_httpx_parsel\\arena_benchmark\\2026-10-24\\run_062856_95fcca54",
+      "speed_score": 56.8,
+      "data_richness_score": 100.0,
+      "stealth_score": 90.0,
+      "composite_score": 81.9,
+      "rank": 2
+    }
+  ],
+  "tool_executions": [
+    {
+      "tool_id": "01_curl_cffi",
+      "status": "completed",
+      "elapsed_sec": 3.297,
+      "stagger_applied_sec": 0.0,
+      "raw_bytes": 9616,
+      "cleaned_chars": 2804,
+      "raw_file_count": 3,
+      "cleaned_file_count": 2,
+      "memory_delta_mb": 22.5,
+      "peak_rss_mb": 87.59,
+      "domain_metrics": {
+        "human_mode_active": true,
+        "timing_profile": "BALANCED_HUMAN",
+        "difficulty": "Easy",
+        "tags_count": 2,
+        "mode": "live"
+      },
+      "error": "",
+      "run_dir": "data\\01_curl_cffi\\arena_benchmark\\2026-10-24\\run_062853_95eb1a68"
+    },
+    {
+      "tool_id": "04_httpx_parsel",
+      "status": "completed",
+      "elapsed_sec": 5.801,
+      "stagger_applied_sec": 0.1,
+      "raw_bytes": 4194,
+      "cleaned_chars": 7862,
+      "raw_file_count": 2,
+      "cleaned_file_count": 2,
+      "memory_delta_mb": 18.91,
+      "peak_rss_mb": 106.5,
+      "domain_metrics": {
+        "human_mode_active": true,
+        "timing_profile": "BALANCED_HUMAN",
+        "http2": true,
+        "json_items_count": 1,
+        "html_items_count": 1
+      },
+      "error": "",
+      "run_dir": "data\\04_httpx_parsel\\arena_benchmark\\2026-10-24\\run_062856_95fcca54"
+    }
+  ]
+}
