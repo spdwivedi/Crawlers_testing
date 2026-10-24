@@ -518,3 +518,77 @@ index_store/
   }
 }
 ```
+
+### 7.3 Safe Arena Tournament Report Schema (`index_store/arena_reports/*.json`)
+```json
+{
+  "report_id": "arena_run_20261024_062852_461aa255",
+  "created_at": "2026-10-24T06:28:52.123456+00:00",
+  "target_url": "https://quotes.toscrape.com",
+  "action_name": "arena_benchmark",
+  "run_label": "Arena Benchmark: 2 tools vs. https://quotes.toscrape.com",
+  "human_mode": true,
+  "timing_profile": "BALANCED_HUMAN",
+  "total_tools": 2,
+  "tools_tested": ["01_curl_cffi", "04_httpx_parsel"],
+  "total_elapsed_sec": 4.12,
+  "winning_tool": "01_curl_cffi",
+  "winning_rationale": "01_curl_cffi led with fastest response latency and lowest RSS memory delta.",
+  "comparison_matrix": [
+    {
+      "tool_id": "01_curl_cffi",
+      "status": "success",
+      "elapsed_seconds": 0.82,
+      "raw_bytes": 45120,
+      "cleaned_chars": 12840,
+      "memory_delta_mb": 14.2,
+      "composite_score": 92.4
+    },
+    {
+      "tool_id": "04_httpx_parsel",
+      "status": "success",
+      "elapsed_seconds": 1.15,
+      "raw_bytes": 45120,
+      "cleaned_chars": 12840,
+      "memory_delta_mb": 22.8,
+      "composite_score": 86.1
+    }
+  ]
+}
+```
+
+### 7.4 Production Task Pipeline Report Schema (`index_store/pipeline_reports/*.json`)
+```json
+{
+  "report_id": "pipeline_run_20261024_061500_9b8c7a61",
+  "pipeline_id": "01_leetcode_archiver",
+  "created_at": "2026-10-24T06:15:00.000000+00:00",
+  "target_identifier": "two-sum",
+  "execution_status": "success",
+  "stages_executed": [
+    {
+      "stage_id": "fetch_graphql",
+      "tool_id": "01_curl_cffi",
+      "status": "success",
+      "artifacts_produced": ["raw/graphql_payload.json", "raw/raw_catalog_slice.json"],
+      "elapsed_sec": 0.45
+    },
+    {
+      "stage_id": "normalize_contract",
+      "tool_id": "cleaning_pipeline",
+      "status": "success",
+      "contract_name": "CleanedCodeProblemContract",
+      "artifacts_produced": ["cleaned/two_sum.md", "cleaned/catalog_index.json"],
+      "elapsed_sec": 0.12
+    }
+  ],
+  "deliverables": {
+    "markdown_path": "data/01_curl_cffi/scrape_for_leetcode/2026-10-24/run_061500_9b8c7a61/cleaned/two_sum.md",
+    "catalog_path": "data/01_curl_cffi/scrape_for_leetcode/2026-10-24/run_061500_9b8c7a61/cleaned/catalog_index.json"
+  },
+  "sha256_digests": {
+    "two_sum.md": "a3b2c1d0e4f5...",
+    "catalog_index.json": "9f8e7d6c5b4a..."
+  }
+}
+```

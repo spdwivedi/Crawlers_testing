@@ -1,56 +1,108 @@
 # Antigravity Control Center Frontend (`frontend/`)
 
-The `frontend/` directory contains the responsive, dark-mode single-page dashboard serving as the real-time operational interface for `Crawlers_testing`.
+The `frontend/` directory hosts the responsive, dark-mode single-page dashboard serving as the real-time operational interface, command center, and diagnostic workstation for `Crawlers_testing`.
 
 ---
 
-## 🎨 Interface Structure & Tabs
+## 🎨 Architectural Overview
 
-- **Live Sticky HUD Bar:** Fixed top bar displaying active Stage, Step, Tool, Elapsed Seconds, circular progress percentage, and dual 60 FPS HTML5 Canvas graphs tracking worker CPU usage % and RAM consumption in MB.
-- **Tab 1: Telemetry Dashboard & Worker Monitor:** Real-time visual timeline of system milestones, task parameters, and active worker process PIDs (`psutil`).
-- **Tab 2: 20-Tool Execution Hub:** Execution cards for all 20 crawling engines, supporting custom target URLs, scraping actions, and live JSON response inspection.
-- **Tab 3: Dual-Index Search Engine:** Full-text keyword and phrase search across all Bronze/Silver artifacts and 4-tier logs, featuring Okapi BM25 ranking, yellow keyword highlighting (`mark.fts-hl`), and snippet previews.
-- **Tab 4: Real-Time 4-Tier Log Streamer:** High-performance virtual-scrolling log grid connected via WebSocket (`/ws/logs`) with real-time log-level and stage filtering.
-- **Tab 5: 🔐 Credential Vault & Session Manager:**
-  - 6-card KPI ribbon (Total Accounts, Active Ready, Cooldown Quarantine, High Risk, Private Target Coverage, Protected 2FA Seeds).
-  - Masked accounts table with health score indicators and action triggers (Copy TOTP, Quarantine/Release, Delete).
-  - Followed private targets list showing access coverage.
-  - 20-Tool Auth Router Sandbox testing ephemeral cookie injection.
-  - Modals: **Add Encrypted Account**, **Bulk Import** (with 50-account sample seed generator), and **Browser Session Capture** (interactive or headless).
-  - Floating, animated **Live 2FA TOTP Toast** with second-by-second countdown bars.
-- **Tab 6: ⚙ Working Ways & Safe Arena Studio:**
-  - *Human Simulation Studio:* Interactive sliders for Gaussian typing speed, reaction pauses, reading delays, and cubic Bezier mouse kinematics.
-  - *Safe Arena Studio:* Head-to-head multi-tool tournament launcher, staggered concurrency offsets, auto-kill watchdog, and tournament report history.
+The frontend is architected as a lightweight, zero-build vanilla JavaScript and HTML5 application engineered for maximum rendering performance, low memory footprint, and high-frequency WebSocket streaming:
+- **No External Bundler Required:** Runs directly from static files served by FastAPI at `/` (`frontend/index.html`).
+- **Real-Time State Synchronization:** Subscribes to `/ws/telemetry` at 1 Hz for global execution state (`logs/global/live_state.json`) and `/ws/logs` for real-time log tailing.
+- **Dual HTML5 Canvas 60 FPS HUD Monitors:** Renders hardware-accelerated time-series sparklines for worker CPU load % and RAM RSS consumption (MB) without DOM reflow penalties.
+- **Fast Tab Switching & Deep Linking:** Pure DOM tab navigation preserving active form inputs, filter selections, and scroll positions across tabs.
+
+---
+
+## 🖥️ Detailed Guide to All 8 Dashboard Tabs
+
+```
++===================================================================================================================+
+|  HUD BAR: [Stage: Master Verification]  [Step: Final Audit]  [Elapsed: 14.2s]  [Prog: 100%]  [Workers: 4]         |
+|  Canvas CPU Monitor: [||||||||||  12%]      Canvas RAM Monitor: [||||||||||||||||  196 MB]                        |
++===================================================================================================================+
+| [Tab 1: Live Execution] [Tab 2: Tool Roster] [Tab 3: Data Explorer] [Tab 4: Index & Search Hub]                   |
+| [Tab 5: 🔐 Credential Vault] [Tab 6: ⚙ Working Ways & Arena] [Tab 7: 🧪 Real Pipelines] [Tab 8: 📊 Benchmarks]    |
++===================================================================================================================+
+```
+
+### Tab 1: Live Execution (`id="tab-live"`, Shortcut: `Alt + 1`)
+- **Primary Role:** Operational cockpit displaying the live execution stream and milestone timeline.
+- **Components:**
+  - *Milestone Step Progress Bar:* Circular and linear percentage indicators tracking sub-step progression ($0\% \to 100\%$).
+  - *Worker Process Inspector:* Dynamic table listing active worker PIDs, process start times, and CPU/RAM consumption via `psutil`.
+  - *Real-Time Log Terminal:* Virtual-scrolling console streaming live diagnostic lines with level badges (`INFO`, `WARNING`, `ERROR`, `SUCCESS`).
+
+### Tab 2: Tool Roster (`id="tab-tools"`, Shortcut: `Alt + 2`)
+- **Primary Role:** Interactive testbed and configuration hub for all 20 specialized crawling engines.
+- **Components:**
+  - *20 Engine Execution Cards:* Grouped across Batches 1 to 4 with mechanism badges (`JA4 TLS`, `C-DOM`, `Stealth CDP`, `Document AI`).
+  - *Parameter Configuration Modal:* Custom target URL input, action selector (`scrape_for_leetcode`, `secured_page_origin`, etc.), and Human Mode toggle.
+  - *Live JSON Response Inspector:* Syntax-highlighted response pane displaying status, elapsed time, raw bytes, and domain metrics.
+
+### Tab 3: Data Explorer (`id="tab-explorer"`, Shortcut: `Alt + 3`)
+- **Primary Role:** Medallion Data Lake file browser inspecting Bronze, Silver, and Provenance artifacts.
+- **Components:**
+  - *Hierarchical Directory Tree:* Visual drill-down through `data/<tool_id>/<action>/<date>/<run_id>/`.
+  - *Artifact Splitter:* Dedicated subviews for Bronze `raw/` payloads, Silver `cleaned/` normalized outputs, and `logs/action_run.jsonl`.
+  - *Provenance Inspector:* Side-by-side display of `run_manifest.json` showing Git commit hash, SHA-256 file digests, and execution metadata.
+
+### Tab 4: Index & Search Hub (`id="tab-index"`, Shortcut: `Alt + 4`)
+- **Primary Role:** Unified full-text search engine querying both artifacts and multi-tier logs.
+- **Components:**
+  - *Okapi BM25 Search Bar:* Full-text search querying `global_master_index.sqlite` (`fts_artifacts` and `fts_logs`).
+  - *Keyword Highlighter:* Yellow keyword highlighting (`mark.fts-hl`) across search snippets and previews.
+  - *Tool Database Selector:* Direct inspection of any of the 20 isolated SQLite databases in `index_store/tool_indexes/`.
+
+### Tab 5: Credential Vault (`id="tab-vault"`, Shortcut: `Alt + 5`)
+- **Primary Role:** Zero-plaintext cryptographic credential manager, session store, and 2FA controller.
+- **Components:**
+  - *6-Card KPI Ribbon:* Total Accounts, Active Ready, Cooldown Quarantine, High Risk, Target Coverage, Protected 2FA Seeds.
+  - *Masked Accounts Table:* Health score meters, target domain pills, and action buttons (`Copy TOTP`, `Quarantine`, `Delete`).
+  - *Live 2FA TOTP Toast:* Floating toast emitting live 6-digit numeric codes with second-by-second countdown progress bars.
+  - *Modals:* **Add Account**, **Bulk Importer** (with 50-account sample generator), and **Browser Session Capture**.
+
+### Tab 6: Working Ways & Safe Arena (`id="tab-working-ways"`, Shortcut: `Alt + 6`)
+- **Primary Role:** Execution studio for the 3 Working Ways (Human Mode, Safe Arena, Task Router).
+- **Components:**
+  - *Human Simulation Studio:* Interactive sliders for Gaussian typing speed, reaction pauses, reading delays, and Bezier trajectories.
+  - *Safe Arena Tournament Studio:* Multi-tool tournament launcher, staggered concurrency offset sliders, auto-kill watchdog timer, and leaderboard view.
   - *Precision Task Router Studio:* Chaining studio configuring primary scraper, fallback engines, and enrichment handoffs.
-- **Tab 7: 🧪 Real Task Pipelines & Cleaned Inspector:**
-  - Pipeline execution cards for LeetCode Archiver, Social Media & Whisper, Secured Snapshot Forensics, and Multimodal Auto-Resolver.
-  - Multi-format artifact viewer (CommonMark, Audio waveforms, HTML offline snapshots, Code editors, OCR overlays).
-  - Silver-Tier Pydantic contract compliance matrix with cryptographic SHA-256 validation.
-- **Tab 8: 📊 Master Benchmarks, Chaos Lab & Standalone Exporter:**
-  - *Master Benchmark Lab:* 20-tool tournament battery launcher, multi-vector radar matrix (Speed, Richness, Stealth, Memory, Reliability), and gold winner leaderboard.
-  - *Chaos & Resilience Stress Lab:* Fault-injection cards for HTTP 429, DOM mutation, socket chaos, and contract schema fuzzing.
-  - *Standalone Project Exporter:* Zero-monorepo dependency tool packager, cryptographically signed Data Lake bundler, and Dockerized microservice generator.
+
+### Tab 7: Real Pipelines (`id="tab-real-pipelines"`, Shortcut: `Alt + 7`)
+- **Primary Role:** Production task pipeline control plane and Silver-Tier deliverable inspector.
+- **Components:**
+  - *4 Pipeline Launchers:* LeetCode Archiver, Social Media & Whisper, Secured Snapshot Forensics, Multimodal Auto-Resolver.
+  - *Multi-Format Deliverable Viewer:* Renderers for CommonMark Markdown, Audio waveforms (`.wav`/`.mp3`), self-contained HTML snapshots, and code templates.
+  - *Silver Contract Compliance Matrix:* Pydantic schema validation status and SHA-256 integrity confirmation.
+
+### Tab 8: Benchmarks & Lab (`id="tab-benchmarks-exporter"`, Shortcut: `Alt + 8`)
+- **Primary Role:** Performance matrix lab, chaos resilience testbed, and standalone project packager.
+- **Components:**
+  - *Master Benchmark Lab:* 20-tool tournament battery launcher, radar spider chart (Speed, Richness, Stealth, Memory, Reliability), and leaderboard.
+  - *Chaos & Resilience Stress Lab:* Interactive trigger cards for HTTP 429 backoff, DOM mutation fuzzing, socket chaos, and schema fuzzing.
+  - *Standalone Project Exporter:* Scraper packaging controls, signed Data Lake ZIP bundler, and Dockerized microservice generator.
 
 ---
 
-## ⌨️ Keyboard Shortcuts
+## ⌨️ Keyboard Shortcuts Reference
 
-| Shortcut | Action |
+| Shortcut | Target Destination |
 |:---:|:---|
-| `Alt + 1` | Switch to Tab 1: Telemetry Dashboard |
-| `Alt + 2` | Switch to Tab 2: 20-Tool Execution Hub |
-| `Alt + 3` | Switch to Tab 3: Dual-Index Search Engine |
-| `Alt + 4` | Switch to Tab 4: 4-Tier Log Streamer |
-| `Alt + 5` | Switch to Tab 5: 🔐 Credential Vault & Sessions |
-| `Alt + 6` | Switch to Tab 6: ⚙ Working Ways & Safe Arena Studio |
-| `Alt + 7` | Switch to Tab 7: 🧪 Real Task Pipelines & Cleaned Inspector |
-| `Alt + 8` | Switch to Tab 8: 📊 Master Benchmarks, Chaos Lab & Exporter |
-| `Escape` | Close any open modal dialog |
+| `Alt + 1` | Tab 1: Live Execution & Real-Time Stream |
+| `Alt + 2` | Tab 2: Tool Roster (20 Engine Hub) |
+| `Alt + 3` | Tab 3: Data Explorer (Data Lake Browser) |
+| `Alt + 4` | Tab 4: Index & Search Hub (FTS5 BM25) |
+| `Alt + 5` | Tab 5: 🔐 Credential Vault & Auth Router |
+| `Alt + 6` | Tab 6: ⚙ Working Ways & Safe Arena Studio |
+| `Alt + 7` | Tab 7: 🧪 Real Pipelines & Cleaned Inspector |
+| `Alt + 8` | Tab 8: 📊 Benchmarks, Chaos Lab & Exporter |
+| `Escape` | Close any active modal dialog or preview panel |
 
 ---
 
-## 🛠️ File Reference
+## 📁 Source File Breakdown
 
-- `index.html`: Semantic HTML5 layout and modal definitions.
-- `styles.css`: Dark-mode CSS styling using CSS Grid, Flexbox, custom scrollbars, and badge typography.
-- `app.js`: Pure vanilla JavaScript controller establishing WebSocket reconnect loops, handling tab switches, and executing asynchronous REST requests.
+- [`index.html`](file:///d:/Project_Files/Crawlers_testing/frontend/index.html): Semantic HTML5 markup, SVG iconography, modal dialogues, and tab container elements.
+- [`styles.css`](file:///d:/Project_Files/Crawlers_testing/frontend/styles.css): High-performance dark-mode stylesheet utilizing CSS Grid, Flexbox, custom scrollbars, and variable color palettes.
+- [`app.js`](file:///d:/Project_Files/Crawlers_testing/frontend/app.js): Vanilla JavaScript controller handling WebSocket reconnection loops, Canvas HUD drawing, REST calls, and DOM updates.

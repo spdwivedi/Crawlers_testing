@@ -1,5 +1,5 @@
 # Core Framework & API Technical Reference Manual
-**Project:** `Crawlers_testing` | **Status:** Formal Code & Interface Specification | **Stage:** Stage 3 Active
+**Project:** `Crawlers_testing` | **Status:** Formal Code & Interface Specification | **Stage:** Completed (Full 6-Stage Web Scraping Testbed & Benchmarking Engine)
 
 ---
 
@@ -331,6 +331,17 @@ classDiagram
 - **Core Classes:** `PrecisionTaskRouter`.
 - **Core Methods:**
   - `execute_routed_task(task_type, target, config) -> dict`: Dynamically routes task to primary engine, monitors extraction success, pivots to fallback engines upon detection, and chains downstream enrichment processors.
+  - `build_graphql_markdown_pipeline(target_url)`: Two-stage LeetCode GraphQL fetch to LLM-ready markdown chunker recipe.
+  - `build_stream_whisper_pipeline(target_url)`: Two-stage stream capture & demux to faster-whisper speech & knowledge graph.
+  - `build_browser_ocr_pipeline(target_url)`: Two-stage browser snapshot to OCR table grid resolver recipe.
+
+### 6.5 `core/human_adapter_helper.py` — Browser Kinematics & Human Navigation Bridge
+- **Core Classes:** `HumanAdapterHelper`.
+- **Core Methods:**
+  - `warmup_page_human(page, scroll_passes, dwell_time)`: Simulates initial human landing pauses, viewport dwells, and subtle scroll micro-adjustments.
+  - `browse_feed_human(page, target_item_selector, max_scrolls)`: Simulates authentic social feed browsing with eye-scan dwells, hesitation backtrack scrolling, and reading pauses.
+  - `click_element_human(page, selector)`: Moves mouse along a cubic Bezier trajectory with biological micro-tremors before executing a 2D Gaussian randomized click.
+  - `type_text_human(page, selector, text)`: Inputs text at realistic WPM cadences with QWERTY adjacent-key typo generation and backspace correction.
 
 ---
 

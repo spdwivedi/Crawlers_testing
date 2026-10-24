@@ -219,3 +219,119 @@ stateDiagram-v2
     SYNCED --> OUT_OF_SYNC_REBUILDING : Disk Rebuild Triggered<br/>(POST /api/index/rebuild)
     OUT_OF_SYNC_REBUILDING --> PER_TOOL_INDEXING : Re-scan filesystem directories
 ```
+
+---
+
+## 6. Multi-Stage Task Pipeline Execution State Machine (`pipelines/`)
+
+The Multi-Stage Task Pipeline state machine governs the chained execution of production task pipelines, ensuring that intermediate artifacts pass strictly through validation gates before successor stages are triggered.
+
+### 6.1 Pipeline State Diagram (Mermaid)
+
+```mermaid
+stateDiagram-v2
+    [*] --> PIPELINE_INITIALIZED : Pipeline Script Invocation<br/>[e.g. 01_leetcode_archiver.py]
+
+    state PIPELINE_INITIALIZED {
+        [*] --> Parse_CLI_Args
+        Parse_CLI_Args --> Resolve_Auth_Context : AccountRouter target match
+        Resolve_Auth_Context --> Allocate_Run_Dir : FolderManager allocates run_id
+    }
+
+    PIPELINE_INITIALIZED --> STAGE_1_EXECUTING : Stage 1 Driver Launched
+
+    state STAGE_1_EXECUTING {
+        [*] --> Fetch_Network_Payload : TLS JA4 BoringSSL impersonation
+        Fetch_Network_Payload --> Write_Raw_Bronze : Write raw/ response files
+        Write_Raw_Bronze --> Stage1_Complete
+    }
+
+    STAGE_1_EXECUTING --> ARTIFACT_HANDOFF_RESOLVER : Stage 1 Success<br/>[Predecessor outputs ready]
+    STAGE_1_EXECUTING --> PIPELINE_FAILED : Stage 1 Network Timeout / WAF Block
+
+    state ARTIFACT_HANDOFF_RESOLVER {
+        [*] --> Match_Input_Keys : Match input_artifact_keys
+        Match_Input_Keys --> Verify_File_Existence : Confirm raw/ artifacts present
+        Verify_File_Existence --> Inject_Successor_Inputs : Pass paths to Stage 2
+    }
+
+    ARTIFACT_HANDOFF_RESOLVER --> STAGE_2_PROCESSING : Hand-off Validated
+
+    state STAGE_2_PROCESSING {
+        [*] --> Parse_DOM_or_Media : Semantic parsing / audio demux
+        Parse_DOM_or_Media --> Normalize_Silver_Tier : CleaningPipeline normalization
+        Normalize_Silver_Tier --> Validate_Pydantic_Contract : Schema validation gate
+    }
+
+    STAGE_2_PROCESSING --> CONTRACT_VALIDATED : Schema Passes (Pydantic model valid)
+    STAGE_2_PROCESSING --> FALLBACK_RECOVERY : Schema Fails / Unhandled Field
+
+    state FALLBACK_RECOVERY {
+        [*] --> Trigger_Heuristic_Normalizer : Safe fallback values
+        Trigger_Heuristic_Normalizer --> Revalidate_Schema
+    }
+
+    FALLBACK_RECOVERY --> CONTRACT_VALIDATED : Fallback Passes
+    FALLBACK_RECOVERY --> PIPELINE_FAILED : Fallback Exhausted
+
+    state CONTRACT_VALIDATED {
+        [*] --> Write_Cleaned_Silver : Write cleaned/ artifacts
+        Write_Cleaned_Silver --> Compute_SHA256_Digests : Calculate file checksums
+        Compute_SHA256_Digests --> Finalize_Pipeline_Manifest : Persist pipeline_manifest.json
+    }
+
+    CONTRACT_VALIDATED --> PIPELINE_COMPLETED : All Stages Finalized
+    PIPELINE_COMPLETED --> [*] : Persist report in index_store/pipeline_reports/
+    PIPELINE_FAILED --> [*] : Record failure in logs & live_state.json
+```
+
+---
+
+## 7. Master Benchmark Battery & Chaos Resilience Lifecycle
+
+The Benchmark and Chaos Stress Testing state machine coordinates multi-iteration performance benchmarking and deterministic fault injection.
+
+### 7.1 Benchmark & Chaos Lifecycle Diagram (Mermaid)
+
+```mermaid
+stateDiagram-v2
+    [*] --> TESTBED_IDLE : System Ready
+
+    TESTBED_IDLE --> CALIBRATING_BASELINE : Launch Battery<br/>[BenchmarkEngine / ResilienceTester]
+
+    state CALIBRATING_BASELINE {
+        [*] --> Sample_Idle_CPU_RAM : psutil baseline measurement
+        Sample_Idle_CPU_RAM --> Ping_Target_URL : Verify endpoint reachable
+        Ping_Target_URL --> Spawn_Ephemeral_Chaos_Server : If chaos mode: start localhost:8765
+    }
+
+    CALIBRATING_BASELINE --> ITERATING_CANDIDATES : Baseline Calibrated
+
+    state ITERATING_CANDIDATES {
+        [*] --> Select_Next_Tool : Iterate 01 to 20
+        Select_Next_Tool --> Apply_Stagger_Delay : Anti-ban staggered concurrency pause
+        Apply_Stagger_Delay --> Inject_Chaos_Fault : If chaos mode: 429, turnstile, DOM mutate
+        Inject_Chaos_Fault --> Execute_Scraper_Pass : In-process tool adapter run
+        Execute_Scraper_Pass --> Measure_Telemetry : RSS RAM delta, peak CPU %, elapsed ms
+        Measure_Telemetry --> Capture_Output_Bytes : Raw vs. cleaned byte yield
+    }
+
+    ITERATING_CANDIDATES --> COMPUTING_SCORES : All Iterations Complete
+
+    state COMPUTING_SCORES {
+        [*] --> Compute_NIST_Percentiles : p50, p90, p99 latencies
+        Compute_NIST_Percentiles --> Evaluate_Yield_Ratio : Cleaned / Raw byte yield
+        Evaluate_Yield_Ratio --> Calculate_Composite_Score : (0.35*Spd + 0.30*Rich + 0.25*Stl + 0.10*Mem)
+        Calculate_Composite_Score --> Assemble_Radar_Vectors : [Speed, Richness, Stealth, Memory, Reliability]
+    }
+
+    COMPUTING_SCORES --> REPORT_PERSISTED : Metrics Consolidated
+
+    state REPORT_PERSISTED {
+        [*] --> Write_JSON_Report : index_store/{benchmark,resilience}_reports/*.json
+        Write_JSON_Report --> Write_Markdown_Report : index_store/{benchmark,resilience}_reports/*.md
+        Write_Markdown_Report --> Shutdown_Chaos_Server : Stop ephemeral testbed
+    }
+
+    REPORT_PERSISTED --> TESTBED_IDLE : Results Broadcast over /ws/telemetry
+```

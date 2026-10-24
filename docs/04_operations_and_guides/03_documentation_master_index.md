@@ -1,11 +1,11 @@
 # Master Engineering Documentation Index & Knowledge Map
-**Project:** `Crawlers_testing` | **Status:** Master Knowledge Index | **Stage:** Stage 3 Active
+**Project:** `Crawlers_testing` | **Status:** Master Knowledge Index | **Stage:** Completed (Full 6-Stage Web Scraping Testbed & Benchmarking Engine)
 
 ---
 
 ## 1. Documentation Ecosystem Overview
 
-The `Crawlers_testing` engineering specification is organized into four interconnected modules comprising 13 exhaustive technical references, complete data flow diagrams, relational database schemas, cryptographic proofs, and operational runbooks.
+The `Crawlers_testing` engineering specification is organized into four interconnected modules comprising 13 exhaustive technical references, complete data flow diagrams, relational database schemas, cryptographic proofs, and operational runbooks reflecting all 6 completed development stages:
 
 ### 1.1 Documentation Graph (Mermaid)
 
@@ -14,28 +14,28 @@ flowchart TD
     Index["Master Engineering Documentation Index<br/>(docs/04_operations_and_guides/03_documentation_master_index.md)"]
 
     subgraph M1["Module 1: Architecture & System Flows"]
-        D01["01_system_architecture_overview.md<br/>- 6-Layer Architecture<br/>- 7 Technical Scraping Paradigms<br/>- 6 Antigravity Governance Rules"]
-        D02["02_dfd_level_0_1_2.md<br/>- Data Dictionary<br/>- Level 0 Context Diagram<br/>- Level 1 Subsystems<br/>- 4x Level 2 Granular DFDs"]
-        D03["03_state_diagrams.md<br/>- Telemetry FSM<br/>- Account Quarantine FSM<br/>- Run Data Lifecycle FSM<br/>- Index Sync FSM"]
-        D04["04_process_and_sequence_flows.md<br/>- Tool Execution Sequence<br/>- Session Recording Flow<br/>- Private Follower Shredding<br/>- Concurrency Architecture"]
+        D01["01_system_architecture_overview.md<br/>- 6-Layer Architecture & 8 Tabs<br/>- 7 Technical Scraping Paradigms<br/>- 9 Antigravity Governance Rules"]
+        D02["02_dfd_level_0_1_2.md<br/>- Data Dictionary<br/>- Context & Subsystem DFDs<br/>- 7x Level 2 Granular DFDs"]
+        D03["03_state_diagrams.md<br/>- Telemetry & Account Quarantine FSM<br/>- Pipeline Execution FSM<br/>- Benchmark & Chaos Lifecycles"]
+        D04["04_process_and_sequence_flows.md<br/>- 8 Sequence Diagrams<br/>- Safe Arena & Chaining Sequences<br/>- Multimodal Auto-Resolver Flow"]
     end
 
     subgraph M2["Module 2: Database & Security"]
-        D05["01_database_schemas_and_er_diagrams.md<br/>- Two-Tier Storage Topology<br/>- SQLite Concurrency PRAGMAs<br/>- 3x Master ER Diagrams & DDLs<br/>- Companion JSON Snapshots"]
-        D06["02_fts5_search_and_indexing_specification.md<br/>- Inverted Index Theory<br/>- Porter Unicode61 Tokenizer<br/>- Okapi BM25 Ranking Math<br/>- Dual-Stage Sync & Benchmarks"]
-        D07["03_cryptography_and_zero_leak_security_spec.md<br/>- PBKDF2 (600k iters) & AES-GCM<br/>- Row-Binding Cryptographic Proof<br/>- Blind Index Hashing (HMAC-SHA256)<br/>- RFC 6238 TOTP & Cookie Shredding"]
+        D05["01_database_schemas_and_er_diagrams.md<br/>- Two-Tier Storage Topology & PRAGMAs<br/>- 3x Master ERDs & 4x Report Catalogs<br/>- Arena, Pipeline & Benchmark Schemas"]
+        D06["02_fts5_search_and_indexing_specification.md<br/>- Inverted Index & Unicode61 Tokenizer<br/>- Okapi BM25 Ranking Math<br/>- Full-Text Pipeline & Benchmark Indexing"]
+        D07["03_cryptography_and_zero_leak_security_spec.md<br/>- PBKDF2 (600k) & AES-256-GCM<br/>- Row-Binding Cryptographic Proofs<br/>- 0x00 Ephemeral Cookie Shredding & TOTP"]
     end
 
     subgraph M3["Module 3: Folder & File Reference"]
-        D08["01_folder_structure_and_data_taxonomy.md<br/>- Root Directory Taxonomy<br/>- Medallion Data Lake (Bronze/Silver/Gold)<br/>- Cryptographic Manifest Contract<br/>- 4-Tier Log Store Architecture"]
-        D09["02_core_and_api_file_reference.md<br/>- Core OOP Class Hierarchy<br/>- Governance & Indexing Engines<br/>- Vault & Security Subsystems<br/>- FastAPI REST & WebSocket Specs"]
-        D10["03_20_tools_adapter_catalog.md<br/>- Master 20-Tool Matrix<br/>- Cohort Architecture Taxonomy<br/>- 20 Deep-Dive Profiles (01-20)<br/>- Domain KPIs & Contracts"]
+        D08["01_folder_structure_and_data_taxonomy.md<br/>- Full Repository Directory Taxonomy<br/>- Bronze/Silver/Gold Medallion Data Lake<br/>- 5 Silver-Tier Pydantic Schema Contracts"]
+        D09["02_core_and_api_file_reference.md<br/>- 23 Core Framework Modules<br/>- 24+ FastAPI REST APIs & WebSockets<br/>- Complete 8-Tab Control Center Architecture"]
+        D10["03_20_tools_adapter_catalog.md<br/>- Master 20-Tool Capabilities Matrix<br/>- Cohort Architecture Taxonomy (Batches 1-4)<br/>- Human Mode Hooks & Domain Metrics"]
     end
 
     subgraph M4["Module 4: Operations & Guides"]
-        D11["01_developer_operations_and_runbook.md<br/>- FastAPI Daemon Operations<br/>- CLI Automation Commands<br/>- Vault & Session Ingestion<br/>- Stage Verification Suites"]
-        D12["02_troubleshooting_and_resilience_guide.md<br/>- Windows File Lock Mitigations<br/>- Browser Binary Installations<br/>- Turnstile & Rate-Limit Recovery<br/>- Crypto & MITM Recovery"]
-        D13["03_documentation_master_index.md<br/>- Master Cross-Reference Guide<br/>- Navigation Matrix & Search Keywords"]
+        D11["01_developer_operations_and_runbook.md<br/>- CLI Automation & Fast Daemon Ops<br/>- 4 Production Pipelines Runbook<br/>- Benchmarking, Chaos & Exporter Runbooks"]
+        D12["02_troubleshooting_and_resilience_guide.md<br/>- Windows Concurrency & File Locks<br/>- HTTP 429 Backoff & Cooldown Recovery<br/>- Scrambled DOM & Contract Fuzzing Debug"]
+        D13["03_documentation_master_index.md<br/>- Master Cross-Reference Guide<br/>- Knowledge Navigation Matrix"]
     end
 
     Index --> M1

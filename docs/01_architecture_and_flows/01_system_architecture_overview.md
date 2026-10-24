@@ -1,5 +1,5 @@
 # Master System Architecture Overview
-**Project:** `Crawlers_testing` | **Status:** Production Architecture Specification | **Stage:** Stage 3 Active
+**Project:** `Crawlers_testing` | **Status:** Production Architecture Specification | **Stage:** Completed (Full 6-Stage Web Scraping Testbed & Benchmarking Engine)
 
 ---
 
@@ -12,36 +12,46 @@ Modern web scraping at scale suffers from three systemic vulnerabilities:
 2. **Operational Opacity & Data Corruption:** Lack of isolated run directories causes race conditions, overwritten datasets, and untraceable crawler state across parallel threads.
 3. **Credential & Secret Sprawl:** Hardcoded credentials, plain-text cookies, and unencrypted session tokens committed to Git repositories or exposed in API response payloads represent critical security hazards.
 
-`Crawlers_testing` resolves these challenges through a unified **6-Layer Decoupled Architecture** orchestrated by strict Antigravity Governance rules, 4-tier live telemetry, dual-tier SQLite FTS5 search indexing, and a zero-plaintext cryptographic credential vault.
+`Crawlers_testing` resolves these challenges through a unified **6-Layer Decoupled Architecture** orchestrated by strict Antigravity Governance rules (Rules 1 to 9), 4-tier live telemetry, dual-tier SQLite FTS5 search indexing, an AES-256-GCM zero-plaintext credential vault, the 3 Working Ways, 4 Production Task Pipelines, and comprehensive Benchmarking and Chaos Resilience testbeds.
 
 ```
 +==================================================================================================+
 |                                    CRAWLERS_TESTING BLUEPRINT                                    |
 +==================================================================================================+
-|  LAYER 1: PRESENTATION & REAL-TIME HUD                                                           |
-|  [Tab 1: Telemetry]  [Tab 2: Tools]  [Tab 3: Dual-Search]  [Tab 4: Logs]  [Tab 5: Vault]        |
+|  LAYER 1: PRESENTATION & REAL-TIME HUD (frontend/index.html - 8 Dashboard Tabs)                  |
+|  [Tab 1: Live Stream]  [Tab 2: Tools]  [Tab 3: Explorer]  [Tab 4: Search]  [Tab 5: Vault]        |
+|  [Tab 6: Working Ways & Arena] [Tab 7: Real Pipelines] [Tab 8: Benchmarks & Exporter]            |
 |  * Live WebSockets (/ws/telemetry, /ws/logs) * 60 FPS Canvas HUD * Zero-Plaintext UI Actions     |
 +--------------------------------------------------------------------------------------------------+
-|  LAYER 2: CONTROL PLANE & REST API (backend/app.py - FastAPI :8000)                             |
+|  LAYER 2: CONTROL PLANE & REST API (backend/app.py - FastAPI :8000 / :8001 Fallback)             |
 |  * 20 Tool Invocation APIs * Master FTS5 Search * Vault CRUD & TOTP * Ephemeral Shredding Hook   |
+|  * Safe Arena & Router APIs * Production Pipeline APIs * Benchmark, Resilience & Exporter APIs   |
 +--------------------------------------------------------------------------------------------------+
 |  LAYER 3: CORE ORCHESTRATION & GOVERNANCE (core/)                                                |
 |  * state_tracker.py (Telemetry)     * folder_manager.py (Bronze/Silver Isolation)                |
 |  * logger_engine.py (4-Tier Stream) * git_manager.py (Atomic Commits & Pre-Commit Secret Guard)  |
+|  * human_timing.py & human_interaction.py (Neuromotor delays, typing cadence, Bezier paths)      |
+|  * arena_runner.py (Safe Arena)     * task_router.py (Precision Task Router & Artifact Handoffs) |
+|  * cleaning_pipeline.py (Silver Tier)* benchmark_engine.py (Matrix) * resilience_tester.py (Lab)|
+|  * project_exporter.py (Standalone Scraper & Signed Bundle Packager)                             |
 +--------------------------------------------------------------------------------------------------+
 |  LAYER 4: CRYPTOGRAPHIC VAULT & SECURITY (core/ + vault_store/)                                  |
 |  * crypto_engine.py (AES-256-GCM + PBKDF2) * credential_vault.py (SQLite WAL Encrypted DB)       |
 |  * account_router.py (LRU / Target Match)   * auth_injector.py (Ephemeral Netscape Shredder)     |
 |  * totp_helper.py (RFC 6238 Base32 Engine)  * browser_session_recorder.py (Playwright Sync/Async) |
 +--------------------------------------------------------------------------------------------------+
-|  LAYER 5: EXTRACTION ENGINES (20 Tools across 7 Scraping Paradigms)                              |
+|  LAYER 5: EXTRACTION ENGINES & PRODUCTION PIPELINES                                              |
 |  [01-05: High-Speed TLS/HTTP/DOM]           [06-10: Stealth Browsers & Relocation]               |
 |  [11-15: Stream Demux & MITM Wire Capture]   [16-20: Multimodal OCR/PDF/Speech AI Pipelines]     |
+|  [Pipeline 1: LeetCode Problem Archiver]    [Pipeline 2: Authenticated Reel & Whisper Transcribe]|
+|  [Pipeline 3: Secured Snapshot & Forensics] [Pipeline 4: Multimodal Auto-Resolver (OCR/Table)]   |
 +--------------------------------------------------------------------------------------------------+
-|  LAYER 6: STORAGE & SEARCH FEDERATION                                                            |
+|  LAYER 6: STORAGE, SEARCH FEDERATION & STANDALONE EXPORTS                                        |
 |  * data/<tool>/<action>/<date>/<run_id>/ (raw/ + cleaned/ + manifest.json)                       |
 |  * 20x index_store/tool_indexes/<tool_id>.sqlite (Domain Metrics + Run Indexes)                  |
 |  * index_store/global_master_index.sqlite (FTS5 Federated Search across Runs & Logs)              |
+|  * index_store/{arena,pipeline,benchmark,resilience}_reports/ (Persistent JSON/MD Catalogs)      |
+|  * exports/{standalone_tools,data_bundles,pipeline_packages}/ (Zero-Leak Standalone Archives)   |
 +==================================================================================================+
 ```
 
@@ -55,54 +65,66 @@ The system operates across six strictly bounded horizontal tiers. Every componen
 
 ```mermaid
 flowchart TB
-    subgraph L1["Layer 1: Presentation & Telemetry HUD"]
-        UI_Tab1["Tab 1: Telemetry Dashboard & Worker HUD"]
-        UI_Tab2["Tab 2: 20-Tool Execution Hub"]
-        UI_Tab3["Tab 3: Dual-Index Search Engine"]
-        UI_Tab4["Tab 4: 4-Tier Log Explorer"]
-        UI_Tab5["Tab 5: Credential Vault & Sessions"]
+    subgraph L1["Layer 1: Presentation & Telemetry HUD (8 Dashboard Tabs)"]
+        UI_Tab1["Tab 1: Live Execution & Real-Time Stream"]
+        UI_Tab2["Tab 2: Tool Roster (20 Engine Hub)"]
+        UI_Tab3["Tab 3: Data Explorer (Data Lake Browser)"]
+        UI_Tab4["Tab 4: Index & Search Hub (FTS5 BM25)"]
+        UI_Tab5["Tab 5: 🔐 Credential Vault & Auth Router"]
+        UI_Tab6["Tab 6: ⚙ Working Ways & Safe Arena Studio"]
+        UI_Tab7["Tab 7: 🧪 Real Pipelines & Cleaned Inspector"]
+        UI_Tab8["Tab 8: 📊 Benchmarks, Chaos Lab & Exporter"]
         WS_Client["WebSocket Handlers (/ws/telemetry, /ws/logs)"]
     end
 
-    subgraph L2["Layer 2: API & Control Plane (FastAPI)"]
-        API_Router["FastAPI Application Router (:8000)"]
+    subgraph L2["Layer 2: API & Control Plane (FastAPI :8000 / :8001 Fallback)"]
+        API_Router["FastAPI Application Router (24+ REST Endpoints)"]
         WS_Hub["Async WebSocket Hub & File Watcher (watchdog)"]
-        Tool_Endpoints["POST /api/run-tool/{tool_id}"]
-        Search_Endpoints["GET /api/search & GET /api/tool-indexes"]
-        Vault_Endpoints["GET /api/vault/* & POST /api/vault/*"]
+        C_State["State & Health Router (/api/state, /api/tools)"]
+        C_Vault["Vault & Auth Router (/api/vault/*)"]
+        C_Ways["Working Ways & Arena Router (/api/arena/*, /api/router/*)"]
+        C_Pipe["Pipeline Router (/api/pipelines/*)"]
+        C_Bench["Benchmark, Resilience & Exporter Router (/api/benchmarks/*, /api/resilience/*, /api/exports/*)"]
     end
 
-    subgraph L3["Layer 3: Core Orchestration & Governance"]
-        StateTracker["core/state_tracker.py & cli_tracker.py"]
-        FolderManager["core/folder_manager.py (Run Allocator)"]
+    subgraph L3["Layer 3: Core Orchestration, Working Ways & Governance"]
+        StateTracker["core/state_tracker.py & cli_tracker.py (Telemetry HUD)"]
+        FolderManager["core/folder_manager.py (Strict Data Isolation)"]
         LoggerEngine["core/logger_engine.py (4-Tier Log Dispatcher)"]
         GitManager["core/git_manager.py (Pre-Commit Secret Guard)"]
+        HumanTiming["core/human_timing.py & human_interaction.py (Kinematics)"]
+        SafeArena["core/arena_runner.py (Staggered Concurrency)"]
+        TaskRouter["core/task_router.py (Precision Chaining & Handoffs)"]
+        CleanPipeline["core/cleaning_pipeline.py (Silver Tier Contract Engine)"]
+        BenchEngine["core/benchmark_engine.py (Performance Matrix Engine)"]
+        ChaosTester["core/resilience_tester.py (Chaos Fault Server)"]
+        ProjExporter["core/project_exporter.py (Zero-Leak Standalone Packager)"]
     end
 
     subgraph L4["Layer 4: Security & Authentication Layer"]
         CryptoEngine["core/crypto_engine.py (AES-256-GCM + PBKDF2)"]
-        CredVault["core/credential_vault.py (Encrypted SQLite)"]
+        CredVault["core/credential_vault.py (Encrypted SQLite WAL)"]
         AccountRouter["core/account_router.py (Target Match & Quotas)"]
-        AuthInjector["core/auth_injector.py (Zero-Fill Shredder)"]
-        TOTPHelper["core/totp_helper.py (RFC 6238 2FA)"]
-        SessionRecorder["core/browser_session_recorder.py"]
+        AuthInjector["core/auth_injector.py (Zero-Fill Ephemeral Shredder)"]
+        TOTPHelper["core/totp_helper.py (RFC 6238 2FA Engine)"]
+        SessionRecorder["core/browser_session_recorder.py (Playwright/Patchright)"]
     end
 
-    subgraph L5["Layer 5: Extraction Layer (20 Tools across 7 Paradigms)"]
-        P1["P1: TLS/JA3/JA4 Impersonation (01_curl_cffi, 04_httpx_parsel)"]
-        P2["P2: C-Engine DOM Slicers (02_selectolax_lxml, 03_scrapy, 05_trafilatura)"]
-        P3["P3: Stealth Browsers (06_playwright, 07_patchright, 08_camoufox, 09_nodriver)"]
-        P4["P4: Self-Healing Relocation (10_scrapling)"]
-        P5_Sub["P5: Stream & Graph Archivers (11_yt_dlp, 12_instaloader, 13_gallery_dl)"]
-        P6["P6: MITM Interception (14_singlefile, 15_mitmproxy)"]
-        P7["P7: Multimodal AI Pipelines (16_crawl4ai to 20_faster_whisper)"]
+    subgraph L5["Layer 5: Extraction Engines & Production Pipelines"]
+        Tools20["20 Specialized Engines (P1: TLS/JA4 to P7: Multimodal AI)"]
+        Pipe1["Pipeline 1: LeetCode Archiver (GraphQL + Markdown + Code)"]
+        Pipe2["Pipeline 2: Authenticated Social Media Reel & Whisper Transcriber"]
+        Pipe3["Pipeline 3: Secured Snapshot & Wire Forensics"]
+        Pipe4["Pipeline 4: Multimodal Auto-Resolver (DOM vs OCR vs Table vs PDF)"]
     end
 
-    subgraph L6["Layer 6: Storage & Search Federation"]
+    subgraph L6["Layer 6: Storage, Search Federation & Exports"]
         DataLake["data/<tool_id>/<action>/<date>/<run_id>/ (raw/, cleaned/, manifest)"]
         ToolIndexes["index_store/tool_indexes/<tool_id>.sqlite & .json (20 Tools)"]
         MasterFTS5["index_store/global_master_index.sqlite (FTS5 Federated Search)"]
+        ReportsDir["index_store/{arena,pipeline,benchmark,resilience}_reports/"]
         VaultDB["vault_store/credentials_vault.sqlite (AES Encrypted)"]
+        ExportsDir["exports/{standalone_tools,data_bundles,pipeline_packages}/"]
         LogsTier["logs/global/ & logs/stages/ (4-Tier JSONL/MD)"]
     end
 
@@ -115,6 +137,8 @@ flowchart TB
     L5 -->|Outputs Bronze/Silver Artifacts| DataLake
     DataLake -->|Triggers Auto-Indexing| ToolIndexes
     ToolIndexes -->|Federates Runs & Artifacts| MasterFTS5
+    L3 -->|Generates Persistent Reports| ReportsDir
+    L3 -->|Packages Standalone Deployments| ExportsDir
     L3 -->|Emits Structured 4-Tier Logs| LogsTier
     LogsTier -->|watchdog stream| WS_Hub
     L4 <-->|Encrypted Read/Write| VaultDB
@@ -214,9 +238,9 @@ The 20 tools configured in `tools/registry.json` are organized into seven techni
 
 ---
 
-## 4. The 6 Mandatory Antigravity Governance Rules
+## 4. The 9 Mandatory Antigravity Governance Rules
 
-Every component, script, subagent, and operator inside `Crawlers_testing` is bound by the six core rules defined in `GEMINI.md` and enforced via `core/`:
+Every component, script, subagent, and operator inside `Crawlers_testing` is bound by the nine mandatory rules defined in `GEMINI.md` and enforced via `core/`:
 
 ```
 +==================================================================================================+
@@ -230,6 +254,9 @@ Every component, script, subagent, and operator inside `Crawlers_testing` is bou
 | 4. Atomic Commits  | core/git_manager.py         | git commit + prompt_log    | Post-Task Hook   |
 | 5. Auto-Indexing   | core/folder_manager.py:hook | index_store/*.sqlite + FTS5| Auto-Complete Run|
 | 6. Vault Security  | core/crypto_engine.py       | Pre-Commit Secret Scanner  | Zero Plaintext   |
+| 7. Human Timing    | core/human_timing.py        | Statistical Neuromotor Dist| Anti-Fingerprint |
+| 8. Silver Contract | core/cleaning_pipeline.py   | 5 Pydantic Schema Contracts| Cleaned Tier Gate|
+| 9. Benchmark Audit | core/benchmark_engine.py    | index_store/*_reports/     | Reproducible Rad |
 +==================================================================================================+
 ```
 
@@ -259,7 +286,7 @@ Every component, script, subagent, and operator inside `Crawlers_testing` is bou
 - **Enforcement:** Guarantees parallel thread safety, prevents overwrite race conditions, and ensures bronze-to-silver data provenance.
 
 ### Rule 4 — Atomic Git Commits
-- **Mechanism:** Development actions conclude with an atomic commit executed via `core/git_manager.py:commit()`. Standard prefixes (`[SCAFFOLD]`, `[TOOL-INSTALL]`, `[UPDATE]`, `[FIX]`, `[RUN-LOG]`) categorize the change, and the resulting Git commit hash is cross-referenced into prompt logs and run manifests.
+- **Mechanism:** Development actions conclude with an atomic commit executed via `core/git_manager.py:commit()`. Standard prefixes (`[SCAFFOLD]`, `[TOOL-INSTALL]`, `[UPDATE]`, `[FIX]`, `[RUN-LOG]`, `[DOCS]`) categorize the change, and the resulting Git commit hash is cross-referenced into prompt logs and run manifests.
 - **Enforcement:** Provides an immutable, reversible version history tracking code changes and scraping runs.
 
 ### Rule 5 — Auto-Indexing (Every Completed Run)
@@ -274,4 +301,17 @@ Every component, script, subagent, and operator inside `Crawlers_testing` is bou
 - **Enforcement:**
   - All sensitive data is encrypted using AES-256-GCM via `core/crypto_engine.py` with 96-bit random nonces and 128-bit authentication tags.
   - The SQLite database `vault_store/credentials_vault.sqlite` is strictly Git-ignored.
+  - `core/git_manager.py` executes an automated pre-commit secret scan on all staged files before every Git commit, blocking any attempt to commit `.env`, unencrypted credentials, or raw cipher tokens.
+
+### Rule 7 — Human Simulation & Timing Discipline
+- **Mechanism:** When running in human or stealth modes, scrapers must strictly use `core/human_timing.py` statistical distributions rather than static integer sleep intervals to prevent fingerprinting.
+- **Enforcement:** Delays must be drawn from Gaussian, Log-Normal, or Exponential Backoff Jitter models, and cursor movements must follow cubic Bezier trajectories generated by `core/human_interaction.py`.
+
+### Rule 8 — Data Lake Silver Tier Contract Enforcement
+- **Mechanism:** All transformed files saved into `cleaned/` directories must conform strictly to standardized schemas enforced by `core/cleaning_pipeline.py`.
+- **Enforcement:** Enforces the 5 Pydantic schema contracts (`CleanedMarkdownContract`, `CleanedCodeProblemContract`, `CleanedSocialMediaContract`, `CleanedForensicsContract`, `CleanedMultimodalContract`). Arbitrary unvalidated dumps are strictly prohibited.
+
+### Rule 9 — Benchmark Traceability & Non-Destructive Testing
+- **Mechanism:** All benchmark and chaos runs must record reproducible telemetry into structured reports stored in `index_store/benchmark_reports/` and `index_store/resilience_reports/`.
+- **Enforcement:** Captures $p50/p90/p99$ latency percentiles, memory RSS delta ($\Delta\text{RAM}$), peak CPU %, data yield efficiency, and composite quality scores, logging all executions to `logs/stages/stage_6_benchmarking.jsonl`.
   - `core/git_manager.py` executes an automated pre-commit secret scan on all staged files before every Git commit, blocking any attempt to commit `.env`, unencrypted credentials, or raw cipher tokens.

@@ -278,6 +278,7 @@ sequenceDiagram
 
     ThreadPool-->>MainLoop: Task Completed
     MainLoop->>UI: WebSocket Telemetry: {progress: 100%, is_running: false}
+```
 
 ---
 
@@ -435,4 +436,60 @@ sequenceDiagram
     Tester->>Tester: Compute Composite Resilience Index (e.g. 100.0/100)
     Tester-->>Tester: Persist resilience_<id>.json and .md Reports
 ```
+
+---
+
+## 9. Sequence 8 — Multimodal Auto-Resolver Content Inspection & Modality Routing Flow
+
+Task Pipeline 4 inspects input targets, classifies document modalities (DOM text, visual OCR, table grid, or complex PDF layout), dispatches optimal extraction engines, and enforces the `CleanedMultimodalContract`.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Engineer / UI (Tab 7)
+    participant Pipe as Multimodal Auto-Resolver (pipelines/04_multimodal_auto_resolver.py)
+    participant Classifier as Modality Classifier Engine
+    participant Surya as 17_surya_ocr (Visual Text / BBoxes)
+    participant Table as 18_paddleocr_img2table (3D Grid Matrix)
+    participant Docling as 19_docling_pdf (IBM Document Tree)
+    participant Contract as CleaningPipeline (core/cleaning_pipeline.py)
+    participant Lake as Data Lake (Silver Tier)
+
+    User->>Pipe: Execute Pipeline 4 (Target File / URL)
+    activate Pipe
+
+    Pipe->>Classifier: Inspect Target (Extension, MIME type, Visual Density)
+    activate Classifier
+    Classifier->>Classifier: Compute Modality Probability Vector
+    Classifier-->>Pipe: Classified Modality (e.g. "table_grid" or "document_tree")
+    deactivate Classifier
+
+    alt Modality == "visual_question"
+        Pipe->>Surya: Dispatch 17_surya_ocr for Layout Detection
+        activate Surya
+        Surya-->>Pipe: Extracted Text Lines + Bounding Box Coordinates
+        deactivate Surya
+    else Modality == "table_grid"
+        Pipe->>Table: Dispatch 18_paddleocr_img2table
+        activate Table
+        Table->>Table: Raster Edge Detection & Cell Segmentation
+        Table-->>Pipe: 3D Table Matrices (tables -> rows -> cells)
+        deactivate Table
+    else Modality == "document_tree"
+        Pipe->>Docling: Dispatch 19_docling_pdf
+        activate Docling
+        Docling->>Docling: Parse Multi-Column PDF, Footnotes & Formulas
+        Docling-->>Pipe: Hierarchical Document Node Tree + JSON
+        deactivate Docling
+    end
+
+    Pipe->>Contract: Validate Payload against CleanedMultimodalContract
+    activate Contract
+    Contract->>Contract: Verify required fields: source_image_or_pdf & content_type
+    Contract-->>Pipe: Pydantic Validation Passed (100% Type-Safe)
+    deactivate Contract
+
+    Pipe->>Lake: Persist cleaned/multimodal_result.json & SHA-256 Digest
+    Pipe-->>User: Pipeline 4 Complete {status: "success", modality: "table_grid", tables: 2}
+    deactivate Pipe
 ```

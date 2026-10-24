@@ -13,67 +13,89 @@
 D:\Project_Files\Crawlers_testing\
 ├── .agents/                               # Antigravity Governance & Rule Configurations
 │   └── rules/
-│       └── antigravity_governance.md      # Rules 1-6 Governance Specification
-├── .venv/                                 # Isolated Python 3.14 Virtual Environment
+│       └── antigravity_governance.md      # Rules 1-9 Governance Specification
+├── .venv/                                 # Isolated Python 3.11+ Virtual Environment
 ├── backend/                               # Control Plane API & WebSocket Streaming Server
-│   └── app.py                             # FastAPI Application (:8000), WS Hub & Telemetry
+│   ├── app.py                             # FastAPI Application (:8000 / :8001), WS Hub & Telemetry
+│   └── README.md                          # Backend REST API & WebSocket documentation
 ├── core/                                  # Core Operational Framework (Governance, Vault, Indexing)
 │   ├── account_router.py                  # Account Pool Router, Quotas & Cooldown Quarantine
+│   ├── arena_runner.py                    # Safe Arena Multi-Tool Tournament Engine
 │   ├── auth_injector.py                   # 20-Tool Auth Bundle Injector & Ephemeral Shredder
 │   ├── base_indexer.py                    # Base SQLite/JSON Indexing Class for 20 Tools
+│   ├── benchmark_engine.py                # Master 20-Tool Performance Matrix Engine
 │   ├── browser_session_recorder.py        # Playwright Session & Cookie Jar Recorder
+│   ├── cleaning_pipeline.py               # Silver-Tier Contract Engine (5 Pydantic Schemas)
 │   ├── cli_tracker.py                     # CLI Wrapper for live_state.json Telemetry
 │   ├── credential_vault.py                # Encrypted SQLite Credential Vault (WAL Mode)
 │   ├── crypto_engine.py                   # AES-256-GCM + PBKDF2 (600k iters) Cryptographic Engine
 │   ├── folder_manager.py                  # Bronze/Silver Run Directory Allocator & Auto-Index Hook
 │   ├── git_manager.py                     # Atomic Git Commits & Pre-Commit Secret Guard
 │   ├── global_indexer.py                  # Global Master Indexer & SQLite FTS5 Federation
+│   ├── human_adapter_helper.py            # Browser Kinematics & Human Navigation Bridge
+│   ├── human_interaction.py               # Cubic Bezier Mouse Trajectories & Typing Cadence
+│   ├── human_timing.py                    # Gaussian, Log-Normal & Exponential Backoff Jitter
 │   ├── logger_engine.py                   # Simultaneous 4-Tier Structured Logger
+│   ├── project_exporter.py                # Zero-Leak Scraper, Data Lake & Docker Exporter
+│   ├── resilience_tester.py               # Chaos Fault Server & Anti-Bot Resilience Lab
 │   ├── state_tracker.py                   # Atomic live_state.json Read/Write & psutil Monitor
+│   ├── task_router.py                     # Precision Task Router & Artifact Handoff Engine
 │   ├── totp_helper.py                     # RFC 6238 2FA TOTP Engine with Clock-Skew Windowing
 │   ├── vault_importer.py                  # Netscape, CSV, JSON & 1000-Account Bulk Importer
-│   └── verify_step_*.py                   # Master Automated Verification Test Suites
+│   ├── verify_all_docs.py                 # Master Documentation Automated Verification Suite
+│   └── verify_master_system.py            # Master System 8-Check Full Regression Suite
 ├── data/                                  # Data Lake: Bronze & Silver Storage (Rule 3)
 │   ├── 01_curl_cffi/                      # Tool 01 Scraped Output Hierarchy
-│   │   └── <action_name>/                 # e.g., scrape_for_leetcode, scrape_for_insta
-│   │       └── <YYYY-MM-DD>/              # Date Partition (e.g., 2026-10-18)
+│   │   └── <action_name>/                 # e.g., scrape_for_leetcode, arena_benchmark
+│   │       └── <YYYY-MM-DD>/              # Date Partition (e.g., 2026-10-24)
 │   │           └── run_<HHMMSS>_<uuid8>/  # Atomic Isolated Run Directory
 │   │               ├── raw/               # BRONZE TIER: Immutable raw bytes/HTML/streams
 │   │               ├── cleaned/           # SILVER TIER: Normalized structured JSON/Markdown
 │   │               ├── logs/              # TIER 4 LOG: Run-isolated action_run.jsonl
 │   │               └── run_manifest.json  # Cryptographic run provenance & SHA-256 hashes
+│   ├── pipelines/                         # Dedicated Data Lake directories for Task Pipelines
 │   └── ... [02 through 20]                # Isolated directories for each of the 20 engines
 ├── docs/                                  # Master Engineering Documentation Spine
 │   ├── 01_architecture_and_flows/         # System Architecture, DFDs, State Machines & Sequences
 │   ├── 02_database_and_security/          # Relational Schemas, ERDs, FTS5 & Cryptography
 │   ├── 03_folder_and_file_reference/      # Directory Taxonomy, Code Reference & Tool Catalog
 │   └── 04_operations_and_guides/          # Deployment, CLI Guides & Disaster Recovery
+├── exports/                               # Standalone Packages & Data Lake Bundles
+│   ├── standalone_tools/                  # Zero-monorepo runnable scraper projects
+│   ├── data_bundles/                      # Cryptographically signed Data Lake ZIP archives
+│   └── pipeline_packages/                 # Containerized pipeline microservices with Dockerfile
 ├── frontend/                              # Responsive Antigravity Control Center (Dark-Mode UI)
-│   ├── app.js                             # Control Center Client Logic (Tabs 1-5 Controllers)
+│   ├── app.js                             # Control Center Client Logic (Tabs 1-8 Controllers)
 │   ├── index.html                         # Multi-Tab Layout, 60 FPS Canvas HUD & Modals
 │   └── styles.css                         # Custom Dark-Mode Typography & Component Styles
 ├── index_store/                           # GOLD TIER: Search Indexes & Metadata Catalogs
 │   ├── global_master_index.sqlite         # Federated SQLite FTS5 Search Index (WAL Mode)
 │   ├── global_master_index.json           # Git-Tracked Master Catalog Snapshot
+│   ├── arena_reports/                     # Safe Arena multi-tool tournament reports
+│   ├── pipeline_reports/                  # Production task pipeline validation summaries
+│   ├── benchmark_reports/                 # 20-tool performance matrix battery evaluations
+│   ├── resilience_reports/                # Chaos fault-injection battery stress tests
 │   └── tool_indexes/                      # 20 Dedicated Tool SQLite Databases & JSON Snapshots
-│       ├── <tool_id>.sqlite               # Isolated per-tool SQLite run database
-│       └── <tool_id>_index.json           # Git-tracked per-tool JSON companion mirror
 ├── logs/                                  # Multi-Tier System Diagnostic Logs
 │   ├── global/                            # TIER 1 & 2 LOGS
 │   │   ├── antigravity_prompt_log.jsonl   # Machine-readable historical prompt audit log
 │   │   ├── antigravity_prompt_log.md      # Human-readable prompt milestone log
 │   │   └── live_state.json                # Live Telemetry State File (1 Hz HUD Updates)
-│   └── stages/                            # TIER 3 LOGS
+│   └── stages/                            # TIER 3 LOGS (Isolated by Stage)
 │       ├── stage_1_scaffolding.jsonl      # Stage 1 Milestone Logs
 │       ├── stage_2_indexing.jsonl         # Stage 2 Milestone Logs
-│       └── stage_3_credential_vault.jsonl # Stage 3 Milestone Logs
+│       ├── stage_3_credential_vault.jsonl # Stage 3 Milestone Logs
+│       ├── stage_4_working_ways.jsonl     # Stage 4 Milestone Logs
+│       ├── stage_5_real_pipelines.jsonl   # Stage 5 Milestone Logs
+│       └── stage_6_benchmarking.jsonl     # Stage 6 Milestone Logs
+├── pipelines/                             # 4 Production-Grade Task Pipelines (Stage 5)
+│   ├── 01_leetcode_archiver.py            # Pipeline 1: LeetCode Specs, Tests & Starters
+│   ├── 02_social_media_pipeline.py        # Pipeline 2: Authenticated Reel & Whisper Transcribe
+│   ├── 03_secured_snapshot_forensics.py   # Pipeline 3: SingleFile Snapshot & Wire Forensics
+│   └── 04_multimodal_auto_resolver.py     # Pipeline 4: Multimodal Auto-Resolver (DOM/OCR/Table/PDF)
 ├── tools/                                 # 20 Scraping Engine Adapters & Registries
 │   ├── registry.json                      # Master 20-tool manifest, batches & supported actions
 │   └── <tool_id>/                         # Dedicated Tool Package (e.g., tools/01_curl_cffi/)
-│       ├── adapter.py                     # Standardized crawler execution wrapper
-│       ├── indexer.py                     # Tool-specific domain metric extractor
-│       ├── config.json                    # Tool metadata, runtime flags & timeout limits
-│       └── logs/                          # TIER 2 LOG: tools/<tool_id>/logs/tool_ops.jsonl
 ├── vault_store/                           # Encrypted Security Vault (Rule 6 - Git Ignored)
 │   ├── credentials_vault.sqlite           # AES-256-GCM Encrypted Account Database (WAL Mode)
 │   ├── credentials_vault.sqlite-wal       # SQLite Write-Ahead Log buffer

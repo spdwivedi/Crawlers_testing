@@ -233,3 +233,21 @@ Empirical performance measurements recorded on Windows 11 under concurrent write
 | Full Re-index Sync (All)  | GlobalMasterIndexer.sync_all | 20 tool databases  | 142 ms total     |
 +==================================================================================================+
 ```
+
+---
+
+## 8. Full-Text Indexing of Pipeline Manifests, Benchmark Reports & Chaos Summaries
+
+In Stage 5 and Stage 6, the FTS5 inverted search engine is extended beyond raw tool scrapes to index multi-stage task pipelines, performance benchmark reports, and chaos stress test logs:
+
+### 8.1 Multi-Stage Pipeline Manifest Ingestion
+- When `PrecisionTaskRouter` or any of the 4 production pipelines completes, `run_manifest.json` and intermediate stage deliverables (`two_sum.md`, `transcript.srt`, `forensics_audit.json`, `table_matrix.json`) are indexed into `fts_artifacts`.
+- Domain tags (`LeetCode`, `Whisper`, `SingleFile`, `OCR`) are embedded into the FTS5 inverted token index, enabling engineers to search for `"two-sum AND starter_snippets"` or `"whisper AND srt"`.
+
+### 8.2 Master Benchmark Reports Ingestion
+- Benchmark battery evaluations stored in `index_store/benchmark_reports/*.json` are ingested into `global_master_index.sqlite`.
+- Keywords such as `"winner_tool"`, `"p99"`, `"composite_score"`, and tool cohort labels are searchable via the search API (`GET /api/search?q=composite_score`).
+
+### 8.3 Chaos Resilience Summaries Ingestion
+- Fault injection runs executed by `ResilienceTester` generate diagnostic audit trails in `logs/stages/stage_6_benchmarking.jsonl` and `index_store/resilience_reports/`.
+- FTS5 virtual table `fts_logs` indexes terms like `"rate_limiting"`, `"cooldown_quarantined"`, `"scrambled_dom"`, and `"contract_fuzzing"`, allowing instant search over historical failure-recovery incidents.

@@ -220,3 +220,69 @@ flowchart TD
     
     WS_Hub --> UI_Tab4["Frontend: Tab 4 Log Explorer DOM<br/>(Real-Time Virtual Scrolling Grid)"]
 ```
+
+### 4.5 DFD Level 2.5 — Safe Arena Multi-Crawler Execution with Anti-Ban Staggered Concurrency
+This diagram traces how multiple candidate crawler tools are executed sequentially with statistical safety offsets on a single target URL to determine an objective winner.
+
+```mermaid
+flowchart TD
+    Req["Request: Safe Arena Tournament<br/>(Target URL, Candidate Tools, Stagger Delay)"] --> P7_1["P7.1: Resolve Candidate Tools<br/>(tools/registry.json filtering)"]
+    P7_1 --> P7_2["P7.2: Generate Report ID & Allocate Reports Dir<br/>(index_store/arena_reports/)"]
+    
+    P7_2 --> P7_3["P7.3: Concurrency Loop with Stagger Offset<br/>For each tool: compute human delay, pause, execute"]
+    
+    P7_3 -->|"Tool Iteration"| P7_4["P7.4: In-Process Execution with Telemetry<br/>Track: Latency ms, RSS RAM Delta MB, Peak CPU %"]
+    P7_4 --> P7_5["P7.5: Data Extraction & Byte Sizing<br/>Raw Ingested Bytes vs. Cleaned Output Chars"]
+    
+    P7_5 --> P7_6["P7.6: Multi-Vector Scoring Engine<br/>Speed Score (35%) + Richness (30%) + Stealth (25%) + Memory (10%)"]
+    
+    P7_6 --> P7_7["P7.7: Rank Leaderboard & Assign Winner<br/>Compute winning rationale"]
+    
+    P7_7 --> P7_8["P7.8: Persist Arena Artifacts<br/>- index_store/arena_reports/*.json<br/>- index_store/arena_reports/*.md"]
+    
+    P7_8 --> ArenaDone["Tournament Completed<br/>Leaderboard Broadcast over /ws/telemetry"]
+```
+
+### 4.6 DFD Level 2.6 — Precision Task Router Predecessor-to-Successor Artifact Handoffs
+This diagram traces how multi-stage pipelines pass intermediate artifacts dynamically from fetchers to content processors.
+
+```mermaid
+flowchart TD
+    PlanReq["Task Router Plan: e.g. GraphQL -> Markdown Chunker"] --> P8_1["P8.1: Resolve Pipeline Stages<br/>Stage 1: 01_curl_cffi -> Stage 2: 16_crawl4ai"]
+    
+    P8_1 --> P8_2["P8.2: Execute Stage 1 (Fetcher)<br/>Fetch raw GraphQL payload with TLS JA4 impersonation"]
+    
+    P8_2 --> P8_3["P8.3: Write Stage 1 Artifacts<br/>data/.../run_stage1/raw/graphql_payload.json"]
+    
+    P8_3 --> P8_4["P8.4: Contextual Artifact Handoff Resolver<br/>Locate predecessor outputs matching input_artifact_keys"]
+    
+    P8_4 --> P8_5["P8.5: Ingest Artifacts into Stage 2 (Processor)<br/>Pass file paths to 16_crawl4ai / cleaning pipeline"]
+    
+    P8_5 --> P8_6["P8.6: Execute Semantic Chunking & CommonMark Normalization"]
+    
+    P8_6 --> P8_7["P8.7: Write Final Silver Artifacts<br/>data/.../run_stage2/cleaned/two_sum.md"]
+    
+    P8_7 --> P8_8["P8.8: Consolidate Pipeline Manifest<br/>index_store/pipeline_reports/*.json"]
+```
+
+### 4.7 DFD Level 2.7 — Pydantic Silver-Tier Normalization & SHA-256 Integrity Verification
+This diagram details the Silver-Tier contract enforcement gateway validating transformed assets before filesystem persistence.
+
+```mermaid
+flowchart TD
+    RawArtifact["Input: Raw Scraped Ingest / Parsed Intermediate Dictionary"] --> P9_1["P9.1: Match Target Silver Contract<br/>Markdown | CodeProblem | SocialMedia | Forensics | Multimodal"]
+    
+    P9_1 --> P9_2["P9.2: Normalization & Field Scrubbing<br/>Strip HTML tags, sanitize Unicode, compute word count & reading time"]
+    
+    P9_2 --> P9_3["P9.3: Pydantic Schema Validation Gate<br/>Contract.model_validate(payload)"]
+    
+    P9_3 -->|Validation Fails: ValidationError| P9_4["P9.4: Safe Fallback & Error Logger<br/>Log validation error to Tier 4; abort write to cleaned/"]
+    
+    P9_3 -->|Validation Passes| P9_5["P9.5: Serialize Dual Outputs<br/>1. JSON Export: model_dump_json(indent=2)<br/>2. CommonMark Export: YAML frontmatter + markdown body"]
+    
+    P9_5 --> P9_6["P9.6: Cryptographic Digest Calculation<br/>Compute SHA-256 hash of serialized files"]
+    
+    P9_6 --> P9_7["P9.7: Record Digest in run_manifest.json<br/>Update file catalog with sha256_short & byte count"]
+    
+    P9_7 --> SilverComplete["Silver Tier Certified Artifact Landed in cleaned/"]
+```

@@ -1,5 +1,5 @@
 # Troubleshooting, Concurrency Resilience & Disaster Recovery Guide
-**Project:** `Crawlers_testing` | **Status:** Formal Engineering Troubleshooting Specification | **Stage:** Stage 3 Active
+**Project:** `Crawlers_testing` | **Status:** Formal Engineering Troubleshooting Specification | **Stage:** Completed (Full 6-Stage Web Scraping Testbed & Benchmarking Engine)
 
 ---
 
@@ -161,3 +161,63 @@ When capturing encrypted HTTPS flows, the target client must trust the mitmproxy
 1. Run mitmproxy once: `mitmdump --listen-port 8080`
 2. Certificate is generated at: `~/.mitmproxy/mitmproxy-ca-cert.cer`
 3. On Windows: Double-click `mitmproxy-ca-cert.cer` -> Click **Install Certificate** -> Place in **Trusted Root Certification Authorities**.
+
+---
+
+## 5. Anti-Bot Chaos & Pydantic Contract Resilience Troubleshooting
+
+### 5.1 Diagnosing Rate-Limit Backoffs (HTTP 429) & Cooldown Recovery
+- **Symptom:** Scraper aborts with `HTTP 429 Too Many Requests` or target platform returns `Retry-After: N` header.
+- **Automated Defensive Flow:**
+  1. `core/human_timing.py` computes exponential backoff with full jitter:
+     $$\text{delay} = \min(\text{max\_delay}, \text{base} \times 2^{\text{attempt}}) \times \text{Uniform}(1 - \text{jitter}, 1 + \text{jitter})$$
+  2. `core/account_router.py` automatically flags the leased account as `cooldown_quarantined` and timestamps `cooldown_until_epoch = now + cooldown_sec`.
+  3. Subsequent scraper runs bypass the quarantined account, selecting the next healthy account with lowest LRU lease count.
+- **Manual Verification:** Inspect `vault_store/vault_stats_public.json` or frontend Tab 5 to confirm `cooldown_quarantined` accounts count. Trigger auto-release via `python -c "from core.account_router import get_account_router; print(get_account_router().release_expired_cooldowns())"`.
+
+### 5.2 Handling Scrambled DOM Mutations via Semantic Fallback Selectors
+- **Symptom:** Web scraper throws `IndexError: list index out of range` or CSS selector matches 0 elements following an upstream website redesign.
+- **Heuristic Recovery Strategy:**
+  1. **Semantic Relocation (`10_scrapling`):** Instead of fragile class names (`.css-1a2b3c`), configure anchors on immutable semantic attributes:
+     - Form labels (`label[for="..."]`)
+     - ARIA roles (`[role="main"]`, `[aria-label="..."]`)
+     - Stable data attributes (`[data-cy="..."]`, `[data-testid="..."]`)
+  2. **Multi-Tier Fallback Hierarchy:** In `core/cleaning_pipeline.py`, normalizers define cascading selector chains:
+     ```python
+     title = (
+         tree.css("h1.problem-title::text").get()
+         or tree.css("div[data-cy='question-title']::text").get()
+         or tree.xpath("//h1/text()").get()
+         or "Untitled"
+     )
+     ```
+  3. Run the chaos mutation drill to test selector resilience:
+     ```powershell
+     python core/resilience_tester.py --scenario dom_mutation
+     ```
+
+### 5.3 Recovering from Socket Disconnects & Network Timeouts
+- **Symptom:** `urllib.error.URLError: <urlopen error timed out>` or `ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host`.
+- **Mitigation Protocol:**
+  1. **Strict Socket Timeout Guards:** Scrapers must explicitly configure connection and read timeouts ($< 15\text{s}$) to avoid indefinite process hangs:
+     ```python
+     response = client.get(url, timeout=httpx.Timeout(15.0, connect=5.0))
+     ```
+  2. **TCP Session Re-establishment:** When a TCP reset is caught, `HumanTimingEngine` applies a short randomized backoff before recycling the client session and rotating TLS JA4 cipher suites.
+  3. Validate timeout recovery using the Chaos Stress Lab:
+     ```powershell
+     python core/resilience_tester.py --scenario network_chaos
+     ```
+
+### 5.4 Debugging Pydantic Contract Validation Rejections
+- **Symptom:** Scraper execution fails with `pydantic_core.ValidationError: N validation errors for Cleaned...Contract`.
+- **Root Cause & Diagnosis:**
+  1. Inspect the missing or invalid field in the terminal traceback. Common mismatches include:
+     - `CleanedMultimodalContract`: missing `source_image_or_pdf` or invalid `content_type` literal.
+     - `CleanedCodeProblemContract`: `difficulty` must strictly be `"Easy"`, `"Medium"`, or `"Hard"`.
+     - `CleanedSocialMediaContract`: `media_type` must be `"reel"`, `"post"`, or `"carousel"`.
+  2. **Safe Fallback Normalizer:** `CleaningPipeline` provides normalization methods (`normalize_code_problem`, `normalize_social_post`) that automatically inject sensible default values for corrupted or incomplete raw responses, ensuring data lake Silver-tier integrity without unhandled crashes.
+  3. Run the contract fuzzing drill to verify schema safety:
+     ```powershell
+     python core/resilience_tester.py --scenario contract_fuzzing
+     ```
