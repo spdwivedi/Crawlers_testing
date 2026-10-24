@@ -40,5 +40,19 @@ Every completed tool action run automatically updates its SQLite & JSON tool ind
 
 All credentials, passwords, session cookies, tokens, 2FA secrets, and proxy passwords MUST be encrypted via `core/crypto_engine.py` (AES-256-GCM) before storage in `vault_store/`. Plaintext secrets, `.env`, and `vault_store/*.sqlite*` must NEVER be logged or committed to Git.
 
+## Rule 7 — Human Simulation & Timing Discipline
+
+When running in human or stealth modes, scrapers must strictly use `core/human_timing.py` distributions rather than static integer sleep intervals to prevent fingerprinting. All delays must be drawn from statistical models (`gaussian_delay`, `log_normal_delay`, `exponential_backoff_jitter`) or contextual action calculators (`keystroke_delay`, `reading_pause`, `chunk_download_pacing`, `session_burst_delay`).
+
+## Rule 8 — Data Lake Silver Tier Contract Enforcement
+
+All transformed files saved into `cleaned/` directories must conform strictly to standardized schemas enforced by `core/cleaning_pipeline.py`. Arbitrary unvalidated dumps are strictly prohibited.
+
+## Rule 9 — Benchmark Traceability & Non-Destructive Testing
+
+Benchmark runs must record reproducible telemetry (p50/p90/p99 latency, RAM delta, CPU utilization, raw/cleaned byte efficiency, and stealth score) into structured benchmark reports and log all executions to `logs/stages/stage_6_benchmarking.jsonl`.
+
+---
+
 *See `GEMINI.md` for full reference.*
 

@@ -20,54 +20,67 @@ The platform operates across six strictly bounded horizontal tiers:
 
 ```mermaid
 flowchart TB
-    subgraph L1["Layer 1: Presentation & Telemetry HUD"]
-        UI_Tab1["Tab 1: Telemetry Dashboard & Worker HUD"]
-        UI_Tab2["Tab 2: 20-Tool Execution Hub"]
-        UI_Tab3["Tab 3: Dual-Index Search Engine"]
-        UI_Tab4["Tab 4: 4-Tier Log Explorer"]
-        UI_Tab5["Tab 5: Credential Vault & Sessions"]
+    subgraph L1["Layer 1: Presentation & Telemetry HUD (8 Dashboard Tabs)"]
+        UI_Tab1["Tab 1: Real-Time Stream & Live HUD"]
+        UI_Tab2["Tab 2: Universal Tool Runner"]
+        UI_Tab3["Tab 3: Data Lake Inspector"]
+        UI_Tab4["Tab 4: Master FTS5 Search & Log Explorer"]
+        UI_Tab5["Tab 5: 🔐 Encrypted Credential Vault & Auth Router"]
+        UI_Tab6["Tab 6: ⚙ Working Ways & Safe Arena Studio"]
+        UI_Tab7["Tab 7: 🧪 Real Task Pipelines & Cleaned Inspector"]
+        UI_Tab8["Tab 8: 📊 Master Benchmarks, Chaos Lab & Exporter"]
         WS_Client["WebSocket Handlers (/ws/telemetry, /ws/logs)"]
     end
 
-    subgraph L2["Layer 2: API & Control Plane (FastAPI :8000)"]
-        API_Router["FastAPI Application Router"]
+    subgraph L2["Layer 2: API & Control Plane (FastAPI :8000 / :8001)"]
+        API_Router["FastAPI Application Router (24+ REST Endpoints)"]
         WS_Hub["Async WebSocket Hub & File Watcher (watchdog)"]
         Tool_Endpoints["POST /api/run-tool/{tool_id}"]
         Search_Endpoints["GET /api/search & GET /api/tool-indexes"]
         Vault_Endpoints["GET /api/vault/* & POST /api/vault/*"]
+        Ways_Endpoints["POST /api/arena/run, /api/router/run, /api/human/*"]
+        Pipe_Endpoints["POST /api/pipelines/*/run & GET /api/pipelines/stream/*"]
+        Bench_Endpoints["GET & POST /api/benchmarks/*, /api/resilience/*, /api/exports/*"]
     end
 
-    subgraph L3["Layer 3: Core Orchestration & Governance"]
-        StateTracker["core/state_tracker.py & cli_tracker.py"]
-        FolderManager["core/folder_manager.py (Run Allocator)"]
+    subgraph L3["Layer 3: Core Orchestration, Working Ways & Governance"]
+        StateTracker["core/state_tracker.py & cli_tracker.py (Telemetry HUD)"]
+        FolderManager["core/folder_manager.py (Strict Data Isolation)"]
         LoggerEngine["core/logger_engine.py (4-Tier Log Dispatcher)"]
         GitManager["core/git_manager.py (Pre-Commit Secret Guard)"]
+        HumanTiming["core/human_timing.py & human_interaction.py (Kinematics)"]
+        SafeArena["core/arena_runner.py (Staggered Concurrency)"]
+        TaskRouter["core/task_router.py (Precision Chaining & Handoffs)"]
+        CleanPipeline["core/cleaning_pipeline.py (Silver Tier Contract Engine)"]
+        BenchEngine["core/benchmark_engine.py (Performance Matrix Engine)"]
+        ChaosTester["core/resilience_tester.py (Chaos Fault Server)"]
+        ProjExporter["core/project_exporter.py (Zero-Leak Standalone Packager)"]
     end
 
     subgraph L4["Layer 4: Security & Authentication Layer"]
         CryptoEngine["core/crypto_engine.py (AES-256-GCM + PBKDF2)"]
         CredVault["core/credential_vault.py (Encrypted SQLite WAL)"]
         AccountRouter["core/account_router.py (Target Match & Quotas)"]
-        AuthInjector["core/auth_injector.py (Zero-Fill Shredder)"]
-        TOTPHelper["core/totp_helper.py (RFC 6238 2FA)"]
-        SessionRecorder["core/browser_session_recorder.py"]
+        AuthInjector["core/auth_injector.py (Zero-Fill Ephemeral Shredder)"]
+        TOTPHelper["core/totp_helper.py (RFC 6238 2FA Engine)"]
+        SessionRecorder["core/browser_session_recorder.py (Playwright/Patchright)"]
     end
 
-    subgraph L5["Layer 5: Extraction Layer (20 Tools across 7 Paradigms)"]
-        P1["P1: TLS/JA4 Impersonation (01_curl_cffi, 04_httpx)"]
-        P2["P2: C-Engine DOM Slicers (02_selectolax, 03_scrapy, 05_trafilatura)"]
-        P3["P3: Stealth Browsers (06_playwright, 07_patchright, 08_camoufox, 09_nodriver)"]
-        P4["P4: Self-Healing Relocation (10_scrapling)"]
-        P5_Sub["P5: Stream & Graph Archivers (11_yt_dlp, 12_instaloader, 13_gallery_dl)"]
-        P6["P6: MITM Interception (14_singlefile, 15_mitmproxy)"]
-        P7["P7: Multimodal AI Pipelines (16_crawl4ai to 20_faster_whisper)"]
+    subgraph L5["Layer 5: Extraction & Production Pipelines"]
+        Tools20["20 Specialized Engines (P1: TLS/JA4 to P7: Multimodal AI)"]
+        Pipe1["Pipeline 1: LeetCode Archiver (01_curl_cffi + Markdownify)"]
+        Pipe2["Pipeline 2: Authenticated Reel & Whisper Transcription"]
+        Pipe3["Pipeline 3: Secured Snapshot & Wire Forensics"]
+        Pipe4["Pipeline 4: Multimodal Auto-Resolver (DOM vs OCR vs Table vs PDF)"]
     end
 
-    subgraph L6["Layer 6: Storage & Search Federation"]
+    subgraph L6["Layer 6: Storage, Search Federation & Exports"]
         DataLake["data/<tool_id>/<action>/<date>/<run_id>/ (raw/, cleaned/, manifest)"]
         ToolIndexes["index_store/tool_indexes/<tool_id>.sqlite & .json (20 Tools)"]
         MasterFTS5["index_store/global_master_index.sqlite (FTS5 Federated Search)"]
+        ReportsDir["index_store/{arena,pipeline,benchmark,resilience}_reports/"]
         VaultDB["vault_store/credentials_vault.sqlite (AES Encrypted)"]
+        ExportsDir["exports/{standalone_tools,data_bundles,pipeline_packages}/"]
         LogsTier["logs/global/ & logs/stages/ (4-Tier JSONL/MD)"]
     end
 
@@ -79,6 +92,8 @@ flowchart TB
     L5 -->|Outputs Bronze/Silver Artifacts| DataLake
     DataLake -->|Triggers Auto-Indexing| ToolIndexes
     ToolIndexes -->|Federates Runs & Artifacts| MasterFTS5
+    L3 -->|Generates Reports & Benchmarks| ReportsDir
+    L3 -->|Produces Zero-Leak Standalone Packages| ExportsDir
     L3 -->|Emits Structured 4-Tier Logs| LogsTier
     LogsTier -->|watchdog stream| WS_Hub
     L4 <-->|Encrypted Read/Write| VaultDB
@@ -117,23 +132,36 @@ The platform integrates 20 specialized tools organized across four batch cohorts
 
 ## 🖥️ Antigravity Control Center Dashboard
 
-The platform includes a responsive, dark-mode single-page application hosted directly on `http://127.0.0.1:8000`:
+The platform includes a responsive, dark-mode single-page application hosted directly on `http://127.0.0.1:8000` (or `:8001` fallback):
 
 ```
-+==================================================================================================+
-|  HUD BAR: [Stage 3: Credential Vault]  [Step 3.6]  [Tool: backend]  [Elapsed: 12.4s]  [Prog: 100%]|
-|  Canvas CPU Monitor: [||||||||||  14%]   Canvas RAM Monitor: [||||||||||||||||  184 MB]           |
-+==================================================================================================+
-|  [Tab 1: Telemetry] [Tab 2: Tools] [Tab 3: Search] [Tab 4: Logs] [Tab 5: 🔐 Credential Vault]   |
-+==================================================================================================+
++===================================================================================================================+
+|  HUD BAR: [Stage: Master Verification]  [Step: Final Audit]  [Elapsed: 14.2s]  [Prog: 100%]  [Workers: 4]         |
+|  Canvas CPU Monitor: [||||||||||  12%]      Canvas RAM Monitor: [||||||||||||||||  196 MB]                        |
++===================================================================================================================+
+| [Tab 1: Telemetry] [Tab 2: Tools] [Tab 3: Explorer] [Tab 4: Search] [Tab 5: Vault]                              |
+| [Tab 6: ⚙ Working Ways] [Tab 7: 🧪 Real Pipelines] [Tab 8: 📊 Benchmarks & Exporter]                            |
++===================================================================================================================+
 ```
 
 - **Top Sticky HUD Bar:** Real-time 60 FPS Canvas displays showing active task, subtask, elapsed seconds, worker PIDs, and active CPU/RAM consumption.
 - **Tab 1: Telemetry Dashboard & Worker Monitor:** Visual timeline of execution milestones, process tree inspection, and system health dials.
-- **Tab 2: 20-Tool Execution Hub:** Parameter configuration panels for all 20 engines with live JSON response inspectors.
-- **Tab 3: Dual-Index Search Engine:** Full-text keyword and phrase search across all scraped artifacts and logs powered by SQLite FTS5 with Okapi BM25 ranking and keyword highlighting.
-- **Tab 4: Real-Time 4-Tier Log Streamer:** Virtual-scrolling live log grid powered by OS kernel filesystem notifications (`watchdog`) and WebSockets (`/ws/logs`).
-- **Tab 5: 🔐 Credential Vault & Session Manager:** Encrypted account inventory, 6-card KPI ribbon, private-target follower coverage matrix, on-demand 2FA TOTP generator with countdown bars, 50-account bulk seed importer, and live 20-tool auth injection sandbox.
+- **Tab 2: 20-Tool Universal Execution Hub:** Parameter configuration panels for all 20 engines with live JSON response inspectors.
+- **Tab 3: Data Lake Inspector:** Hierarchical filesystem browser for inspecting Bronze (`raw/`), Silver (`cleaned/`), and provenance manifests (`run_manifest.json`).
+- **Tab 4: Master FTS5 Search & Log Explorer:** Okapi BM25 ranked full-text queries over `global_master_index.sqlite` and virtual-scrolling live 4-tier log stream (`/ws/logs`).
+- **Tab 5: 🔐 Encrypted Credential Vault & Auth Router:** Encrypted account inventory, 6-card KPI ribbon, private-target follower coverage matrix, on-demand RFC 6238 2FA TOTP generator, 50-account bulk seed importer, and 20-tool auth injection sandbox.
+- **Tab 6: ⚙ Working Ways & Safe Arena Studio:**
+  - *Human Simulation Studio:* Interactive neuromotor delays, Gaussian reaction times, and cubic Bezier mouse kinematics.
+  - *Safe Arena Studio:* Head-to-head multi-tool benchmark arena with staggered start offsets, auto-kill timeouts, and resource monitoring.
+  - *Precision Task Router Studio:* Automated routing matrix chaining primary, fallback, and enrichment tools into multi-stage pipelines.
+- **Tab 7: 🧪 Real Task Pipelines & Cleaned Inspector:**
+  - Dedicated control planes for the 4 Production Pipelines: **LeetCode Archiver**, **Social Media & Whisper**, **Secured Snapshot Forensics**, and **Multimodal Auto-Resolver**.
+  - Silver-Tier Data Lake Inspector streaming raw/cleaned artifacts (HTML, Markdown, Audio, Code, Forensics JSON).
+  - Pydantic schema validation contract compliance matrix.
+- **Tab 8: 📊 Master Benchmarks, Chaos Lab & Standalone Exporter:**
+  - *Master Benchmark Lab:* 20-tool tournament battery execution, radar multi-vector chart (Speed, Richness, Stealth, Memory, Reliability), and gold winner leaderboard.
+  - *Chaos & Resilience Stress Lab:* Fault-injection testing against HTTP 429 rate limits, scrambled DOM mutations, socket resets, and contract fuzzing.
+  - *Standalone Project Exporter:* Zero-monorepo dependency tool packaging, cryptographically signed Data Lake bundling (`.zip`), and containerized Dockerfile generation.
 
 ---
 
@@ -146,7 +174,7 @@ The platform includes a responsive, dark-mode single-page application hosted dir
 
 ### 2. Clone & Environment Setup
 ```powershell
-# Clone the repository
+# Clone repository
 git clone https://github.com/<your-username>/Crawlers_testing.git
 cd Crawlers_testing
 
@@ -166,23 +194,50 @@ patchright install chromium
 ### 3. Automatic Master Key Initialization
 The cryptographic engine auto-initializes upon first execution:
 - Generates a cryptographically secure 256-bit `VAULT_MASTER_KEY` and 128-bit `VAULT_KDF_SALT`.
-- Persists secrets to `.env` (which is strictly ignored by Git).
+- Persists secrets to `.env` (strictly ignored by Git).
 - Creates a safe `.env.example` template with placeholder keys for team collaboration.
 
-### 4. Launching the Control Center
+### 4. Launching the Control Center Dashboard
 ```powershell
-# Start the FastAPI server (:8000)
+# Launch FastAPI Control Plane & Telemetry Server (:8000 or :8001)
 .\.venv\Scripts\python.exe -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
 ```
-Open your browser to: **[http://127.0.0.1:8000](http://127.0.0.1:8000)**.
+Open your browser to: **[http://127.0.0.1:8000](http://127.0.0.1:8000)** (or `http://127.0.0.1:8001`).
 
-### 5. Running a Quick Smoke Test
+### 5. Running Production Workloads from the CLI
+
+#### A. Execute Safe Arena Multi-Tool Tournament
 ```powershell
-# Run 01_curl_cffi directly from the CLI
-.\.venv\Scripts\python.exe tools/01_curl_cffi/adapter.py --url "https://leetcode.com/problems/two-sum/" --action "scrape_for_leetcode"
+.\.venv\Scripts\python.exe core/arena_runner.py --tools 01_curl_cffi,04_httpx_parsel,06_playwright --url "https://quotes.toscrape.com"
+```
 
-# Run the master Stage 3 verification test suite
-.\.venv\Scripts\python.exe core/verify_step_3_6.py
+#### B. Execute Production Task Pipeline 1 (LeetCode Archiver)
+```powershell
+.\.venv\Scripts\python.exe pipelines/01_leetcode_archiver.py --slug "two-sum" --human-mode
+```
+
+#### C. Run Master 20-Tool Performance Benchmark Battery
+```powershell
+.\.venv\Scripts\python.exe core/benchmark_engine.py --tools 01_curl_cffi,04_httpx_parsel --iterations 3 --url "https://quotes.toscrape.com"
+```
+
+#### D. Run Chaos & Anti-Bot Fault-Injection Drills
+```powershell
+.\.venv\Scripts\python.exe core/resilience_tester.py --full-battery
+```
+
+#### E. Export Standalone Scraper Package or Data Lake Bundle
+```powershell
+# Package 01_curl_cffi into a zero-monorepo dependency standalone project
+.\.venv\Scripts\python.exe -c "from core.project_exporter import get_project_exporter; get_project_exporter().export_standalone_tool('01_curl_cffi', output_format='both')"
+
+# Bundle Silver-Tier Cleaned Data Lake into a signed ZIP
+.\.venv\Scripts\python.exe -c "from core.project_exporter import get_project_exporter; get_project_exporter().bundle_data_lake(scope='cleaned')"
+```
+
+#### F. Run Master System Regression Verification Suite
+```powershell
+.\.venv\Scripts\python.exe core/verify_master_system.py
 ```
 
 ---
@@ -209,17 +264,17 @@ docs/
 │   ├── 01_system_architecture_overview.md   # 6-Layer Architecture & 7 Scraping Paradigms
 │   ├── 02_dfd_level_0_1_2.md                # Context, Subsystem & Granular Level 2 DFDs
 │   ├── 03_state_diagrams.md                 # Telemetry, Account Quarantine & Run FSMs
-│   └── 04_process_and_sequence_flows.md     # E2E Execution & Ephemeral Shredding Sequences
+│   └── 04_process_and_sequence_flows.md     # Safe Arena, Pipeline Handoff & Chaos Sequences
 ├── 02_database_and_security/
-│   ├── 01_database_schemas_and_er_diagrams.md# Two-Tier Topology, PRAGMAs & 3x ER Diagrams
+│   ├── 01_database_schemas_and_er_diagrams.md# Two-Tier Topology, PRAGMAs & Report Repositories
 │   ├── 02_fts5_search_and_indexing_specification.md # Inverted Index, Unicode61 & BM25 Math
 │   └── 03_cryptography_and_zero_leak_security_spec.md # AES-GCM Row-Binding Proofs & TOTP
 ├── 03_folder_and_file_reference/
 │   ├── 01_folder_structure_and_data_taxonomy.md # Bronze/Silver/Gold & Manifest Contracts
-│   ├── 02_core_and_api_file_reference.md    # Core OOP Classes, REST Endpoints & WebSockets
+│   ├── 02_core_and_api_file_reference.md    # 21 Core Classes, 24+ REST APIs & WebSockets
 │   └── 03_20_tools_adapter_catalog.md       # 20-Row Matrix & 20 Deep-Dive Profiles
 └── 04_operations_and_guides/
-    ├── 01_developer_operations_and_runbook.md # Server Ops, CLI Commands & Regression Testing
+    ├── 01_developer_operations_and_runbook.md # Safe Arena, Benchmarks, Chaos Drills & Ops
     ├── 02_troubleshooting_and_resilience_guide.md # Windows File Locks & Anti-Bot Recovery
     └── 03_documentation_master_index.md     # Cross-Referenced Knowledge Index & Graph
 ```
@@ -228,13 +283,16 @@ docs/
 
 ## 📜 Mandatory Antigravity Governance Protocol
 
-Development in this repository is strictly regulated by the **6 Antigravity Governance Rules** specified in [`GEMINI.md`](GEMINI.md):
+Development in this repository is strictly regulated by the **9 Antigravity Governance Rules** specified in [`GEMINI.md`](GEMINI.md):
 - **Rule 1 (Live State Telemetry):** Every task must register start/update/complete state in `logs/global/live_state.json` via `core/cli_tracker.py`.
-- **Rule 2 (4-Tier Logging):** Every diagnostic event is appended to all four log tiers simultaneously via `core/logger_engine.py`.
-- **Rule 3 (Strict Data Isolation):** All scrape output is isolated into `data/<tool>/<action>/<date>/run_<id>/` (raw/, cleaned/, manifest).
-- **Rule 4 (Atomic Git Commits):** Every development action concludes with a categorized Git commit (`[SCAFFOLD]`, `[TOOL-INSTALL]`, `[UPDATE]`, `[FIX]`, `[RUN-LOG]`).
+- **Rule 2 (4-Tier Logging):** Every diagnostic event is appended to all four log tiers simultaneously via `core/logger_engine.py` (Global JSONL, Global MD, Stage Log, Action Run Log).
+- **Rule 3 (Strict Data Isolation):** All scrape output is strictly isolated into `data/<tool>/<action>/<date>/run_<id>/` containing `raw/`, `cleaned/`, `logs/`, and `run_manifest.json`.
+- **Rule 4 (Atomic Git Commits):** Every development action concludes with a categorized Git commit (`[SCAFFOLD]`, `[TOOL-INSTALL]`, `[UPDATE]`, `[FIX]`, `[RUN-LOG]`, `[DOCS]`).
 - **Rule 5 (Auto-Indexing):** Completing an action run automatically updates `<tool_id>.sqlite` and federates records into `global_master_index.sqlite` (FTS5).
 - **Rule 6 (Zero-Plaintext Security):** Plaintext credentials, `.env`, and `vault_store/*.sqlite*` must never be logged or committed to Git.
+- **Rule 7 (Human Simulation & Timing Discipline):** Pacing delays follow `core/human_timing.py` statistical distributions (Gaussian, Log-Normal, Exponential Backoff Jitter).
+- **Rule 8 (Data Lake Silver Tier Contract Enforcement):** All transformed files saved into `cleaned/` must strictly validate against Pydantic schema contracts in `core/cleaning_pipeline.py`.
+- **Rule 9 (Benchmark Traceability & Non-Destructive Testing):** All benchmark and chaos runs must record reproducible telemetry (p50/p90/p99, RAM delta, CPU %, yield, stealth) into structured reports.
 
 ---
 

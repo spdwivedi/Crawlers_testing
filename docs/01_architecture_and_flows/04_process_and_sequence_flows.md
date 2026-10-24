@@ -278,4 +278,161 @@ sequenceDiagram
 
     ThreadPool-->>MainLoop: Task Completed
     MainLoop->>UI: WebSocket Telemetry: {progress: 100%, is_running: false}
+
+---
+
+## 6. Sequence 5 — Safe Arena Staggered Multi-Tool Concurrency Flow
+
+The Safe Arena executes head-to-head multi-tool tournaments without triggering network bandwidth saturation or IP-level rate limits. It introduces deterministic staggered concurrency offsets between competing scraper engines.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Arena as SafeArenaRunner (core/arena_runner.py)
+    participant Timer as HumanTimingEngine (core/human_timing.py)
+    participant T1 as Scraper Engine 1 (01_curl_cffi)
+    participant T2 as Scraper Engine 2 (04_httpx_parsel)
+    participant T3 as Scraper Engine 3 (06_playwright)
+    participant Watchdog as Auto-Kill Watchdog Thread
+    participant Rep as Arena Report (index_store/arena_reports/)
+
+    Arena->>Arena: Initialize Arena Tournament (Target: URL, Tools: [T1, T2, T3])
+    Arena->>Watchdog: Spawn Watchdog (Hard Timeout: 30s)
+
+    Arena->>T1: Launch Tool 1 (Offset: 0.0s)
+    activate T1
+    Arena->>Timer: Compute Stagger Offset (Gaussian: 1.2s ± 0.3s)
+    Timer-->>Arena: Stagger Delay 1.25s
+    Arena->>Arena: time.sleep(1.25)
+
+    Arena->>T2: Launch Tool 2 (Offset: +1.25s)
+    activate T2
+    Arena->>Timer: Compute Stagger Offset (Gaussian: 1.2s ± 0.3s)
+    Timer-->>Arena: Stagger Delay 1.18s
+    Arena->>Arena: time.sleep(1.18)
+
+    Arena->>T3: Launch Tool 3 (Offset: +2.43s)
+    activate T3
+
+    par Concurrent Execution & Metric Capture
+        T1->>Arena: Return Results (Latency: 0.82s, RAM: 18MB, Bytes: 45KB)
+        deactivate T1
+    and
+        T2->>Arena: Return Results (Latency: 0.94s, RAM: 22MB, Bytes: 48KB)
+        deactivate T2
+    and
+        T3->>Arena: Return Results (Latency: 3.20s, RAM: 142MB, Bytes: 92KB)
+        deactivate T3
+    end
+
+    Arena->>Watchdog: Cancel Watchdog (All tools finished cleanly)
+    Arena->>Arena: Rank Tools by Composite Score (Speed, Yield, RAM)
+    Arena->>Rep: Persist arena_<id>.json & arena_<id>.md
+    Arena-->>Arena: Declare Winner (01_curl_cffi)
+```
+
+---
+
+## 7. Sequence 6 — Precision Task Router & Multi-Stage Artifact Handoff Flow
+
+When executing complex tasks, the `PrecisionTaskRouter` coordinates a primary scraper, evaluates extraction yield, falls back dynamically upon detection, and routes raw artifacts to downstream enrichment engines (OCR, Whisper, or Markdownify).
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Router as PrecisionTaskRouter (core/task_router.py)
+    participant Primary as Primary Tool (01_curl_cffi)
+    participant Fallback as Fallback Tool (07_patchright)
+    participant Pipe as CleaningPipeline (core/cleaning_pipeline.py)
+    participant Enrich as Enrichment Tool (20_faster_whisper)
+    participant Lake as Data Lake (Silver Tier)
+
+    Router->>Router: Load Routing Plan for Task (e.g. social_video_harvest)
+    Router->>Primary: Execute Primary Scraper (High Speed HTTP/TLS)
+    activate Primary
+
+    alt Primary Encounters Cloudflare / 403 Forbidden
+        Primary-->>Router: Error: Cloudflare Challenge Detected
+        deactivate Primary
+        Router->>Router: Engage Fallback Routing Branch
+        Router->>Fallback: Execute Stealth Browser (Patchright Undetected)
+        activate Fallback
+        Fallback-->>Router: Extraction Succeeded (Raw HTML + Video URL)
+        deactivate Fallback
+    else Primary Succeeds
+        Primary-->>Router: Extraction Succeeded (Raw HTML + Video URL)
+    end
+
+    Router->>Enrich: Handoff Raw Audio/Video Stream (11_yt_dlp_ffmpeg)
+    activate Enrich
+    Enrich->>Enrich: Transcribe Audio via Whisper INT8
+    Enrich-->>Router: Transcribed Text & Segment Timestamps
+    deactivate Enrich
+
+    Router->>Pipe: Validate Against CleanedSocialMediaContract
+    activate Pipe
+    Pipe-->>Router: Pydantic Validation Passed (Silver Tier Approved)
+    deactivate Pipe
+
+    Router->>Lake: Write silver_artifact.json & provenance metadata
+    Router-->>Router: Task Complete with 100% Quality Assurance
+```
+
+---
+
+## 8. Sequence 7 — Chaos Fault-Injection & Anti-Bot Resilience Loop Flow
+
+The `ResilienceTester` spins up an ephemeral in-memory HTTP fault-injection server (`ChaosFaultServer`) to simulate hostile upstream environments and prove automated defensive recovery mechanisms.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Tester as ResilienceTester (core/resilience_tester.py)
+    participant Server as ChaosFaultServer (Ephemeral HTTP Port)
+    participant Tool as Tool Adapter Under Test (01_curl_cffi)
+    participant Router as AccountRouter (core/account_router.py)
+    participant Pipe as CleaningPipeline (core/cleaning_pipeline.py)
+
+    Tester->>Server: Start Chaos Server (/fault/rate-limit, /fault/mutated-dom)
+    activate Server
+
+    rect rgb(40, 20, 20)
+        note right of Tester: Scenario 1: HTTP 429 Rate Limiting & Cooldown Quarantine
+        Tester->>Tool: Request /fault/rate-limit
+        activate Tool
+        Tool->>Server: HTTP GET /fault/rate-limit
+        Server-->>Tool: HTTP 429 Too Many Requests (Retry-After: 2)
+        Tool->>Tool: Catch 429 & Apply Exponential Backoff Jitter
+        Tool->>Router: Flag Account as Quarantined (Cooldown Timer Engaged)
+        Tool-->>Tester: Resilience Verified: Backoff + Quarantine Triggered
+        deactivate Tool
+    end
+
+    rect rgb(20, 30, 40)
+        note right of Tester: Scenario 2: Scrambled DOM & Semantic Relocation
+        Tester->>Tool: Request /fault/mutated-dom
+        activate Tool
+        Tool->>Server: HTTP GET /fault/mutated-dom
+        Server-->>Tool: HTML with Fuzzed CSS Classes (`.mutated_xyz_9981`)
+        Tool->>Tool: Primary Selector Missed -> Trigger Semantic Fallback
+        Tool->>Tool: Extract via `data-semantic="title"` and Header Heuristics
+        Tool-->>Tester: Resilience Verified: Content Extracted Without IndexError
+        deactivate Tool
+    end
+
+    rect rgb(20, 40, 20)
+        note right of Tester: Scenario 3: Corrupted Schema Contract Fuzzing
+        Tester->>Pipe: Inject Corrupted Payloads (Missing Required Fields)
+        activate Pipe
+        Pipe->>Pipe: Pydantic ValidationError Caught Cleanly
+        Pipe->>Pipe: Apply Fallback Normalized Defaults
+        Pipe-->>Tester: Resilience Verified: Zero Crashes, Safe Error Diagnostics
+        deactivate Pipe
+    end
+
+    Tester->>Server: Shutdown Ephemeral Chaos Server
+    deactivate Server
+    Tester->>Tester: Compute Composite Resilience Index (e.g. 100.0/100)
+    Tester-->>Tester: Persist resilience_<id>.json and .md Reports
+```
 ```

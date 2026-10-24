@@ -9,9 +9,9 @@ This directory hosts the 4 production-grade end-to-end task pipelines that chain
 | Pipeline | Script | Status | Core Adapters Chained | Primary Deliverable Contract | Description |
 |---|---|---|---|---|---|
 | **Pipeline 1** | `01_leetcode_archiver.py` | `VERIFIED` | `01_curl_cffi` (TLS JA3), `core/cleaning_pipeline.py` | `CleanedCodeProblemContract` | Fetches LeetCode catalog and problem specifications via GraphQL, converts HTML problem statements to CommonMark, parses test cases and constraints, and extracts boilerplate starter codes for Python, JS, C++, and Java. |
-| **Pipeline 2** | `02_social_media_pipeline.py` | `ACTIVE` | `11_yt_dlp_ffmpeg`, `20_faster_whisper`, `core/auth_injector.py` | `CleanedSocialMediaContract` | Authenticated social media post and reel archiver with video demuxing, Whisper INT8 transcription, and entity knowledge graph extraction. |
-| **Pipeline 3** | `03_secured_snapshot_forensics.py` | `ACTIVE` | `14_singlefile_archive`, `07_patchright`, `06_playwright`, `core/cleaning_pipeline.py` | `CleanedForensicsContract` | Deep website security audit, wire forensics, single-file self-contained HTML archival, API endpoint discovery, and third-party tracker audit. |
-| **Pipeline 4** | `04_multimodal_auto_resolver.py` | `ACTIVE` | `06_playwright`, `17_surya_ocr`, `18_paddleocr_img2table`, `19_docling_pdf`, `core/cleaning_pipeline.py` | `CleanedMultimodalContract` | Visual question extraction, multi-column exam sheet parsing, table grid 3D matrix extraction, and document tree layout hierarchy analysis. |
+| **Pipeline 2** | `02_social_media_pipeline.py` | `VERIFIED` | `11_yt_dlp_ffmpeg`, `20_faster_whisper`, `core/auth_injector.py` | `CleanedSocialMediaContract` | Authenticated social media post and reel archiver with video demuxing, Whisper INT8 transcription, and entity knowledge graph extraction. |
+| **Pipeline 3** | `03_secured_snapshot_forensics.py` | `VERIFIED` | `14_singlefile_archive`, `07_patchright`, `06_playwright`, `core/cleaning_pipeline.py` | `CleanedForensicsContract` | Deep website security audit, wire forensics, single-file self-contained HTML archival, API endpoint discovery, and third-party tracker audit. |
+| **Pipeline 4** | `04_multimodal_auto_resolver.py` | `VERIFIED` | `06_playwright`, `17_surya_ocr`, `18_paddleocr_img2table`, `19_docling_pdf`, `core/cleaning_pipeline.py` | `CleanedMultimodalContract` | Visual question extraction, multi-column exam sheet parsing, table grid 3D matrix extraction, and document tree layout hierarchy analysis. |
 
 ---
 

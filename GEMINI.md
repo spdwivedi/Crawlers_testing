@@ -1,5 +1,5 @@
 # 🤖 Antigravity Workspace Governance — GEMINI.md
-**Project:** Crawlers_testing | **Stage:** 6 (Master Benchmarking, Resilience Testing & Project Exporter) | **Init:** 2026-10-15
+**Project:** Crawlers_testing | **Stage:** Completed (Full 6-Stage Web Scraping Testbed & Benchmarking Engine) | **Init:** 2026-10-15
 
 This file is automatically loaded by Antigravity IDE for **every prompt execution** in this workspace. All rules below are **mandatory** and non-negotiable.
 
@@ -125,21 +125,45 @@ Benchmark runs must record reproducible telemetry (p50/p90/p99 latency, RAM delt
 
 ```
 core/
-├── benchmark_engine.py  # BenchmarkEngine & Performance Matrix — Rule 9
-├── folder_manager.py    # create_action_run() — Rule 3 & complete_action_run() Auto-Index Hook — Rule 5
-├── cleaning_pipeline.py # CleaningPipeline & Silver Tier Contracts — Rule 8
-├── base_indexer.py      # BaseToolIndexer SQLite/JSON engine — Rule 5
-├── global_indexer.py    # GlobalMasterIndexer FTS5 federated engine — Rule 5
-├── crypto_engine.py     # AES-256-GCM authenticated encryption & KDF — Rule 6
-├── human_timing.py      # Statistical delays, human jitter & contextual pacing — Rule 7
-├── state_tracker.py     # live_state.json R/W — Rule 1
-├── cli_tracker.py       # CLI wrapper for state_tracker — Rule 1
-├── logger_engine.py     # 4-tier logger — Rule 2
-└── git_manager.py       # Atomic commits + secret guard — Rule 4 & 6
+├── benchmark_engine.py      # BenchmarkEngine & Performance Matrix — Rule 9
+├── resilience_tester.py     # ChaosFaultServer & Anti-Bot Resilience Battery — Rule 9
+├── project_exporter.py      # Standalone Tool, Data Lake & Pipeline Exporter — Rule 4, 6
+├── cleaning_pipeline.py     # CleaningPipeline & Silver Tier Contracts — Rule 8
+├── task_router.py           # PrecisionTaskRouter & Artifact Handoffs — Rule 3, 8
+├── arena_runner.py          # SafeArenaRunner & Staggered Concurrency — Rule 7
+├── human_interaction.py     # Kinematics, Bezier Curves & Micro-Movements — Rule 7
+├── human_timing.py          # Statistical delays, human jitter & contextual pacing — Rule 7
+├── folder_manager.py        # create_action_run() — Rule 3 & complete_action_run() Auto-Index Hook — Rule 5
+├── base_indexer.py          # BaseToolIndexer SQLite/JSON engine — Rule 5
+├── global_indexer.py        # GlobalMasterIndexer FTS5 federated engine — Rule 5
+├── crypto_engine.py         # AES-256-GCM authenticated encryption & KDF — Rule 6
+├── credential_vault.py      # Encrypted SQLite credential database — Rule 6
+├── account_router.py        # Account rotation, target matching & quotas — Rule 6
+├── auth_injector.py         # Zero-fill cookie shredding & header injection — Rule 6
+├── totp_helper.py           # RFC 6238 2FA TOTP generation — Rule 6
+├── browser_session_recorder.py # Playwright/Patchright session capture — Rule 6
+├── state_tracker.py         # live_state.json R/W — Rule 1
+├── cli_tracker.py           # CLI wrapper for state_tracker — Rule 1
+├── logger_engine.py         # 4-tier logger — Rule 2
+└── git_manager.py           # Atomic commits + secret guard — Rule 4 & 6
+
+pipelines/
+├── 01_leetcode_archiver.py            # Task Pipeline 1: LeetCode Specs, Tests & Starters
+├── 02_social_media_pipeline.py        # Task Pipeline 2: Authenticated Reel & Whisper Transcription
+├── 03_secured_snapshot_forensics.py   # Task Pipeline 3: SingleFile Snapshot & Origin Forensics
+└── 04_multimodal_auto_resolver.py     # Task Pipeline 4: DOM Text vs OCR vs Table vs PDF Layout
+
+exports/
+├── standalone_tools/    # Zero-monorepo dependency runnable scraper packages
+├── data_bundles/        # Sanitized, cryptographically signed data lake archives
+└── pipeline_packages/   # Containerized microservice pipelines with Dockerfiles
 
 index_store/
 ├── global_master_index.sqlite  # Federated FTS5 search across all runs & logs
-├── benchmark_reports/          # Structured benchmark JSON and Markdown reports
+├── arena_reports/              # Multi-tool Safe Arena reports (JSON & Markdown)
+├── pipeline_reports/           # Production task pipeline execution reports
+├── benchmark_reports/          # Structured benchmark performance reports
+├── resilience_reports/         # Chaos and anti-bot stress test reports
 └── tool_indexes/               # 20 SQLite (.sqlite) + JSON (_index.json) tool index databases
 
 vault_store/
@@ -163,8 +187,8 @@ logs/
 tools/
 └── registry.json        # 20-tool manifest
 
-backend/app.py           # FastAPI telemetry & index server :8000
-frontend/index.html      # Control Center UI
+backend/app.py           # FastAPI telemetry, control plane & index server :8000
+frontend/index.html      # Control Center UI (8-Tab Dashboard)
 ```
 
 ---

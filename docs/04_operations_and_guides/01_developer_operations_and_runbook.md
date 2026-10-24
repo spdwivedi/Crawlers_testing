@@ -205,9 +205,58 @@ print('Context exited! Ephemeral cookie file shredded and unlinked.')
 
 ---
 
-## 4. Verification Suites & Regression Testing
+## 3. Operations Runbook for Stages 4–6
 
-Every stage and milestone includes an automated verification script enforcing all six Antigravity Governance rules.
+### 3.1 Executing Safe Arena Multi-Tool Tournaments
+```powershell
+# Run a 3-tool head-to-head tournament with 1.2s stagger offsets
+.\.venv\Scripts\python.exe core/arena_runner.py --tools 01_curl_cffi,04_httpx_parsel,06_playwright --url "https://quotes.toscrape.com"
+```
+
+### 3.2 Executing Production Task Pipelines
+```powershell
+# Pipeline 1: LeetCode Specs, Tests & Starter Codes
+.\.venv\Scripts\python.exe pipelines/01_leetcode_archiver.py --slug "two-sum" --human-mode
+
+# Pipeline 2: Social Media & Whisper Speech-to-Text
+.\.venv\Scripts\python.exe pipelines/02_social_media_pipeline.py --url "https://www.instagram.com/reel/sample_test_reel/" --mock
+
+# Pipeline 3: Secured Offline Snapshot & Wire Origin Forensics
+.\.venv\Scripts\python.exe pipelines/03_secured_snapshot_forensics.py --url "https://httpbin.org/html" --mock
+
+# Pipeline 4: Multimodal Auto-Resolver (DOM vs OCR vs Table vs PDF)
+.\.venv\Scripts\python.exe pipelines/04_multimodal_auto_resolver.py --target "fixtures/exam_question_sample.png" --mock
+```
+
+### 3.3 Running Master 20-Tool Performance Benchmarks
+```powershell
+# Run 3-iteration benchmark battery across tool squad
+.\.venv\Scripts\python.exe core/benchmark_engine.py --tools 01_curl_cffi,04_httpx_parsel --iterations 3 --url "https://quotes.toscrape.com"
+```
+
+### 3.4 Running Chaos & Anti-Bot Fault-Injection Drills
+```powershell
+# Execute full 4-scenario chaos battery
+.\.venv\Scripts\python.exe core/resilience_tester.py --full-battery
+```
+
+### 3.5 Exporting Standalone Packages & Signed Bundles
+```powershell
+# Export standalone scraper package
+.\.venv\Scripts\python.exe -c "from core.project_exporter import get_project_exporter; get_project_exporter().export_standalone_tool('01_curl_cffi', output_format='both')"
+
+# Bundle Silver-Tier Cleaned Data Lake into a signed ZIP
+.\.venv\Scripts\python.exe -c "from core.project_exporter import get_project_exporter; get_project_exporter().bundle_data_lake(scope='cleaned')"
+
+# Containerize production pipeline with Dockerfile
+.\.venv\Scripts\python.exe -c "from core.project_exporter import get_project_exporter; get_project_exporter().export_standalone_pipeline('01_leetcode_archiver')"
+```
+
+---
+
+## 4. Verification Suites & Master Regression Testing
+
+Every stage and milestone includes an automated verification script enforcing all nine Antigravity Governance rules.
 
 ```
 +==================================================================================================+
@@ -215,37 +264,19 @@ Every stage and milestone includes an automated verification script enforcing al
 +-------------------------------+------------------------------------------------------------------+
 | Stage 1: Scaffolding          | .\.venv\Scripts\python.exe core/verify_step_1_3.py               |
 | Stage 2: Dual-Tier Indexing   | .\.venv\Scripts\python.exe core/verify_step_2_4.py               |
-| Stage 3.1: Crypto Engine      | .\.venv\Scripts\python.exe core/verify_step_3_1.py               |
-| Stage 3.2: Credential Vault   | .\.venv\Scripts\python.exe core/verify_step_3_2.py               |
-| Stage 3.3: TOTP & Importer    | .\.venv\Scripts\python.exe core/verify_step_3_3.py               |
-| Stage 3.4: Account Router     | .\.venv\Scripts\python.exe core/verify_step_3_4.py               |
-| Stage 3.5: Auth Injector      | .\.venv\Scripts\python.exe core/verify_step_3_5.py               |
-| Stage 3.6: Master Vault API   | .\.venv\Scripts\python.exe core/verify_step_3_6.py               |
-| Doc Milestone D.1: Architecture| .\.venv\Scripts\python.exe core/verify_step_d_1.py              |
-| Doc Milestone D.2: Database/Sec| .\.venv\Scripts\python.exe core/verify_step_d_2.py              |
-| Doc Milestone D.3: File Ref   | .\.venv\Scripts\python.exe core/verify_step_d_3.py               |
-| Doc Milestone D.4: Operations | .\.venv\Scripts\python.exe core/verify_step_d_4.py               |
+| Stage 3: Credential Vault     | .\.venv\Scripts\python.exe core/verify_step_3_6.py               |
+| Stage 4: Working Ways & Arena | .\.venv\Scripts\python.exe core/verify_step_4_6.py               |
+| Stage 5: Production Pipelines | .\.venv\Scripts\python.exe core/verify_step_5_6.py               |
+| Stage 6.1: Benchmark Matrix   | .\.venv\Scripts\python.exe core/verify_step_6_1.py               |
+| Stage 6.2: Chaos Resilience   | .\.venv\Scripts\python.exe core/verify_step_6_2.py               |
+| Stage 6.3: Project Exporter   | .\.venv\Scripts\python.exe core/verify_step_6_3.py               |
+| Stage 6.4: Bench & Lab UI     | .\.venv\Scripts\python.exe core/verify_step_6_4.py               |
+| MASTER SYSTEM REGRESSION      | .\.venv\Scripts\python.exe core/verify_master_system.py          |
 +==================================================================================================+
 ```
 
-To run all Stage 3 verification suites in sequence:
+To run the full Master System Regression Verification Suite:
 
 ```powershell
-.\.venv\Scripts\python.exe -c "
-import subprocess, sys
-scripts = [
-    'core/verify_step_3_1.py',
-    'core/verify_step_3_2.py',
-    'core/verify_step_3_3.py',
-    'core/verify_step_3_4.py',
-    'core/verify_step_3_5.py',
-    'core/verify_step_3_6.py'
-]
-for s in scripts:
-    print('='*70); print(f'RUNNING {s}...'); print('='*70)
-    res = subprocess.run([sys.executable, s])
-    if res.returncode != 0:
-        print(f'FAILED: {s}'); sys.exit(1)
-print('ALL STAGE 3 SUITES PASSED SUCCESSFULLY!')
-"
+.\.venv\Scripts\python.exe core/verify_master_system.py
 ```

@@ -293,8 +293,86 @@ classDiagram
   - Top Live Telemetry HUD Bar (Stage, Step, Tool, Elapsed Time, Worker CPU/RAM canvas monitors).
   - Tab 1: Live Telemetry Dashboard & Worker Process Monitor.
   - Tab 2: 20-Tool Execution Hub & Parameter Configuration Forms.
-  - Tab 3: Dual-Index Search Engine (BM25 Artifact & Log Explorer).
-  - Tab 4: Real-Time 4-Tier Log Streamer (Virtual scrolling log grid).
+  - Tab 3: Data Lake Inspector (Bronze & Silver hierarchy).
+  - Tab 4: Dual-Index Search Engine (BM25 Artifact & Log Explorer).
   - Tab 5: Credential Vault & Session Manager (Masked accounts table, 6-card KPI ribbon, target coverage matrix, and Add/Import/Record modals).
-- **`frontend/app.js`:** Pure vanilla JavaScript controller establishing WebSocket reconnect loops, handling tab switches (`Alt + 1` to `Alt + 5`), rendering dynamic charts, and managing modal workflows.
+  - Tab 6: ⚙ Working Ways & Safe Arena Studio (Human simulation, multi-tool arena, task router).
+  - Tab 7: 🧪 Real Task Pipelines & Cleaned Inspector (4 production pipelines, artifact streamer, contract matrix).
+  - Tab 8: 📊 Master Benchmarks, Chaos Lab & Exporter (Tournament leaderboards, fault injection, standalone packaging).
+- **`frontend/app.js`:** Pure vanilla JavaScript controller establishing WebSocket reconnect loops, handling tab switches (`Alt + 1` to `Alt + 8`), rendering dynamic charts, and managing modal workflows.
 - **`frontend/styles.css`:** Custom dark-mode theme utilizing CSS Grid, Flexbox, high-contrast monospace status badges, and yellow highlight pills (`mark.fts-hl`).
+
+---
+
+## 6. Working Ways & Concurrency Modules (Stage 4)
+
+### 6.1 `core/human_timing.py` — Statistical Human Pacing & Delay Distributions
+- **Core Classes:** `HumanTimingEngine`, `TimingProfile` (`FAST_AUTOMATED`, `BALANCED_HUMAN`, `STEALTH_PARANOID`, `STREAM_PACED`).
+- **Core Methods:**
+  - `gaussian_delay(mean, std_dev) -> float`: Bell-curve randomized delay bounded by minimum threshold.
+  - `log_normal_delay(mean, sigma) -> float`: Skewed long-tail reaction delay modeling human thought pauses.
+  - `exponential_backoff_jitter(attempt, base_delay, max_delay) -> float`: Backoff delay with uniform jitter for HTTP 429 recovery.
+  - `keystroke_delay(wpm) -> float`: Inter-character typing cadence.
+  - `reading_pause(word_count) -> float`: Contextual reading delays calculated from page density.
+
+### 6.2 `core/human_interaction.py` — Neuromotor Kinematics & Mouse Trajectories
+- **Core Classes:** `HumanInteractionEngine`.
+- **Core Methods:**
+  - `generate_bezier_path(start, end, control_points=2) -> list[tuple]`: Computes cubic Bezier trajectory simulating human arm kinematics.
+  - `apply_micro_hesitations(path) -> list[tuple]`: Injects overshoot, corrective tremors, and variable velocity.
+
+### 6.3 `core/arena_runner.py` — Safe Multi-Tool Head-to-Head Arena
+- **Core Classes:** `SafeArenaRunner`.
+- **Core Methods:**
+  - `run_arena_tournament(tools, target_url, stagger_delay, timeout) -> dict`: Executes multiple tools in parallel with staggered offsets, monitors RAM/CPU consumption, and ranks tools by speed, yield ratio, and memory footprint.
+  - Persists reports to `index_store/arena_reports/arena_<id>.json` and `.md`.
+
+### 6.4 `core/task_router.py` — Precision Task Router & Artifact Handoffs
+- **Core Classes:** `PrecisionTaskRouter`.
+- **Core Methods:**
+  - `execute_routed_task(task_type, target, config) -> dict`: Dynamically routes task to primary engine, monitors extraction success, pivots to fallback engines upon detection, and chains downstream enrichment processors.
+
+---
+
+## 7. Silver-Tier Contract Engine & Task Pipelines (Stage 5)
+
+### 7.1 `core/cleaning_pipeline.py` — Data Lake Silver Tier Contracts
+- **Core Classes:** `CleaningPipeline`.
+- **Pydantic Contract Models:**
+  - `CleanedMarkdownContract`: Normalized editorial Markdown with title, word count, headers hierarchy, and reading time.
+  - `CleanedCodeProblemContract`: LeetCode specification, constraints, starter code templates, and test vectors.
+  - `CleanedSocialMediaContract`: Media metadata, demuxed stream paths, Whisper transcript, and entity graph.
+  - `CleanedForensicsContract`: SingleFile snapshot digest, network origins, API endpoints, and cookies.
+  - `CleanedMultimodalContract`: Multi-modal unified layout tree, OCR blocks, and table 2D grids.
+
+### 7.2 Production Task Pipelines (`pipelines/`)
+- `01_leetcode_archiver.py`: Chains `01_curl_cffi` TLS/JA3 GraphQL fetcher to extract LeetCode specifications, markdownify descriptions, and starter code templates.
+- `02_social_media_pipeline.py`: Chains `11_yt_dlp_ffmpeg` with `20_faster_whisper` to harvest authenticated reels and generate speech transcripts.
+- `03_secured_snapshot_forensics.py`: Chains `14_singlefile_archive` and `07_patchright` to generate immutable forensic HTML snapshots and network origin audits.
+- `04_multimodal_auto_resolver.py`: Chains `06_playwright`, `17_surya_ocr`, and `18_paddleocr_img2table` for multimodal DOM/OCR/Table/PDF ingestion.
+
+---
+
+## 8. Master Benchmarks, Chaos Resilience & Exporter Modules (Stage 6)
+
+### 8.1 `core/benchmark_engine.py` — Master 20-Tool Performance Matrix
+- **Core Classes:** `BenchmarkEngine`.
+- **Core Methods:**
+  - `run_tool_benchmark(tool_id, target_url, iterations) -> dict`: Measures p50, p90, p99 latency, RAM delta, and byte yield.
+  - `run_battery_benchmark(tool_ids, target_url, iterations) -> dict`: Evaluates candidate tools and generates Multi-Vector Radar Matrix (Speed, Richness, Stealth, Memory, Reliability).
+  - Persists reports to `index_store/benchmark_reports/`.
+
+### 8.2 `core/resilience_tester.py` — Chaos Fault Server & Anti-Bot Resilience
+- **Core Classes:** `ResilienceTester`, `ChaosFaultServer`.
+- **Evaluated Scenarios:**
+  - HTTP 429 Rate Limiting with `Retry-After` backoff & account quarantine.
+  - Mutated DOM with CSS class scrambling & semantic fallback relocation.
+  - Network Chaos with socket resets, connection drops & latency spikes.
+  - Schema Contract Fuzzing with malformed payloads & Pydantic error validation.
+
+### 8.3 `core/project_exporter.py` — Zero-Leak Standalone Project Exporter
+- **Core Classes:** `ProjectExporter`.
+- **Core Methods:**
+  - `export_standalone_tool(tool_id, output_format) -> dict`: Packages tool into standalone directory with `run.py`, `adapter.py`, `compat.py`, `requirements.txt`, and `README.md`.
+  - `bundle_data_lake(scope, pipeline_id, archive_format) -> dict`: Creates signed ZIP archive of Silver-Tier deliverables with SHA-256 manifest catalog and Zero-Leak security filtering.
+  - `export_standalone_pipeline(pipeline_id) -> dict`: Packages pipeline with `pipeline_runner.py` and `Dockerfile`.
